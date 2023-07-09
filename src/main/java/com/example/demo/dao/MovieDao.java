@@ -6,11 +6,11 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
 
-import com.example.demo.entity.Users;
+import com.example.demo.entity.Movie;
 
 @Dao
 @ConfigAutowireable
-public interface UsersDao{
+public interface MovieDao {
 	@Select
-	public List<Users> selectAll();
+	public List<Movie> findAll();
 }
