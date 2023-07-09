@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,13 @@ public class MovieController implements BaseController{
 	public ResponseEntity<?> findAll() {
 		// TODO Auto-generated method stub
 		return ResponseEntity.ok(movieService.findAll());
+	}
+
+	@Override
+	@GetMapping("/{id}")
+	public ResponseEntity<?> findById(@PathVariable String id) {
+		// TODO Auto-generated method stub
+		return ResponseEntity.ok(movieService.findById(id));
 	}
 	
 }

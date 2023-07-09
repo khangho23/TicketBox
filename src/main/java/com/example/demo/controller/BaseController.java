@@ -6,4 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 public interface BaseController {
  	public ResponseEntity<?> findAll();
+ 	
+ 	public ResponseEntity<?> findById(String id);
 }

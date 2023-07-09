@@ -20,4 +20,10 @@ public class MovieService implements BaseService<Movie, String> {
 		return movieDao.findAll();
 	}
 
+	@Override
+	public Movie findById(String id) {
+		// TODO Auto-generated method stub
+		return movieDao.findById(id);
+	}
+
 }
