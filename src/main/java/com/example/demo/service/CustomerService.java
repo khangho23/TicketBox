@@ -9,10 +9,9 @@ import com.example.demo.dao.CustomerDao;
 import com.example.demo.entity.Customer;
 
 @Service
-public class CustomerService {
+public class CustomerService{
 @Autowired
 CustomerDao customerDao;
-
 	public Customer findByKey(String email, String password) {
 		// TODO Auto-generated method stub
 		return customerDao.findByKey(email, password);
