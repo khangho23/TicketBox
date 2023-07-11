@@ -22,14 +22,14 @@ public class MovieController{
 
 
 	@GetMapping(value= {"","/"})
-	public ResponseEntity<List<Movie>> findAll() {
+	public ResponseEntity<?> findAll() {
 		// TODO Auto-generated method stub
 		return ResponseEntity.ok(movieService.findAll());
 	}
 
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Movie> findById(@PathVariable String id) {
+	public ResponseEntity<?> findById(@PathVariable String id) {
 		// TODO Auto-generated method stub
 		return ResponseEntity.ok(movieService.findById(id));
 	}

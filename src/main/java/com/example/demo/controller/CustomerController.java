@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Customer;
 import com.example.demo.service.CustomerService;
 
 @RestController
@@ -21,7 +20,7 @@ public class CustomerController {
 	CustomerService customerService;
 
 	@GetMapping("/login")
-	public ResponseEntity<Customer> findByKey(@RequestParam("email") String email, @RequestParam("password") String password) {
+	public ResponseEntity<?> findByKey(@RequestParam("email") String email, @RequestParam("password") String password) {
 		// TODO Auto-generated method stub
 		return ResponseEntity.ok(customerService.findByKey(email, password));
 	}
