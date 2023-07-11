@@ -9,21 +9,20 @@ import com.example.demo.dao.MovieDao;
 import com.example.demo.entity.Movie;
 
 @Service
-public class MovieService implements BaseService<Movie, String> {
+public class MovieService {
 	
 	@Autowired
 	private MovieDao movieDao;
 
-	@Override
 	public List<Movie> findAll() {
 		// TODO Auto-generated method stub
 		return movieDao.findAll();
 	}
 
-	@Override
 	public Movie findById(String id) {
 		// TODO Auto-generated method stub
 		return movieDao.findById(id);
 	}
+
 
 }
