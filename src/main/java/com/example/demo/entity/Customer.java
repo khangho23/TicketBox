@@ -30,8 +30,4 @@ public class Customer {
 	private String address;
 	@Column
 	private int gender;
-	@Column
-	private String idfb;
-	@Column
-	private String imagefb;
 }

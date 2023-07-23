@@ -1,11 +1,8 @@
-SELECT 
-		id,
-		name,
-		year_of_manufacture,
-		image,
-		director,
-		national,
-		time,
-		describe,
-		trailer
+SELECT id,
+	name,
+	yearofmanufacture,
+	poster,
+	time,
+	describe,
+	trailer
 FROM Movie;

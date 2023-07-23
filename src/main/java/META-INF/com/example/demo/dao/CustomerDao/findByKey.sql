@@ -5,8 +5,6 @@ SELECT
 		email,
 		phone,
 		address,
-		gender,
-		idfb,
-		imagefb
+		gender
 FROM Customer
 WHERE email = /* email */'kien@gmail.com' and password = /* password */'12345678';

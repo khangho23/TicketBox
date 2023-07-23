@@ -1,12 +1,10 @@
 SELECT 
-		id,
-		name,
-		year_of_manufacture,
-		image,
-		director,
-		national,
-		time,
-		describe,
-		trailer
+	id,
+	name,
+	yearofmanufacture,
+	poster,
+	time,
+	describe,
+	trailer
 FROM Movie
 WHERE id = /* id */'MP00';
