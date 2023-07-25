@@ -26,4 +26,8 @@ public class MovieService implements BaseService<Movie, String> {
 		return movieDao.findById(id);
 	}
 
+	public List<Movie> findByMovieType(String movieTypeId) {
+		// TODO Auto-generated method stub
+		return movieDao.findByMovieType(movieTypeId);
+	}
 }

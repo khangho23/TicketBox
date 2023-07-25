@@ -30,5 +30,11 @@ public class MovieController implements BaseController{
 		// TODO Auto-generated method stub
 		return ResponseEntity.ok(movieService.findById(id));
 	}
-	
+
+
+	@GetMapping("/byMovieType/{movieTypeId}")
+	public ResponseEntity<?> findByMovieTypeId(@PathVariable String movieTypeId) {
+		// TODO Auto-generated method stub
+		return ResponseEntity.ok(movieService.findByMovieType(movieTypeId));
+	}
 }

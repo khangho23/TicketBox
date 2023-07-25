@@ -13,9 +13,11 @@ import com.example.demo.entity.Movie;
 @ConfigAutowireable
 public interface MovieDao {
 	@Select
-	public List<Movie> findAll();
+	List<Movie> findAll();
 	
 	@Select
-	public Movie findById(String id);
-	
+	Movie findById(String id);
+
+	@Select
+	List<Movie> findByMovieType(String movieTypeId);
 }
