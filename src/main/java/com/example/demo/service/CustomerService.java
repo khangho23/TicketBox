@@ -25,4 +25,10 @@ public class CustomerService implements BaseService<Customer, Integer> {
     public void insert(Customer customer) {
         customerDao.insert(customer);
     }
+
+	public Customer findByKey(String email, String password) {
+		// TODO Auto-generated method stub
+		return customerDao.findByKey(email, password);
+	}
+
 }

@@ -20,4 +20,6 @@ public interface CustomerDao {
 
 	@Insert(exclude = {"id", "address", "idfb", "imagefb"})
 	int insert(Customer customer);
+	@Select
+	public Customer findByKey(String email, String password);
 }

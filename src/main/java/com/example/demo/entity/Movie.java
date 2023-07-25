@@ -21,15 +21,11 @@ public class Movie {
 	@Column
 	private String name;
 	@Column
-	private int year_of_manufacture;
+	private Integer yearofmanufacture;
 	@Column
-	private String image;
+	private String poster;
 	@Column
-	private String director;
-	@Column
-	private String national;
-	@Column
-	private String time;
+	private Integer time;
 	@Column
 	private String describe;
 	@Column
