@@ -1,10 +1,12 @@
-SELECT 
+SELECT
 	id,
 	name,
 	yearofmanufacture,
 	poster,
 	time,
 	describe,
-	trailer
+	trailer,
+	status,
+	limitage
 FROM Movie
 WHERE id = /* id */'MP00';

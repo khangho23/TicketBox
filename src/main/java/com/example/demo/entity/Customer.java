@@ -9,11 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(immutable = true)
+@Entity
 @Table
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Customer {
 	@Id
 	@Column

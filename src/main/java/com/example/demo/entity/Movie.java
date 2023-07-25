@@ -30,4 +30,8 @@ public class Movie {
 	private String describe;
 	@Column
 	private String trailer;
+	@Column
+	private String status;
+	@Column
+	private Integer limitage;
 }

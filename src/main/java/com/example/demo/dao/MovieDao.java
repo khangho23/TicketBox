@@ -5,7 +5,6 @@ import java.util.List;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
-import org.springframework.data.repository.query.Param;
 
 import com.example.demo.entity.Movie;
 
@@ -13,9 +12,11 @@ import com.example.demo.entity.Movie;
 @ConfigAutowireable
 public interface MovieDao {
 	@Select
-	public List<Movie> findAll();
+	List<Movie> findAll();
 	
 	@Select
-	public Movie findById(String id);
-	
+	Movie findById(String id);
+
+	@Select
+	List<Movie> findByStatus(String status);
 }

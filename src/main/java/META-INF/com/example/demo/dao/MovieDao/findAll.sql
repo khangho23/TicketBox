@@ -4,5 +4,7 @@ SELECT id,
 	poster,
 	time,
 	describe,
-	trailer
+	trailer,
+	status,
+	limitage
 FROM Movie;
