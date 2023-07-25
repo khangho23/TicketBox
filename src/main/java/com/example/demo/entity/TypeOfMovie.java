@@ -13,7 +13,7 @@ import org.seasar.doma.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieType {
+public class TypeOfMovie {
     @Id
     @Column
     private String id;

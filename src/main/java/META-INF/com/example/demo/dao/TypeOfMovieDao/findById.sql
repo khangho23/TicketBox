@@ -1,5 +1,5 @@
 SELECT 
-		id,
-		name
-FROM Movie_Type
+	id,
+	name
+FROM TypeOfMovie
 WHERE id = /* id */'LP00';

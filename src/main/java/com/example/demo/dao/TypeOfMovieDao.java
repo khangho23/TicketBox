@@ -1,6 +1,6 @@
 package com.example.demo.dao;
 
-import com.example.demo.entity.MovieType;
+import com.example.demo.entity.TypeOfMovie;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
@@ -9,10 +9,10 @@ import java.util.List;
 
 @Dao
 @ConfigAutowireable
-public interface MovieTypeDao {
+public interface TypeOfMovieDao {
     @Select
-    List<MovieType> findAll();
+    List<TypeOfMovie> findAll();
 
     @Select
-    MovieType findById(String id);
+    TypeOfMovie findById(String id);
 }
