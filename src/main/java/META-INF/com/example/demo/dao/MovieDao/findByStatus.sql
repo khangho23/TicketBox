@@ -1,5 +1,6 @@
 SELECT
 	id,
+	customerid,
 	name,
 	yearofmanufacture,
 	poster,

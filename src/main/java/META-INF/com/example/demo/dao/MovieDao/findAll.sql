@@ -1,4 +1,5 @@
 SELECT id,
+	countryid,
 	name,
 	yearofmanufacture,
 	poster,
