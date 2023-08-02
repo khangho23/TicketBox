@@ -37,4 +37,9 @@ public class MovieController{
 		return ResponseEntity.ok(movieService.findById(id));
 	}
 
+	@GetMapping("/nowshowing")
+	public ResponseEntity<?> findMoviesNowShowing() {
+		// TODO Auto-generated method stub
+		return ResponseEntity.ok(movieService.findMoviesNowShowing());
+	}
 }

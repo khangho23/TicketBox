@@ -15,8 +15,12 @@ public interface MovieDao {
 	List<Movie> findAll();
 	
 	@Select
+	
 	Movie findById(String id);
 
 	@Select
 	List<Movie> findByStatus(String status);
+
+	@Select
+	List<Movie> findMoviesNowShowing();
 }
