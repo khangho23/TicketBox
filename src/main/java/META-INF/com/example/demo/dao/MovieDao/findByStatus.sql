@@ -1,6 +1,6 @@
 SELECT
 	id,
-	customerid,
+	countryid,
 	name,
 	yearofmanufacture,
 	poster,
