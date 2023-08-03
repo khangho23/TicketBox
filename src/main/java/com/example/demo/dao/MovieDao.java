@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
@@ -15,7 +16,7 @@ public interface MovieDao {
 	List<Movie> findAll();
 	
 	@Select
-	Movie findById(String id);
+	Optional<Movie> findById(String id);
 
 	@Select
 	List<Movie> findByStatus(String status);

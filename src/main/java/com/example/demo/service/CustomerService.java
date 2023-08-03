@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.CustomerDao;
-import com.example.demo.entity.Customer;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.demo.dao.CustomerDao;
+import com.example.demo.entity.Customer;
 
 @Service
 public class CustomerService implements BaseService<Customer, Integer> {
@@ -18,7 +20,7 @@ public class CustomerService implements BaseService<Customer, Integer> {
     }
 
     @Override
-    public Customer findById(Integer id) {
+    public Optional<Customer> findById(Integer id) {
         return customerDao.findById(id);
     }
 

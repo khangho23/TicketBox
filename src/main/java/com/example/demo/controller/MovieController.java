@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Movie;
+import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.MovieService;
 
 @RestController
@@ -24,7 +25,7 @@ public class MovieController{
 
 
 	@GetMapping(value= {"","/"})
-	public ResponseEntity<?> findAll(@RequestParam("status") Optional<String> status) {
+	public ResponseEntity<?> findAll(@RequestParam("status") Optional<String> status) throws InvalidRequestParameterException {
 		// TODO Auto-generated method stub
 		List<Movie> list = !status.isPresent() ? movieService.findAll() : movieService.findByStatus(status.get());
 		return ResponseEntity.ok(list);
@@ -32,9 +33,9 @@ public class MovieController{
 
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> findById(@PathVariable String id) {
+	public ResponseEntity<?> findById(@PathVariable String id) throws InvalidRequestParameterException {
 		// TODO Auto-generated method stub
-		return ResponseEntity.ok(movieService.findById(id));
+		return ResponseEntity.ok(movieService.findById(id).get());
 	}
 
 }
