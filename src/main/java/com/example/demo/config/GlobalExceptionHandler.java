@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(InvalidRequestParameterException.class)
 	public ResponseEntity<?> handleInvalidRequestParameterException(InvalidRequestParameterException e) {
-		return ResponseEntity.status(e.getResponse().getCode()).body(e.getResponse());
+		return ResponseEntity.status(e.getResponse().getStatusCode()).body(e.getResponse());
 	}
 
 	@ExceptionHandler(Exception.class)

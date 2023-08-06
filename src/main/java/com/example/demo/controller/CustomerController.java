@@ -18,30 +18,28 @@ import com.example.demo.service.CustomerService;
 @RestController
 @RequestMapping("/customer")
 @CrossOrigin("*")
-public class CustomerController implements BaseController {
+public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    @Override
     @GetMapping("/getAll")
-    public ResponseEntity<List<Customer>> findAll() {
+    public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(customerService.findAll());
     }
 
-    @Override
     @GetMapping("/getById")
-    public ResponseEntity<Customer> findById(String id) {
+    public ResponseEntity<?> findById(String id) {
         return ResponseEntity.ok(customerService.findById(Integer.parseInt(id)).get());
     }
-    
-    
+
     @PostMapping("/save")
     public void save(@RequestBody Customer customer) {
         customerService.insert(customer);
     }
-    	@GetMapping("/login")
-	public ResponseEntity<?> findByKey(@RequestParam("email") String email, @RequestParam("password") String password) {
-		// TODO Auto-generated method stub
-		return ResponseEntity.ok(customerService.findByKey(email, password));
-	}
+
+    @GetMapping("/login")
+    public ResponseEntity<?> findByKey(@RequestParam("email") String email, @RequestParam("password") String password) {
+        // TODO Auto-generated method stub
+        return ResponseEntity.ok(customerService.findByKey(email, password));
+    }
 }

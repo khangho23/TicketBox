@@ -6,6 +6,7 @@ import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Dao
 @ConfigAutowireable
@@ -14,5 +15,5 @@ public interface TypeOfMovieDao {
     List<TypeOfMovie> findAll();
 
     @Select
-    TypeOfMovie findById(String id);
+    Optional<TypeOfMovie> findById(String id);
 }
