@@ -35,4 +35,9 @@ public class MovieService implements BaseService<Movie, String> {
 		// TODO Auto-generated method stub
 		return movieDao.findMoviesNowShowing();
 	}
+	
+	public Movie findMovieDetailPage(String movieId) {
+		// TODO Auto-generated method stub
+		return movieDao.findMovieDetailPage(movieId);
+	}
 }

@@ -9,7 +9,7 @@ import lombok.Data;
 @Embeddable
 @Data
 @AllArgsConstructor
-public class TypeOfMovieEmbeddable {
-	@Column(name = "MOVIE_TYPES")
-	final String movieTypeName;
+public class BranchEmbeddable {
+	@Column(name = "BRANCH")
+	final String branchesName;
 }

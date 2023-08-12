@@ -9,4 +9,5 @@ SELECT
 	status,
 	limitage
 FROM movie AS mo
-WHERE mo.status = '2';
+JOIN showtime AS sh ON sh.movieid = mo.id AND sh.showdate::date = CURRENT_DATE
+WHERE mo.status = '1'

@@ -15,7 +15,6 @@ public interface MovieDao {
 	List<Movie> findAll();
 	
 	@Select
-	
 	Movie findById(String id);
 
 	@Select
@@ -23,4 +22,7 @@ public interface MovieDao {
 
 	@Select
 	List<Movie> findMoviesNowShowing();
+
+	@Select
+	Movie findMovieDetailPage(String movieid);
 }
