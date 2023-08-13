@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
@@ -44,7 +45,7 @@ public class Movie {
 	/*
 	 * poster of movie
 	 */
-	@Column
+	@Column(name = "poster")
 	private String poster;
 	/*
 	 * time of movie
@@ -54,6 +55,9 @@ public class Movie {
 	/*
 	 * describe of movie
 	 */
+	@Column
+	@JsonIgnore
+	private Integer countryId;
 	@Column
 	private String describe;
 	/*
@@ -71,4 +75,31 @@ public class Movie {
 	 */
 	@Column
 	private Integer limitage;
+	
+	@Column(name = "MOVIE_TYPES")
+    String movieTypeName;
+	
+	@Column(name = "ACTORS")
+    String actorsName;
+//	
+//	@Column(name = "BRANCH")
+//    String branchesName;
+	
+//	@Column(name = "DIMENSION")
+//    String dimensionName;
+	
+	@Column(name = "DIRECTORS")
+    String directorsName;
+	
+	@Column(name = "LANGUAGES")
+    String languagesName;
+
+	@Column(name = "COUNTRY")
+	String countryName;
+//	
+//	@Column(name = "SHOWTIME")
+//    String showtimeName;
+//	
+//	@Column(name = "SHOWDATE")
+//    String showdateName;
 }

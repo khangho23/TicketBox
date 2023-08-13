@@ -38,4 +38,15 @@ public class MovieController{
 		return ResponseEntity.ok(movieService.findById(id).get());
 	}
 
+	@GetMapping("/nowshowing")
+	public ResponseEntity<?> findMoviesNowShowing() {
+		// TODO Auto-generated method stub
+		return ResponseEntity.ok(movieService.findMoviesNowShowing());
+	}
+	
+	@GetMapping("/detail")
+	public ResponseEntity<?> findMovieDetailPage(@RequestParam("id") String movieId) {
+		// TODO Auto-generated method stub
+		return ResponseEntity.ok(movieService.findMovieDetailPage(movieId));
+	}
 }

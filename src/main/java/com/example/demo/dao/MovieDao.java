@@ -20,4 +20,10 @@ public interface MovieDao {
 
 	@Select
 	List<Movie> findByStatus(String status);
+
+	@Select
+	List<Movie> findMoviesNowShowing();
+
+	@Select
+	Movie findMovieDetailPage(String movieid);
 }
