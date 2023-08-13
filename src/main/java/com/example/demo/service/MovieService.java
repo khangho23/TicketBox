@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.common.enums.RequestParameterEnum;
 import com.example.demo.dao.MovieDao;
+import com.example.demo.dto.MovieDto;
 import com.example.demo.entity.Movie;
 import com.example.demo.exception.InvalidRequestParameterException;
 
@@ -30,9 +31,6 @@ public class MovieService implements BaseService<Movie, String> {
 
 	public List<Movie> findByStatus(String status) throws InvalidRequestParameterException {
 		// TODO Auto-generated method stub
-		if(status == null) {
-			throw new InvalidRequestParameterException("status", RequestParameterEnum.NOTHING);
-		}
 		List<Movie> list = movieDao.findByStatus(status);
 		if(list.size() <= 0) {
 			throw new InvalidRequestParameterException("status", RequestParameterEnum.NOT_FOUND);
@@ -45,7 +43,7 @@ public class MovieService implements BaseService<Movie, String> {
 		return movieDao.findMoviesNowShowing();
 	}
 	
-	public Movie findMovieDetailPage(String movieId) {
+	public MovieDto findMovieDetailPage(String movieId) {
 		// TODO Auto-generated method stub
 		return movieDao.findMovieDetailPage(movieId);
 	}

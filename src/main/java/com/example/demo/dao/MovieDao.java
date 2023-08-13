@@ -7,6 +7,7 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
 
+import com.example.demo.dto.MovieDto;
 import com.example.demo.entity.Movie;
 
 @Dao
@@ -25,5 +26,5 @@ public interface MovieDao {
 	List<Movie> findMoviesNowShowing();
 
 	@Select
-	Movie findMovieDetailPage(String movieid);
+	MovieDto findMovieDetailPage(String movieid);
 }
