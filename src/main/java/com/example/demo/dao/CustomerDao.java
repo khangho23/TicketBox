@@ -17,6 +17,9 @@ public interface CustomerDao {
 	List<Customer> findAll();
 	
 	@Select
+	Optional<Customer> findByEmail(String email);
+	
+	@Select
 	Optional<Customer> findById(Integer id);
 
 	@Insert(exclude = {"id", "address"})
