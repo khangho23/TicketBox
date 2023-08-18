@@ -9,7 +9,8 @@ public enum RequestParameterEnum{
 	INVALID_TYPE("RP_02"),
 	WRONG("RP_03"),
 	NOT_EXISTS("RP_04"),
-	NOT_FOUND("RP_05");
+	NOT_FOUND("RP_05"),
+	EXISTS("RP_06");
 	@Getter
 	private String name;
 }

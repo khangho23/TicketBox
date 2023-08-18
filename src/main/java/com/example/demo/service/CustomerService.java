@@ -14,29 +14,33 @@ import jakarta.mail.MessagingException;
 
 @Service
 public class CustomerService implements BaseService<Customer, Integer> {
-    @Autowired
-    CustomerDao customerDao;
-    @Autowired
-    EmailService emailService;
-    
-    @Override
-    public List<Customer> findAll() {
-        return customerDao.findAll();
-    }
+	@Autowired
+	CustomerDao customerDao;
+	@Autowired
+	EmailService emailService;
 
-    @Override
-    public Optional<Customer> findById(Integer id) {
-        return customerDao.findById(id);
-    }
+	@Override
+	public List<Customer> findAll() {
+		return customerDao.findAll();
+	}
 
-    public void insert(Customer customer){
-        customerDao.insert(customer);
-    }
-    
-    public void sendMail(Customer customer) throws MessagingException {
-    	emailService.send(new MailInfo(customer.getEmail(), "Đăng ký tài khoản", customer));
-    }
-    
+	@Override
+	public Optional<Customer> findById(Integer id) {
+		return customerDao.findById(id);
+	}
+
+	public Optional<Customer> findByEmail(String email) {
+		return customerDao.findByEmail(email);
+	}
+
+	public void insert(Customer customer) {
+		customerDao.insert(customer);
+	}
+
+	public String sendCode(Customer customer) throws MessagingException {
+		return emailService.sendCode(new MailInfo(customer.getEmail(), "Mã xác minh tài khoản của bạn trên Zuhot Cinema", customer));
+	}
+
 	public Customer findByKey(String email, String password) {
 		// TODO Auto-generated method stub
 		return customerDao.findByKey(email, password);
