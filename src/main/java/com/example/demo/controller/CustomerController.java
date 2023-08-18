@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Customer;
 import com.example.demo.service.CustomerService;
+
+import jakarta.mail.MessagingException;
 
 @RestController
 @RequestMapping("/customer")
@@ -36,10 +36,20 @@ public class CustomerController {
     public void save(@RequestBody Customer customer) {
         customerService.insert(customer);
     }
-
+    
     @GetMapping("/login")
     public ResponseEntity<?> findByKey(@RequestParam("email") String email, @RequestParam("password") String password) {
         // TODO Auto-generated method stub
         return ResponseEntity.ok(customerService.findByKey(email, password));
+    }
+    
+    @PostMapping("/sendMail")
+    public ResponseEntity<?> sendMail(@RequestBody Customer customer) throws MessagingException {
+    	try {
+    		customerService.sendMail(customer);    		
+    	}catch (MessagingException e) {
+    		return ResponseEntity.badRequest().body("Send Fail");			
+		}
+    	return ResponseEntity.ok("Send Success");
     }
 }
