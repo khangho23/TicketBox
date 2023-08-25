@@ -13,20 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.enums.RequestParameterEnum;
-import com.example.demo.constant.Constants;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
+import com.example.demo.listener.ListenerEvent;
+import com.example.demo.model.RegistrationConfirm;
 import com.example.demo.service.CustomerService;
-
-import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/customer")
 @CrossOrigin("*")
 public class CustomerController {
-	@Autowired
-	HttpSession session;
 	@Autowired
 	CustomerService customerService;
 
@@ -41,7 +37,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/save")
-	public void save(@RequestBody Customer customer) {
+	public void save(@RequestBody Customer customer) throws InvalidRequestParameterException {
 		customerService.insert(customer);
 	}
 
@@ -51,32 +47,38 @@ public class CustomerController {
 		return ResponseEntity.ok(customerService.findByKey(email, password));
 	}
 
+	@Autowired
+	ListenerEvent listenerEvent;
+
 	@PostMapping("/registration")
-	public ResponseEntity<?> registration(@RequestBody Customer customer) throws InvalidRequestParameterException {
-		Optional<Customer> ct = customerService.findByEmail(customer.getEmail());
-		if (ct.isPresent()) {
-			throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
-		} else {
-			try {
-				String code = customerService.sendCode(customer);
-				session.setAttribute("OTP", code);
-				session.setAttribute("customer", customer);
-				session.setMaxInactiveInterval(Constants.MAX_SESSION);
-			} catch (MessagingException e) {
-				throw new InvalidRequestParameterException("Email", RequestParameterEnum.WRONG);
+	public ResponseEntity<?> registration(@RequestBody Customer user) throws InvalidRequestParameterException {
+		Optional<Customer> customer = customerService.findByEmail(user.getEmail());
+		if (customer.isPresent()) {
+			if (customer.get().isActive()) {
+				throw new InvalidRequestParameterException("Customer", RequestParameterEnum.EXISTS);
+			}
+			// If customer exists -> Update new Token
+			customer.get().setToken(customerService.registration(user));
+			if (customerService.update(customer.get()) == 1) {
+				listenerEvent.checkTokenEvent(user.getEmail()); // Start countdown 5 Minute remove token
+				return ResponseEntity.ok("Successful registration, please check your email to verify !");
 			}
 		}
-		return ResponseEntity.ok("Successful registration, please check your email to verify !");
+		// If customer not exists -> Create New Token and Customer
+		else {
+			user.setToken(customerService.registration(user));
+			if (customerService.insert(user) == 1) {
+				listenerEvent.checkTokenEvent(user.getEmail()); // Start countdown 5 Minute remove token
+				return ResponseEntity.ok("Successful registration, please check your email to verify !");
+			}
+		}
+		return ResponseEntity.ok("Registration failed, please check and try again!");
 	}
 
-	@GetMapping("/registrationConfirm")
-	public ResponseEntity<?> registrationConfirm(@RequestParam("OTP") String code) {
-		String OTP = (String) session.getAttribute("OTP");
-		Customer ct = (Customer) session.getAttribute("customer");
-		if (code.equals(OTP) || ct != null) {
-			customerService.insert(ct);
-			return ResponseEntity.ok("Successful registration confirmation !");
-		}
-		return ResponseEntity.ok("Registration confirmation failed !");
+	@PostMapping("/registrationConfirm")
+	public ResponseEntity<?> registrationConfirm(@RequestBody RegistrationConfirm registerConfirm)
+			throws InvalidRequestParameterException {
+		return ResponseEntity
+				.ok(customerService.registrationConfirm(registerConfirm.getEmail(), registerConfirm.getCode()));
 	}
 }
