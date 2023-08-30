@@ -1,4 +1,7 @@
-import { JetView, plugins } from "webix-jet";
+import "//cdn.webix.com/libs/jet/webix-jet.js"
+
+const JetView = webix.jet.JetView;
+const plugins = webix.jet.plugins;
 
 export default class TopView extends JetView {
     config() {

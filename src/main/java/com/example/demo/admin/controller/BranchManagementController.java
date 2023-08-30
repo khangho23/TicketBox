@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BranchManagementController {
     @GetMapping("")
     public String index() {
+        
+        int a, b;
+        a = 10; b = 5;
+        if (a >= b) {
+
+        }
         return "components/branch_management.html";
     }
 }
