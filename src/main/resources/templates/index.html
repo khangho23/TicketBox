@@ -20,87 +20,15 @@
 		crossorigin="anonymous">
 
 	<!-- Import Webix Jet JavaScript -->
-	<script th:src="@{//cdn.webix.com/libs/jet/webix-jet.js}" type="text/javascript"></script>
+	<script src="//cdn.webix.com/libs/jet/webix-jet.js" type="text/javascript"></script>
 
 	<!-- Import your custom app CSS -->
-	<link th:href="@{../static/styles/app.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/styles/app.css}" th:rel="stylesheet" type="text/css">
 
+
+	<script th:src="@{/render.js}" type="module"></script>
 </head>
 
-<body>
-	<!-- Tách giống mày nói (Không gọi được file render.js 404) -->
-	<script th:src="@{../static/render.js}" type="module"></script>
-
-
-	<!-- Cái này thì chạy được nè, nhưng mà routing bị sai -->
-	<!-- <script type="module">
-		const JetApp = webix.jet.JetApp;
-		const JetView = webix.jet.JetView;
-		const plugins = webix.jet.plugins;
-
-		class TopView extends JetView {
-			config() {
-				const header = {
-					type: "header", css: "custom_dark", height: 58,
-					template: "ADMIN APP"
-				};
-
-				const sidebar = {
-					localId: "menu",
-					view: "sidebar", css: "webix_dark", width: 200,
-					data: [
-						{ id: "dash", value: "Dashboard", icon: "mdi mdi-view-dashboard" },
-						{ id: "charts", value: "Charts", icon: "mdi mdi-chart-areaspline" },
-						{ id: "tables", value: "Tables", icon: "mdi mdi-table" },
-						{ id: "forms", value: "Forms", icon: "mdi mdi-format-line-style" },
-						{ id: "sheet", value: "Spreadsheet", icon: "mdi mdi-table-large" },
-						{ id: "kanban", value: "Kanban", icon: "mdi mdi-view-column" },
-						{ id: "pivot", value: "Pivot", icon: "mdi mdi-layers" },
-						{ id: "files", value: "File Manager", icon: "mdi mdi-folder-star" },
-						{ id: "test", value: "Test", icon: "mdi mdi-folder-star" }
-					]
-				};
-
-				const toolbar = {
-					view: "toolbar",
-					padding: 9, height: 58,
-					cols: [
-						{ css: "logo" },
-						{ view: "icon", icon: "mdi mdi-bell", badge: "5" },
-						{ view: "icon", icon: "mdi mdi-settings" },
-						{
-							template: `<image class="mainphoto" src="data/images/morgan_yu.jpg">
-            <span class="webix_icon mdi mdi-circle status green"></span>`,
-							width: 60, css: "avatar", borderless: true
-						}
-					]
-				};
-
-				return {
-					type: "clean", cols: [
-						{ rows: [header, sidebar] },
-						{ rows: [toolbar, { $subview: true }] }
-					]
-				};
-			}
-
-			init() {
-				this.use(plugins.Menu, "menu");
-			}
-		}
-
-		webix.ready(function () {
-			const app = new JetApp({
-				id: "myApp",
-				start: "/main/dash",
-				views: {
-					main: TopView
-				}
-			});
-
-			app.render();
-		});
-	</script> -->
-</body>
+<body></body>
 
 </html>
