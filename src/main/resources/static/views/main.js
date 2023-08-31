@@ -15,14 +15,16 @@ export default class TopView extends JetView {
             view: "sidebar", css: "webix_dark", width: 200,
             data: [
                 { id: "dash", value: "Dashboard", icon: "mdi mdi-view-dashboard" },
-                { id: "charts", value: "Charts", icon: "mdi mdi-chart-areaspline" },
-                { id: "tables", value: "Tables", icon: "mdi mdi-table" },
-                { id: "forms", value: "Forms", icon: "mdi mdi-format-line-style" },
-                { id: "sheet", value: "Spreadsheet", icon: "mdi mdi-table-large" },
-                { id: "kanban", value: "Kanban", icon: "mdi mdi-view-column" },
-                { id: "pivot", value: "Pivot", icon: "mdi mdi-layers" },
-                { id: "files", value: "File Manager", icon: "mdi mdi-folder-star" },
-                { id: "test", value: "Test", icon: "mdi mdi-folder-star" }
+                {
+					id: "management", icon: "mdi mdi-puzzle", value: "Quản lý", data: [
+						{ id: "management_movie", value: "Phim" },
+						{ id: "management_actor", value: "Đạo diễn" },
+						{ id: "management_director", value: "Diễn viên" }
+					]
+				},
+                { id: "statistical", value: "Thống kê", icon: "mdi mdi-chart-areaspline" },
+                { id: "setting", value: "Cài đặt", icon: "mdi mdi-cogs" },
+                { id: "help", value: "Hỗ trợ", icon: "wxi-alert" }
             ]
         };
 
