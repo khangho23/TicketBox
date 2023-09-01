@@ -17,9 +17,9 @@ export default class TopView extends JetView {
                 { id: "dash", value: "Dashboard", icon: "mdi mdi-view-dashboard" },
                 {
 					id: "management", icon: "mdi mdi-puzzle", value: "Quản lý", data: [
-						{ id: "management_movie", value: "Phim" },
-						{ id: "management_actor", value: "Đạo diễn" },
-						{ id: "management_director", value: "Diễn viên" }
+						{ id: "management-movie", value: "Phim" },
+						{ id: "management-actor", value: "Đạo diễn" },
+						{ id: "management-director", value: "Diễn viên" }
 					]
 				},
                 { id: "statistical", value: "Thống kê", icon: "mdi mdi-chart-areaspline" },

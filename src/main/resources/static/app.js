@@ -15,9 +15,9 @@ export default class InventoryApp extends JetApp {
 			views: {
 				app: Main,
 				dash: Dash,
-				management_movie: Movie,
-				management_director: Director,
-				management_actor: Actor,
+				"management-movie": Movie,
+				"management-director": Director,
+				"management-actor": Actor,
 			}
 		}, config, true));
 	}
