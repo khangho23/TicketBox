@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.GeneratedValue;
@@ -7,8 +9,6 @@ import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
-import jakarta.annotation.Generated;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -70,4 +70,50 @@ public class Customer {
 	 */
 	@Column
 	private String avatar;
+
+	/*
+	 * create date of customer
+	 */
+	@Column
+	private LocalDateTime created_at = LocalDateTime.now();
+
+	/*
+	 * token of customer
+	 */
+	@Column
+	private String token;
+
+	/*
+	 * active of customer
+	 */
+	@Column
+	private boolean active;
+
+	public Customer(String name, String password, String email, String phone, String address, boolean gender,
+			String avatar, String token) {
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.gender = gender;
+		this.keyfacebook = null;
+		this.avatar = avatar;
+		this.token = token;
+		this.active = false;
+	}
+
+	public Customer(String name, String password, String email, String phone, String address, boolean gender,
+			String avatar, String token, boolean active) {
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.gender = gender;
+		this.keyfacebook = null;
+		this.avatar = avatar;
+		this.token = token;
+		this.active = active;
+	}
 }
