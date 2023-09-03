@@ -3,6 +3,7 @@ SELECT
 	showtime.movieId,
 	showtime.starttime,
 	showtime.showdate,
+	showtime.dimensionid,
 	showtime.roomid,
 	room.name as room,
 	dimension.name as dimension,

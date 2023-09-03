@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
@@ -9,8 +10,6 @@ import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
-import jakarta.annotation.Generated;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,39 +23,39 @@ import lombok.NoArgsConstructor;
 @Table
 @Data
 @NoArgsConstructor
-public class Showtime {
+public class ShowTime {
 	/*
-	 * id of customer
+	 * id of showtime
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private int id;
 	/*
-	 * id of showtime
+	 * roomId of showtime
 	 */
 	@Column
-	private String roomid;
+	private String roomId;
 	/*
-	 * roomid of showtime
+	 * movieId of showtime
 	 */
 	@Column
-	private String movieid;
+	private String movieId;
 	/*
-	 * movieid of showtime
+	 * dimensionId of showtime
 	 */
 	@Column
-	private int dimensionid;
+	private int dimensionId;
 	/*
-	 * dimensionid of showtime
+	 * showDate of showtime
 	 */
 	@Column
-	private Date showdate;
+	private Date showDate;
 	/*
-	 * starttime of showtime
+	 * startTime of showtime
 	 */
 	@Column
-	private String starttime;
+	private String startTime;
 	/*
 	 * price of showtime
 	 */
