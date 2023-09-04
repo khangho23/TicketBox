@@ -1,17 +1,15 @@
 package com.example.demo.admin.controller;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
-@Controller
-@RequestMapping("/admin/movie")
+@RestController
+@RequestMapping("/admin#!/app/management-movie")
 public class MovieManagementController {
     @GetMapping("")
-    public String index() {
-        return "components/movie_management.html";
+    public ResponseEntity<?> index() {
+        return null;
     }
 }
