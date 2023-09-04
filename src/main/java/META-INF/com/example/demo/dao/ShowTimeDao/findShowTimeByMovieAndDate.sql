@@ -1,8 +1,11 @@
 
+-- Hiển thị thông tin lịch chiếu của phim trong 1 ngày với mã movieId(mã phim) và showdate(ngày)
+
 SELECT
 	showtime.id,
 	showtime.movieId,
 	showtime.starttime,
+	showtime.price,
 	showtime.showdate,
 	showtime.dimensionid,
 	showtime.roomid,

@@ -18,7 +18,7 @@ public class ShowTimeController {
 	@Autowired
 	private ShowTimeService showtimeService;
 
-	@RequestMapping("/movieAndDate")
+	@RequestMapping("/byDateOfMovie")
 	public ResponseEntity<?> findShowtimeByMovieAndDate(
 			@RequestParam("showdate") Date showdate,
 			@RequestParam("movieId") String movieId) {
