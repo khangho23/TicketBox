@@ -11,7 +11,7 @@ import com.example.demo.common.enums.RequestParameterEnum;
 import com.example.demo.dao.CustomerDao;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
-import com.example.demo.model.MailInfo;
+import com.example.demo.model.MailInfoModel;
 
 import jakarta.mail.MessagingException;
 
@@ -73,7 +73,7 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		}
 		try {
 			return (emailService.sendCode(
-					new MailInfo(customer.getEmail(), "Mã xác minh tài khoản của bạn trên Zuhot Stores", customer)));
+					new MailInfoModel(customer.getEmail(), "Mã xác minh tài khoản của bạn trên Zuhot Stores", customer)));
 		} catch (MessagingException ex) {
 			throw new InvalidRequestParameterException("Email", RequestParameterEnum.WRONG);
 		}

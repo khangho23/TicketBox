@@ -13,7 +13,7 @@ import org.thymeleaf.context.Context;
 
 import com.example.demo.constant.Constants;
 import com.example.demo.entity.Customer;
-import com.example.demo.model.MailInfo;
+import com.example.demo.model.MailInfoModel;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -29,7 +29,7 @@ public class EmailService {
 	/*
 	 * Return token
 	 */
-	public String sendCode(MailInfo mail) throws MessagingException {
+	public String sendCode(MailInfoModel mail) throws MessagingException {
 		// Tạo message
 		MimeMessage message = sender.createMimeMessage();
 		// Sử dụng Helper để thiết lập các thông tin cần thiết cho message
@@ -52,7 +52,7 @@ public class EmailService {
 	}
 
 	public void send(String to, String subject, Customer body) throws MessagingException {
-		this.sendCode(new MailInfo(to, subject, body));
+		this.sendCode(new MailInfoModel(to, subject, body));
 	}
 
 	public static String generateRandomToken(int length) {

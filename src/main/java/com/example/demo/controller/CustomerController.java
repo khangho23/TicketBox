@@ -16,8 +16,8 @@ import com.example.demo.common.enums.RequestParameterEnum;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.listener.ListenerEvent;
-import com.example.demo.model.Account;
-import com.example.demo.model.RegistrationConfirm;
+import com.example.demo.model.AccountModel;
+import com.example.demo.model.RegistrationConfirmModel;
 import com.example.demo.service.CustomerService;
 
 @RestController
@@ -43,7 +43,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> Login(@RequestBody Account account) throws InvalidRequestParameterException {
+	public ResponseEntity<?> Login(@RequestBody AccountModel account) throws InvalidRequestParameterException {
 		Optional<Customer> customer = customerService.findByEmail(account.getEmail());
 		if (customer.isPresent()) {
 			if (customer.get().getPassword().equals(account.getPassword())) {
@@ -85,7 +85,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/registrationConfirm")
-	public ResponseEntity<?> registrationConfirm(@RequestBody RegistrationConfirm registerConfirm)
+	public ResponseEntity<?> registrationConfirm(@RequestBody RegistrationConfirmModel registerConfirm)
 			throws InvalidRequestParameterException {
 		return ResponseEntity
 				.ok(customerService.registrationConfirm(registerConfirm.getEmail(), registerConfirm.getCode()));
