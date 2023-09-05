@@ -6,19 +6,32 @@ import Director from "./views/management/director/index.js"
 import Movie from "./views/management/movie/index.js"
 
 const JetApp = webix.jet.JetApp;
+const UrlRouter = webix.jet.UrlRouter;
 
 export default class InventoryApp extends JetApp {
 	constructor(config) {
+		let theme = "";
+		try{
+			theme = webix.storage.local.get("theme_dash");
+		}
+		catch(err){
+			webix.message("You blocked cookies. The theme won't be restored after page reloads.","debug");
+		}
+
 		super(webix.extend({
 			id: "adminApp",
-			start: "/app/dash",
+			router: UrlRouter,
+			routerPrefix: "/admin",
+			start: "/zuhot/dash",
 			views: {
-				app: Main,
+				zuhot: Main,
 				dash: Dash,
 				"management-movie": Movie,
 				"management-director": Director,
 				"management-actor": Actor,
-			}
+			},
+			theme: theme || ""
 		}, config, true));
 	}
+	
 }

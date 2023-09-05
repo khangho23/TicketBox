@@ -8,14 +8,14 @@ SELECT movie.id, movie.name, yearofmanufacture,
 	   STRING_AGG(DISTINCT language.name, ', ') AS languages
 FROM movie
 LEFT JOIN moviedetails ON movie.id = moviedetails.movieid
-JOIN typeofmovie ON moviedetails.typeofmovieid = typeofmovie.id
-JOIN actorofmovie ON movie.id = actorofmovie.movieid
-JOIN actor ON actor.id = actorofmovie.actorid
-JOIN languageofmovie ON languageofmovie.movieid = movie.id
-JOIN language ON language.id = languageofmovie.languageid
-JOIN directorofmovie ON directorofmovie.movieid = movie.id
-JOIN director ON director.id = directorofmovie.directorid
-JOIN country ON country.id = movie.countryid
+LEFT JOIN typeofmovie ON moviedetails.typeofmovieid = typeofmovie.id
+LEFT JOIN actorofmovie ON movie.id = actorofmovie.movieid
+LEFT JOIN actor ON actor.id = actorofmovie.actorid
+LEFT JOIN languageofmovie ON languageofmovie.movieid = movie.id
+LEFT JOIN language ON language.id = languageofmovie.languageid
+LEFT JOIN directorofmovie ON directorofmovie.movieid = movie.id
+LEFT JOIN director ON director.id = directorofmovie.directorid
+LEFT JOIN country ON country.id = movie.countryid
 
 WHERE movie.id = /* movieid */'MP01'
 GROUP BY movie.id, movie.name, yearofmanufacture,

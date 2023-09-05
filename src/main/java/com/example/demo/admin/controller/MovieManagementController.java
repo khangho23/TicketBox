@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin#!/app/management-movie")
+@RequestMapping("/admin/zuhot/management-movie")
 public class MovieManagementController {
     @GetMapping("")
     public ResponseEntity<?> index() {
