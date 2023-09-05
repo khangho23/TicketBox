@@ -44,16 +44,7 @@ public class CustomerController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> Login(@RequestBody AccountModel account) throws InvalidRequestParameterException {
-		Optional<Customer> customer = customerService.findByEmail(account.getEmail());
-		if (customer.isPresent()) {
-			if (customer.get().getPassword().equals(account.getPassword())) {
-				return ResponseEntity.ok(customer);
-			} else {
-				throw new InvalidRequestParameterException("Password",RequestParameterEnum.WRONG);
-			}
-		} else {
-			throw new InvalidRequestParameterException("Email",RequestParameterEnum.NOT_EXISTS);
-		}
+		return ResponseEntity.ok(customerService.Authenticator(account.getEmail(), account.getPassword()));
 	}
 
 	@Autowired
