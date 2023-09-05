@@ -16,6 +16,7 @@ import com.example.demo.common.enums.RequestParameterEnum;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.listener.ListenerEvent;
+import com.example.demo.model.Account;
 import com.example.demo.model.RegistrationConfirm;
 import com.example.demo.service.CustomerService;
 
@@ -41,10 +42,18 @@ public class CustomerController {
 		customerService.insert(customer);
 	}
 
-	@GetMapping("/login")
-	public ResponseEntity<?> findByKey(@RequestParam("email") String email, @RequestParam("password") String password) {
-		// TODO Auto-generated method stub
-		return ResponseEntity.ok(customerService.findByKey(email, password));
+	@PostMapping("/login")
+	public ResponseEntity<?> Login(@RequestBody Account account) throws InvalidRequestParameterException {
+		Optional<Customer> customer = customerService.findByEmail(account.getEmail());
+		if (customer.isPresent()) {
+			if (customer.get().getPassword().equals(account.getPassword())) {
+				return ResponseEntity.ok(customer);
+			} else {
+				throw new InvalidRequestParameterException("Password",RequestParameterEnum.WRONG);
+			}
+		} else {
+			throw new InvalidRequestParameterException("Email",RequestParameterEnum.NOT_EXISTS);
+		}
 	}
 
 	@Autowired
