@@ -20,4 +20,4 @@ LEFT JOIN country ON country.id = movie.countryid
 WHERE movie.id = /* movieid */'MP01'
 GROUP BY movie.id, movie.name, yearofmanufacture,
          poster, time, describe, trailer,
-         limitage, country;
+         status, limitage, country;

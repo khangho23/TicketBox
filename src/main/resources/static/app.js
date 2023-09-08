@@ -21,10 +21,10 @@ export default class InventoryApp extends JetApp {
 		super(webix.extend({
 			id: "adminApp",
 			router: UrlRouter,
-			routerPrefix: "/admin",
-			start: "/zuhot/dash",
+			routerPrefix: "",
+			start: "/admin/dash",
 			views: {
-				zuhot: Main,
+				admin: Main,
 				dash: Dash,
 				"management-movie": Movie,
 				"management-director": Director,
