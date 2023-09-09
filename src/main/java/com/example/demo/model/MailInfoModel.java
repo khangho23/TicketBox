@@ -4,13 +4,13 @@ import com.example.demo.entity.Customer;
 
 import lombok.Data;
 @Data
-public class MailInfo {
+public class MailInfoModel {
 	String from;
 	String to;
 	String subject;
 	Customer body;
 
-	public MailInfo(String to, String subject, Customer body) {
+	public MailInfoModel(String to, String subject, Customer body) {
 		this.from = "Zuhot Cinema <zuhot@gmail.com>";
 		this.to = to;
 		this.subject = subject;

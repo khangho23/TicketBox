@@ -1,57 +1,65 @@
 import "//cdn.webix.com/libs/jet/webix-jet.js"
+import MenuView from "./menu.js";
 
 const JetView = webix.jet.JetView;
-const plugins = webix.jet.plugins;
 
 export default class TopView extends JetView {
     config() {
-        const header = {
-            type: "header", css: "custom_dark", height: 58,
-            template: "ADMIN APP"
-        };
-
-        const sidebar = {
-            localId: "menu",
-            view: "sidebar", css: "webix_dark", width: 200,
-            data: [
-                { id: "dash", value: "Dashboard", icon: "mdi mdi-view-dashboard" },
+        const theme = this.app.config.theme;
+        return {
+            type: "clean",
+            rows: [
                 {
-					id: "management", icon: "mdi mdi-puzzle", value: "Quản lý", data: [
-						{ id: "management-movie", value: "Phim" },
-						{ id: "management-actor", value: "Đạo diễn" },
-						{ id: "management-director", value: "Diễn viên" }
-					]
-				},
-                { id: "statistical", value: "Thống kê", icon: "mdi mdi-chart-areaspline" },
-                { id: "setting", value: "Cài đặt", icon: "mdi mdi-cogs" },
-                { id: "help", value: "Hỗ trợ", icon: "wxi-alert" }
-            ]
-        };
-
-        const toolbar = {
-            view: "toolbar",
-            padding: 9, height: 58,
-            cols: [
-                { css: "logo" },
-                { view: "icon", icon: "mdi mdi-bell", badge: "5" },
-                { view: "icon", icon: "mdi mdi-settings" },
+                    view: "toolbar",
+                    css: theme,
+                    height: 60,
+                    elements: [
+                        {
+                            paddingY: 7,
+                            rows: [
+                                {
+                                    cols: [
+                                        {
+                                            view: "icon",
+                                            icon: "mdi mdi-menu",
+                                            click: () => this.app.callEvent("menu:toggle")
+                                        },
+                                        {
+                                            view: "label", label: "ZUHOT - Admin", css: "header_label"
+                                        },
+                                        {},
+                                        { width: 8 },
+                                        {
+                                            view: "icon",
+                                            localId: "themes",
+                                            icon: "mdi mdi-invert-colors",
+                                            tooltip: theme ? "Come back to the light side of the Force" : "Come to the dark side",
+                                            color: theme,
+                                            click: function () {
+                                                let color = this.config.color;
+                                                color = !color ? "webix_dark" : "";
+                                                try {
+                                                    webix.storage.local.put("theme_dash", color);
+                                                }
+                                                catch (err) {/* for blocked cookies */ }
+                                                this.$scope.app.config.theme = color;
+                                                this.$scope.app.refresh();
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        { width: 6 }
+                    ]
+                },
                 {
-                    template: `<image class="mainphoto" src="data/images/morgan_yu.jpg">
-            <span class="webix_icon mdi mdi-circle status green"></span>`,
-                    width: 60, css: "avatar", borderless: true
+                    cols: [
+                        MenuView,
+                        { $subview: true }
+                    ]
                 }
             ]
         };
-
-        return {
-            type: "clean", cols: [
-                { rows: [header, sidebar] },
-                { rows: [toolbar, { $subview: true }] }
-            ]
-        };
-    }
-
-    init() {
-        this.use(plugins.Menu, "menu");
     }
 }

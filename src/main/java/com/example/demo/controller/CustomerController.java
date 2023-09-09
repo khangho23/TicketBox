@@ -16,7 +16,8 @@ import com.example.demo.common.enums.RequestParameterEnum;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.listener.ListenerEvent;
-import com.example.demo.model.RegistrationConfirm;
+import com.example.demo.model.AccountModel;
+import com.example.demo.model.RegistrationConfirmModel;
 import com.example.demo.service.CustomerService;
 
 @RestController
@@ -41,10 +42,9 @@ public class CustomerController {
 		customerService.insert(customer);
 	}
 
-	@GetMapping("/login")
-	public ResponseEntity<?> findByKey(@RequestParam("email") String email, @RequestParam("password") String password) {
-		// TODO Auto-generated method stub
-		return ResponseEntity.ok(customerService.findByKey(email, password));
+	@PostMapping("/login")
+	public ResponseEntity<?> Login(@RequestBody AccountModel account) throws InvalidRequestParameterException {
+		return ResponseEntity.ok(customerService.Authenticator(account.getEmail(), account.getPassword()));
 	}
 
 	@Autowired
@@ -76,7 +76,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/registrationConfirm")
-	public ResponseEntity<?> registrationConfirm(@RequestBody RegistrationConfirm registerConfirm)
+	public ResponseEntity<?> registrationConfirm(@RequestBody RegistrationConfirmModel registerConfirm)
 			throws InvalidRequestParameterException {
 		return ResponseEntity
 				.ok(customerService.registrationConfirm(registerConfirm.getEmail(), registerConfirm.getCode()));
