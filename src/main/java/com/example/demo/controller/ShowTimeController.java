@@ -1,12 +1,8 @@
 package com.example.demo.controller;
 
 import java.sql.Date;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,17 +24,18 @@ public class ShowTimeController {
 	@RequestMapping("/getShowTimeByDate")
 	public ResponseEntity<?> findShowtimeByMovieAndDate(
 			@RequestParam("showdate") Date showdate,
-			@RequestParam("movieId") String movieId,@RequestParam("page") Integer page, Pageable pageable) {
-	    int startItem = page * 4;
-	    List<ShowTimeDto> list;
-	    
+			@RequestParam("movieId") String movieId, @RequestParam("page") Integer page, Pageable pageable) {
+		int startItem = page * 4;
+		List<ShowTimeDto> list;
+
 		List<ShowTimeDto> listMovieByDate = showtimeService.findShowtimeByMovieAndDate(showdate, movieId);
-		if(listMovieByDate.size() <=0) {
+		if (listMovieByDate.size() <= 0) {
 			return ResponseEntity.ok("Xin lỗi, không có xuất chiếu vào ngày này, hãy chọn một ngày khác.");
 		} else {
 			int toIndex = Math.min(startItem + 4, listMovieByDate.size());
-	        list = listMovieByDate.subList(startItem, toIndex);
-	        return ResponseEntity.ok(new PageImpl<>(list,PageRequest.of(pageable.getPageNumber(), 4), listMovieByDate.size()));
+			list = listMovieByDate.subList(startItem, toIndex);
+			return ResponseEntity
+					.ok(new PageImpl<>(list, PageRequest.of(pageable.getPageNumber(), 4), listMovieByDate.size()));
 		}
 	}
 }
