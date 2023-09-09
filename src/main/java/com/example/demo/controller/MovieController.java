@@ -26,7 +26,6 @@ public class MovieController{
 
 	@GetMapping(value= {"","/"})
 	public ResponseEntity<?> findAll(@RequestParam("status") Optional<String> status) throws InvalidRequestParameterException {
-		// TODO Auto-generated method stub
 		List<Movie> list = !status.isPresent() ? movieService.findAll() : movieService.findByStatus(status.get());
 		return ResponseEntity.ok(list);
 	}
@@ -34,19 +33,16 @@ public class MovieController{
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable String id) throws InvalidRequestParameterException {
-		// TODO Auto-generated method stub
 		return ResponseEntity.ok(movieService.findById(id).get());
 	}
 
 	@GetMapping("/nowshowing")
 	public ResponseEntity<?> findMoviesNowShowing() {
-		// TODO Auto-generated method stub
 		return ResponseEntity.ok(movieService.findMoviesNowShowing());
 	}
 	
-	@GetMapping("/detail/{id}")
-	public ResponseEntity<?> findMovieDetailPage(@PathVariable("id") String movieId) {
-		// TODO Auto-generated method stub
+	@GetMapping("/getDetail")
+	public ResponseEntity<?> findMovieDetailPage(@RequestParam("id") String movieId) {
 		return ResponseEntity.ok(movieService.findMovieDetailPage(movieId));
 	}
 }
