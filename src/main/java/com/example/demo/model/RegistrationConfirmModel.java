@@ -3,7 +3,7 @@ package com.example.demo.model;
 import lombok.Data;
 
 @Data
-public class RegistrationConfirm {
+public class RegistrationConfirmModel {
     String email;
     String code;
 }
