@@ -40,11 +40,11 @@ public class CustomerService implements BaseService<Customer, Integer> {
 
 	public Customer Authenticator(String email, String password) throws InvalidRequestParameterException {
 		Customer customer = customerDao.findByEmail(email)
-				.orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
+				.orElseThrow(() -> new InvalidRequestParameterException( RequestParameterEnum.NOT_EXISTS));
 		if (customer.getPassword().equals(password)) {
 			return customer;
 		} else {
-			throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
+			throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
 		}
 	}
 

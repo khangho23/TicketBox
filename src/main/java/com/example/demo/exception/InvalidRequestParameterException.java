@@ -17,4 +17,7 @@ public class InvalidRequestParameterException extends Exception{
 		setResponse(new ErrorResponseModel(HttpStatus.BAD_REQUEST.value(), param + " is " + type.name()));
 	}
 
+	public InvalidRequestParameterException(RequestParameterEnum type) {
+		setResponse(new ErrorResponseModel(HttpStatus.BAD_REQUEST.value(), type.getName()));
+	}
 }
