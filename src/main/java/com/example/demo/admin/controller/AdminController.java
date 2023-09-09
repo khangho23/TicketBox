@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	@GetMapping("")
+	@GetMapping({"", "/dash"})
 	public String index() {
 		return "index.html";
 	}
