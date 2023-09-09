@@ -1,4 +1,6 @@
-import { JetView } from "webix-jet";
+import "//cdn.webix.com/libs/jet/webix-jet.js"
+
+const JetView = webix.jet.JetView;
 
 function openSearch(){
 	this.config.icon = (this.config.icon == "wxi-close") ? "mdi mdi-magnify" : "wxi-close";

@@ -1,55 +1,65 @@
 import "//cdn.webix.com/libs/jet/webix-jet.js"
+import MenuView from "./menu.js";
 
 const JetView = webix.jet.JetView;
-const plugins = webix.jet.plugins;
 
 export default class TopView extends JetView {
     config() {
-        const header = {
-            type: "header", css: "custom_dark", height: 58,
-            template: "ADMIN APP"
-        };
-
-        const sidebar = {
-            localId: "menu",
-            view: "sidebar", css: "webix_dark", width: 200,
-            data: [
-                { id: "dash", value: "Dashboard", icon: "mdi mdi-view-dashboard" },
-                { id: "charts", value: "Charts", icon: "mdi mdi-chart-areaspline" },
-                { id: "tables", value: "Tables", icon: "mdi mdi-table" },
-                { id: "forms", value: "Forms", icon: "mdi mdi-format-line-style" },
-                { id: "sheet", value: "Spreadsheet", icon: "mdi mdi-table-large" },
-                { id: "kanban", value: "Kanban", icon: "mdi mdi-view-column" },
-                { id: "pivot", value: "Pivot", icon: "mdi mdi-layers" },
-                { id: "files", value: "File Manager", icon: "mdi mdi-folder-star" },
-                { id: "test", value: "Test", icon: "mdi mdi-folder-star" }
-            ]
-        };
-
-        const toolbar = {
-            view: "toolbar",
-            padding: 9, height: 58,
-            cols: [
-                { css: "logo" },
-                { view: "icon", icon: "mdi mdi-bell", badge: "5" },
-                { view: "icon", icon: "mdi mdi-settings" },
+        const theme = this.app.config.theme;
+        return {
+            type: "clean",
+            rows: [
                 {
-                    template: `<image class="mainphoto" src="data/images/morgan_yu.jpg">
-            <span class="webix_icon mdi mdi-circle status green"></span>`,
-                    width: 60, css: "avatar", borderless: true
+                    view: "toolbar",
+                    css: theme,
+                    height: 60,
+                    elements: [
+                        {
+                            paddingY: 7,
+                            rows: [
+                                {
+                                    cols: [
+                                        {
+                                            view: "icon",
+                                            icon: "mdi mdi-menu",
+                                            click: () => this.app.callEvent("menu:toggle")
+                                        },
+                                        {
+                                            view: "label", label: "ZUHOT - Admin", css: "header_label"
+                                        },
+                                        {},
+                                        { width: 8 },
+                                        {
+                                            view: "icon",
+                                            localId: "themes",
+                                            icon: "mdi mdi-invert-colors",
+                                            tooltip: theme ? "Come back to the light side of the Force" : "Come to the dark side",
+                                            color: theme,
+                                            click: function () {
+                                                let color = this.config.color;
+                                                color = !color ? "webix_dark" : "";
+                                                try {
+                                                    webix.storage.local.put("theme_dash", color);
+                                                }
+                                                catch (err) {/* for blocked cookies */ }
+                                                this.$scope.app.config.theme = color;
+                                                this.$scope.app.refresh();
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        { width: 6 }
+                    ]
+                },
+                {
+                    cols: [
+                        MenuView,
+                        { $subview: true }
+                    ]
                 }
             ]
         };
-
-        return {
-            type: "clean", cols: [
-                { rows: [header, sidebar] },
-                { rows: [toolbar, { $subview: true }] }
-            ]
-        };
-    }
-
-    init() {
-        this.use(plugins.Menu, "menu");
     }
 }

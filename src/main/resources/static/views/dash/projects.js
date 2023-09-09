@@ -1,5 +1,7 @@
-import { JetView } from "webix-jet";
 import { getProjects } from "models/projectsd";
+import "//cdn.webix.com/libs/jet/webix-jet.js"
+
+const JetView = webix.jet.JetView;
 
 function getTree(label){
 	return {

@@ -5,13 +5,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.enums.RequestParameterEnum;
+import com.example.demo.common.enums.RequestStatusEnum;
 import com.example.demo.dao.CustomerDao;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
-import com.example.demo.model.MailInfo;
+import com.example.demo.model.MailInfoModel;
 
 import jakarta.mail.MessagingException;
 
@@ -36,9 +38,17 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		return customerDao.findByEmail(email);
 	}
 
-	public Customer findByKey(String email, String password) {
-		return customerDao.findByKey(email, password);
+	public Customer Authenticator(String email, String password) throws InvalidRequestParameterException {
+		Customer customer = customerDao.findByEmail(email)
+				.orElseThrow(() -> new InvalidRequestParameterException( RequestParameterEnum.NOT_EXISTS));
+		if (customer.getPassword().equals(password)) {
+			return customer;
+		} else {
+			throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+		}
 	}
+
+
 
 	public int insert(Customer customer) throws InvalidRequestParameterException {
 		if (customerDao.findByEmail(customer.getEmail()).isPresent()) {
@@ -73,7 +83,8 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		}
 		try {
 			return (emailService.sendCode(
-					new MailInfo(customer.getEmail(), "Mã xác minh tài khoản của bạn trên Zuhot Stores", customer)));
+					new MailInfoModel(customer.getEmail(), "Mã xác minh tài khoản của bạn trên Zuhot Stores",
+							customer)));
 		} catch (MessagingException ex) {
 			throw new InvalidRequestParameterException("Email", RequestParameterEnum.WRONG);
 		}
