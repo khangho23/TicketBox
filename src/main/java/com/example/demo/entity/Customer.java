@@ -102,18 +102,4 @@ public class Customer {
 		this.token = token;
 		this.active = false;
 	}
-
-	public Customer(String name, String password, String email, String phone, String address, boolean gender,
-			String avatar, String token, boolean active) {
-		this.name = name;
-		this.password = password;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-		this.gender = gender;
-		this.keyfacebook = null;
-		this.avatar = avatar;
-		this.token = token;
-		this.active = active;
-	}
 }
