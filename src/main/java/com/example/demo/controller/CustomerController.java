@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.enums.RequestParameterEnum;
+import com.example.demo.common.enums.RequestStatusEnum;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.listener.ListenerEvent;
 import com.example.demo.model.AccountModel;
-import com.example.demo.model.RegistrationConfirmModel;
 import com.example.demo.service.CustomerService;
 
 @RestController
@@ -26,6 +27,9 @@ import com.example.demo.service.CustomerService;
 public class CustomerController {
 	@Autowired
 	CustomerService customerService;
+
+	@Autowired
+	ListenerEvent listenerEvent;
 
 	@GetMapping("/getAll")
 	public ResponseEntity<?> findAll() {
@@ -47,38 +51,34 @@ public class CustomerController {
 		return ResponseEntity.ok(customerService.Authenticator(account.getEmail(), account.getPassword()));
 	}
 
-	@Autowired
-	ListenerEvent listenerEvent;
-
 	@PostMapping("/registration")
 	public ResponseEntity<?> registration(@RequestBody Customer user) throws InvalidRequestParameterException {
 		Optional<Customer> customer = customerService.findByEmail(user.getEmail());
 		if (customer.isPresent()) {
 			if (customer.get().isActive()) {
-				throw new InvalidRequestParameterException("Customer", RequestParameterEnum.EXISTS);
+				throw new InvalidRequestParameterException(RequestParameterEnum.EXISTS);
 			}
 			// If customer exists -> Update new Token
 			customer.get().setToken(customerService.registration(user));
-			if (customerService.update(customer.get()) == 1) {
+			if (customerService.updateToken(customer.get()).equals(RequestStatusEnum.SUCCESS)) {
 				listenerEvent.checkTokenEvent(user.getEmail()); // Start countdown 5 Minute remove token
-				return ResponseEntity.ok("Successful registration, please check your email to verify !");
+				return ResponseEntity.ok(RequestStatusEnum.SUCCESS);
 			}
 		}
 		// If customer not exists -> Create New Token and Customer
 		else {
 			user.setToken(customerService.registration(user));
-			if (customerService.insert(user) == 1) {
+			if (customerService.insert(user).equals(RequestStatusEnum.SUCCESS)) {
 				listenerEvent.checkTokenEvent(user.getEmail()); // Start countdown 5 Minute remove token
-				return ResponseEntity.ok("Successful registration, please check your email to verify !");
+				return ResponseEntity.ok(RequestStatusEnum.SUCCESS);
 			}
 		}
-		return ResponseEntity.ok("Registration failed, please check and try again!");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RequestStatusEnum.FAILURE);
 	}
 
-	@PostMapping("/registrationConfirm")
-	public ResponseEntity<?> registrationConfirm(@RequestBody RegistrationConfirmModel registerConfirm)
+	@GetMapping("/active")
+	public ResponseEntity<?> registrationConfirm(@RequestParam("userToken") String token)
 			throws InvalidRequestParameterException {
-		return ResponseEntity
-				.ok(customerService.registrationConfirm(registerConfirm.getEmail(), registerConfirm.getCode()));
+		return ResponseEntity.ok(customerService.registrationConfirm(token));
 	}
 }

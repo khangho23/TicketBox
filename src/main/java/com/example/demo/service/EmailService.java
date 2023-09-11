@@ -39,27 +39,31 @@ public class EmailService {
 		helper.setSubject(mail.getSubject());
 		Map<String, Object> map = new HashMap<>();
 		map.put("name", mail.getBody().getName());
+		map.put("url", Constants.URL);
 		// random token
-		String OTP = generateRandomToken(10);
-		map.put("OTP", OTP);
+		String token = generateRandomToken();
+		map.put("token", token);
 		Context context = new Context();
 		context.setVariables(map);
 		String htmlBody = templateEngine.process(Constants.REGISTRATION, context);
 		helper.setText(htmlBody, true);
 		// Gửi message đến SMTP server
 		sender.send(message);
-		return OTP;
+		return token;
 	}
 
 	public void send(String to, String subject, Customer body) throws MessagingException {
 		this.sendCode(new MailInfoModel(to, subject, body));
 	}
 
-	public static String generateRandomToken(int length) {
+	public static String generateRandomToken() {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		Random random = new Random();
 		String token = "";
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < 31; i++) {
+			if (i == 5 || i == 13 || i == 17 || i == 21) {
+				token += "-";
+			}
 			token += characters.charAt(random.nextInt(characters.length()));
 		}
 		return token;
