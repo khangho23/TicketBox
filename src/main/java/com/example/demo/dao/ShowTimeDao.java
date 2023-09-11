@@ -1,18 +1,14 @@
 package com.example.demo.dao;
 
-import java.sql.Date;
 import java.util.List;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-
 import com.example.demo.dto.ShowTimeDto;
 
 @Dao
 @ConfigAutowireable
 public interface ShowTimeDao {
 	 @Select
-	 List<ShowTimeDto> findShowTimeByMovieAndDate(Date showdate, String movieId);
+	 List<ShowTimeDto> findShowTimeByMovieAndDate(String showdate, String movieId);
 }
