@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.SeatDao;
 import com.example.demo.dto.SeatDto;
+import com.example.demo.model.RowSeatModel;
 import com.example.demo.model.SeatModel;
 
 @Service
@@ -18,7 +19,9 @@ public class SeatService {
     public List<SeatDto> findByRoomId(String id){
         SeatModel seat = new SeatModel();
         Stream<SeatDto> seatDto = seatDao.findByRoomId(id).stream();
-        seatDto.reduce(new SeatDto(), null, null);
+        seatDto.reduce(new RowSeatModel(), (id)->{
+
+        });
         return seatDao.findByRoomId(id);
     }
 }
