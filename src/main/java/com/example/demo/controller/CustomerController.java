@@ -1,17 +1,32 @@
 package com.example.demo.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.common.enums.RequestParameterEnum;
 import com.example.demo.common.enums.RequestStatusEnum;
@@ -20,6 +35,9 @@ import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.listener.ListenerEvent;
 import com.example.demo.model.AccountModel;
 import com.example.demo.service.CustomerService;
+import com.example.demo.util.FileUtils;
+
+import io.micrometer.common.util.StringUtils;
 
 @RestController
 @RequestMapping("/customer")
@@ -80,5 +98,12 @@ public class CustomerController {
 	public ResponseEntity<?> registrationConfirm(@RequestParam("userToken") String token)
 			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.registrationConfirm(token));
+	}
+
+	@PutMapping(value = "/update-information", consumes = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
+	public ResponseEntity<?> updateInformation(@RequestBody Customer customer,
+			@RequestPart("multipartFile") MultipartFile multipartFile) throws FileNotFoundException, IOException {
+		// TODO: Save file
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(customerService.updateInformation(customer, multipartFile));
 	}
 }

@@ -41,4 +41,7 @@ public interface CustomerDao {
 
 	@Select
 	Optional<Customer> findByToken(String token);
+	
+	@Update(exclude = { "keyfacebook", "token", "created_at" })
+	int updateInformation(Customer customer);
 }

@@ -1,10 +1,19 @@
 package com.example.demo.service;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.common.enums.RequestParameterEnum;
 import com.example.demo.common.enums.RequestStatusEnum;
@@ -12,11 +21,14 @@ import com.example.demo.dao.CustomerDao;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.MailInfoModel;
+import com.example.demo.util.FileUtils;
 
 import jakarta.mail.MessagingException;
 
 @Service
 public class CustomerService implements BaseService<Customer, Integer> {
+	private static final String PATH_STATIC = "D:\\cinema_projects\\BE_Cinema\\src\\main\\resources\\static\\avatar\\";
+
 	@Autowired
 	CustomerDao customerDao;
 	@Autowired
@@ -93,5 +105,33 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		} else {
 			throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
 		}
+	}
+
+	public RequestStatusEnum updateInformation(Customer customer, MultipartFile multipartFile) throws IOException {
+		BufferedImage img = null;
+		File file = null;
+
+		// Read image file from multipart file
+		// Convert file -> multipart
+		try {
+			file = FileUtils.multipartFileToFileConverter(multipartFile);
+			img = ImageIO.read(file);
+		} catch (IOException e) {
+			System.out.println(e);
+			return RequestStatusEnum.FAILURE;
+		}
+
+		// Save image to local disk
+		try {
+			file = new File(PATH_STATIC + customer.getId() + ".jpg");
+			ImageIO.write(img, "jpg", file);
+			customer.setAvatar(customer.getId() + ".jpg");
+		} catch (IOException e) {
+			System.out.println(e);
+			return RequestStatusEnum.FAILURE;
+		}
+		
+		customerDao.updateInformation(customer);
+		return RequestStatusEnum.SUCCESS;
 	}
 }
