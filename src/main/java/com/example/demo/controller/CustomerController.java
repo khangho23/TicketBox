@@ -102,7 +102,7 @@ public class CustomerController {
 
 	@PutMapping(value = "/update-information", consumes = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
 	public ResponseEntity<?> updateInformation(@RequestBody Customer customer,
-			@RequestPart("multipartFile") MultipartFile multipartFile) throws FileNotFoundException, IOException {
+			@RequestParam("multipartFile") MultipartFile multipartFile) throws FileNotFoundException, IOException {
 		// TODO: Save file
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(customerService.updateInformation(customer, multipartFile));
 	}

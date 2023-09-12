@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +10,6 @@ import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.common.enums.RequestParameterEnum;
@@ -110,12 +107,14 @@ public class CustomerService implements BaseService<Customer, Integer> {
 	public RequestStatusEnum updateInformation(Customer customer, MultipartFile multipartFile) throws IOException {
 		BufferedImage img = null;
 		File file = null;
+		String extension; // File's type
 
+		// Convert multipart -> file
 		// Read image file from multipart file
-		// Convert file -> multipart
 		try {
 			file = FileUtils.multipartFileToFileConverter(multipartFile);
 			img = ImageIO.read(file);
+			extension = FileUtils.getExtension(file);
 		} catch (IOException e) {
 			System.out.println(e);
 			return RequestStatusEnum.FAILURE;
@@ -123,9 +122,9 @@ public class CustomerService implements BaseService<Customer, Integer> {
 
 		// Save image to local disk
 		try {
-			file = new File(PATH_STATIC + customer.getId() + ".jpg");
-			ImageIO.write(img, "jpg", file);
-			customer.setAvatar(customer.getId() + ".jpg");
+			file = new File(PATH_STATIC + customer.getId() + extension);
+			ImageIO.write(img, extension, file);
+			customer.setAvatar("cus" + customer.getId() + extension);
 		} catch (IOException e) {
 			System.out.println(e);
 			return RequestStatusEnum.FAILURE;
