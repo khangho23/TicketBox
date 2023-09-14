@@ -22,7 +22,7 @@ import com.example.demo.model.AccountModel;
 import com.example.demo.service.CustomerService;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/api/customer")
 @CrossOrigin("*")
 public class CustomerController {
 	@Autowired
