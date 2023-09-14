@@ -92,20 +92,13 @@ public class CustomerController {
 
 	@PutMapping(value = "/update-information", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> updateInformation(@ModelAttribute Customer customer,
-			@RequestParam Optional<MultipartFile> multipartFile) throws FileNotFoundException, IOException {
+			@RequestParam Optional<MultipartFile> multipartFile) throws FileNotFoundException, IOException, InvalidRequestParameterException {
 		if (multipartFile.isPresent()) {
-			try {
-				Tika tika = new Tika();
-				String mimeType = tika.detect(multipartFile.get().getInputStream());
+			Tika tika = new Tika();
+			String mimeType = tika.detect(multipartFile.get().getInputStream());
 
-				if (mimeType.equals("image/png") || mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
-					return ResponseEntity.ok(customerService.updateInformation(customer, multipartFile));
-				} else {
-					return ResponseEntity.status(500).body("Chỉ nhận file ảnh png, jpeg và jpg!");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				return ResponseEntity.status(500).body(RequestStatusEnum.FAILURE);
+			if (mimeType.equals("image/png") || mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
+				return ResponseEntity.ok(customerService.updateInformation(customer, multipartFile));
 			}
 		}
 
@@ -114,18 +107,13 @@ public class CustomerController {
 
 	@PutMapping(value = "/update-avatar", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> updateAvatar(@RequestParam Integer customerId, @RequestParam MultipartFile multipartFile)
-			throws FileNotFoundException, IOException {
+			throws FileNotFoundException, IOException, InvalidRequestParameterException {
 		Tika tika = new Tika();
-		try {
-			String mimeType = tika.detect(multipartFile.getInputStream());
-			if (mimeType.equals("image/png") || mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
-				return ResponseEntity.ok(customerService.updateAvatar(customerId, multipartFile));
-			} else {
-				return ResponseEntity.status(500).body("Chỉ nhận file ảnh png, jpeg và jpg!");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(500).body(RequestStatusEnum.FAILURE);
+		String mimeType = tika.detect(multipartFile.getInputStream());
+		if (mimeType.equals("image/png") || mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
+			return ResponseEntity.ok(customerService.updateAvatar(customerId, multipartFile));
 		}
+
+		throw new InvalidRequestParameterException("TypeImage", RequestParameterEnum.WRONG);
 	}
 }

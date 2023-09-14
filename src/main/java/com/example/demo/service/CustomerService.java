@@ -11,7 +11,9 @@ import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -108,54 +110,57 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		}
 	}
 
-	public RequestStatusEnum updateInformation(Customer customer, Optional<MultipartFile> multipartFile) {
-	    try {
-	        if (multipartFile.isPresent()) {
-	            File file = FileUtils.multipartFileToFileConverter(PATH_STATIC, multipartFile.get());
-	            BufferedImage img = ImageIO.read(file);
-	            String extension = FileUtils.getExtension(multipartFile.get().getOriginalFilename());
-	            String newAvatarFileName = "cus" + customer.getId() + "." + extension;
+	public String updateInformation(Customer customer, Optional<MultipartFile> multipartFile)
+			throws InvalidRequestParameterException {
+		try {
+			if (multipartFile.isPresent()) {
+				File file = FileUtils.multipartFileToFileConverter(PATH_STATIC, multipartFile.get());
+				BufferedImage img = ImageIO.read(file);
+				String extension = FileUtils.getExtension(multipartFile.get().getOriginalFilename());
+				String newAvatarFileName = "cus" + customer.getId() + "." + extension;
 
-	            File destinationFile = new File(PATH_STATIC + newAvatarFileName);
-	            if (ImageIO.write(img, extension, destinationFile)) {
-	                // Delete old avatar
-	                if (customer.getAvatar() != null) {
-	                    Path fileToDeletePath = Paths.get(PATH_STATIC + customer.getAvatar());
-	                    Files.delete(fileToDeletePath);
-	                }
+				File destinationFile = new File(PATH_STATIC + newAvatarFileName);
+				if (ImageIO.write(img, extension, destinationFile)) {
+					// Delete old avatar
+					if (customer.getAvatar() != null) {
+						Path fileToDeletePath = Paths.get(PATH_STATIC + customer.getAvatar());
+						Files.delete(fileToDeletePath);
+					}
 
-	                // Update customer avatar
-	                customer.setAvatar(newAvatarFileName);
-	                customerDao.updateInformation(customer);
-	                return RequestStatusEnum.SUCCESS;
-	            }
-	        } else {
-	            // Delete old avatar
-	            if (customer.getAvatar() != null) {
-	                Path fileToDeletePath = Paths.get(PATH_STATIC + customer.getAvatar());
-	                Files.delete(fileToDeletePath);
-	            }
+					// Update customer avatar
+					customer.setAvatar(newAvatarFileName);
+					customerDao.updateInformation(customer);
+					return RequestStatusEnum.SUCCESS.getResponse();
+				}
+			} else {
+				// Delete old avatar
+				if (customer.getAvatar() != null) {
+					Path fileToDeletePath = Paths.get(PATH_STATIC + customer.getAvatar());
+					Files.delete(fileToDeletePath);
+				}
 
-	            customerDao.updateInformation(customer);
-	            return RequestStatusEnum.SUCCESS;
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
-	    }
+				customerDao.updateInformation(customer);
+				return RequestStatusEnum.SUCCESS.getResponse();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
-	    return RequestStatusEnum.FAILURE;
+		throw new InvalidRequestParameterException("Fail", RequestParameterEnum.WRONG);
 	}
 
-	public RequestStatusEnum updateAvatar(Integer customerId, MultipartFile multipartFile) throws IOException {
+	public String updateAvatar(Integer customerId, MultipartFile multipartFile)
+			throws IOException, InvalidRequestParameterException {
 		Optional<Customer> customer = customerDao.findById(customerId);
 
 		if (multipartFile == null || multipartFile.isEmpty()) {
-			return RequestStatusEnum.FAILURE; // No file uploaded
+			throw new InvalidRequestParameterException("MultipartFileIsNullOrEmty", RequestParameterEnum.WRONG);
 		}
 
 		try {
+
 			// Convert multipart -> file
 			File file = FileUtils.multipartFileToFileConverter(PATH_STATIC, multipartFile);
 
@@ -184,14 +189,16 @@ public class CustomerService implements BaseService<Customer, Integer> {
 				// Update customer avatar
 				customer.get().setAvatar("cus" + customerId + "." + extension);
 				customerDao.updateAvatar(customer.get());
-				return RequestStatusEnum.SUCCESS;
+				return RequestStatusEnum.SUCCESS.getResponse();
 			}
 
-			return RequestStatusEnum.FAILURE; // Failed to save the image
+			throw new InvalidRequestParameterException("FindAvatarToDelete", RequestParameterEnum.WRONG); // Failed to
+																											// save the
+																											// image
 		} catch (IOException e) {
 			// Handle IO exception, log the error
 			e.printStackTrace();
-			return RequestStatusEnum.FAILURE;
+			throw new InvalidRequestParameterException("Fail", RequestParameterEnum.WRONG);
 		}
 	}
 }
