@@ -108,14 +108,44 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		}
 	}
 
-	public RequestStatusEnum updateInformation(Customer customer) {
-		try {
-			customerDao.updateInformation(customer);
-			return RequestStatusEnum.SUCCESS;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return RequestStatusEnum.FAILURE;
-		}
+	public RequestStatusEnum updateInformation(Customer customer, Optional<MultipartFile> multipartFile) {
+	    try {
+	        if (multipartFile.isPresent()) {
+	            File file = FileUtils.multipartFileToFileConverter(PATH_STATIC, multipartFile.get());
+	            BufferedImage img = ImageIO.read(file);
+	            String extension = FileUtils.getExtension(multipartFile.get().getOriginalFilename());
+	            String newAvatarFileName = "cus" + customer.getId() + "." + extension;
+
+	            File destinationFile = new File(PATH_STATIC + newAvatarFileName);
+	            if (ImageIO.write(img, extension, destinationFile)) {
+	                // Delete old avatar
+	                if (customer.getAvatar() != null) {
+	                    Path fileToDeletePath = Paths.get(PATH_STATIC + customer.getAvatar());
+	                    Files.delete(fileToDeletePath);
+	                }
+
+	                // Update customer avatar
+	                customer.setAvatar(newAvatarFileName);
+	                customerDao.updateInformation(customer);
+	                return RequestStatusEnum.SUCCESS;
+	            }
+	        } else {
+	            // Delete old avatar
+	            if (customer.getAvatar() != null) {
+	                Path fileToDeletePath = Paths.get(PATH_STATIC + customer.getAvatar());
+	                Files.delete(fileToDeletePath);
+	            }
+
+	            customerDao.updateInformation(customer);
+	            return RequestStatusEnum.SUCCESS;
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    }
+
+	    return RequestStatusEnum.FAILURE;
 	}
 
 	public RequestStatusEnum updateAvatar(Integer customerId, MultipartFile multipartFile) throws IOException {
@@ -129,12 +159,6 @@ public class CustomerService implements BaseService<Customer, Integer> {
 			// Convert multipart -> file
 			File file = FileUtils.multipartFileToFileConverter(PATH_STATIC, multipartFile);
 
-			// Check if the conversion was successful
-			if (file == null || !file.exists()) {
-				System.out.print("here");
-				return RequestStatusEnum.FAILURE; // Conversion or file not found
-			}
-
 			// Read the image
 			BufferedImage img = ImageIO.read(file);
 			String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());
@@ -142,26 +166,28 @@ public class CustomerService implements BaseService<Customer, Integer> {
 			// Define the destination file
 			File destinationFile = new File(PATH_STATIC + "cus" + customerId + "." + extension);
 			String destinationFileName = destinationFile.getName().substring(0, destinationFile.getName().indexOf("."));
-			System.out.println("asss: "+destinationFile.exists());
+
 			// Write the image to the destination
 			ImageIO.write(img, extension, destinationFile);
-			
+
 			// Check if the destination file was created
 			if (destinationFile.getName().contains(destinationFileName)) {
 				// Delete the temporary file
 				file.delete();
-				
+
 				// Delete old avatar
-//				Path fileToDeletePath = Paths.get(PATH_STATIC + destinationFileName + "." + "png");
-//				Files.delete(fileToDeletePath);
+				if (customer.get().getAvatar() != null) {
+					Path fileToDeletePath = Paths.get(PATH_STATIC + customer.get().getAvatar());
+					Files.delete(fileToDeletePath);
+				}
 
 				// Update customer avatar
 				customer.get().setAvatar("cus" + customerId + "." + extension);
 				customerDao.updateAvatar(customer.get());
 				return RequestStatusEnum.SUCCESS;
-			} else {
-				return RequestStatusEnum.FAILURE; // Failed to save the image
 			}
+
+			return RequestStatusEnum.FAILURE; // Failed to save the image
 		} catch (IOException e) {
 			// Handle IO exception, log the error
 			e.printStackTrace();

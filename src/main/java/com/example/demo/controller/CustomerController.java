@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,9 +33,6 @@ import com.example.demo.service.CustomerService;
 @RequestMapping("/customer")
 @CrossOrigin("*")
 public class CustomerController {
-	@Value("${spring.servlet.multipart.max-file-size}")
-	private String maxFileSize;
-
 	@Autowired
 	CustomerService customerService;
 
@@ -92,16 +90,31 @@ public class CustomerController {
 		return ResponseEntity.ok(customerService.registrationConfirm(token));
 	}
 
-	@PutMapping(value = "/update-information")
-	public ResponseEntity<?> updateInformation(@RequestBody Customer customer)
-			throws FileNotFoundException, IOException {
-		return ResponseEntity.ok(customerService.updateInformation(customer));
+	@PutMapping(value = "/update-information", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<?> updateInformation(@ModelAttribute Customer customer,
+			@RequestParam Optional<MultipartFile> multipartFile) throws FileNotFoundException, IOException {
+		if (multipartFile.isPresent()) {
+			try {
+				Tika tika = new Tika();
+				String mimeType = tika.detect(multipartFile.get().getInputStream());
+
+				if (mimeType.equals("image/png") || mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
+					return ResponseEntity.ok(customerService.updateInformation(customer, multipartFile));
+				} else {
+					return ResponseEntity.status(500).body("Chỉ nhận file ảnh png, jpeg và jpg!");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.status(500).body(RequestStatusEnum.FAILURE);
+			}
+		}
+
+		return ResponseEntity.ok(customerService.updateInformation(customer, multipartFile));
 	}
 
 	@PutMapping(value = "/update-avatar", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> updateAvatar(@RequestParam Integer customerId, @RequestParam MultipartFile multipartFile)
 			throws FileNotFoundException, IOException {
-		System.out.print("max " + maxFileSize);
 		Tika tika = new Tika();
 		try {
 			String mimeType = tika.detect(multipartFile.getInputStream());
