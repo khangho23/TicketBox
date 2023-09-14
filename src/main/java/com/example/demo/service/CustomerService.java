@@ -24,7 +24,7 @@ import jakarta.mail.MessagingException;
 
 @Service
 public class CustomerService implements BaseService<Customer, Integer> {
-	private static final String PATH_STATIC = "D:\\cinema_projects\\BE_Cinema\\src\\main\\resources\\static\\customers_avatar\\";
+	private static final String PATH_STATIC = "D:/cinema_projects/BE_Cinema/src/main/resources/static/customers_avatar/";
 
 	@Autowired
 	CustomerDao customerDao;
