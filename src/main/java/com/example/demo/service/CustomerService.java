@@ -3,6 +3,9 @@ package com.example.demo.service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +27,8 @@ import jakarta.mail.MessagingException;
 
 @Service
 public class CustomerService implements BaseService<Customer, Integer> {
-	private static final String PATH_STATIC = "D:/cinema_projects/BE_Cinema/src/main/resources/static/customers_avatar/";
+	private static final String PATH_STATIC = System.getProperty("user.dir")
+			+ "/src/main/resources/static/customers_avatar/";
 
 	@Autowired
 	CustomerDao customerDao;
@@ -113,7 +117,7 @@ public class CustomerService implements BaseService<Customer, Integer> {
 			return RequestStatusEnum.FAILURE;
 		}
 	}
-	
+
 	public RequestStatusEnum updateAvatar(Integer customerId, MultipartFile multipartFile) throws IOException {
 		Optional<Customer> customer = customerDao.findById(customerId);
 
@@ -137,15 +141,20 @@ public class CustomerService implements BaseService<Customer, Integer> {
 
 			// Define the destination file
 			File destinationFile = new File(PATH_STATIC + "cus" + customerId + "." + extension);
-
+			String destinationFileName = destinationFile.getName().substring(0, destinationFile.getName().indexOf("."));
+			System.out.println("asss: "+destinationFile.exists());
 			// Write the image to the destination
 			ImageIO.write(img, extension, destinationFile);
-
+			
 			// Check if the destination file was created
-			if (destinationFile.exists()) {
+			if (destinationFile.getName().contains(destinationFileName)) {
 				// Delete the temporary file
 				file.delete();
 				
+				// Delete old avatar
+//				Path fileToDeletePath = Paths.get(PATH_STATIC + destinationFileName + "." + "png");
+//				Files.delete(fileToDeletePath);
+
 				// Update customer avatar
 				customer.get().setAvatar("cus" + customerId + "." + extension);
 				customerDao.updateAvatar(customer.get());
