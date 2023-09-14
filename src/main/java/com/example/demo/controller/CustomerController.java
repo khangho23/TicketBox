@@ -1,19 +1,12 @@
 package com.example.demo.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
-import javax.imageio.ImageIO;
-
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +32,9 @@ import com.example.demo.service.CustomerService;
 @RequestMapping("/customer")
 @CrossOrigin("*")
 public class CustomerController {
+	@Value("${spring.servlet.multipart.max-file-size}")
+	private String maxFileSize;
+
 	@Autowired
 	CustomerService customerService;
 
@@ -97,7 +91,7 @@ public class CustomerController {
 			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.registrationConfirm(token));
 	}
-	
+
 	@PutMapping(value = "/update-information")
 	public ResponseEntity<?> updateInformation(@RequestBody Customer customer)
 			throws FileNotFoundException, IOException {
@@ -107,7 +101,18 @@ public class CustomerController {
 	@PutMapping(value = "/update-avatar", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> updateAvatar(@RequestParam Integer customerId, @RequestParam MultipartFile multipartFile)
 			throws FileNotFoundException, IOException {
-		// TODO: Validate type of file
-		return ResponseEntity.ok(customerService.updateAvatar(customerId, multipartFile));
+		System.out.print("max " + maxFileSize);
+		Tika tika = new Tika();
+		try {
+			String mimeType = tika.detect(multipartFile.getInputStream());
+			if (mimeType.equals("image/png") || mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
+				return ResponseEntity.ok(customerService.updateAvatar(customerId, multipartFile));
+			} else {
+				return ResponseEntity.status(500).body("Chỉ nhận file ảnh png, jpeg và jpg!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(500).body(RequestStatusEnum.FAILURE);
+		}
 	}
 }
