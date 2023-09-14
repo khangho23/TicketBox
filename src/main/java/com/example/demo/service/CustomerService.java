@@ -24,7 +24,7 @@ import jakarta.mail.MessagingException;
 
 @Service
 public class CustomerService implements BaseService<Customer, Integer> {
-	private static final String PATH_STATIC = "D:\\cinema_projects\\BE_Cinema\\src\\main\\resources\\static\\avatar\\";
+	private static final String PATH_STATIC = "D:\\cinema_projects\\BE_Cinema\\src\\main\\resources\\static\\customers_avatar\\";
 
 	@Autowired
 	CustomerDao customerDao;
@@ -104,33 +104,59 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		}
 	}
 
-	public RequestStatusEnum updateInformation(Customer customer, MultipartFile multipartFile) throws IOException {
-		BufferedImage img = null;
-		File file = null;
-		String extension; // File's type
-
-		// Convert multipart -> file
-		// Read image file from multipart file
+	public RequestStatusEnum updateInformation(Customer customer) {
 		try {
-			file = FileUtils.multipartFileToFileConverter(multipartFile);
-			img = ImageIO.read(file);
-			extension = FileUtils.getExtension(file);
-		} catch (IOException e) {
-			System.out.println(e);
+			customerDao.updateInformation(customer);
+			return RequestStatusEnum.SUCCESS;
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			return RequestStatusEnum.FAILURE;
 		}
+	}
+	
+	public RequestStatusEnum updateAvatar(Integer customerId, MultipartFile multipartFile) throws IOException {
+		Optional<Customer> customer = customerDao.findById(customerId);
 
-		// Save image to local disk
+		if (multipartFile == null || multipartFile.isEmpty()) {
+			return RequestStatusEnum.FAILURE; // No file uploaded
+		}
+
 		try {
-			file = new File(PATH_STATIC + customer.getId() + extension);
-			ImageIO.write(img, extension, file);
-			customer.setAvatar("cus" + customer.getId() + extension);
+			// Convert multipart -> file
+			File file = FileUtils.multipartFileToFileConverter(PATH_STATIC, multipartFile);
+
+			// Check if the conversion was successful
+			if (file == null || !file.exists()) {
+				System.out.print("here");
+				return RequestStatusEnum.FAILURE; // Conversion or file not found
+			}
+
+			// Read the image
+			BufferedImage img = ImageIO.read(file);
+			String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());
+
+			// Define the destination file
+			File destinationFile = new File(PATH_STATIC + "cus" + customerId + "." + extension);
+
+			// Write the image to the destination
+			ImageIO.write(img, extension, destinationFile);
+
+			// Check if the destination file was created
+			if (destinationFile.exists()) {
+				// Delete the temporary file
+				file.delete();
+				
+				// Update customer avatar
+				customer.get().setAvatar("cus" + customerId + "." + extension);
+				customerDao.updateAvatar(customer.get());
+				return RequestStatusEnum.SUCCESS;
+			} else {
+				return RequestStatusEnum.FAILURE; // Failed to save the image
+			}
 		} catch (IOException e) {
-			System.out.println(e);
+			// Handle IO exception, log the error
+			e.printStackTrace();
 			return RequestStatusEnum.FAILURE;
 		}
-		
-		customerDao.updateInformation(customer);
-		return RequestStatusEnum.SUCCESS;
 	}
 }

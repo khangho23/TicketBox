@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,9 +36,6 @@ import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.listener.ListenerEvent;
 import com.example.demo.model.AccountModel;
 import com.example.demo.service.CustomerService;
-import com.example.demo.util.FileUtils;
-
-import io.micrometer.common.util.StringUtils;
 
 @RestController
 @RequestMapping("/customer")
@@ -99,11 +97,17 @@ public class CustomerController {
 			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.registrationConfirm(token));
 	}
+	
+	@PutMapping(value = "/update-information")
+	public ResponseEntity<?> updateInformation(@RequestBody Customer customer)
+			throws FileNotFoundException, IOException {
+		return ResponseEntity.ok(customerService.updateInformation(customer));
+	}
 
-	@PutMapping(value = "/update-information", consumes = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
-	public ResponseEntity<?> updateInformation(@RequestBody Customer customer,
-			@RequestParam("multipartFile") MultipartFile multipartFile) throws FileNotFoundException, IOException {
-		// TODO: Save file
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(customerService.updateInformation(customer, multipartFile));
+	@PutMapping(value = "/update-avatar", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<?> updateAvatar(@RequestParam Integer customerId, @RequestParam MultipartFile multipartFile)
+			throws FileNotFoundException, IOException {
+		// TODO: Validate type of file
+		return ResponseEntity.ok(customerService.updateAvatar(customerId, multipartFile));
 	}
 }

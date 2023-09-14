@@ -22,20 +22,17 @@ import com.example.demo.service.TicketService;
 public class TicketController {
 	@Autowired
 	TicketService ticketService;
-	
+
 	@GetMapping("get-all")
 	public ResponseEntity<?> findAll() {
 		return ResponseEntity.ok(ticketService.findAll());
 	}
-	
+
 	@GetMapping("get-customers")
 	public ResponseEntity<?> findByCustomerId(@RequestParam Optional<Integer> customerId) {
-		if (customerId.isEmpty())
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(RequestParameterEnum.NOT_FOUND);
-
 		if (ticketService.findByCustomerId(customerId).isEmpty())
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(RequestParameterEnum.NOTHING);
-		
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RequestParameterEnum.NOTHING);
+
 		return ResponseEntity.ok(ticketService.findByCustomerId(customerId));
 	}
 }
