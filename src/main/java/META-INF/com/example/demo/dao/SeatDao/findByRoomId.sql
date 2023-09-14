@@ -8,4 +8,4 @@ SELECT
     sdt.roomid,
     sdt.pricedetails
 FROM seat s JOIN seatdetails sdt ON s.id = sdt.seatid
-WHERE sdt.roomid =  /* id */'PC01';
+WHERE sdt.roomid =  'PC01';

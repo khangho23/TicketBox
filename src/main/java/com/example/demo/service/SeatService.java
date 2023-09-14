@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,14 @@ public class SeatService {
     @Autowired
     private SeatDao seatDao;
 
+    /**
+     * @param id
+     * @return
+     */
     public List<SeatDto> findByRoomId(String id){
-        SeatModel seat = new SeatModel();
-        Stream<SeatDto> seatDto = seatDao.findByRoomId(id).stream();
-        seatDto.reduce(new RowSeatModel(), (id)->{
-
-        });
+        
+        // List<SeatDto> seatDto = seatDao.findByRoomId(id);
+        // SeatModel seat = new SeatModel(seatDto);
         return seatDao.findByRoomId(id);
     }
 }
