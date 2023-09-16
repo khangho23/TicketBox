@@ -22,7 +22,7 @@ import com.example.demo.model.AccountModel;
 import com.example.demo.service.CustomerService;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/api/customer")
 @CrossOrigin("*")
 public class CustomerController {
 	@Autowired
@@ -56,13 +56,13 @@ public class CustomerController {
 		Optional<Customer> customer = customerService.findByEmail(user.getEmail());
 		if (customer.isPresent()) {
 			if (customer.get().isActive()) {
-				throw new InvalidRequestParameterException(RequestParameterEnum.EXISTS);
+				throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
 			}
 			// If customer exists -> Update new Token
 			customer.get().setToken(customerService.registration(user));
 			if (customerService.updateToken(customer.get()).equals(RequestStatusEnum.SUCCESS)) {
 				listenerEvent.checkTokenEvent(user.getEmail()); // Start countdown 5 Minute remove token
-				return ResponseEntity.ok(RequestStatusEnum.SUCCESS);
+				return ResponseEntity.ok(RequestStatusEnum.SUCCESS.getResponse());
 			}
 		}
 		// If customer not exists -> Create New Token and Customer
@@ -70,10 +70,10 @@ public class CustomerController {
 			user.setToken(customerService.registration(user));
 			if (customerService.insert(user).equals(RequestStatusEnum.SUCCESS)) {
 				listenerEvent.checkTokenEvent(user.getEmail()); // Start countdown 5 Minute remove token
-				return ResponseEntity.ok(RequestStatusEnum.SUCCESS);
+				return ResponseEntity.ok(RequestStatusEnum.SUCCESS.getResponse());
 			}
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RequestStatusEnum.FAILURE);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RequestStatusEnum.FAILURE.getResponse());
 	}
 
 	@GetMapping("/active")
