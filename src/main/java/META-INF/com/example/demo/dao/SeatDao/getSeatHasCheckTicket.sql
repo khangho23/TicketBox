@@ -12,7 +12,14 @@ WITH seat_ordered AS (
 SELECT sdt.id,
         CONCAT(seat.rowseat,seat.orderseat) AS name,
         seat.pricecommon,
-        so.ticketId
+        CASE 
+            WHEN
+                so.ticketId IS NULL
+            THEN 
+                0
+            ELSE
+                1
+        END AS state
 FROM 
     seat_ordered so 
     RIGHT JOIN seatdetails AS sdt ON so.seatdetailsid = sdt.id

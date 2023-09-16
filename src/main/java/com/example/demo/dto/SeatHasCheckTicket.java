@@ -19,8 +19,8 @@ public class SeatHasCheckTicket extends Seat{
     @Column
     private String name;
     /*
-     * id of ticket
+     * state of seat 
      */
     @Column
-    private String ticketId;
+    private boolean state;
 }
