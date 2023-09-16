@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 
@@ -8,23 +9,18 @@ import com.example.demo.entity.Seat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@NoArgsConstructor
 @Data
-public class SeatDto extends Seat {
+@NoArgsConstructor
+@Entity
+public class SeatHasCheckTicket extends Seat{
     /*
-     * stt of seat
+     * name of seat
      */
     @Column
-    private int stt;
+    private String name;
     /*
-     * roomId of seat
+     * id of ticket
      */
     @Column
-    private String roomId;
-    /*
-     * price details of seat
-     */
-    @Column
-    private double priceDetails;
+    private String ticketId;
 }

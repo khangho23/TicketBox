@@ -12,11 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SeatModel {
-    private List<RowSeatModel> rows;
-    private String roomId;
-
-    // public SeatModel(List<SeatDto> seatDto) {
-    //     setRoomId(seatDto.get(0).getRoomId());
-    //     seatDto.stream().map(s->new RowSeatModel(s.getRowSeat(),s));
-    // }
+    private List<?> seats;
 }

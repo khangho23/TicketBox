@@ -7,6 +7,7 @@ import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
 
 import com.example.demo.dto.SeatDto;
+import com.example.demo.dto.SeatHasCheckTicket;
 import com.example.demo.entity.Seat;
 
 @Dao
@@ -16,4 +17,7 @@ public interface SeatDao {
     List<Seat> findAll();
     @Select
     List<SeatDto> findByRoomId(String id);
+
+    @Select
+    List<SeatHasCheckTicket> getSeatHasCheckTicket(int id);
 }
