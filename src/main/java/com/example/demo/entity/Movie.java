@@ -6,7 +6,6 @@ import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -75,31 +74,4 @@ public class Movie {
 	 */
 	@Column
 	private Integer limitage;
-	
-	@Column(name = "MOVIE_TYPES")
-    String movieTypeName;
-	
-	@Column(name = "ACTORS")
-    String actorsName;
-//	
-//	@Column(name = "BRANCH")
-//    String branchesName;
-	
-//	@Column(name = "DIMENSION")
-//    String dimensionName;
-	
-	@Column(name = "DIRECTORS")
-    String directorsName;
-	
-	@Column(name = "LANGUAGES")
-    String languagesName;
-
-	@Column(name = "COUNTRY")
-	String countryName;
-//	
-//	@Column(name = "SHOWTIME")
-//    String showtimeName;
-//	
-//	@Column(name = "SHOWDATE")
-//    String showdateName;
 }
