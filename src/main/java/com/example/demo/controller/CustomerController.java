@@ -92,7 +92,8 @@ public class CustomerController {
 
 	@PutMapping(value = "/update-information", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<?> updateInformation(@ModelAttribute Customer customer,
-			@RequestParam Optional<MultipartFile> multipartFile) throws FileNotFoundException, IOException, InvalidRequestParameterException {
+			@RequestParam Optional<MultipartFile> multipartFile)
+			throws FileNotFoundException, IOException, InvalidRequestParameterException {
 		if (multipartFile.isPresent()) {
 			Tika tika = new Tika();
 			String mimeType = tika.detect(multipartFile.get().getInputStream());
@@ -103,6 +104,12 @@ public class CustomerController {
 		}
 
 		return ResponseEntity.ok(customerService.updateInformation(customer, multipartFile));
+	}
+
+	@PutMapping(value = "/edit-profile")
+	public ResponseEntity<?> updateProfile(@RequestBody Customer customer)
+			throws FileNotFoundException, IOException, InvalidRequestParameterException {
+		return ResponseEntity.ok(customerService.updateProfile(customer));
 	}
 
 	@PutMapping(value = "/update-avatar", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })

@@ -6,9 +6,9 @@ import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtils {
-	public static File multipartFileToFileConverter(String path, MultipartFile multipartFile) throws IOException {
-		File file = new File(path + multipartFile.getOriginalFilename());
-		System.out.print(multipartFile.getOriginalFilename());
+	public static File multipartFileToFileConverter(String path, MultipartFile multipartFile, Integer customerId,
+			String extension) throws IOException {
+		File file = new File(path + "cus" + customerId + "." + extension);
 		multipartFile.transferTo(file);
 		return file;
 	}
