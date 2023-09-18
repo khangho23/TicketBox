@@ -11,6 +11,7 @@ import com.example.demo.dao.MovieDao;
 import com.example.demo.dto.MovieDto;
 import com.example.demo.entity.Movie;
 import com.example.demo.exception.InvalidRequestParameterException;
+import com.example.demo.model.MovieDetailModel;
 
 @Service
 public class MovieService implements BaseService<Movie, String> {
@@ -37,14 +38,14 @@ public class MovieService implements BaseService<Movie, String> {
 		}
 		return list;
 	}
-	
+
 	public List<Movie> findMoviesNowShowing() {
 		// TODO Auto-generated method stub
 		return movieDao.findMoviesNowShowing();
 	}
-	
-	public MovieDto findMovieDetailPage(String movieId) {
-		// TODO Auto-generated method stub
-		return movieDao.findMovieDetailPage(movieId);
+
+	public MovieDetailModel findMovieDetailPage(String movieId) {
+		MovieDto movieDto = movieDao.findMovieDetailPage(movieId);
+		return new MovieDetailModel(movieDto, movieDao.findByTypeOfMovieId(movieDto.getMovieTypeId().split(",")));
 	}
 }
