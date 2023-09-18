@@ -20,9 +20,19 @@ public class SeatService {
      * @param id
      * @return SeatHasCheckTicket
      */
-    public List<SeatDto> findByRoomId(String id){
+    public List<SeatDto> findByRoomId(String id) {
         return seatDao.findByRoomId(id);
     }
+
+    // /**
+    //  * Get seat orderd or not
+    //  * 
+    //  * @param id
+    //  * @return SeatModel
+    //  */
+    // public SeatModel getSeatHasCheckTicket(int id) {
+    //     return new SeatModel(seatDao.getSeatHasCheckTicket(id));
+    // }
 
     /**
      * Get seat orderd or not
@@ -30,7 +40,7 @@ public class SeatService {
      * @param id
      * @return SeatModel
      */
-    public SeatModel getSeatHasCheckTicket(int id){
-        return new SeatModel(seatDao.getSeatHasCheckTicket(id));
+    public List<?> getSeatHasCheckTicket(int id) {
+        return seatDao.getSeatHasCheckTicket(id).stream().map(s->new SeatModel(s)).toList();
     }
 }

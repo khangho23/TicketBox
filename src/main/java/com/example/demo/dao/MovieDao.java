@@ -27,4 +27,7 @@ public interface MovieDao {
 
 	@Select
 	MovieDto findMovieDetailPage(String movieid);
+
+	@Select
+	MovieDto findByShowTimeId(int showTimeId);
 }
