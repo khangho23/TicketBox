@@ -110,49 +110,8 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		}
 	}
 
-	public String updateInformation(Customer customer, Optional<MultipartFile> multipartFile)
-			throws InvalidRequestParameterException {
-//		try {
-//			if (multipartFile.isPresent()) {
-//				File file = FileUtils.multipartFileToFileConverter(PATH_STATIC, multipartFile.get());
-//				BufferedImage img = ImageIO.read(file);
-//				String extension = FileUtils.getExtension(multipartFile.get().getOriginalFilename());
-//				String newAvatarFileName = "cus" + customer.getId() + "." + extension;
-//
-//				File destinationFile = new File(PATH_STATIC + newAvatarFileName);
-//				if (ImageIO.write(img, extension, destinationFile)) {
-//					// Delete old avatar
-//					if (customer.getAvatar() != null) {
-//						Path fileToDeletePath = Paths.get(PATH_STATIC + customer.getAvatar());
-//						Files.delete(fileToDeletePath);
-//					}
-//
-//					// Update customer avatar
-//					customer.setAvatar(newAvatarFileName);
-//					customerDao.updateInformation(customer);
-//					return RequestStatusEnum.SUCCESS.getResponse();
-//				}
-//			} else {
-//				// Delete old avatar
-//				if (customer.getAvatar() != null) {
-//					Path fileToDeletePath = Paths.get(PATH_STATIC + customer.getAvatar());
-//					Files.delete(fileToDeletePath);
-//				}
-//
-//				customerDao.updateInformation(customer);
-//				return RequestStatusEnum.SUCCESS.getResponse();
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//		}
-
-		throw new InvalidRequestParameterException("Fail", RequestParameterEnum.WRONG);
-	}
-
 	public String updateProfile(Customer customer) {
-		customerDao.updateInformation(customer);
+		customerDao.updateProfile(customer);
 		return RequestStatusEnum.SUCCESS.getResponse();
 	}
 
@@ -163,40 +122,45 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());
 
 		try {
-			// Convert multipart -> file
-			File file = FileUtils.multipartFileToFileConverter(PATH_STATIC, multipartFile, customerId, extension);
-
-			// Read the image
-			BufferedImage img = ImageIO.read(file);
+			File file = new File(PATH_STATIC + "cus" + customerId + "." + extension);
+			multipartFile.transferTo(file);
 
 			// Define the destination file
-			File destinationFile = new File(PATH_STATIC + "cus" + customerId + "." + extension);
-			String destinationFileName = destinationFile.getName().substring(0, destinationFile.getName().indexOf("."));
-
-			// Write the image to the destination
-			ImageIO.write(img, extension, destinationFile);
+			String fileName = file.getName().substring(0, file.getName().indexOf("."));
 
 			// Check if the destination file was created
-			if (destinationFile.exists()) {
+			if (!file.exists()) {
 				// Delete the temporary file
 				file.delete();
 
 				// Delete old avatar
-				if (destinationFile.getName().contains(destinationFileName) && fileNameExists != null) {
+				if (file.getName().contains(fileName) && fileNameExists != null) {
 					Path fileToDeletePath = Paths.get(PATH_STATIC + fileNameExists);
 					Files.delete(fileToDeletePath);
 				}
 
-				// Update customer avatar
-				customer.get().setAvatar("cus" + customerId + "." + extension);
-				customerDao.updateAvatar(customer.get());
 			}
 			
+			// Update customer avatar
+			customer.get().setAvatar("cus" + customerId + "." + extension);
+			customerDao.updateAvatar(customer.get());
 			return RequestStatusEnum.SUCCESS.getResponse();
 		} catch (IOException e) {
 			// Handle IO exception, log the error
 			e.printStackTrace();
 			throw new InvalidRequestParameterException("Fail", RequestParameterEnum.WRONG);
 		}
+	}
+	
+	public String updatePassword(Integer customerId, String currentPassword, String newPassword) throws InvalidRequestParameterException {	
+		Customer customer = customerDao.findById(customerId).get();
+		
+		if (!customer.getPassword().equals(currentPassword)) {
+			throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
+		}
+		
+		customer.setPassword(newPassword);
+		customerDao.updatePassword(customer);
+		return RequestStatusEnum.SUCCESS.getResponse();
 	}
 }

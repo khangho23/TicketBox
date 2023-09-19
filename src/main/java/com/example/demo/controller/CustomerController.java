@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +32,7 @@ import com.example.demo.model.AccountModel;
 import com.example.demo.service.CustomerService;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/api/customer")
 @CrossOrigin("*")
 public class CustomerController {
 	@Autowired
@@ -44,8 +46,8 @@ public class CustomerController {
 		return ResponseEntity.ok(customerService.findAll());
 	}
 
-	@GetMapping("/getById")
-	public ResponseEntity<?> findById(String id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<?> findById(@PathVariable String id) {
 		return ResponseEntity.ok(customerService.findById(Integer.parseInt(id)).get());
 	}
 
@@ -90,25 +92,8 @@ public class CustomerController {
 		return ResponseEntity.ok(customerService.registrationConfirm(token));
 	}
 
-	@PutMapping(value = "/update-information", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<?> updateInformation(@ModelAttribute Customer customer,
-			@RequestParam Optional<MultipartFile> multipartFile)
-			throws FileNotFoundException, IOException, InvalidRequestParameterException {
-		if (multipartFile.isPresent()) {
-			Tika tika = new Tika();
-			String mimeType = tika.detect(multipartFile.get().getInputStream());
-
-			if (mimeType.equals("image/png") || mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
-				return ResponseEntity.ok(customerService.updateInformation(customer, multipartFile));
-			}
-		}
-
-		return ResponseEntity.ok(customerService.updateInformation(customer, multipartFile));
-	}
-
-	@PutMapping(value = "/edit-profile")
-	public ResponseEntity<?> updateProfile(@RequestBody Customer customer)
-			throws FileNotFoundException, IOException, InvalidRequestParameterException {
+	@PutMapping("/edit-profile")
+	public ResponseEntity<?> updateProfile(@RequestBody Customer customer) {
 		return ResponseEntity.ok(customerService.updateProfile(customer));
 	}
 
@@ -122,5 +107,11 @@ public class CustomerController {
 		}
 
 		throw new InvalidRequestParameterException("TypeImage", RequestParameterEnum.WRONG);
+	}
+
+	@PutMapping("/update-password")
+	public ResponseEntity<?> updatePassword(@RequestParam Integer customerId, @RequestParam String currentPassword,
+			@RequestParam String newPassword) throws InvalidRequestParameterException {
+		return ResponseEntity.ok(customerService.updatePassword(customerId, currentPassword, newPassword));
 	}
 }

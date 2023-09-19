@@ -42,9 +42,12 @@ public interface CustomerDao {
 	@Select
 	Optional<Customer> findByToken(String token);
 	
-	@Update(exclude = { "keyfacebook", "token", "created_at", "password" })
-	int updateInformation(Customer customer);
+	@Update(exclude = { "avatar", "keyfacebook", "token", "created_at", "password" })
+	int updateProfile(Customer customer);
 	
 	@Update(include = { "avatar" })
 	int updateAvatar(Customer customer);
+	
+	@Update(include = { "password" })
+	int updatePassword(Customer customer);
 }
