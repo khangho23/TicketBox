@@ -17,7 +17,7 @@ import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.MovieService;
 
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/api/movie")
 @CrossOrigin("*")
 public class MovieController{
 	@Autowired
