@@ -48,4 +48,8 @@ public class MovieService implements BaseService<Movie, String> {
 		MovieDto movieDto = movieDao.findMovieDetailPage(movieId);
 		return new MovieDetailModel(movieDto, movieDao.findByTypeOfMovieId(movieDto.getMovieTypeId().split(",")));
 	}
+
+	public MovieDto findByShowTimeId(int showTimeId){
+		return movieDao.findByShowTimeId(showTimeId);
+	}
 }

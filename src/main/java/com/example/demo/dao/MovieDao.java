@@ -31,4 +31,6 @@ public interface MovieDao {
 
 	@Select
 	List<PosterDto> findByTypeOfMovieId(String[] typeofmovieid);
+	@Select
+	MovieDto findByShowTimeId(int showTimeId);
 }
