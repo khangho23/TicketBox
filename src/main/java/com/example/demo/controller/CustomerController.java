@@ -6,17 +6,14 @@ import java.util.Optional;
 
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -110,8 +107,7 @@ public class CustomerController {
 	}
 
 	@PutMapping("/update-password")
-	public ResponseEntity<?> updatePassword(@RequestParam Integer customerId, @RequestParam String currentPassword,
-			@RequestParam String newPassword) throws InvalidRequestParameterException {
-		return ResponseEntity.ok(customerService.updatePassword(customerId, currentPassword, newPassword));
+	public ResponseEntity<?> updatePassword(@RequestBody AccountModel account) throws InvalidRequestParameterException {
+		return ResponseEntity.ok(customerService.updatePassword(account));
 	}
 }

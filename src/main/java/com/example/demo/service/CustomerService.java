@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,6 +12,12 @@ import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +29,7 @@ import com.example.demo.common.enums.RequestStatusEnum;
 import com.example.demo.dao.CustomerDao;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
+import com.example.demo.model.AccountModel;
 import com.example.demo.model.MailInfoModel;
 import com.example.demo.util.FileUtils;
 
@@ -29,138 +37,147 @@ import jakarta.mail.MessagingException;
 
 @Service
 public class CustomerService implements BaseService<Customer, Integer> {
-	private static final String PATH_STATIC = System.getProperty("user.dir")
-			+ "/src/main/resources/static/customers_avatar/";
+    @Autowired
+    CustomerDao customerDao;
+    @Autowired
+    EmailService emailService;
+    @Autowired
+    S3Service s3Service;
 
-	@Autowired
-	CustomerDao customerDao;
-	@Autowired
-	EmailService emailService;
+    @Override
+    public List<Customer> findAll() {
+        return customerDao.findAll();
+    }
 
-	@Override
-	public List<Customer> findAll() {
-		return customerDao.findAll();
-	}
+    @Override
+    public Optional<Customer> findById(Integer id) {
+        return customerDao.findById(id);
+    }
 
-	@Override
-	public Optional<Customer> findById(Integer id) {
-		return customerDao.findById(id);
-	}
+    public Optional<Customer> findByEmail(String email) {
+        return customerDao.findByEmail(email);
+    }
 
-	public Optional<Customer> findByEmail(String email) {
-		return customerDao.findByEmail(email);
-	}
+    public Customer Authenticator(String email, String password) throws InvalidRequestParameterException {
+        Customer customer = customerDao.findByEmail(email)
+                .orElseThrow(() -> new InvalidRequestParameterException(RequestParameterEnum.NOT_EXISTS));
+        if (customer.getPassword().equals(password)) {
+            return customer;
+        } else {
+            throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+        }
+    }
 
-	public Customer Authenticator(String email, String password) throws InvalidRequestParameterException {
-		Customer customer = customerDao.findByEmail(email)
-				.orElseThrow(() -> new InvalidRequestParameterException(RequestParameterEnum.NOT_EXISTS));
-		if (customer.getPassword().equals(password)) {
-			return customer;
-		} else {
-			throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
-		}
-	}
+    public RequestStatusEnum insert(Customer customer) throws InvalidRequestParameterException {
+        if (customerDao.findByEmail(customer.getEmail()).isPresent()) {
+            throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
+        }
+        return (customerDao.insert(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
+    }
 
-	public RequestStatusEnum insert(Customer customer) throws InvalidRequestParameterException {
-		if (customerDao.findByEmail(customer.getEmail()).isPresent()) {
-			throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
-		}
-		return (customerDao.insert(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
-	}
+    public RequestStatusEnum delete(Customer customer) {
+        return (customerDao.delete(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
+    }
 
-	public RequestStatusEnum delete(Customer customer) {
-		return (customerDao.delete(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
-	}
+    public RequestStatusEnum updateToken(Customer customer) {
+        return (customerDao.updateToken(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
+    }
 
-	public RequestStatusEnum updateToken(Customer customer) {
-		return (customerDao.updateToken(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
-	}
+    public RequestStatusEnum updateActive(Customer customer) {
+        return (customerDao.updateActive(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
+    }
 
-	public RequestStatusEnum updateActive(Customer customer) {
-		return (customerDao.updateActive(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
-	}
+    public Optional<Customer> findByToken(String token) {
+        return customerDao.findByToken(token);
+    }
 
-	public Optional<Customer> findByToken(String token) {
-		return customerDao.findByToken(token);
-	}
+    public String registration(Customer customer) throws InvalidRequestParameterException {
+        Optional<Customer> us = customerDao.findByEmail(customer.getEmail());
+        if (us.isPresent()) {
+            if (us.get().getToken() != null)
+                // Exists Token
+                throw new InvalidRequestParameterException(RequestParameterEnum.EXISTS);
+        }
+        try {
+            return (emailService.sendCode(new MailInfoModel(customer.getEmail(),
+                    "Mã xác minh tài khoản của bạn trên Zuhot Cinema", customer)));
+        } catch (MessagingException ex) {
+            throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+        }
+    }
 
-	public String registration(Customer customer) throws InvalidRequestParameterException {
-		Optional<Customer> us = customerDao.findByEmail(customer.getEmail());
-		if (us.isPresent()) {
-			if (us.get().getToken() != null)
-				// Exists Token
-				throw new InvalidRequestParameterException(RequestParameterEnum.EXISTS);
-		}
-		try {
-			return (emailService.sendCode(new MailInfoModel(customer.getEmail(),
-					"Mã xác minh tài khoản của bạn trên Zuhot Cinema", customer)));
-		} catch (MessagingException ex) {
-			throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
-		}
-	}
+    public RequestStatusEnum registrationConfirm(String OTP) throws InvalidRequestParameterException {
+        Customer customer = customerDao.findByToken(OTP)
+                .orElseThrow(() -> new InvalidRequestParameterException(RequestParameterEnum.NOT_EXISTS));
+        if (customer.getToken().equals(OTP)) {
+            customer.setActive(true);
+            return (customerDao.updateActive(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
+        } else {
+            throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+        }
+    }
 
-	public RequestStatusEnum registrationConfirm(String OTP) throws InvalidRequestParameterException {
-		Customer customer = customerDao.findByToken(OTP)
-				.orElseThrow(() -> new InvalidRequestParameterException(RequestParameterEnum.NOT_EXISTS));
-		if (customer.getToken().equals(OTP)) {
-			customer.setActive(true);
-			return (customerDao.updateActive(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
-		} else {
-			throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
-		}
-	}
+    public String updateProfile(Customer customer) {
+        customerDao.updateProfile(customer);
+        return RequestStatusEnum.SUCCESS.getResponse();
+    }
 
-	public String updateProfile(Customer customer) {
-		customerDao.updateProfile(customer);
-		return RequestStatusEnum.SUCCESS.getResponse();
-	}
+    public String updateAvatar(Integer customerId, MultipartFile multipartFile)
+            throws IOException, InvalidRequestParameterException {
+        Optional<Customer> customer = customerDao.findById(customerId);
+        String fileNameExists;
 
-	public String updateAvatar(Integer customerId, MultipartFile multipartFile)
-			throws IOException, InvalidRequestParameterException {
-		Optional<Customer> customer = customerDao.findById(customerId);
-		String fileNameExists = customer.get().getAvatar();
-		String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());
+        // The name of an existing bucket, or access point ARN, to which the new object will be uploaded
+        String bucketName = "khangho23";
 
-		try {
-			File file = new File(PATH_STATIC + "cus" + customerId + "." + extension);
-			multipartFile.transferTo(file);
+        String folder = "avatar/";
 
-			// Define the destination file
-			String fileName = file.getName().substring(0, file.getName().indexOf("."));
+        // Type of file
+        String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());
 
-			// Check if the destination file was created
-			if (!file.exists()) {
-				// Delete the temporary file
-				file.delete();
+        String fileName = "cus" + customerId;
+        // The key under which to store the new object
+        String key = folder + fileName + "." + extension;
 
-				// Delete old avatar
-				if (file.getName().contains(fileName) && fileNameExists != null) {
-					Path fileToDeletePath = Paths.get(PATH_STATIC + fileNameExists);
-					Files.delete(fileToDeletePath);
-				}
+        InputStream inputStream = multipartFile.getInputStream();
 
-			}
-			
-			// Update customer avatar
-			customer.get().setAvatar("cus" + customerId + "." + extension);
-			customerDao.updateAvatar(customer.get());
-			return RequestStatusEnum.SUCCESS.getResponse();
-		} catch (IOException e) {
-			// Handle IO exception, log the error
-			e.printStackTrace();
-			throw new InvalidRequestParameterException("Fail", RequestParameterEnum.WRONG);
-		}
-	}
-	
-	public String updatePassword(Integer customerId, String currentPassword, String newPassword) throws InvalidRequestParameterException {	
-		Customer customer = customerDao.findById(customerId).get();
-		
-		if (!customer.getPassword().equals(currentPassword)) {
-			throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
-		}
-		
-		customer.setPassword(newPassword);
-		customerDao.updatePassword(customer);
-		return RequestStatusEnum.SUCCESS.getResponse();
-	}
+        // Set content-type for Metadata
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType("image/" + extension);
+
+        // Check if a avatar exists
+        if (customer.get().getAvatar() != null) {
+            String avatar = customer.get().getAvatar();
+            fileNameExists = avatar.substring(0, customer.get().getAvatar().indexOf("."));
+
+            if (fileNameExists.equals(fileName))
+                s3Service.deleteFile(bucketName, folder + avatar);
+        }
+
+        // Upload avatar to S3 bucket
+        s3Service.saveFile(bucketName, key, inputStream, objectMetadata);
+
+        // Update customer avatar
+        customer.get().setAvatar("cus" + customerId + "." + extension);
+        customerDao.updateAvatar(customer.get());
+        return RequestStatusEnum.SUCCESS.getResponse();
+    }
+
+    public String deleteAvatar(String key) {
+        String bucketName = "khangho23";
+        s3Service.deleteFile(bucketName, key);
+        return RequestStatusEnum.SUCCESS.getResponse();
+    }
+
+    public String updatePassword(AccountModel account) throws InvalidRequestParameterException {
+        Customer customer = customerDao.findById(account.getCustomerId()).get();
+
+        if (!customer.getPassword().equals(account.getPassword())) {
+            throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+        }
+
+        customer.setPassword(account.getNewPassword());
+        customerDao.updatePassword(customer);
+        return RequestStatusEnum.SUCCESS.getResponse();
+    }
 }
