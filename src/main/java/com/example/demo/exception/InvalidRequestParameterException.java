@@ -2,7 +2,7 @@ package com.example.demo.exception;
 
 import org.springframework.http.HttpStatus;
 
-import com.example.demo.common.enums.RequestParameterEnum;
+import com.example.demo.admin.controller.enums.RequestParameterEnum;
 import com.example.demo.model.ErrorResponseModel;
 
 import lombok.Getter;
@@ -13,11 +13,7 @@ public class InvalidRequestParameterException extends Exception{
 	@Setter
 	protected ErrorResponseModel response;
 
-	public InvalidRequestParameterException(String param, RequestParameterEnum type) {
-		setResponse(new ErrorResponseModel(HttpStatus.BAD_REQUEST.value(), param + " is " + type.name()));
-	}
-
 	public InvalidRequestParameterException(RequestParameterEnum type) {
-		setResponse(new ErrorResponseModel(HttpStatus.BAD_REQUEST.value(), type.getName()));
+		setResponse(new ErrorResponseModel(HttpStatus.BAD_REQUEST.value(), param, type.getName()));
 	}
 }

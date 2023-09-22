@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.rest;
 
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.TypeOfMovieService;
@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/movieType")
+@RequestMapping("/api/movieType")
 @CrossOrigin("*")
 public class TypeOfMovieController {
 	@Autowired

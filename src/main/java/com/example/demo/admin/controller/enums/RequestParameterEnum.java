@@ -1,4 +1,4 @@
-package com.example.demo.common.enums;
+package com.example.demo.admin.controller.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

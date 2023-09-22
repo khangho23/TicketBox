@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.rest;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.common.enums.RequestParameterEnum;
-import com.example.demo.common.enums.RequestStatusEnum;
+import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.listener.ListenerEvent;
@@ -54,7 +54,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> Login(@RequestBody AccountModel account) throws InvalidRequestParameterException {
+	public ResponseEntity<?> login(@RequestBody AccountModel account) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.Authenticator(account.getEmail(), account.getPassword()));
 	}
 
@@ -69,7 +69,7 @@ public class CustomerController {
 			customer.get().setToken(customerService.registration(user));
 			if (customerService.updateToken(customer.get()).equals(RequestStatusEnum.SUCCESS)) {
 				listenerEvent.checkTokenEvent(user.getEmail()); // Start countdown 5 Minute remove token
-				return ResponseEntity.ok(RequestStatusEnum.SUCCESS);
+				return ResponseEntity.ok(RequestStatusEnum.SUCCESS.getResponse());
 			}
 		}
 		// If customer not exists -> Create New Token and Customer
@@ -77,10 +77,10 @@ public class CustomerController {
 			user.setToken(customerService.registration(user));
 			if (customerService.insert(user).equals(RequestStatusEnum.SUCCESS)) {
 				listenerEvent.checkTokenEvent(user.getEmail()); // Start countdown 5 Minute remove token
-				return ResponseEntity.ok(RequestStatusEnum.SUCCESS);
+				return ResponseEntity.ok(RequestStatusEnum.SUCCESS.getResponse());
 			}
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RequestStatusEnum.FAILURE);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RequestStatusEnum.FAILURE.getResponse());
 	}
 
 	@GetMapping("/active")
@@ -103,7 +103,7 @@ public class CustomerController {
 			return ResponseEntity.ok(customerService.updateAvatar(customerId, multipartFile));
 		}
 
-		throw new InvalidRequestParameterException("TypeImage", RequestParameterEnum.WRONG);
+		throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
 	}
 
 	@PutMapping("/update-password")
