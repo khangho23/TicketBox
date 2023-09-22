@@ -27,4 +27,10 @@ public interface MovieDao {
 
 	@Select
 	MovieDto findMovieDetailPage(String movieid);
+	
+	@Select 
+	List<Movie> findMovieHomePage(String branchid, int countryid, String typeofmovieid, String status);
+	
+	@Select
+	List<Movie> findByName(String name);
 }

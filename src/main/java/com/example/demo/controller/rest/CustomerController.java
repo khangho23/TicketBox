@@ -40,7 +40,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> Login(@RequestBody AccountModel account) throws InvalidRequestParameterException {
+	public ResponseEntity<?> login(@RequestBody AccountModel account) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.Authenticator(account.getEmail(), account.getPassword()));
 	}
 
