@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.rest;
 
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.TypeOfMovieService;

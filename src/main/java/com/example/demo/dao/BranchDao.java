@@ -7,14 +7,15 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
 
-import com.example.demo.entity.TypeOfMovie;
+import com.example.demo.entity.Branch;
 
 @Dao
 @ConfigAutowireable
-public interface TypeOfMovieDao {
-    @Select
-    List<TypeOfMovie> findAll();
+public interface BranchDao {
 
-    @Select
-    Optional<TypeOfMovie> findById(String id);
+	@Select
+	List<Branch> findAll();
+	
+	@Select
+	Optional<Branch> findById(String id);
 }
