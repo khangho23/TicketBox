@@ -82,8 +82,8 @@ export default class StatsView extends JetView {
 									},
 									{ id: "totalTicket", header: ["Tổng vé", { content: "numberFilter" }], width: 100, sort: "int", footer: { content: "summColumn" } }
 								],
-								autoheight: true,
-								scroll: false,
+								height:300,
+  								scrollX:false,
 								footer: true,
 								on: {
 									onItemClick: function(id) {
