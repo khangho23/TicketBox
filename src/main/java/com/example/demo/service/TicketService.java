@@ -6,17 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.common.enums.RequestParameterEnum;
-import com.example.demo.common.enums.RequestStatusEnum;
-import com.example.demo.dao.CustomerDao;
 import com.example.demo.dao.TicketDao;
 import com.example.demo.dto.TicketDto;
-import com.example.demo.entity.Customer;
 import com.example.demo.entity.Ticket;
 import com.example.demo.exception.InvalidRequestParameterException;
-import com.example.demo.model.MailInfoModel;
-
-import jakarta.mail.MessagingException;
 
 @Service
 public class TicketService implements BaseService<Ticket, Integer> {

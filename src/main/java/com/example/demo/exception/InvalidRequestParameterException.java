@@ -8,12 +8,12 @@ import com.example.demo.model.ErrorResponseModel;
 import lombok.Getter;
 import lombok.Setter;
 
-public class InvalidRequestParameterException extends Exception{
+public class InvalidRequestParameterException extends Exception {
 	@Getter
 	@Setter
 	protected ErrorResponseModel response;
 
-	public InvalidRequestParameterException(RequestParameterEnum type) {
+	public InvalidRequestParameterException(String param, RequestParameterEnum type) {
 		setResponse(new ErrorResponseModel(HttpStatus.BAD_REQUEST.value(), param, type.getName()));
 	}
 }

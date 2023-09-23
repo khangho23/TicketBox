@@ -28,14 +28,14 @@ public class MovieService implements BaseService<Movie, String> {
 	@Override
 	public Optional<Movie> findById(String id) throws InvalidRequestParameterException {
 		return Optional.of(movieDao.findById(id)
-				.orElseThrow(() -> new InvalidRequestParameterException(RequestParameterEnum.NOT_FOUND)));
+				.orElseThrow(() -> new InvalidRequestParameterException("Phim",RequestParameterEnum.NOT_FOUND)));
 	}
 
 	public List<Movie> findByStatus(String status) throws InvalidRequestParameterException {
 		// TODO Auto-generated method stub
 		List<Movie> list = movieDao.findByStatus(status);
 		if (list.size() <= 0) {
-			throw new InvalidRequestParameterException(RequestParameterEnum.NOT_FOUND);
+			throw new InvalidRequestParameterException("Phim",RequestParameterEnum.NOT_FOUND);
 		}
 		return list;
 	}
@@ -60,7 +60,7 @@ public class MovieService implements BaseService<Movie, String> {
 		String movieType = typeofmovieid.isEmpty() ? null : typeofmovieid;
 		List<Movie> list = movieDao.findMovieHomePage(branch, countryid, movieType, status);
 		if (list.size() <= 0) {
-			throw new InvalidRequestParameterException(RequestParameterEnum.NOT_FOUND);
+			throw new InvalidRequestParameterException("Phim",RequestParameterEnum.NOT_FOUND);
 		}
 		return list;
 
@@ -69,7 +69,7 @@ public class MovieService implements BaseService<Movie, String> {
 	public List<Movie> findByName(String name) throws InvalidRequestParameterException {
 		List<Movie> list = movieDao.findByName("%" + name.toLowerCase() + "%");
 		if (list.size() <= 0) {
-			throw new InvalidRequestParameterException(RequestParameterEnum.NOT_FOUND);
+			throw new InvalidRequestParameterException("Phim",RequestParameterEnum.NOT_FOUND);
 		}
 		return list;
 	}

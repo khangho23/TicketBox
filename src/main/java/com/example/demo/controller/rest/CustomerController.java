@@ -55,7 +55,7 @@ public class CustomerController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody AccountModel account) throws InvalidRequestParameterException {
-		return ResponseEntity.ok(customerService.Authenticator(account.getEmail(), account.getPassword()));
+		return ResponseEntity.ok(customerService.authenticator(account.getEmail(), account.getPassword()));
 	}
 
 	@PostMapping("/registration")
@@ -63,7 +63,7 @@ public class CustomerController {
 		Optional<Customer> customer = customerService.findByEmail(user.getEmail());
 		if (customer.isPresent()) {
 			if (customer.get().isActive()) {
-				throw new InvalidRequestParameterException(RequestParameterEnum.EXISTS);
+				throw new InvalidRequestParameterException("Email",RequestParameterEnum.EXISTS);
 			}
 			// If customer exists -> Update new Token
 			customer.get().setToken(customerService.registration(user));
@@ -103,7 +103,7 @@ public class CustomerController {
 			return ResponseEntity.ok(customerService.updateAvatar(customerId, multipartFile));
 		}
 
-		throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+		throw new InvalidRequestParameterException("Image",RequestParameterEnum.WRONG);
 	}
 
 	@PutMapping("/update-password")

@@ -44,23 +44,23 @@ public class CustomerService implements BaseService<Customer, Integer> {
         return customerDao.findByEmail(email);
     }
 
-	public Customer Authenticator(String email, String password) throws InvalidRequestParameterException {
+	public Customer authenticator(String email, String password) throws InvalidRequestParameterException {
 		Customer customer = customerDao.findByEmail(email)
-				.orElseThrow(() -> new InvalidRequestParameterException(RequestParameterEnum.NOT_EXISTS));
+				.orElseThrow(() -> new InvalidRequestParameterException("Email",RequestParameterEnum.NOT_EXISTS));
 		if (customer.isActive()) {
 			if (customer.getPassword().equals(password)) {
 				return customer;
 			} else {
-				throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+				throw new InvalidRequestParameterException("Password",RequestParameterEnum.WRONG);
 			}
 		} else {
-			throw new InvalidRequestParameterException(RequestParameterEnum.NOT_EXISTS);
+			throw new InvalidRequestParameterException("Email",RequestParameterEnum.NOT_EXISTS);
 		}
 	}
 
     public RequestStatusEnum insert(Customer customer) throws InvalidRequestParameterException {
         if (customerDao.findByEmail(customer.getEmail()).isPresent()) {
-            throw new InvalidRequestParameterException(RequestParameterEnum.EXISTS);
+            throw new InvalidRequestParameterException("",RequestParameterEnum.EXISTS);
         }
         return (customerDao.insert(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
     }
@@ -137,7 +137,7 @@ public class CustomerService implements BaseService<Customer, Integer> {
         Customer customer = customerDao.findById(account.getCustomerId()).get();
 
         if (!customer.getPassword().equals(account.getPassword())) {
-            throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+            throw new InvalidRequestParameterException("Password",RequestParameterEnum.WRONG);
         }
 
         customer.setPassword(account.getNewPassword());
@@ -149,21 +149,21 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		if (us.isPresent()) {
 			if (us.get().getToken() != null)
 				// Exists Token
-				throw new InvalidRequestParameterException(RequestParameterEnum.EXISTS);
+				throw new InvalidRequestParameterException("Customer",RequestParameterEnum.EXISTS);
 		}
 		try {
 			return (emailService.sendCode(new MailInfoModel(customer.getEmail(),
 					"Mã xác minh tài khoản của bạn trên Zuhot Cinema", customer)));
 		} catch (MessagingException ex) {
-			throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+			throw new InvalidRequestParameterException("Email",RequestParameterEnum.WRONG);
 		}
 	}
 
 	public RequestStatusEnum registrationConfirm(String token) throws InvalidRequestParameterException {
 		Customer customer = customerDao.findByToken(token)
-				.orElseThrow(() -> new InvalidRequestParameterException(RequestParameterEnum.NOT_EXISTS));
+				.orElseThrow(() -> new InvalidRequestParameterException("Token",RequestParameterEnum.NOT_EXISTS));
 		if (!customer.getToken().equals(token)) {
-			throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+			throw new InvalidRequestParameterException("Token",RequestParameterEnum.WRONG);
 		}
 		customer.setActive(true);
 		return (customerDao.updateActive(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
