@@ -20,4 +20,6 @@ public class MovieDto extends Movie {
     private String languagesName;
     @Column(name = "COUNTRY")
     private String countryName;
+    @Column(name = "MOVIE_TYPES_ID")
+    private String movieTypeId;
 }

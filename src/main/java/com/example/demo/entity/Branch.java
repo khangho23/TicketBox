@@ -24,7 +24,7 @@ public class Branch {
 	 */
 	@Id
 	@Column
-	private Integer id;
+	private String id;
 	/*
 	 *	name of branch 
 	 */

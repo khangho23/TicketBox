@@ -1,6 +1,5 @@
 package com.example.demo.dao;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +33,12 @@ public interface CustomerDao {
 	@Delete
 	int delete(Customer customer);
 
-	@Update
-	int update(Customer customer);
+	@Update(include = { "active" })
+	int updateActive(Customer customer);
+
+	@Update(include = { "token" })
+	int updateToken(Customer customer);
 
 	@Select
-	List<Customer> findByActiveAndCreatedAtBefore(boolean active, LocalDateTime created_at);
+	Optional<Customer> findByToken(String token);
 }
