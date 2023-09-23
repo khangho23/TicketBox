@@ -1,15 +1,13 @@
 package com.example.demo.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.common.enums.RequestParameterEnum;
-import com.example.demo.common.enums.RequestStatusEnum;
+import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.dao.CustomerDao;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
@@ -40,38 +38,39 @@ public class CustomerService implements BaseService<Customer, Integer> {
 
 	public Customer Authenticator(String email, String password) throws InvalidRequestParameterException {
 		Customer customer = customerDao.findByEmail(email)
-				.orElseThrow(() -> new InvalidRequestParameterException( RequestParameterEnum.NOT_EXISTS));
-		if (customer.getPassword().equals(password)) {
-			return customer;
+				.orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
+		if (customer.isActive()) {
+			if (customer.getPassword().equals(password)) {
+				return customer;
+			} else {
+				throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
+			}
 		} else {
-			throw new InvalidRequestParameterException(RequestParameterEnum.WRONG);
+			throw new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS);
 		}
 	}
 
-
-
-	public int insert(Customer customer) throws InvalidRequestParameterException {
+	public RequestStatusEnum insert(Customer customer) throws InvalidRequestParameterException {
 		if (customerDao.findByEmail(customer.getEmail()).isPresent()) {
 			throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
 		}
-		if (customerDao.insert(customer) == 1) {
-			return 1;
-		}
-		return 0;
+		return (customerDao.insert(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
 	}
 
-	public int delete(Customer customer) {
-		if (customerDao.delete(customer) == 1) {
-			return 1;
-		}
-		return 0;
+	public RequestStatusEnum delete(Customer customer) {
+		return (customerDao.delete(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
 	}
 
-	public int update(Customer customer) {
-		if (customerDao.update(customer) == 1) {
-			return 1;
-		}
-		return 0;
+	public RequestStatusEnum updateToken(Customer customer) {
+		return (customerDao.updateToken(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
+	}
+
+	public RequestStatusEnum updateActive(Customer customer) {
+		return (customerDao.updateActive(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
+	}
+
+	public Optional<Customer> findByToken(String token) {
+		return customerDao.findByToken(token);
 	}
 
 	public String registration(Customer customer) throws InvalidRequestParameterException {
@@ -79,34 +78,23 @@ public class CustomerService implements BaseService<Customer, Integer> {
 		if (us.isPresent()) {
 			if (us.get().getToken() != null)
 				// Exists Token
-				throw new InvalidRequestParameterException("Token", RequestParameterEnum.EXISTS);
+				throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
 		}
 		try {
-			return (emailService.sendCode(
-					new MailInfoModel(customer.getEmail(), "Mã xác minh tài khoản của bạn trên Zuhot Stores",
-							customer)));
+			return (emailService.sendCode(new MailInfoModel(customer.getEmail(),
+					"Mã xác minh tài khoản của bạn trên Zuhot Cinema", customer)));
 		} catch (MessagingException ex) {
 			throw new InvalidRequestParameterException("Email", RequestParameterEnum.WRONG);
 		}
 	}
 
-	public String registrationConfirm(String email, String OTP) throws InvalidRequestParameterException {
-		Customer customer = customerDao.findByEmail(email).get();
-		if (customer == null) {
-			throw new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS);
+	public RequestStatusEnum registrationConfirm(String token) throws InvalidRequestParameterException {
+		Customer customer = customerDao.findByToken(token)
+				.orElseThrow(() -> new InvalidRequestParameterException("Customer", RequestParameterEnum.NOT_EXISTS));
+		if (!customer.getToken().equals(token)) {
+			throw new InvalidRequestParameterException("Email", RequestParameterEnum.WRONG);
 		}
-		if (customer.isActive()) {
-			throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
-		}
-		if (customer.getToken().equals(OTP)) {
-			customer.setActive(true);
-			customerDao.update(customer);
-			return "Successful registration confirmation !";
-		}
-		return "Registration confirmation failed, please try again!";
-	}
-
-	public List<Customer> findByActiveAndCreatedAtBefore(boolean active, LocalDateTime time) {
-		return customerDao.findByActiveAndCreatedAtBefore(active, time);
+		customer.setActive(true);
+		return (customerDao.updateActive(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
 	}
 }

@@ -8,7 +8,10 @@
                 Chúng tôi rất vui mừng khi được chào đón bạn làm thành viên của cộng đồng Zuhot Cinema.</p>
         </div>
         <div style="background-color: rgba(0, 0, 0, 0.8);padding: 5px 15px; color: rgba(255, 255, 255, 0.7);">
-            <b style="color: white">Mã xác minh của bạn là: [[${OTP}]]</b>
+            <p style="color: white">
+                Để xác minh vui lòng bấm chọn:
+                <a style="font-weight: bold;" th:href=@{|${url}/register/active?userToken=${token}|}>Tại đây</a>
+            </p>
             <p>Zuhot Cinema là nơi bạn có thể tìm kiếm, so sánh và đặt vé xem phim nhanh chóng, tiện lợi và an
                 toàn.
                 Chúng

@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.common.enums.RequestParameterEnum;
+import com.example.demo.admin.controller.enums.RequestParameterEnum;
 import com.example.demo.dao.TypeOfMovieDao;
 import com.example.demo.entity.TypeOfMovie;
 import com.example.demo.exception.InvalidRequestParameterException;
