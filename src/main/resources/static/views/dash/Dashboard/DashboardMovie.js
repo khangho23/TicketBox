@@ -82,8 +82,8 @@ export default class StatsView extends JetView {
 									},
 									{ id: "totalTicket", header: ["Tổng vé", { content: "numberFilter" }], width: 100, sort: "int", footer: { content: "summColumn" } }
 								],
-								height:300,
-  								scrollX:false,
+								height: 300,
+								scrollX: false,
 								footer: true,
 								on: {
 									onItemClick: function(id) {
@@ -94,10 +94,10 @@ export default class StatsView extends JetView {
 											DashboardService.filldata5(movieName, year)
 												.then((data) => {
 													self.data.datasets[0].data = data.map((item) => item.totalPrice);
-													self.data.labels = data.map((item) => "T"+ item.id);
+													self.data.labels = data.map((item) => "T" + item.id);
 													self.data.datasets[0].label = "Doanh thu năm " + year + " của " + movieName;
 													self.data2.datasets[0].data = data.map((item) => item.totalTicket);
-													self.data2.labels = data.map((item) => "T"+ item.id);
+													self.data2.labels = data.map((item) => "T" + item.id);
 													self.data2.datasets[0].label = "Tổng vé năm " + year + " của " + movieName;
 													self.updateChart();
 												})
@@ -125,10 +125,10 @@ export default class StatsView extends JetView {
 			DashboardService.filldata5(data1[0].movieName, data1[0].year)
 				.then((data) => {
 					this.data.datasets[0].data = data.map((item) => item.totalPrice);
-					this.data.labels = data.map((item) => "T"+ item.id);
+					this.data.labels = data.map((item) => "T" + item.id);
 					this.data2.datasets[0].data = data.map((item) => item.totalTicket);
 					this.data.datasets[0].label = "Doanh thu năm " + data1[0].year + " của " + data1[0].movieName;
-					this.data2.labels = data.map((item) => "T"+ item.id);
+					this.data2.labels = data.map((item) => "T" + item.id);
 					this.data2.datasets[0].label = "Tổng vé năm " + data1[0].year + " của " + data1[0].movieName;
 					this.updateChart();
 				})
