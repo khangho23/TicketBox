@@ -20,7 +20,7 @@ public class HandleTokenEvent {
     @EventListener
     public void resetToken(MyEmail email)
             throws InterruptedException, InvalidRequestParameterException {
-        Customer customer = customerService.findByEmail(email.getEmail()).orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
+        Customer customer = customerService.findByEmail(email.getEmail()).orElseThrow(() -> new InvalidRequestParameterException(RequestParameterEnum.NOT_EXISTS));
         Thread.sleep(Constants.TIMETOKEN_ACTIVE);
         customer.setToken(null);
         customerService.updateToken(customer);

@@ -21,6 +21,6 @@ public class TypeOfMovieService {
 
     public TypeOfMovie findById(String id) throws InvalidRequestParameterException {
         return typeOfMovieDao.findById(id)
-                            .orElseThrow(()->new InvalidRequestParameterException("id", RequestParameterEnum.NOT_FOUND));
+                            .orElseThrow(()->new InvalidRequestParameterException(RequestParameterEnum.NOT_FOUND));
     }
 }

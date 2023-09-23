@@ -13,7 +13,7 @@ public class InvalidRequestParameterException extends Exception{
 	@Setter
 	protected ErrorResponseModel response;
 
-	public InvalidRequestParameterException(String param, RequestParameterEnum type) {
+	public InvalidRequestParameterException(RequestParameterEnum type) {
 		setResponse(new ErrorResponseModel(HttpStatus.BAD_REQUEST.value(), param, type.getName()));
 	}
 }
