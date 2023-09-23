@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.model.*;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
