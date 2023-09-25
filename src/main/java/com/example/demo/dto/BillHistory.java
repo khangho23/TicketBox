@@ -10,6 +10,8 @@ import java.util.Date;
 @Data
 @Entity
 public class BillHistory extends Bill {
+    @Column(name = "ticket")
+    private Integer ticket;
     @Column(name = "starttime")
     private Date startTime;
     @Column(name = "showdate")
@@ -24,6 +26,6 @@ public class BillHistory extends Bill {
     private String branchName;
     @Column(name = "address")
     private String address;
-    @Column(name = "seats")
-    private String seats;
+    @Column(name = "seat")
+    private String seat;
 }

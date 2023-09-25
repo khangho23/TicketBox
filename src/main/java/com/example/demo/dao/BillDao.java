@@ -11,5 +11,5 @@ import java.util.List;
 @ConfigAutowireable
 public interface BillDao {
 	@Select
-	List<BillHistory> getBillHistory(Integer customer);
+	List<BillHistory> getBillHistory(Integer customerId);
 }
