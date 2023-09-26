@@ -11,4 +11,7 @@ import com.example.demo.dto.ShowTimeDto;
 public interface ShowTimeDao {
 	 @Select
 	 List<ShowTimeDto> findShowTimeByMovieAndDate(String showdate, String movieId);
+
+	 @Select
+	 ShowTimeDto findById(int id);
 }

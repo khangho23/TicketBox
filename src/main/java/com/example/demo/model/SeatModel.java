@@ -25,6 +25,11 @@ public class SeatModel {
             boolean isBooked = Boolean.parseBoolean(obj[1]);
             seats.add(new SeatHasCheck(name,isBooked));
         }
+        seats = seats.stream()
+                        .sorted((a,b)->
+                            Integer.valueOf(a.getName().substring(1))
+                            .compareTo(Integer.valueOf(b.getName().substring(1))))
+                        .toList();
     }
 
 }
