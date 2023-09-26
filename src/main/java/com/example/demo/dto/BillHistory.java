@@ -5,7 +5,9 @@ import lombok.Data;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
+
 
 @Data
 @Entity
@@ -13,13 +15,13 @@ public class BillHistory extends Bill {
     @Column(name = "ticket")
     private Integer ticket;
     @Column(name = "starttime")
-    private Date startTime;
+    private Time startTime;
     @Column(name = "showdate")
     private Date showDate;
     @Column(name = "movie")
     private String movieName;
     @Column(name = "time")
-    private Date movieTime;
+    private Integer movieTime;
     @Column(name = "room")
     private String roomName;
     @Column(name = "branch")

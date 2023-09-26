@@ -1,4 +1,5 @@
 SELECT bill.id,
+       bill.exportdate AS exportDate,
        bill.exportstatus,
        starttime,
        showdate,
@@ -7,7 +8,7 @@ SELECT bill.id,
        room.name AS room,
        branch.name AS branch,
        customer.address,
-       STRING_AGG(DISTINCT CONCAT(seat.rowseat, seat.orderseat), ', ') AS seat
+       STRING_AGG(DISTINCT CONCAT(seat.rowseat, seat.orderseat), ', ') AS seats
 FROM bill
          JOIN billdetails ON bill.id = billdetails.billid
          JOIN ticket ON ticket.id = billdetails.id
@@ -20,6 +21,7 @@ FROM bill
          JOIN movie ON movie.id = showtime.movieid
 WHERE customer.id = /* customerId */1
 GROUP BY bill.id,
+         bill.exportdate,
          bill.exportstatus,
          starttime,
          showdate,

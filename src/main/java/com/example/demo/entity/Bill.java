@@ -7,7 +7,7 @@ import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Data
@@ -28,11 +28,11 @@ public class Bill {
     /*
      *	export date of bill
      */
-    @Column(name = "exportdate")
+    @Column
     private Date exportDate;
     /*
      *	status of bill
      */
     @Column(name = "exportstatus")
-    private Date exportStatus;
+    private Integer exportStatus;
 }
