@@ -17,6 +17,9 @@ public class SeatDto extends Seat {
      */
     @Column
     private int stt;
+    
+    @Column
+    private String name;
     /*
      * roomId of seat
      */
@@ -27,4 +30,7 @@ public class SeatDto extends Seat {
      */
     @Column
     private double priceDetails;
+
+    @Column
+    private double total;
 }
