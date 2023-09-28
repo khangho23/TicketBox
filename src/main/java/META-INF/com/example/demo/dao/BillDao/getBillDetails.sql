@@ -4,7 +4,9 @@ SELECT bill.id,
        starttime,
        showdate,
        movie.name AS movie,
-       movie.time AS movie_time,
+       movie.limitage,
+       movie.yearofmanufacture,
+       country.name AS country,
        room.name AS room,
        branch.name AS branch,
        customer.name AS customer,
@@ -12,7 +14,8 @@ SELECT bill.id,
        customer.email AS customer_email,
        STRING_AGG(DISTINCT CONCAT(seat.rowseat, seat.orderseat), ', ') AS seats,
        STRING_AGG(DISTINCT CONCAT(toppingdetails.quantity, topping.name), ', ') AS topping,
-       SUM(toppingdetails.pricewhenbuy) AS topping_totalprice
+       SUM(toppingdetails.pricewhenbuy) AS topping_totalprice,
+       SUM(ticket.totalprice) AS ticket_totalprice
 FROM bill
          JOIN billdetails ON bill.id = billdetails.billid
          JOIN ticket ON ticket.id = billdetails.id
@@ -23,16 +26,19 @@ FROM bill
          JOIN branch ON room.branchid = branch.id
          JOIN showtime ON showtime.id = ticket.showtimeid
          JOIN movie ON movie.id = showtime.movieid
+         JOIN country ON movie.countryid = country.id
          LEFT JOIN toppingdetails ON bill.id = toppingdetails.billid
          LEFT JOIN topping ON toppingdetails.billid = bill.id
-WHERE bill.id = /* customerId */9
+WHERE billdetails.billid = /* billId */1 AND ticket.customerid = /* customerId */1
 GROUP BY bill.id,
          bill.exportdate,
          bill.exportstatus,
          starttime,
          showdate,
          movie.name,
-         movie.time,
+         movie.limitage,
+         movie.yearofmanufacture,
+         country.name,
          room.name,
          branch.name,
          customer.name,

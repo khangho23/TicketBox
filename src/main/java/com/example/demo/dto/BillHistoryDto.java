@@ -11,7 +11,7 @@ import java.sql.Time;
 
 @Data
 @Entity
-public class BillHistory extends Bill {
+public class BillHistoryDto extends Bill {
     @Column(name = "ticket")
     private Integer ticket;
     @Column(name = "starttime")
@@ -28,6 +28,6 @@ public class BillHistory extends Bill {
     private String branchName;
     @Column(name = "address")
     private String address;
-    @Column(name = "seat")
-    private String seat;
+    @Column(name = "seats")
+    private String seats;
 }
