@@ -15,7 +15,7 @@ import com.example.demo.admin.controller.enums.RequestParameterEnum;
 import com.example.demo.service.TicketService;
 
 @RestController
-@RequestMapping("/ticket")
+@RequestMapping("/api/ticket")
 @CrossOrigin("*")
 public class TicketController {
 	@Autowired
