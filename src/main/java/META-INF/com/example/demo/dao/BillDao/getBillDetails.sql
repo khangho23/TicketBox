@@ -1,6 +1,7 @@
 SELECT bill.id,
        bill.exportdate,
        bill.exportstatus,
+       paymentmethod.name paymentmethod,
        starttime,
        showdate,
        movie.name AS movie,
@@ -18,6 +19,8 @@ SELECT bill.id,
        SUM(toppingdetails.pricewhenbuy) AS topping_totalprice,
        SUM(ticket.totalprice) AS ticket_totalprice
 FROM bill
+         LEFT JOIN paymentmethoddetails ON paymentmethoddetails.billid = bill.id
+         LEFT JOIN paymentmethod ON paymentmethod.id = paymentmethoddetails.paymethodid
          JOIN billdetails ON bill.id = billdetails.billid
          JOIN ticket ON ticket.id = billdetails.id
          JOIN customer ON ticket.customerid = customer.id
@@ -34,6 +37,7 @@ WHERE billdetails.billid = /* billId */1 AND ticket.customerid = /* customerId *
 GROUP BY bill.id,
          bill.exportdate,
          bill.exportstatus,
+         paymentmethod.name,
          starttime,
          showdate,
          movie.name,

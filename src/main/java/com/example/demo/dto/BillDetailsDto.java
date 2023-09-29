@@ -13,6 +13,8 @@ import java.util.List;
 @Data
 @Entity
 public class BillDetailsDto extends Bill {
+    @Column(name = "paymentmethod")
+    private String paymentMethod;
     @Column(name = "starttime")
     private Time startTime;
     @Column(name = "showdate")
