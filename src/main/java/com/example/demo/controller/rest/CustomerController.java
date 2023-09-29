@@ -110,4 +110,9 @@ public class CustomerController {
 	public ResponseEntity<?> updatePassword(@RequestBody AccountModel account) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.updatePassword(account));
 	}
+
+	@PostMapping("/delete-avatar")
+	public ResponseEntity<?> deleteAvatar(@RequestParam Optional<Integer> customerId, @RequestParam Optional<String> avatar) throws InvalidRequestParameterException {
+		return ResponseEntity.ok(customerService.deleteAvatar(customerId, avatar));
+	}
 }
