@@ -92,9 +92,9 @@ public class CustomerService implements BaseService<Customer, Integer> {
         String fileNameExists;
 
         // The name of an existing bucket, or access point ARN, to which the new object will be uploaded
-        String bucketName = "khangho23";
+        String bucketName = "zuhot-cinema-images";
 
-        String folder = "avatar/";
+        String folder = "avatar-user/";
 
         // Type of file
         String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());

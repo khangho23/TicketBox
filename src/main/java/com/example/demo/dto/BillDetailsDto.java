@@ -29,6 +29,8 @@ public class BillDetailsDto extends Bill {
     private String roomName;
     @Column(name = "branch")
     private String branchName;
+    @Column(name = "branch_address")
+    private String branchAddress;
     @Column(name = "customer")
     private String customerName;
     @Column(name = "customer_phone")
