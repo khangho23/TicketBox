@@ -132,7 +132,6 @@ public class CustomerService implements BaseService<Customer, Integer> {
         if (customerId.isEmpty() || avatar.isEmpty())
             throw new InvalidRequestParameterException("Delete Avatar", RequestParameterEnum.NOT_EXISTS);
 
-//        Optional<Customer> customer = customerDao.findById(customerId.get());
         String folder = "avatar-user/";
         String key = avatar.get();
 
