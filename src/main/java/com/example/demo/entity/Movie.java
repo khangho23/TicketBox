@@ -1,12 +1,15 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.List;
+
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
+import org.seasar.doma.Transient;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -55,9 +58,7 @@ public class Movie {
 	/*
 	 * describe of movie
 	 */
-	@Column
-	@JsonIgnore
-	private Integer countryId;
+
 	@Column
 	private String describe;
 	/*
@@ -76,30 +77,18 @@ public class Movie {
 	@Column
 	private Integer limitage;
 	
-	@Column(name = "MOVIE_TYPES")
-    String movieTypeName;
+	@Transient
+	private List<Language> language;
 	
-	@Column(name = "ACTORS")
-    String actorsName;
-//	
-//	@Column(name = "BRANCH")
-//    String branchesName;
+	@Transient
+	private List<TypeOfMovie> type;
 	
-//	@Column(name = "DIMENSION")
-//    String dimensionName;
+	@Transient
+	private List<Actor> actor;
 	
-	@Column(name = "DIRECTORS")
-    String directorsName;
+	@Transient
+	private List<Director> director;
 	
-	@Column(name = "LANGUAGES")
-    String languagesName;
-
-	@Column(name = "COUNTRY")
-	String countryName;
-//	
-//	@Column(name = "SHOWTIME")
-//    String showtimeName;
-//	
-//	@Column(name = "SHOWDATE")
-//    String showdateName;
+	@Column
+	private String countryName;
 }

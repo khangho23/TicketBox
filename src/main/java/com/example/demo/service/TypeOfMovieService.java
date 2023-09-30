@@ -1,14 +1,14 @@
 package com.example.demo.service;
 
-import com.example.demo.common.enums.RequestParameterEnum;
-import com.example.demo.dao.TypeOfMovieDao;
-import com.example.demo.entity.TypeOfMovie;
-import com.example.demo.exception.InvalidRequestParameterException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.dao.TypeOfMovieDao;
+import com.example.demo.entity.TypeOfMovie;
+import com.example.demo.exception.InvalidRequestParameterException;
 
 @Service
 public class TypeOfMovieService {
@@ -21,6 +21,6 @@ public class TypeOfMovieService {
 
     public TypeOfMovie findById(String id) throws InvalidRequestParameterException {
         return typeOfMovieDao.findById(id)
-                            .orElseThrow(()->new InvalidRequestParameterException("id", RequestParameterEnum.NOT_FOUND));
+                            .orElseThrow(()->new InvalidRequestParameterException("Phim",RequestParameterEnum.NOT_FOUND));
     }
 }

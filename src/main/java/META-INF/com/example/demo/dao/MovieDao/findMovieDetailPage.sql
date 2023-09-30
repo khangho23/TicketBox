@@ -2,6 +2,7 @@ SELECT movie.id, movie.name, yearofmanufacture,
 	   poster, time, describe,
 	   trailer, status, limitage,
 	   country.name AS country,
+	   STRING_AGG(DISTINCT typeofmovie.id, ',') AS movie_types_id,
        STRING_AGG(DISTINCT typeofmovie.name, ', ') AS movie_types,
        STRING_AGG(DISTINCT actor.name, ', ') AS actors,
 	   STRING_AGG(DISTINCT director.name, ', ') AS directors,
@@ -18,13 +19,13 @@ LEFT JOIN director ON director.id = directorofmovie.directorid
 LEFT JOIN country ON country.id = movie.countryid
 
 WHERE movie.id = /* movieid */'MP01'
-GROUP BY movie.id, 
-		 movie.name, 
+GROUP BY movie.id,
+		 movie.name,
 		 yearofmanufacture,
 		 time,
          poster,
 		 describe,
 		 trailer,
-         status, 
-		 limitage, 
+         status,
+		 limitage,
 		 country;

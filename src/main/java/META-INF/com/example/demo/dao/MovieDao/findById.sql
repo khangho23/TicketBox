@@ -1,7 +1,8 @@
 SELECT
-	id,
+	movie.id,
 	countryid,
-	name,
+	country.name as countryName,
+	movie.name,
 	yearofmanufacture,
 	poster,
 	time,
@@ -10,4 +11,5 @@ SELECT
 	status,
 	limitage
 FROM Movie
-WHERE id = /* id */'MP00';
+join country on Movie.countryid = country.id
+WHERE Movie.id = /* id */'MP00';
