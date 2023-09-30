@@ -5,17 +5,18 @@ import Actor from "./views/management/actor/index.js"
 import Director from "./views/management/director/index.js"
 import Movie from "./views/management/movie/index.js"
 
+import Room from "./views/management/room/index.js"
 const JetApp = webix.jet.JetApp;
 const UrlRouter = webix.jet.UrlRouter;
 
 export default class InventoryApp extends JetApp {
 	constructor(config) {
 		let theme = "";
-		try {
+		try{
 			theme = webix.storage.local.get("theme_dash");
 		}
-		catch (err) {
-			webix.message("You blocked cookies. The theme won't be restored after page reloads.", "debug");
+		catch(err){
+			webix.message("You blocked cookies. The theme won't be restored after page reloads.","debug");
 		}
 
 		super(webix.extend({
@@ -29,8 +30,8 @@ export default class InventoryApp extends JetApp {
 				"managementMovie": Movie,
 				"managementDirector": Director,
 				"managementActor": Actor,
-				help:Main,
-		},
+				"room":Room
+			},
 			theme: theme || ""
 		}, config, true));
 	}

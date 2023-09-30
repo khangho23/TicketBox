@@ -24,15 +24,9 @@ public class SeatService {
         return seatDao.findByRoomId(id);
     }
 
-    // /**
-    //  * Get seat orderd or not
-    //  * 
-    //  * @param id
-    //  * @return SeatModel
-    //  */
-    // public SeatModel getSeatHasCheckTicket(int id) {
-    //     return new SeatModel(seatDao.getSeatHasCheckTicket(id));
-    // }
+    public SeatDto getTotal(int showtimeid, String name){
+        return seatDao.getPriceSeatByShowTimeAndSeatId(showtimeid, name);
+    }
 
     /**
      * Get seat orderd or not

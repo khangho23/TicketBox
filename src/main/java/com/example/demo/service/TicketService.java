@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.admin.controller.enums.RequestParameterEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,12 @@ public class TicketService implements BaseService<Ticket, Integer> {
 	
 	public List<TicketDto> findByCustomerId(Optional<Integer> customerId) {		
 		return ticketDao.findByCustomerId(customerId.get());
+	}
+
+	public List<TicketDto> findByBillId(Optional<Integer> billId) throws InvalidRequestParameterException {
+		if (billId.isEmpty())
+			throw new InvalidRequestParameterException("Ticket", RequestParameterEnum.NOTHING);
+
+		return ticketDao.findByBillId(billId.get());
 	}
 }

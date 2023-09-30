@@ -5,6 +5,7 @@ import java.io.InputStream;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.model.*;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,11 @@ public class S3Service {
     }
 
     public void deleteFile(String bucketName, String key) {
-        amazonS3.deleteObject(bucketName, key);
+        try {
+            amazonS3.deleteObject(bucketName, key);
+        } catch (AmazonServiceException amazonServiceException) {
+            amazonServiceException.printStackTrace();
+            throw new AmazonServiceException(amazonServiceException.getErrorMessage());
+        }
     }
 }

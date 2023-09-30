@@ -30,7 +30,6 @@ public class MovieController{
 		return ResponseEntity.ok(list);
 	}
 
-
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable String id) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(movieService.findById(id).get());
@@ -61,4 +60,9 @@ public class MovieController{
 		return ResponseEntity.ok(movieService.findAllMovieAdmin());
 	}
 	
+
+	@GetMapping("/getByShowTime")
+	public ResponseEntity<?> getByShowTime(@RequestParam("showtimeid") int showtimeid) {
+		return ResponseEntity.ok(movieService.findByShowTimeId(showtimeid));
+	}
 }

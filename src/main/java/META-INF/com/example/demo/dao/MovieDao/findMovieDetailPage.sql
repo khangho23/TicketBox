@@ -19,13 +19,13 @@ LEFT JOIN director ON director.id = directorofmovie.directorid
 LEFT JOIN country ON country.id = movie.countryid
 
 WHERE movie.id = /* movieid */'MP01'
-GROUP BY movie.id, 
-		 movie.name, 
+GROUP BY movie.id,
+		 movie.name,
 		 yearofmanufacture,
 		 time,
          poster,
 		 describe,
 		 trailer,
-         status, 
-		 limitage, 
+         status,
+		 limitage,
 		 country;
