@@ -18,7 +18,8 @@ export default class MenuView extends JetView {
                     id: "management", icon: "mdi mdi-puzzle", value: "Quản lý", data: [
                         { id: "management-movie", value: "Phim" },
                         { id: "management-actor", value: "Đạo diễn" },
-                        { id: "management-director", value: "Diễn viên" }
+                        { id: "management-director", value: "Diễn viên" },
+                        { id: "management-room", value: "Phòng Chiếu" }
                     ]
                 },
                 { id: "statistical", value: "Thống kê", icon: "mdi mdi-chart-areaspline" },
