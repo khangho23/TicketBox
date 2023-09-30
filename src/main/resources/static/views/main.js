@@ -58,7 +58,7 @@ export default class TopView extends JetView {
 													cancel: "Cancel",
 													type: "confirm-success"
 												}).then(() =>
-													axios.get("/logout").then(() => setTimeout(() => window.location.href = "/admin/login", 2000))
+													setTimeout(() => window.location.href = "/logout", 2000)
 												)
 											}
 										}
