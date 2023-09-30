@@ -1,6 +1,4 @@
-SELECT
-	movie.id,
-	countryid,
+SELECT movie.id,
 	country.name as countryName,
 	movie.name,
 	yearofmanufacture,
@@ -11,5 +9,4 @@ SELECT
 	status,
 	limitage
 FROM Movie
-join country on Movie.countryid = country.id
-WHERE Movie.id = /* id */'MP00';
+join country on movie.countryid = country.id
