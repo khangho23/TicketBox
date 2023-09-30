@@ -46,6 +46,22 @@ export default class TopView extends JetView {
 												this.$scope.app.refresh();
 											},
 										},
+										{
+											view: "icon",
+											icon: "mdi mdi-logout",
+											type: "icon",
+											tooltip: "Logout",
+											click: () => {
+												webix.confirm({
+													title: "Bạn có muốn đăng xuất",
+													ok: "OK",
+													cancel: "Cancel",
+													type: "confirm-success"
+												}).then(() =>
+													setTimeout(() => window.location.href = "/logout", 2000)
+												)
+											}
+										}
 									]
 								}
 							]

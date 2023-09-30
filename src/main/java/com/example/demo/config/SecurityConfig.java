@@ -34,7 +34,7 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .defaultSuccessUrl("/admin")
                         .permitAll())
-                .logout((logout) -> logout.permitAll());
+                .logout((logout) -> logout.logoutSuccessUrl("/admin/login"));
 
         return http.build();
     }
