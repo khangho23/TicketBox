@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
@@ -33,35 +34,35 @@ public class TicketDto extends Ticket {
 	 * customerName of ticket
 	 */
 	@Column(name = "starttime")
-	private Date startTime;
+	private Time startTime;
 	/*
 	 * seat of ticket
 	 */
 	@Column(name = "seat")
 	private String seat;
 	/*
+	 * seat_price of ticket
+	 */
+	@Column(name = "seat_price")
+	private double seatPrice;
+	/*
+	 * seat_pricecommon of ticket
+	 */
+	@Column(name = "seat_price_common")
+	private double seatPriceCommon;
+	/*
 	 * seatType of ticket
 	 */
 	@Column(name = "seattype")
 	private String seatType;
 	/*
-	 * totalPrice of ticket
+	 * seat_pricecommon of ticket
 	 */
-	@Column(name = "totalprice")
-	private double totalPrice;
+	@Column(name = "seattype_surchage")
+	private double seatTypeSurchage;
 	/*
-	 * createDate of ticket
+	 * moviename of ticket
 	 */
-	@Column(name = "createdate")
-	private Date createDate;
-	/*
-	 * vat of ticket
-	 */
-	@Column
-	private Double vat;
-	/*
-	 * exportStatus of ticket
-	 */
-	@Column(name = "exportstatus")
-	private Boolean exportStatus;
+	@Column(name = "moviename")
+	private String movieName;
 }

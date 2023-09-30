@@ -20,4 +20,9 @@ public class BillController {
     public ResponseEntity<?> getBillHistory(@RequestParam Optional<Integer> customerId) throws InvalidRequestParameterException {
         return ResponseEntity.ok(billService.getBillHistory(customerId));
     }
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?> getBillDetails(@PathVariable("id") Optional<Integer> billId, @RequestParam Optional<Integer> customerId) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(billService.getBillDetails(billId, customerId));
+    }
 }
