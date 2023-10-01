@@ -44,6 +44,22 @@ public class MovieController{
 	public ResponseEntity<?> findMovieDetailPage(@RequestParam("id") String movieId) {
 		return ResponseEntity.ok(movieService.findMovieDetailPage(movieId));
 	}
+	
+	@GetMapping("/findAll")
+	public ResponseEntity<?> findAll(){
+		return ResponseEntity.ok(movieService.findAll());
+	}
+	
+	@GetMapping("/findMovieById")
+	public ResponseEntity<?> findMovieById(@RequestParam("movieId") String movieId){
+		return ResponseEntity.ok(movieService.findMovieById(movieId));
+	}
+	
+	@GetMapping("/findAllMovieAdmin")
+	public ResponseEntity<?> findAllMovieAdmin(){
+		return ResponseEntity.ok(movieService.findAllMovieAdmin());
+	}
+	
 
 	@GetMapping("/getByShowTime")
 	public ResponseEntity<?> getByShowTime(@RequestParam("showtimeid") int showtimeid) {
