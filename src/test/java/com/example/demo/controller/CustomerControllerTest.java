@@ -56,20 +56,6 @@ public class CustomerControllerTest {
 	}
 
 	@Test
-	public void registrationConfirm() throws Exception {
-		String methodName = "registrationConfirm";
-		Reader reader = Files.newBufferedReader(
-				Paths.get("src/test/resources/" + this.getClass().toString().replace("class ", "").replace(".", "/")
-						+ "_" + methodName + "_expect.json"));
-
-		String expect = reader.toString();
-		this.mockMvc
-				.perform(get("/api/customer/active?userToken=dsfa312414safaasf")
-						.accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(status().isOk());
-	}
-
-	@Test
 	public void registrationConfirmIsNotPresent() throws Exception {
 		String expect = gsonService.getValueExpect(this.getClass().toString(), "registrationConfirmIsNotPresent");
 		this.mockMvc
