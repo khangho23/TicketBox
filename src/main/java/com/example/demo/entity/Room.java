@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * 
  */
 
-@Entity(metamodel = @Metamodel)
+@Entity
 @Data
 @NoArgsConstructor
 @Table
