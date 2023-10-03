@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * 
  */
 
-@Entity(metamodel = @Metamodel)
+@Entity
 @Data
 @NoArgsConstructor
 @Table
@@ -26,7 +26,7 @@ public class Room {
 	 * brandid of payment method
 	 */
 	@Column
-	private String brandid;
+	private String branchid;
 	/*
 	 * name of payment method
 	 */

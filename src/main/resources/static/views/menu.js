@@ -30,6 +30,7 @@ export default class MenuView extends JetView {
 	}
 	init(sidebar) {
 		this.use(plugins.Menu, this.$$("side:menu"));
+		$$(this.getUrl()[1].page).show();
 		this.on(this.app, "menu:toggle", () => this.$$("side:menu").toggle());
 		sidebar.getPopup().attachEvent("onBeforeShow", () => false);
 	}
