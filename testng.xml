@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="D:/cinema_projects/BE_Cinema">
+        <classes>
+            <class name="com.example.demo.controller.CustomerControllerTest">
+                <methods>
+                    <include name="findById"/>
+                    <include name="findByIdIsInvalidDataType"/>
+                    <include name="findByIdIsNotPresent"/>
+                    <include name="findByIdIsNull"/>
+                    <include name="registrationConfirmIsNotPresent"/>
+                    <include name="registrationConfirmIsNull"/>
+                    <include name="registrationConfirmIsNothing"/>
+                </methods>
+            </class>
+            <class name="com.example.demo.controller.HomeControllerTest">
+                <methods>
+                    <include name="getAll"/>
+                </methods>
+            </class>
+            <class name="com.example.demo.controller.MovieControllerTest">
+                <methods>
+                    <include name="findById"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
