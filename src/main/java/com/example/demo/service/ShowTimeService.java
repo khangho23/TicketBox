@@ -28,4 +28,8 @@ public class ShowTimeService {
 			return new PageImpl<>(listMovieByDate, PageRequest.of(pageable.getPageNumber(), pageSize),totalElements);
 		}
 	}
+
+	public ShowTimeDto findById(int id){
+		return showtimeDao.findById(id);
+	}
 }

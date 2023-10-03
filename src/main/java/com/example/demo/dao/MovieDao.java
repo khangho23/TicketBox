@@ -40,4 +40,7 @@ public interface MovieDao {
 
 	@Select
 	MovieDto findByShowTimeId(int showTimeId);
+	
+	@Select
+	List<Movie> findAllMovieAmin();
 }

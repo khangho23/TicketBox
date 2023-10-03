@@ -20,4 +20,7 @@ public interface SeatDao {
 
     @Select
     List<SeatHasCheckTicket> getSeatHasCheckTicket(int id);
+
+    @Select
+    SeatDto getPriceSeatByShowTimeAndSeatId(int showtimeid, String name);
 }
