@@ -1,6 +1,6 @@
 // import {JetView} from "webix-jet";
 import "//cdn.webix.com/libs/jet/webix-jet.js"
-import { DateUtil } from "./../../../common/DateUtil.js";
+import { DateUtil } from "../../../common/DateUtil.js";
 const JetView = webix.jet.JetView;
 
 
@@ -13,16 +13,17 @@ export default class Room extends JetView {
 
 	config() {
 		function custom_checkbox(obj, common, value) {
-			if (value == 0)
-				return "<span class='badge text-bg-success'>Đang chiếu</span>";
-			else if (value == 1)
-				return "<span class='badge text-bg-primary'>Chưa chiếu</span>"
+			if (obj.total != "110/110")
+				return "<span class='badge text-bg-success'>Còn chỗ</span>";
 			else
-				return "<span class='badge text-bg-danger'>Hết chiếu</span>";
+				return "<span class='badge text-bg-danger'>Full chỗ</span>";
 		}
 		return {
-			height: 500,
 			rows: [
+				{
+					type:"header",
+					template:"Quản lí đặt chỗ"
+				},
 				{
 					cols: [
 						{
@@ -94,13 +95,16 @@ export default class Room extends JetView {
 						{ id: "name", editor: "text", header: "Tên phòng", fillspace: true },
 						{ id: "moviename", editor: "popup", header: "Phim", fillspace: true },
 						{ id: "starttime", editor: "popup", header: "Giờ chiếu", fillspace: true },
-						{ id: "total", editor: "popup", header: "Số lượng", fillspace: true },
+						{ id: "total", editor: "popup", header: "Số lượng", template:"#total# ghế", fillspace: true },
 						{ id: "status", editor: "popup", header: "Trạng thái", fillspace: true, template: custom_checkbox }
 					],
 					select: true,
 					autoheight: true,
 					data: [],
-					scrollX: false
+					scrollX: false,
+					subview:{
+						template:"abc"
+					}
 				}
 			]
 		};
