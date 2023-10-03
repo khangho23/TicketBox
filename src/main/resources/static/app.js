@@ -4,7 +4,6 @@ import Dash from "./views/dash/index.js";
 import Actor from "./views/management/actor/index.js"
 import Director from "./views/management/director/index.js"
 import Movie from "./views/management/movie/index.js"
-
 import Room from "./views/management/room/index.js"
 const JetApp = webix.jet.JetApp;
 const UrlRouter = webix.jet.UrlRouter;
@@ -30,7 +29,7 @@ export default class InventoryApp extends JetApp {
 				"managementMovie": Movie,
 				"managementDirector": Director,
 				"managementActor": Actor,
-				"room":Room
+				"management-room":Room
 			},
 			theme: theme || ""
 		}, config, true));
