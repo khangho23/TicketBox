@@ -30,7 +30,7 @@ export default class Showtime extends JetView {
                                 const selectedItem = this.getItem(id);
                                 if (selectedItem) {
                                     const showtimeId = selectedItem.id;
-                                    ShowtimeService.fillForm(showtimeId);
+                                    ShowtimeService.onClick(showtimeId);
                                 }
                             }
                         }
@@ -42,16 +42,32 @@ export default class Showtime extends JetView {
                             {
                                 view: "form",
                                 id: "Form",
-                                height: 700,
+                                height: 500,
                                 padding: 10,
                                 elements: [
                                     { view: "text", name: "id", id: "id", label: "Mã xuất chiếu", disabled: true },
-                                    { view: "text", name: "roomId", id: "roomId", label: "Mã phòng", invalidMessage: "Mã phòng không hợp lệ vui lòng nhập lại" },
-                                    { view: "text", name: "movieId", id: "movieId", label: "Mã phim", invalidMessage: "Mã phim không hợp lệ vui lòng nhập lại" },
-                                    { view: "text", name: "dimensionId", label: "Độ phân giải", invalidMessage: "Độ phân giải không hợp lệ vui lòng nhập lại" },
-                                    { view: "text", name: "showDate", label: "Ngày chiếu", invalidMessage: "Ngày chiếu không được để trống vui lòng nhập lại" },
-                                    { view: "text", name: "startTime", label: "Giờ chiếu", invalidMessage: "Giờ chiếu không hợp lệ vui lòng nhập lại" },
-                                    { view: "text", name: "price", label: "Giá", invalidMessage: "Giá không hợp lệ vui lòng nhập lại" },
+                                    { view: "select", name: "roomId", id: "roomId", label: "Số phòng", options: [] },
+                                    { view: "select", name: "movieId", id: "movieId", label: "Tên phim", options: [] },
+                                    { view: "select", name: "dimensionId", id: "dimensionId", label: "Độ phân giải", options: [] },
+                                    {
+                                        view: "datepicker",
+                                        name: "showDate",
+                                        id: "showDate",
+                                        label: "Ngày chiếu",
+                                        timepicker: true,
+                                        format: "%d/%m/%Y",
+                                        invalidMessage: "Vui lòng chọn ngày chiếu"
+                                    },
+                                    {
+                                        view: "datepicker",
+                                        type: "time",
+                                        name: "startTime",
+                                        id: "startTime",
+                                        label: "Giờ chiếu",
+                                        timepicker: true,
+                                        invalidMessage: "Vui lòng chọn giờ chiếu"
+                                    },
+                                    { view: "text", name: "price", label: "Giá", invalidMessage: "Vui lòng chỉ nhập số", format: "1.111 đồng" },
                                     {
                                         cols: [
                                             { view: "button", value: "Thêm", css: "webix_primary", click: (() => ShowtimeService.createShowtime()) },
@@ -62,14 +78,10 @@ export default class Showtime extends JetView {
                                     }
                                 ],
                                 elementsConfig: {
-                                    labelPosition: "top",
                                     labelWidth: 120,
                                     bottomPadding: 15
                                 },
                                 rules: {
-                                    "roomId": webix.rules.isNotEmpty,
-                                    "movieId": webix.rules.isNotEmpty,
-                                    "dimensionId": webix.rules.isNotEmpty,
                                     "showDate": webix.rules.isNotEmpty,
                                     "startTime": webix.rules.isNotEmpty,
                                     "price": webix.rules.isNotEmpty,
@@ -83,6 +95,6 @@ export default class Showtime extends JetView {
 
     }
     init() {
-        ShowtimeService.fillShowtime();
+        ShowtimeService.init();
     }
 }
