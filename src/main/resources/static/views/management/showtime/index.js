@@ -46,28 +46,66 @@ export default class Showtime extends JetView {
                                 padding: 10,
                                 elements: [
                                     { view: "text", name: "id", id: "id", label: "Mã xuất chiếu", disabled: true },
-                                    { view: "select", name: "roomId", id: "roomId", label: "Số phòng", options: [] },
-                                    { view: "select", name: "movieId", id: "movieId", label: "Tên phim", options: [] },
-                                    { view: "select", name: "dimensionId", id: "dimensionId", label: "Độ phân giải", options: [] },
                                     {
-                                        view: "datepicker",
-                                        name: "showDate",
-                                        id: "showDate",
-                                        label: "Ngày chiếu",
-                                        timepicker: true,
-                                        format: "%d/%m/%Y",
-                                        invalidMessage: "Vui lòng chọn ngày chiếu"
+                                        view: "combo", label: "Số phòng", name: "roomId", invalidMessage: "Vui lòng chọn số phòng", required: true,
+                                        options: {
+                                            view: "suggest",
+                                            body: {
+                                                view: "list",
+                                                id: "room",
+                                                data: [],
+                                                template: `#name# (#branchName#)`,
+                                                yCount: 5
+                                            }
+                                        },
+                                        on: {
+                                            onAfterRender: async function () {
+                                                const { data: result } = await axios.get("/api/room");
+                                                $$("room").parse(result);
+                                            }
+                                        },
                                     },
                                     {
-                                        view: "datepicker",
-                                        type: "time",
-                                        name: "startTime",
-                                        id: "startTime",
-                                        label: "Giờ chiếu",
-                                        timepicker: true,
-                                        invalidMessage: "Vui lòng chọn giờ chiếu"
+                                        view: "combo", label: "Tên phim", name: "movieId", invalidMessage: "Vui lòng chọn tên phim", required: true,
+                                        options: {
+                                            view: "suggest",
+                                            body: {
+                                                view: "list",
+                                                id: "movie",
+                                                data: [],
+                                                template: "#name#",
+                                                yCount: 5
+                                            }
+                                        },
+                                        on: {
+                                            onAfterRender: async function () {
+                                                const { data: result } = await axios.get("/api/movie");
+                                                $$("movie").parse(result);
+                                            }
+                                        },
                                     },
-                                    { view: "text", name: "price", label: "Giá", invalidMessage: "Vui lòng chỉ nhập số", format: "1.111 đồng" },
+                                    {
+                                        view: "combo", label: "Độ phân giải", name: "dimensionId", invalidMessage: "Vui lòng chọn độ phân giải", required: true,
+                                        options: {
+                                            view: "suggest",
+                                            body: {
+                                                view: "list",
+                                                id: "dimension",
+                                                data: [],
+                                                template: "#name#",
+                                                yCount: 5
+                                            }
+                                        },
+                                        on: {
+                                            onAfterRender: async function () {
+                                                const { data: result } = await axios.get("/api/dimension");
+                                                $$("dimension").parse(result);
+                                            }
+                                        },
+                                    },
+                                    { view: "datepicker", name: "showDate", id: "showDate", label: "Ngày chiếu", timepicker: true, format: "%d/%m/%Y", required: true, invalidMessage: "Vui lòng chọn ngày chiếu" },
+                                    { view: "datepicker", type: "time", name: "startTime", id: "startTime", label: "Giờ chiếu", timepicker: true, required: true, invalidMessage: "Vui lòng chọn giờ chiếu" },
+                                    { view: "text", name: "price", label: "Giá", invalidMessage: "Vui lòng chỉ nhập số", format: "1.111 đồng", required: true, },
                                     {
                                         cols: [
                                             { view: "button", value: "Thêm", css: "webix_primary", click: (() => ShowtimeService.createShowtime()) },
@@ -82,6 +120,9 @@ export default class Showtime extends JetView {
                                     bottomPadding: 15
                                 },
                                 rules: {
+                                    "roomId": webix.rules.isNotEmpty,
+                                    "movieId": webix.rules.isNotEmpty,
+                                    "dimensionId": webix.rules.isNotEmpty,
                                     "showDate": webix.rules.isNotEmpty,
                                     "startTime": webix.rules.isNotEmpty,
                                     "price": webix.rules.isNotEmpty,

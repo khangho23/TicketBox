@@ -1,24 +1,8 @@
 class ShowtimeService {
     async init() {
-        // Table
         const response = await axios.get("/api/showtime")
         $$("datatable").clearAll();
         $$("datatable").parse(response);
-        // Select MovieId
-        const responseMovie = await axios.get("/api/movie")
-        const movie = responseMovie.data.map(s => { return { id: s.id, value: s.name } });
-        $$('movieId').define("options", movie);
-        $$('movieId').render();
-        // Select DimensionId
-        const responseDimension = await axios.get("/api/dimension")
-        const dimension = responseDimension.data.map(s => { return { id: s.id, value: s.name } })
-        $$('dimensionId').define("options", dimension)
-        $$('dimensionId').render();
-        // Select RoomId
-        const responseRoom = await axios.get("/api/room")
-        const room = responseRoom.data.map(s => { return { id: s.id, value: s.name + ` (${s.branchName})` } })
-        $$('roomId').define("options", room)
-        $$('roomId').render();
     }
     async onClick(showtimeId) {
         const response = await axios.get("/api/showtime/" + showtimeId);
