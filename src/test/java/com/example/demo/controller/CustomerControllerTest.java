@@ -2,16 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.CustomerTestApplication;
 import com.example.demo.config.GsonService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -19,11 +18,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CustomerTestApplication.class)
 @AutoConfigureMockMvc
 public class CustomerControllerTest {
-	@Autowired
-	private MockMvc mockMvc;
+	MockMvc mockMvc;
+	GsonService gsonService;
 
-	@Autowired
-	private GsonService gsonService;
+	@BeforeTest
+	public void init() {
+		gsonService = new GsonService();
+		MockitoAnnotations.initMocks(this);
+		mockMvc = MockMvcBuilders.standaloneSetup(CustomerControllerTest.class).build();
+	}
 
 	private final String URL = "/api/customer";
 
@@ -31,36 +34,36 @@ public class CustomerControllerTest {
 	private String expect;
 
 	@Test
-	public void findById() throws Exception {
-		expect = gsonService.getValueExpect(this.getClass().toString(), "findById");
-		this.mockMvc.perform(get(URL + "/{id}", 1).accept(MediaType.APPLICATION_JSON_UTF8))
+	public void testFindById() throws Exception {
+		expect = gsonService.getValueExpect(this.getClass().toString(), "testFindById");
+		this.mockMvc.perform(get(URL + "/{id}", 2).accept(MediaType.APPLICATION_JSON_UTF8))
 		        .andExpect(content().string(containsString(expect)));
 	}
 
 	@Test
-	public void findByIdIsInvalidDataType() throws Exception {
-		expect = gsonService.getValueExpect(this.getClass().toString(), "findByIdIsInvalidDataType");
+	public void testFindByIdIsInvalidDataType() throws Exception {
+		expect = gsonService.getValueExpect(this.getClass().toString(), "testFindByIdIsInvalidDataType");
 		this.mockMvc.perform(get(URL + "/{id}", "customer01").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(content().string(containsString(expect)));
 	}
 
 	@Test
-	public void findByIdIsNotPresent() throws Exception {
-		expect = gsonService.getValueExpect(this.getClass().toString(), "findByIdIsNotPresent");
+	public void testFindByIdIsNotPresent() throws Exception {
+		expect = gsonService.getValueExpect(this.getClass().toString(), "testFindByIdIsNotPresent");
 		this.mockMvc.perform(get(URL + "/{id}", 1000000).accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(content().string(containsString(expect)));
 	}
 
 	@Test
-	public void findByIdIsNull() throws Exception {
-		expect = gsonService.getValueExpect(this.getClass().toString(), "findByIdIsNull");
+	public void testFindByIdIsNull() throws Exception {
+		expect = gsonService.getValueExpect(this.getClass().toString(), "testFindByIdIsNull");
 		this.mockMvc.perform(get(URL).accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(content().string(containsString(expect)));
 	}
 
 	@Test
-	public void registrationConfirmIsNotPresent() throws Exception {
-		expect = gsonService.getValueExpect(this.getClass().toString(), "registrationConfirmIsNotPresent");
+	public void testRegistrationConfirmIsNotPresent() throws Exception {
+		expect = gsonService.getValueExpect(this.getClass().toString(), "testRegistrationConfirmIsNotPresent");
 		this.mockMvc
 				.perform(get(URL + "/active").param("userToken", "13214521$@@!")
 						.accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -68,15 +71,15 @@ public class CustomerControllerTest {
 	}
 
 	@Test
-	public void registrationConfirmIsNull() throws Exception {
-		expect = gsonService.getValueExpect(this.getClass().toString(), "registrationConfirmIsNull");
+	public void testRegistrationConfirmIsNull() throws Exception {
+		expect = gsonService.getValueExpect(this.getClass().toString(), "testRegistrationConfirmIsNull");
 		this.mockMvc.perform(get(URL + "/active").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(content().string(containsString(expect)));
 	}
 
 	@Test
-	public void registrationConfirmIsNothing() throws Exception {
-		expect = gsonService.getValueExpect(this.getClass().toString(), "registrationConfirmIsNothing");
+	public void testRegistrationConfirmIsNothing() throws Exception {
+		expect = gsonService.getValueExpect(this.getClass().toString(), "testRegistrationConfirmIsNothing");
 		this.mockMvc.perform(get(URL + "/active").param("userToken", "").accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(content().string(containsString(expect)));
 	}

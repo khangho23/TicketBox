@@ -5,13 +5,13 @@
         <classes>
             <class name="com.example.demo.controller.CustomerControllerTest">
                 <methods>
-                    <include name="findById"/>
-                    <include name="findByIdIsInvalidDataType"/>
-                    <include name="findByIdIsNotPresent"/>
-                    <include name="findByIdIsNull"/>
-                    <include name="registrationConfirmIsNotPresent"/>
-                    <include name="registrationConfirmIsNull"/>
-                    <include name="registrationConfirmIsNothing"/>
+                    <include name="testFindById"/>
+                    <include name="testFindByIdIsInvalidDataType"/>
+                    <include name="testFindByIdIsNotPresent"/>
+                    <include name="testFindByIdIsNull"/>
+                    <include name="testRegistrationConfirmIsNotPresent"/>
+                    <include name="testRegistrationConfirmIsNull"/>
+                    <include name="testRegistrationConfirmIsNothing"/>
                 </methods>
             </class>
             <class name="com.example.demo.controller.HomeControllerTest">
