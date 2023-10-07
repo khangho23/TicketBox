@@ -12,14 +12,14 @@ export default class Showtime extends JetView {
                         view: "datatable",
                         id: "datatable",
                         columns: [
-                            { id: "id", header: ["Mã Xuất Chiếu", { content: "textFilter" }], fillspace: true },
-                            { id: "roomName", header: ["Tên Phòng", { content: "selectFilter" }], width: 140, css: { "text-align": "center" }, tooltip: "", editor: "text" },
+                            { id: "id", header: ["Mã Xuất Chiếu", { content: "textFilter" }] },
+                            { id: "roomName", header: ["Tên Phòng", { content: "selectFilter" }] },
                             { id: "movieName", header: ["Tên Phim", { content: "textFilter" }], fillspace: true },
-                            { id: "branchName", header: ["Chi Nhánh", { content: "selectFilter" }], width: 140, css: { "text-align": "center" }, tooltip: "", editor: "text" },
-                            { id: "showDate", header: ["Ngày Chiếu", { content: "selectFilter" }], width: 140, css: { "text-align": "center" }, tooltip: "", editor: "text" },
-                            { id: "startTime", header: ["Thời Gian Bắt Đầu", { content: "selectFilter" }], width: 140, css: { "text-align": "center" }, tooltip: "", editor: "text" },
-                            { id: "dimensionName", header: ["Độ Phân Giải", { content: "selectFilter" }], width: 140, css: { "text-align": "center" }, tooltip: "", editor: "text" },
-                            { id: "price", header: ["Giá", { content: "textFilter" }], fillspace: true },
+                            { id: "branchName", header: ["Chi Nhánh", { content: "selectFilter" }] },
+                            { id: "showDate", header: ["Ngày Chiếu", { content: "textFilter" }], format: webix.Date.dateToStr("%d/%m/%Y") },
+                            { id: "startTime", header: ["Thời Gian Bắt Đầu", { content: "textFilter" }], fillspace: true, format: "%H:%i:%s" },
+                            { id: "dimensionName", header: ["Độ Phân Giải", { content: "selectFilter" }] },
+                            { id: "price", header: ["Giá", { content: "textFilter" }], fillspace: true, numberFormat: "1.111đ" },
                         ],
                         height: 300,
                         scrollX: false,
@@ -54,7 +54,7 @@ export default class Showtime extends JetView {
                                                 view: "list",
                                                 id: "room",
                                                 data: [],
-                                                template: `#name# (#branchName#)`,
+                                                template: `#name# - (#branchName#)`,
                                                 yCount: 5
                                             }
                                         },
@@ -73,7 +73,7 @@ export default class Showtime extends JetView {
                                                 view: "list",
                                                 id: "movie",
                                                 data: [],
-                                                template: "#name#",
+                                                template: "#id# - #name#",
                                                 yCount: 5
                                             }
                                         },
@@ -104,8 +104,10 @@ export default class Showtime extends JetView {
                                         },
                                     },
                                     { view: "datepicker", name: "showDate", id: "showDate", label: "Ngày chiếu", timepicker: true, format: "%d/%m/%Y", required: true, invalidMessage: "Vui lòng chọn ngày chiếu" },
-                                    { view: "datepicker", type: "time", name: "startTime", id: "startTime", label: "Giờ chiếu", timepicker: true, required: true, invalidMessage: "Vui lòng chọn giờ chiếu" },
-                                    { view: "text", name: "price", label: "Giá", invalidMessage: "Vui lòng chỉ nhập số", format: "1.111 đồng", required: true, },
+                                    { view: "datepicker", type: "time", name: "startTime", id: "startTime", label: "Giờ chiếu", timepicker: true, format: "%H:%i:%s", required: true, invalidMessage: "Vui lòng chọn giờ chiếu" },
+                                    {
+                                        view: "text", name: "price", label: "Giá", invalidMessage: "Vui lòng chỉ nhập số", format: "1.111", required: true,
+                                    },
                                     {
                                         cols: [
                                             { view: "button", value: "Thêm", css: "webix_primary", click: (() => ShowtimeService.createShowtime()) },

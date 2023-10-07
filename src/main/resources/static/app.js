@@ -30,7 +30,7 @@ export default class InventoryApp extends JetApp {
 				"managementMovie": Movie,
 				"managementDirector": Director,
 				"managementActor": Actor,
-				"managementShowtime": Showtime,
+				"management-showtime": Showtime,
 				"room": Room
 			},
 			theme: theme || ""
