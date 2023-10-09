@@ -11,6 +11,7 @@ SELECT
 	showtime.roomid,
 	room.name as room,
 	dimension.name as dimension,
+	branch.id as branchId,
 	branch.name as branch,
 	branch.address as branchAddress
 FROM showtime 

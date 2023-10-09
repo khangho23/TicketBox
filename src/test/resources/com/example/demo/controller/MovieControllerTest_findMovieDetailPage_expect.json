@@ -10,53 +10,57 @@
         "trailer": "https://www.youtube.com/watch?v=orcxSddIA4s",
         "status": "0",
         "limitage": 16,
+        "language": null,
+        "type": null,
+        "actor": null,
+        "director": null,
+        "countryName": "Thái Lan",
         "movieTypeName": "Hành động, Tình cảm",
         "actorsName": "Chakrit Boonkeaw, Chatchai Katenut, Lamyai Haithongkham, Palita Chueasawathee, Somphong Kunapratom, Sushar Manaying, Teerapat Sajakul, Thanachat Tullayachat, Vithaya Pansringarm, Wanmai Chatborirak",
         "directorsName": "Lee Thongkham",
         "languagesName": "Tiếng Thái - Phụ đề tiếng Việt",
-        "countryName": "Thái Lan",
         "movieTypeId": "LP01,LP04"
     },
     "listTypeOfMovies": [
         {
-            "id": "MP02",
-            "poster": "MP02.png"
+            "id": "MP41",
+            "poster": "MP41.png "
         },
         {
-            "id": "MP43",
-            "poster": "MP43.png "
+            "id": "MP22",
+            "poster": "MP22.png "
         },
         {
-            "id": "MP24",
-            "poster": "MP24.png "
-        },
-        {
-            "id": "MP49",
-            "poster": "MP49.png "
-        },
-        {
-            "id": "MP42",
-            "poster": "MP42.png "
+            "id": "MP50",
+            "poster": "MP50.png"
         },
         {
             "id": "MP23",
             "poster": "MP23.png "
         },
         {
-            "id": "MP41",
-            "poster": "MP41.png "
+            "id": "MP06",
+            "poster": "MP06.png"
+        },
+        {
+            "id": "MP37",
+            "poster": "MP37.png "
+        },
+        {
+            "id": "MP24",
+            "poster": "MP24.png "
+        },
+        {
+            "id": "MP44",
+            "poster": "MP44.png "
         },
         {
             "id": "MP09",
             "poster": "MP09.png"
         },
         {
-            "id": "MP07",
-            "poster": "MP07.png"
-        },
-        {
-            "id": "MP16",
-            "poster": "MP16.png"
+            "id": "MP43",
+            "poster": "MP43.png "
         }
     ]
 }

@@ -19,13 +19,13 @@ import com.example.demo.service.MovieService;
 @RestController
 @RequestMapping("/api/movie")
 @CrossOrigin("*")
-public class MovieController{
+public class MovieController {
 	@Autowired
 	private MovieService movieService;
 
-
-	@GetMapping(value= {"","/"})
-	public ResponseEntity<?> findAll(@RequestParam("status") Optional<String> status) throws InvalidRequestParameterException {
+	@GetMapping(value = { "", "/" })
+	public ResponseEntity<?> findAll(@RequestParam("status") Optional<String> status)
+			throws InvalidRequestParameterException {
 		List<Movie> list = !status.isPresent() ? movieService.findAll() : movieService.findByStatus(status.get());
 		return ResponseEntity.ok(list);
 	}
@@ -39,30 +39,32 @@ public class MovieController{
 	public ResponseEntity<?> findMoviesNowShowing() {
 		return ResponseEntity.ok(movieService.findMoviesNowShowing());
 	}
-	
+
 	@GetMapping("/getDetail")
-	public ResponseEntity<?> findMovieDetailPage(@RequestParam("id") String movieId) {
+	public ResponseEntity<?> findMovieDetailPage(@RequestParam("id") String movieId)
+			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(movieService.findMovieDetailPage(movieId));
 	}
-	
+
 	@GetMapping("/findAll")
-	public ResponseEntity<?> findAll(){
+	public ResponseEntity<?> findAll() {
 		return ResponseEntity.ok(movieService.findAll());
 	}
-	
+
 	@GetMapping("/findMovieById")
-	public ResponseEntity<?> findMovieById(@RequestParam("movieId") String movieId){
+	public ResponseEntity<?> findMovieById(@RequestParam("movieId") String movieId)
+			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(movieService.findMovieById(movieId));
 	}
-	
+
 	@GetMapping("/findAllMovieAdmin")
-	public ResponseEntity<?> findAllMovieAdmin(){
+	public ResponseEntity<?> findAllMovieAdmin() {
 		return ResponseEntity.ok(movieService.findAllMovieAdmin());
 	}
-	
 
 	@GetMapping("/getByShowTime")
-	public ResponseEntity<?> getByShowTime(@RequestParam("showtimeid") int showtimeid) {
+	public ResponseEntity<?> getByShowTime(@RequestParam("showtimeid") int showtimeid)
+			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(movieService.findByShowTimeId(showtimeid));
 	}
 }
