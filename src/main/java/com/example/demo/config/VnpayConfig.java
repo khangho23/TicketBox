@@ -1,7 +1,6 @@
 package com.example.demo.config;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -12,26 +11,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class VnpayConfig {
-    @Value("${vnp_PayUrl}")
-    public static String vnp_PayUrl;
-
-    @Value("${vnp_ReturnUrl}")
-    public static String vnp_ReturnUrl;
-
-    @Value("${vnp_TmnCode}")
-    public static String vnp_TmnCode;
-
-    @Value("${vnp_HashSecret}")
-    public static String vnp_HashSecret;
-
-    @Value("${vnp_ApiUrl}")
-    public static String vnp_ApiUrl;
-
-    @Value("${vnp_Version}")
-    public static String vnp_Version;
-
-    @Value("${vnp_Command}")
-    public static String vnp_Command;
+    public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+    public static String vnp_ReturnUrl = "/payment";
+    public static String vnp_TmnCode = "1AXWHH3Y";
+    public static String secretKey = "MRBWPIEUEHSXCBSJEBIJSNKPTQOBYJDM";
+    public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
+    public static String vnp_Version = "2.1.0";
+    public static String vnp_Command = "pay";
 
     public static String md5(String message) {
         String digest = null;
@@ -87,7 +73,7 @@ public class VnpayConfig {
                 sb.append("&");
             }
         }
-        return hmacSHA512(vnp_HashSecret,sb.toString());
+        return hmacSHA512(secretKey,sb.toString());
     }
 
     public static String hmacSHA512(final String key, final String data) {

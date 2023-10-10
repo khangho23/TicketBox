@@ -1,65 +1,60 @@
 package com.example.demo.controller.rest;
 
 import com.example.demo.config.VnpayConfig;
+import com.example.demo.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/vnpay")
-@CrossOrigin(origins = "*", maxAge = 3600)
-public class VnpayController {
-    /* To send a payment amount of 10,000 VND (ten thousand Vietnamese dong),
+@CrossOrigin(origins = "*")
+public class VnpayController {/* To send a payment amount of 10,000 VND (ten thousand Vietnamese dong),
     the merchant needs to multiply it by 100. */
-    private final Integer REMOVE_DECIMAL_PART = 100;
+    private final int REMOVE_DECIMAL_DIGITS = 100;
+
+    // The item code is Bill Payment. To provide more comprehensive reports for business purposes
+    private final String BILL_PAYMENT = "250000";
 
     @Autowired
     HttpServletRequest request;
 
-    @PostMapping("/make")
-    public Map<String, String> createPayment(@RequestParam(name = "vnp_OrderInfo") String vnp_OrderInfo,
-                                             @RequestParam(name = "vnp_OrderType") String ordertype,
-                                             @RequestParam(name = "vnp_Amount") Integer amount,
-                                             @RequestParam(name = "vnp_Locale") String language,
-                                             @RequestParam(name = "vnp_BankCode", defaultValue = "NCB") String bankcode) throws NoSuchAlgorithmException {
-        String vnp_Version = VnpayConfig.vnp_Version;
-        String vnp_Command = VnpayConfig.vnp_Command;
+    @PostMapping("/pay")
+    public Map<String, String> createPayment(@RequestParam("vnp_OrderInfo") String vnp_OrderInfo,
+                                             @RequestParam("vnp_Amount") Integer amount,
+                                             @RequestParam("vnp_Locale") Optional<String> language,
+                                             @RequestParam("vnp_BankCode") String bankCode) {
         String vnp_TxnRef = VnpayConfig.getRandomNumber(8);
         String vnp_IpAddr = VnpayConfig.getIpAddress(request);
         String vnp_TmnCode = VnpayConfig.vnp_TmnCode;
 
         Map<String, String> vnp_Params = new HashMap<>();
-        vnp_Params.put("vnp_Version", vnp_Version);
-        vnp_Params.put("vnp_Command", vnp_Command);
+        vnp_Params.put("vnp_Version", VnpayConfig.vnp_Version);
+        vnp_Params.put("vnp_Command", VnpayConfig.vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(amount * REMOVE_DECIMAL_PART));
+        vnp_Params.put("vnp_Amount", String.valueOf(amount * REMOVE_DECIMAL_DIGITS));
         vnp_Params.put("vnp_CurrCode", "VND");
-        if (bankcode != null && bankcode.isEmpty()) {
-            vnp_Params.put("vnp_BankCode", bankcode);
-        }
+        vnp_Params.put("vnp_BankCode", bankCode);
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", vnp_OrderInfo);
-        vnp_Params.put("vnp_OrderType", ordertype);
-
-        if (language != null && !language.isEmpty()) {
-            vnp_Params.put("vnp_Locale", language);
-        } else {
-            vnp_Params.put("vnp_Locale", "vn");
-        }
+        vnp_Params.put("vnp_OrderInfo", StringUtils.convertVietnameseToNoDiacritics(vnp_OrderInfo));
+        vnp_Params.put("vnp_OrderType", BILL_PAYMENT);
+        vnp_Params.put("vnp_Locale", language.orElse("vn"));
         vnp_Params.put("vnp_ReturnUrl", VnpayConfig.vnp_ReturnUrl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
-        Date dt = new Date();
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String dateString = formatter.format(dt);
-        vnp_Params.put("vnp_CreateDate", dateString);
-        vnp_Params.put("vnp_TransDate", dateString);
+        String vnp_CreateDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+        cld.add(Calendar.MINUTE, 15);
+        String vnp_ExpireDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
         // Build data to hash and querystring
         List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
@@ -68,15 +63,15 @@ public class VnpayController {
         StringBuilder query = new StringBuilder();
         Iterator<String> itr = fieldNames.iterator();
         while (itr.hasNext()) {
-            String fieldName = itr.next();
-            String fieldValue = vnp_Params.get(fieldName);
+            String fieldName = (String) itr.next();
+            String fieldValue = (String) vnp_Params.get(fieldName);
             if (fieldValue != null && !fieldValue.isEmpty()) {
-                // Build hash data
+                //Build hash data
                 hashData.append(fieldName);
                 hashData.append('=');
-                hashData.append(fieldValue);
+                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
 
-                // Build query
+                //Build query
                 query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII));
                 query.append('=');
                 query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
@@ -89,10 +84,11 @@ public class VnpayController {
         }
 
         String queryUrl = query.toString();
-        String vnp_SecureHash = VnpayConfig.Sha256(VnpayConfig.vnp_HashSecret + hashData);
-        queryUrl += "&vnp_SecureHashType=SHA256&vnp_SecureHash=" + vnp_SecureHash;
+        String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData.toString());
+        queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
         vnp_Params.put("redirect_url", paymentUrl);
+
         return vnp_Params;
     }
 
