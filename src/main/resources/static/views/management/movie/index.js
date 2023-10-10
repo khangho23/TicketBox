@@ -286,6 +286,7 @@ export default class Movie extends JetView {
 			view: "scrollview",
 			scroll: "y",
 			body: {
+				height: 1230,
 				rows: [form, table]
 			}
 		}

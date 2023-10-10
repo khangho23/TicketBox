@@ -58,69 +58,66 @@ export default class StatsView extends JetView {
 	config() {
 		const self = this;
 		return {
-			view: "scrollview",
-			height: 500,
-			body: {
-				rows: [
-					{
-						template: "<h1 style='font-family:Bookman'>Thống kê Phim</h1>",
-						height: 60
-					},
-					{
-						cols: [
-
-							{
-								view: "datatable",
-								css: "tabledash",
-								width: 700,
-								id: "datatable",
-								columns: [
-									{ id: "movieName", header: ["Tên Phim", { content: "textFilter" }], fillspace: true, footer: "Tổng" },
-									{ id: "year", header: ["Năm", { content: "selectFilter" }], width: 90, css: { "text-align": "center" }, tooltip: "", editor: "text" },
-									{
-										id: "totalPrice", header: ["Doanh thu", { content: "numberFilter" }], width: 100, sort: "int", footer: { content: "summColumn" },
-										format: (value) => { return webix.Number.format(value, { groupSize: 3, groupDelimiter: ".", decimalSize: 0, decimalDelimiter: "", sufix: "₫" }); }
-									},
-									{ id: "totalTicket", header: ["Tổng vé", { content: "numberFilter" }], width: 80, sort: "int", footer: { content: "summColumn" } }
-								],
-								scrollX: false,
-								footer: true,
-								on: {
-									onItemClick: function (id) {
-										const selectedItem = this.getItem(id);
-										if (selectedItem) {
-											const movieName = selectedItem.movieName;
-											const year = selectedItem.year;
-											DashboardService.filldata5(movieName, year)
-												.then((data) => {
-													self.data.datasets[0].data = data.map((item) => item.totalPrice);
-													self.data.labels = data.map((item) => item.month);
-													self.data.datasets[0].label = "Doanh thu năm " + year + " của " + movieName;
-													self.data2.datasets[0].data = data.map((item) => item.totalTicket);
-													self.data2.labels = data.map((item) => item.month);
-													self.data2.datasets[0].label = "Tổng vé năm " + year + " của " + movieName;
-													self.updateChart();
-												})
-												.catch((error) => {
-													console.error("Lỗi khi gọi API:", error);
-												});
-										}
+			rows: [
+				{
+					template: "<h1 style='font-family:Bookman'>Thống kê Phim</h1>",
+					height: 60
+				},
+				{
+					cols: [
+						{
+							view: "datatable",
+							css: "tabledash",
+							width: 700,
+							height: 480,
+							id: "datatable",
+							columns: [
+								{ id: "movieName", header: ["Tên Phim", { content: "textFilter" }], fillspace: true, footer: "Tổng" },
+								{ id: "year", header: ["Năm", { content: "selectFilter" }], width: 90, css: { "text-align": "center" }, tooltip: "", editor: "text" },
+								{
+									id: "totalPrice", header: ["Doanh thu", { content: "numberFilter" }], width: 100, sort: "int", footer: { content: "summColumn" },
+									format: (value) => { return webix.Number.format(value, { groupSize: 3, groupDelimiter: ".", decimalSize: 0, decimalDelimiter: "", sufix: "₫" }); }
+								},
+								{ id: "totalTicket", header: ["Tổng vé", { content: "numberFilter" }], width: 80, sort: "int", footer: { content: "summColumn" } }
+							],
+							scrollX: false,
+							footer: true,
+							on: {
+								onItemClick: function (id) {
+									const selectedItem = this.getItem(id);
+									if (selectedItem) {
+										const movieName = selectedItem.movieName;
+										const year = selectedItem.year;
+										DashboardService.filldata5(movieName, year)
+											.then((data) => {
+												self.data.datasets[0].data = data.map((item) => item.totalPrice);
+												self.data.labels = data.map((item) => item.month);
+												self.data.datasets[0].label = "Doanh thu năm " + year + " của " + movieName;
+												self.data2.datasets[0].data = data.map((item) => item.totalTicket);
+												self.data2.labels = data.map((item) => item.month);
+												self.data2.datasets[0].label = "Tổng vé năm " + year + " của " + movieName;
+												self.updateChart();
+											})
+											.catch((error) => {
+												console.error("Lỗi khi gọi API:", error);
+											});
 									}
 								}
-							}, {
-								rows: [{
-									template: "<div><canvas id='myChart2' style='height: 580px;color:white !important'></canvas></div>",
-									css: 'dashboard1'
-								}, {
-									template: "<div><canvas id='myChart3' style='height: 580px;'></canvas></div>",
-									css: 'dashboard2'
-								}]
 							}
+						}, {
+							rows: [{
+								template: "<div><canvas id='myChart2' style='height: 580px;color:white !important'></canvas></div>",
+								css: 'dashboard1'
+							}, {
+								template: "<div><canvas id='myChart3' style='height: 580px;'></canvas></div>",
+								css: 'dashboard2'
+							}]
+						}
 
-						]
-					}]
-			}
+					]
+				}]
 		}
+
 	};
 	init() {
 		DashboardService.filldata4().then((data1) => {

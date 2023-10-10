@@ -31,7 +31,6 @@ export default class ReviewsView extends JetView {
 	config() {
 		return {
 			width: 380,
-			height: 400,
 			rows: [{
 				cols: [
 					{

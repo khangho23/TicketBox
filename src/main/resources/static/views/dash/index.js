@@ -12,12 +12,14 @@ export default class TopView extends JetView {
 			view: "scrollview",
 			scroll: "y",
 			body: {
-				type: "space", rows: [
+				type: "space", height: 1050, rows: [
 					{
 						type: "wide",
+						height: 400,
 						cols: [{ $subview: DashboardPriceOfYear }, { $subview: DashboardTicketOfYear }]
 					}, {
 						type: "wide",
+						height: 600,
 						cols: [{ $subview: DashboardMovie }]
 					}
 				]

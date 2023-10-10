@@ -32,7 +32,6 @@ export default class ProjectsView extends JetView {
 	config() {
 		return {
 			width: 900,
-			height: 400,
 			rows: [
 				{
 					cols: [
