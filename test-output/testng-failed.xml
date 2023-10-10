@@ -6,9 +6,9 @@
       <class name="com.example.demo.controller.CustomerControllerTest">
         <methods>
           <include name="testFindByIdIsNotPresent"/>
-          <include name="init"/>
           <include name="testRegistrationConfirmIsNull"/>
           <include name="testFindById"/>
+          <include name="setup"/>
           <include name="testFindByIdIsInvalidDataType"/>
           <include name="testFindByIdIsNull"/>
           <include name="testRegistrationConfirmIsNotPresent"/>
@@ -20,11 +20,6 @@
           <include name="findById"/>
         </methods>
       </class> <!-- com.example.demo.controller.MovieControllerTest -->
-      <class name="com.example.demo.controller.HomeControllerTest">
-        <methods>
-          <include name="getAll"/>
-        </methods>
-      </class> <!-- com.example.demo.controller.HomeControllerTest -->
     </classes>
   </test> <!-- D:/cinema_projects/BE_Cinema(failed) -->
 </suite> <!-- Failed suite [All Test Suite] -->
