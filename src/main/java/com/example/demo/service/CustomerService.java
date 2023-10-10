@@ -155,7 +155,7 @@ public class CustomerService implements BaseService<Customer, Integer> {
         if (!passwordEncoder.matches(account.getPassword(), customer.getPassword())) {
             throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
         }
-
+     
         customer.setPassword(passwordEncoder.encode(account.getNewPassword()));
         customerDao.updatePassword(customer);
         return RequestStatusEnum.SUCCESS.getResponse();

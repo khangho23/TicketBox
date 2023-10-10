@@ -2,10 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.CustomerTestApplication;
 import com.example.demo.config.GsonService;
-import com.example.demo.controller.rest.CustomerController;
-import com.example.demo.dao.CustomerDao;
-import com.example.demo.dao.CustomerDaoImpl;
-import com.example.demo.service.CustomerService;
+
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -49,8 +46,8 @@ public class CustomerControllerTest {
     @Mock
     private GsonService gsonService;
 
-    @InjectMocks
-    private CustomerController customerController;
+//    @InjectMocks
+//    private CustomerController customerController;
 
     @BeforeMethod
     public void setup() {
