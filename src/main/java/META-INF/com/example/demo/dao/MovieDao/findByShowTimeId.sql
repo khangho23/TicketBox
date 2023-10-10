@@ -16,7 +16,7 @@ LEFT JOIN language ON language.id = languageofmovie.languageid
 LEFT JOIN directorofmovie ON directorofmovie.movieid = movie.id
 LEFT JOIN director ON director.id = directorofmovie.directorid
 LEFT JOIN country ON country.id = movie.countryid
-LEFT JOIN showtime ON showtime.movieid = movie.id
+LEFT JOIN showtime ON showtime.languageofmovieid = languageofmovie.id
 
 WHERE showtime.id = /* showTimeId */'1'
 GROUP BY movie.id, 

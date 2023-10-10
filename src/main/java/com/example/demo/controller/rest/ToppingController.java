@@ -21,7 +21,7 @@ public class ToppingController {
 	@Autowired
 	ToppingService toppingService;
 
-	@GetMapping("/branch")
+	@GetMapping("/toppingofbranch")
 	public ResponseEntity<?> findByBranchId(@RequestParam("branchid") Optional<String> branchid)
 			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(toppingService.findByBranchid(branchid));

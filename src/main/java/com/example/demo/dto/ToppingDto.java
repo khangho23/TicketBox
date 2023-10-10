@@ -23,7 +23,7 @@ public class ToppingDto extends Topping {
 	 * branchid of topping
 	 */
 	@Column(name = "branchid")
-	private String branch;
+	private String branchId;
 	
 	/*
 	 * quantity of topping
