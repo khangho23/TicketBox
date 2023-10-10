@@ -8,6 +8,7 @@ export default class MenuView extends JetView {
 		const theme = this.app.config.theme;
 		return {
 			width: 200,
+			height:window.innerHeight,
 			localId: "side:menu",
 			view: "sidebar",
 //			collapsed: true,
@@ -18,7 +19,8 @@ export default class MenuView extends JetView {
 					id: "management", icon: "mdi mdi-puzzle", value: "Quản lý", data: [
 						{ id: "managementMovie", value: "Phim" },
 						{ id: "managementActor", value: "Đạo diễn" },
-						{ id: "managementDirector", value: "Diễn viên" }
+						{ id: "managementDirector", value: "Diễn viên" },
+                        { id: "management-seat", value: "Đặt chỗ" }
 					]
 				},
 				{ id: "statistical", value: "Thống kê", icon: "mdi mdi-chart-areaspline" },
@@ -29,6 +31,7 @@ export default class MenuView extends JetView {
 	}
 	init(sidebar) {
 		this.use(plugins.Menu, this.$$("side:menu"));
+		$$(this.getUrl()[1].page).show();
 		this.on(this.app, "menu:toggle", () => this.$$("side:menu").toggle());
 		sidebar.getPopup().attachEvent("onBeforeShow", () => false);
 	}
