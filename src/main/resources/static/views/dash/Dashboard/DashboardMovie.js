@@ -59,11 +59,11 @@ export default class StatsView extends JetView {
 		const self = this;
 		return {
 			view: "scrollview",
-			scroll: "y",
+			height: 500,
 			body: {
 				rows: [
 					{
-						template: "<h1 style='color:blue;font-family:Bookman'>Thống kê Phim</h1>",
+						template: "<h1 style='font-family:Bookman'>Thống kê Phim</h1>",
 						height: 60
 					},
 					{
@@ -71,22 +71,22 @@ export default class StatsView extends JetView {
 
 							{
 								view: "datatable",
+								css: "tabledash",
 								width: 700,
 								id: "datatable",
 								columns: [
 									{ id: "movieName", header: ["Tên Phim", { content: "textFilter" }], fillspace: true, footer: "Tổng" },
-									{ id: "year", header: ["Năm", { content: "selectFilter" }], width: 140, css: { "text-align": "center" }, tooltip: "", editor: "text" },
+									{ id: "year", header: ["Năm", { content: "selectFilter" }], width: 90, css: { "text-align": "center" }, tooltip: "", editor: "text" },
 									{
 										id: "totalPrice", header: ["Doanh thu", { content: "numberFilter" }], width: 100, sort: "int", footer: { content: "summColumn" },
 										format: (value) => { return webix.Number.format(value, { groupSize: 3, groupDelimiter: ".", decimalSize: 0, decimalDelimiter: "", sufix: "₫" }); }
 									},
-									{ id: "totalTicket", header: ["Tổng vé", { content: "numberFilter" }], width: 100, sort: "int", footer: { content: "summColumn" } }
+									{ id: "totalTicket", header: ["Tổng vé", { content: "numberFilter" }], width: 80, sort: "int", footer: { content: "summColumn" } }
 								],
-								height: 300,
 								scrollX: false,
 								footer: true,
 								on: {
-									onItemClick: function(id) {
+									onItemClick: function (id) {
 										const selectedItem = this.getItem(id);
 										if (selectedItem) {
 											const movieName = selectedItem.movieName;
@@ -94,10 +94,10 @@ export default class StatsView extends JetView {
 											DashboardService.filldata5(movieName, year)
 												.then((data) => {
 													self.data.datasets[0].data = data.map((item) => item.totalPrice);
-													self.data.labels = data.map((item) => "T" + item.id);
+													self.data.labels = data.map((item) => item.month);
 													self.data.datasets[0].label = "Doanh thu năm " + year + " của " + movieName;
 													self.data2.datasets[0].data = data.map((item) => item.totalTicket);
-													self.data2.labels = data.map((item) => "T" + item.id);
+													self.data2.labels = data.map((item) => item.month);
 													self.data2.datasets[0].label = "Tổng vé năm " + year + " của " + movieName;
 													self.updateChart();
 												})
@@ -109,9 +109,11 @@ export default class StatsView extends JetView {
 								}
 							}, {
 								rows: [{
-									template: "<div><canvas id='myChart2' style='height: 350px;'></canvas></div>",
+									template: "<div><canvas id='myChart2' style='height: 580px;color:white !important'></canvas></div>",
+									css: 'dashboard1'
 								}, {
-									template: "<div><canvas id='myChart3' style='height: 350px;'></canvas></div>",
+									template: "<div><canvas id='myChart3' style='height: 580px;'></canvas></div>",
+									css: 'dashboard2'
 								}]
 							}
 
@@ -125,10 +127,10 @@ export default class StatsView extends JetView {
 			DashboardService.filldata5(data1[0].movieName, data1[0].year)
 				.then((data) => {
 					this.data.datasets[0].data = data.map((item) => item.totalPrice);
-					this.data.labels = data.map((item) => "T" + item.id);
+					this.data.labels = data.map((item) => item.month);
 					this.data2.datasets[0].data = data.map((item) => item.totalTicket);
 					this.data.datasets[0].label = "Doanh thu năm " + data1[0].year + " của " + data1[0].movieName;
-					this.data2.labels = data.map((item) => "T" + item.id);
+					this.data2.labels = data.map((item) => item.month);
 					this.data2.datasets[0].label = "Tổng vé năm " + data1[0].year + " của " + data1[0].movieName;
 					this.updateChart();
 				})
@@ -146,9 +148,31 @@ export default class StatsView extends JetView {
 			type: "bar",
 			data: this.data,
 			options: {
+				plugins: {
+					legend: {
+						labels: {
+							color: "white",
+						},
+					},
+				},
 				scales: {
 					y: {
 						beginAtZero: true,
+						ticks: {
+							color: "white"
+						},
+						grid: {
+							color: "white",
+						}
+					},
+					x: {
+						beginAtZero: true,
+						ticks: {
+							color: "white"
+						},
+						grid: {
+							color: "white",
+						}
 					},
 				},
 			},
@@ -160,9 +184,31 @@ export default class StatsView extends JetView {
 			type: "bar",
 			data: this.data2,
 			options: {
+				plugins: {
+					legend: {
+						labels: {
+							color: "white",
+						},
+					},
+				},
 				scales: {
 					y: {
 						beginAtZero: true,
+						ticks: {
+							color: "white"
+						},
+						grid: {
+							color: "white",
+						}
+					},
+					x: {
+						beginAtZero: true,
+						ticks: {
+							color: "white"
+						},
+						grid: {
+							color: "white",
+						}
 					},
 				},
 			},

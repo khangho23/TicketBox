@@ -13,8 +13,8 @@ public class DashboardService {
 	@Autowired
 	private DashboardDao dashboardDao;
 	
-	public List<Dashboard> findTotalPriceTicketPerMonthOfYear(int year){
-		return dashboardDao.findTotalPriceTicketPerMonthOfYear(year);
+	public List<Dashboard> findTotalPriceTicketPerMonthOfYear(int year,String branchName){
+		return dashboardDao.findTotalPriceTicketPerMonthOfYear(year,branchName);
 	}
 	
 	public List<Dashboard> statisticsTicketPriceByMovie() {
@@ -23,5 +23,9 @@ public class DashboardService {
 	
 	public List<Dashboard> statisticsTicketPriceByMovie2(String movieName, int year){
 		return dashboardDao.statisticsTicketPriceByMovie2(movieName, year);
+	}
+	
+	public List<Dashboard> fillYear(){
+		return dashboardDao.fillYear();
 	}
 }

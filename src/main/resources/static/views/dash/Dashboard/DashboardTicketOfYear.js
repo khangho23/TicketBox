@@ -30,22 +30,22 @@ export default class ReviewsView extends JetView {
 
 	config() {
 		return {
-			width: 300,
-			height: 380,
+			width: 380,
+			height: 400,
 			rows: [{
 				cols: [
 					{
 						view: "select",
-						id: "selectinput",
+						id: "selectYear2",
 						label: "Chọn năm:",
-						options: [
-							{ id: "2023", value: "2023" },
-							{ id: "2022", value: "2022" },
-						]
+						labelWidth: 80,
+						width: 140,
+						options: []
 						, on: {
 							onChange: () => {
-								const inputValue = this.$$("selectinput").getValue();
-								DashboardService.filldata(inputValue)
+								const year = this.$$("selectYear2").getValue();
+								const branch = this.$$("selectBranch2").getValue();
+								DashboardService.filldata(year, branch)
 									.then((data) => {
 										this.data2.datasets[0].data = data.map((item) => item.totalTicket);
 										this.data2.labels = data.map((item) => 'Tháng ' + item.id);
@@ -56,21 +56,46 @@ export default class ReviewsView extends JetView {
 									});
 							}
 						},
-					}]
+					}, {
+						view: "select",
+						id: "selectBranch2",
+						label: "Chọn chi nhánh:",
+						labelWidth: 115,
+						options: [],
+						on: {
+							onChange: () => {
+								const branch = this.$$("selectBranch2").getValue();
+								const year = this.$$("selectYear2").getValue();
+								DashboardService.filldata(year, branch)
+									.then((data) => {
+										this.data2.datasets[0].data = data.map((item) => item.totalTicket);
+										this.data2.labels = data.map((item) => 'T ' + item.id);
+										this.updateChart();
+									})
+									.catch((error) => {
+										console.error("Lỗi khi gọi API:", error);
+									});
+							},
+						},
+					},]
 			},
 			{
 				template: "<div ><canvas id='myChartPie'></canvas></div>",
+				css: 'dashboard4'
 			},
 			],
 		}
 	}
-	init() {
+	async init() {
+		await DashboardService.fillOption2();
+		const optionBranch = await DashboardService.fillOption();
 		const currentYear = new Date().getFullYear().toString();
-		this.$$("selectinput").setValue(currentYear);
-		DashboardService.filldata(currentYear)
+		this.$$("selectYear2").setValue(currentYear);
+		this.$$("selectBranch2").setValue(optionBranch[1].id);
+		DashboardService.filldata(currentYear, optionBranch[1].id)
 			.then((data) => {
 				this.data2.datasets[0].data = data.map((item) => item.totalTicket);
-				this.data2.labels = data.map((item) => 'Tháng ' + item.id);
+				this.data2.labels = data.map((item) => 'T ' + item.id);
 				this.updateChart();
 			})
 			.catch((error) => {
@@ -82,6 +107,15 @@ export default class ReviewsView extends JetView {
 		this.chart = new Chart(ctx, {
 			type: 'doughnut',
 			data: this.data2,
+			options: {
+				plugins: {
+					legend: {
+						labels: {
+							color: "white",
+						},
+					},
+				},
+			},
 		});
 	}
 	updateChart() {

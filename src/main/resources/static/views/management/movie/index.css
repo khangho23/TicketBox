@@ -1,0 +1,80 @@
+.poster1 {
+    justify-content: center;
+    display: grid;
+}
+
+.upload .webix_button {
+    background-color: black;
+    color: rgb(255, 255, 255);
+}
+
+.upload .webix_button:hover {
+    background-color: white(255, 255, 255);
+    color: rgb(255, 0, 0);
+}
+
+.insert .webix_button {
+    background-color: rgb(16, 108, 3);
+    color: white;
+}
+
+.insert .webix_button:hover {
+    background-color: white(208, 207, 207);
+    color: rgb(255, 0, 0);
+}
+
+.update .webix_button {
+    background-color: rgb(5, 115, 146);
+    color: white;
+}
+
+.update .webix_button:hover {
+    background-color: white(208, 207, 207);
+    color: rgb(255, 0, 0);
+}
+
+.new .webix_button {
+    background-color: rgb(139, 151, 154);
+    color: white;
+}
+
+.new .webix_button:hover {
+    background-color: white(208, 207, 207);
+    color: rgb(255, 0, 0);
+}
+
+.form {
+    background-color: rgb(223, 225, 225) !important;
+}
+
+.datatable {
+    background-color: rgb(223, 225, 225);
+}
+
+.datatable .webix_ss_header,
+.datatable .webix_hcolumn,
+.datatable .webix_dd_drag_column,
+.datatable .webix_hs_left,
+.datatable .webix_hs_center,
+.datatable .webix_hs_right {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #eae7e7;
+    letter-spacing: 0.2px;
+    background: rgb(29, 37, 45) !important;
+}
+
+.form .webix_inp_top_label {
+    color: rgb(0, 0, 0);
+    font-size: medium;
+}
+
+.form .webix_inp_top_label i {
+    color: rgb(215, 0, 0);
+    font-size: medium;
+}
+
+.label .webix_el_box {
+    line-height: 77px !important;
+}
