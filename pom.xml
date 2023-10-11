@@ -156,7 +156,6 @@
 			<version>1.7.36</version>
 			<scope>compile</scope>
 		</dependency>
-
 	</dependencies>
 	<build>
 		<plugins>
