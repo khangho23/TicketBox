@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,8 @@ public class CustomerService implements BaseService<Customer, Integer> {
     EmailService emailService;
     @Autowired
     S3Service s3Service;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     // The name of an existing bucket, or access point ARN, to which the new object will be uploaded
     final String BUCKET_NAME = "zuhot-cinema-images";
@@ -51,7 +54,7 @@ public class CustomerService implements BaseService<Customer, Integer> {
         Customer customer = customerDao.findByEmail(email)
                 .orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
         if (customer.isActive()) {
-            if (customer.getPassword().equals(password)) {
+            if (passwordEncoder.matches(password, customer.getPassword())) {
                 return customer;
             } else {
                 throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
@@ -65,6 +68,7 @@ public class CustomerService implements BaseService<Customer, Integer> {
         if (customerDao.findByEmail(customer.getEmail()).isPresent()) {
             throw new InvalidRequestParameterException("", RequestParameterEnum.EXISTS);
         }
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         return (customerDao.insert(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
     }
 
@@ -148,11 +152,11 @@ public class CustomerService implements BaseService<Customer, Integer> {
     public String updatePassword(AccountModel account) throws InvalidRequestParameterException {
         Customer customer = customerDao.findById(account.getCustomerId()).get();
 
-        if (!customer.getPassword().equals(account.getPassword())) {
+        if (!passwordEncoder.matches(account.getPassword(), customer.getPassword())) {
             throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
         }
-
-        customer.setPassword(account.getNewPassword());
+     
+        customer.setPassword(passwordEncoder.encode(account.getNewPassword()));
         customerDao.updatePassword(customer);
         return RequestStatusEnum.SUCCESS.getResponse();
     }
