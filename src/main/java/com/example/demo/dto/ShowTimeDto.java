@@ -47,4 +47,10 @@ public class ShowTimeDto extends ShowTime{
     
     @Column(name = "branchAddress")
     private String branchAddress;
+	
+	/*
+	 * movieName of ShowTimeDto
+	 */
+	@Column(name = "movieName")
+	private String movieName;
 }
