@@ -1,5 +1,6 @@
 package com.example.demo.controller.rest;
 
+import com.example.demo.dto.VnpayPaymentDto;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.VnpayService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,12 +21,8 @@ public class VnpayController {
     VnpayService vnpayService;
 
     @PostMapping("/pay")
-    public ResponseEntity<?> createPayment(@RequestParam("vnp_OrderInfo") String vnp_OrderInfo,
-                                           @RequestParam("vnp_Amount") Integer amount,
-                                           @RequestParam("vnp_Locale") Optional<String> language,
-                                           @RequestParam("vnp_BankCode") Optional<String> bankCode) throws InvalidRequestParameterException {
-        return ResponseEntity.ok(vnpayService.createPayment(request, vnp_OrderInfo,
-                amount, language, bankCode));
+    public ResponseEntity<?> createPayment(@RequestBody VnpayPaymentDto vnp) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.createPayment(request, vnp));
     }
 
     @GetMapping("/payment-information")

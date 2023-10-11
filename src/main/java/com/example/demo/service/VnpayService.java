@@ -1,14 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.config.VnpayConfig;
+import com.example.demo.dto.VnpayPaymentDto;
 import com.example.demo.exception.InvalidRequestParameterException;
-import com.example.demo.model.VnpayModel;
 import com.example.demo.util.PaymentUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -24,47 +23,47 @@ public class VnpayService {
     @Autowired
     PaymentUtils paymentUtils;
 
-    public VnpayModel createPayment(HttpServletRequest request, String vnp_OrderInfo, Integer amount, Optional<String> language, Optional<String> bankCode) throws InvalidRequestParameterException {
-        vnp_OrderInfo = paymentUtils.validateBankTransferContent(vnp_OrderInfo);
+    public VnpayPaymentDto createPayment(HttpServletRequest request, VnpayPaymentDto vnp) throws InvalidRequestParameterException {
+        vnp.setVnp_OrderInfo(paymentUtils.validateBankTransferContent(vnp.getVnp_OrderInfo()));
 
-        VnpayModel vnpayModel = new VnpayModel();
-        vnpayModel.setVnp_Version(VnpayConfig.vnp_Version);
-        vnpayModel.setVnp_Command(VnpayConfig.vnp_Command);
-        vnpayModel.setVnp_TmnCode(VnpayConfig.vnp_TmnCode);
-        vnpayModel.setVnp_Amount(String.valueOf(amount * REMOVE_DECIMAL_DIGITS));
-        vnpayModel.setVnp_CurrCode("VND");
-        vnpayModel.setVnp_BankCode(bankCode.orElse(""));
-        vnpayModel.setVnp_TxnRef(VnpayConfig.getRandomNumber(8));
-        vnpayModel.setVnp_OrderInfo(vnp_OrderInfo);
-        vnpayModel.setVnp_OrderType(BILL_PAYMENT);
-        vnpayModel.setVnp_Locale(language.orElse("vn"));
-        vnpayModel.setVnp_ReturnUrl(VnpayConfig.vnp_ReturnUrl);
-        vnpayModel.setVnp_IpAddr(VnpayConfig.getIpAddress(request));
+        VnpayPaymentDto vnpayPaymentDto = new VnpayPaymentDto();
+        vnpayPaymentDto.setVnp_Version(VnpayConfig.vnp_Version);
+        vnpayPaymentDto.setVnp_Command(VnpayConfig.vnp_Command);
+        vnpayPaymentDto.setVnp_TmnCode(VnpayConfig.vnp_TmnCode);
+        vnpayPaymentDto.setVnp_Amount(String.valueOf(Integer.parseInt(vnp.getVnp_Amount()) * REMOVE_DECIMAL_DIGITS));
+        vnpayPaymentDto.setVnp_CurrCode("VND");
+        vnpayPaymentDto.setVnp_BankCode(vnp.getVnp_BankCode());
+        vnpayPaymentDto.setVnp_TxnRef(VnpayConfig.getRandomNumber(8));
+        vnpayPaymentDto.setVnp_OrderInfo(vnp.getVnp_OrderInfo());
+        vnpayPaymentDto.setVnp_OrderType(BILL_PAYMENT);
+        vnpayPaymentDto.setVnp_Locale(vnp.getVnp_Locale());
+        vnpayPaymentDto.setVnp_ReturnUrl(VnpayConfig.vnp_ReturnUrl);
+        vnpayPaymentDto.setVnp_IpAddr(VnpayConfig.getIpAddress(request));
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String vnp_CreateDate = formatter.format(cld.getTime());
-        vnpayModel.setVnp_CreateDate(vnp_CreateDate);
+        vnpayPaymentDto.setVnp_CreateDate(vnp_CreateDate);
         cld.add(Calendar.MINUTE, TIME_OUT);
         String vnp_ExpireDate = formatter.format(cld.getTime());
-        vnpayModel.setVnp_ExpireDate(vnp_ExpireDate);
+        vnpayPaymentDto.setVnp_ExpireDate(vnp_ExpireDate);
 
         Map<String, String> vnp_Params = new LinkedHashMap<>();
-        // Populate vnp_Params with properties from vnpayModel
-        vnp_Params.put("vnp_Version", vnpayModel.getVnp_Version());
-        vnp_Params.put("vnp_Command", vnpayModel.getVnp_Command());
-        vnp_Params.put("vnp_TmnCode", vnpayModel.getVnp_TmnCode());
-        vnp_Params.put("vnp_Amount", vnpayModel.getVnp_Amount());
-        vnp_Params.put("vnp_CurrCode", vnpayModel.getVnp_CurrCode());
-        vnp_Params.put("vnp_BankCode", vnpayModel.getVnp_BankCode());
-        vnp_Params.put("vnp_TxnRef", vnpayModel.getVnp_TxnRef());
-        vnp_Params.put("vnp_OrderInfo", vnpayModel.getVnp_OrderInfo());
-        vnp_Params.put("vnp_OrderType", vnpayModel.getVnp_OrderType());
-        vnp_Params.put("vnp_Locale", vnpayModel.getVnp_Locale());
-        vnp_Params.put("vnp_ReturnUrl", vnpayModel.getVnp_ReturnUrl());
-        vnp_Params.put("vnp_IpAddr", vnpayModel.getVnp_IpAddr());
-        vnp_Params.put("vnp_CreateDate", vnpayModel.getVnp_CreateDate());
-        vnp_Params.put("vnp_ExpireDate", vnpayModel.getVnp_ExpireDate());
+        // Populate vnp_Params with properties from vnpayPaymentDto
+        vnp_Params.put("vnp_Version", vnpayPaymentDto.getVnp_Version());
+        vnp_Params.put("vnp_Command", vnpayPaymentDto.getVnp_Command());
+        vnp_Params.put("vnp_TmnCode", vnpayPaymentDto.getVnp_TmnCode());
+        vnp_Params.put("vnp_Amount", vnpayPaymentDto.getVnp_Amount());
+        vnp_Params.put("vnp_CurrCode", vnpayPaymentDto.getVnp_CurrCode());
+        vnp_Params.put("vnp_BankCode", vnpayPaymentDto.getVnp_BankCode());
+        vnp_Params.put("vnp_TxnRef", vnpayPaymentDto.getVnp_TxnRef());
+        vnp_Params.put("vnp_OrderInfo", vnpayPaymentDto.getVnp_OrderInfo());
+        vnp_Params.put("vnp_OrderType", vnpayPaymentDto.getVnp_OrderType());
+        vnp_Params.put("vnp_Locale", vnpayPaymentDto.getVnp_Locale());
+        vnp_Params.put("vnp_ReturnUrl", vnpayPaymentDto.getVnp_ReturnUrl());
+        vnp_Params.put("vnp_IpAddr", vnpayPaymentDto.getVnp_IpAddr());
+        vnp_Params.put("vnp_CreateDate", vnpayPaymentDto.getVnp_CreateDate());
+        vnp_Params.put("vnp_ExpireDate", vnpayPaymentDto.getVnp_ExpireDate());
 
         String[] queryAndHashData = buildQueryUrl(vnp_Params);
         String queryUrl = queryAndHashData[0];
@@ -75,9 +74,9 @@ public class VnpayService {
 
         String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
         vnp_Params.put("redirect_url", paymentUrl);
-        vnpayModel.setRedirect_url(paymentUrl);
+        vnpayPaymentDto.setRedirect_url(paymentUrl);
 
-        return vnpayModel;
+        return vnpayPaymentDto;
     }
 
     private String[] buildQueryUrl(Map<String, String> vnp_Params) {
