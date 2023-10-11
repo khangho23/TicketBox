@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.config.VnpayConfig;
+import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.VnpayModel;
-import com.example.demo.util.StringUtils;
+import com.example.demo.util.PaymentUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,17 +21,21 @@ public class VnpayService {
     private final String BILL_PAYMENT = "250000";
     private final int TIME_OUT = 15;
 
-    public VnpayModel createPayment(HttpServletRequest request, String vnp_OrderInfo, Integer amount,
-                                    Optional<String> language, String bankCode) {
+    @Autowired
+    PaymentUtils paymentUtils;
+
+    public VnpayModel createPayment(HttpServletRequest request, String vnp_OrderInfo, Integer amount, Optional<String> language, Optional<String> bankCode) throws InvalidRequestParameterException {
+        vnp_OrderInfo = paymentUtils.validateBankTransferContent(vnp_OrderInfo);
+
         VnpayModel vnpayModel = new VnpayModel();
         vnpayModel.setVnp_Version(VnpayConfig.vnp_Version);
         vnpayModel.setVnp_Command(VnpayConfig.vnp_Command);
         vnpayModel.setVnp_TmnCode(VnpayConfig.vnp_TmnCode);
         vnpayModel.setVnp_Amount(String.valueOf(amount * REMOVE_DECIMAL_DIGITS));
         vnpayModel.setVnp_CurrCode("VND");
-        vnpayModel.setVnp_BankCode(bankCode);
+        vnpayModel.setVnp_BankCode(bankCode.orElse(""));
         vnpayModel.setVnp_TxnRef(VnpayConfig.getRandomNumber(8));
-        vnpayModel.setVnp_OrderInfo(StringUtils.convertVietnameseToNoDiacritics(vnp_OrderInfo));
+        vnpayModel.setVnp_OrderInfo(vnp_OrderInfo);
         vnpayModel.setVnp_OrderType(BILL_PAYMENT);
         vnpayModel.setVnp_Locale(language.orElse("vn"));
         vnpayModel.setVnp_ReturnUrl(VnpayConfig.vnp_ReturnUrl);
@@ -101,5 +108,87 @@ public class VnpayService {
         }
 
         return new String[]{query.toString(), hashData.toString()};
+    }
+
+    public ResponseEntity<?> paymentInformation(HttpServletRequest request, String vnp_OrderInfo, Integer vnp_Amount,
+                                                String vnp_BankCode, Optional<String> vnp_BankTranNo,
+                                                Optional<String> vnp_CardType, Optional<String> vnp_PayDate,
+                                                String vnp_ResponseCode, String vnp_TransactionNo,
+                                                String vnp_TransactionStatus, String vnp_TxnRef,
+                                                String vnp_SecureHash1) {
+        try {
+            /*  IPN URL: Record payment results from VNPAY
+            Implementation steps:
+            Check checksum
+            Find transactions (vnp_TxnRef) in the database (checkOrderId)
+            Check the payment status of transactions before updating (checkOrderStatus)
+            Check the amount (vnp_Amount) of transactions before updating (checkAmount)
+            Update results to Database
+            Return recorded results to VNPAY */
+
+            // ex:  	PaymnentStatus = 0; pending
+            //              PaymnentStatus = 1; success
+            //              PaymnentStatus = 2; Faile
+
+            //Begin process return from VNPAY
+            Map<String, String> fields = new HashMap<>();
+            for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements(); ) {
+                String fieldName = URLEncoder.encode(params.nextElement(), StandardCharsets.US_ASCII);
+                String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII);
+                if ((fieldValue != null) && (!fieldValue.isEmpty())) {
+                    fields.put(fieldName, fieldValue);
+                }
+            }
+
+            String vnp_SecureHash = request.getParameter("vnp_SecureHash");
+            if (fields.containsKey("vnp_SecureHashType")) {
+                fields.remove("vnp_SecureHashType");
+            }
+            if (fields.containsKey("vnp_SecureHash")) {
+                fields.remove("vnp_SecureHash");
+            }
+
+            // Check checksum
+            String signValue = VnpayConfig.hashAllFields(fields);
+            if (signValue.equals(vnp_SecureHash)) {
+                // vnp_TxnRef exists in your database
+                boolean checkOrderId = true;
+
+                /* vnp_Amount is valid (Check vnp_Amount VNPAY returns compared to the
+                amount of the code (vnp_TxnRef) in the Your database) */
+                boolean checkAmount = true;
+
+                // PaymnentStatus = 0 (pending)
+                boolean checkOrderStatus = true;
+
+
+                if (checkOrderId) {
+                    if (checkAmount) {
+                        if (checkOrderStatus) {
+                            if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
+
+                                //Here Code update PaymnentStatus = 1 into your Database
+                            } else {
+
+                                // Here Code update PaymnentStatus = 2 into your Database
+                            }
+                            System.out.print("{\"RspCode\":\"00\",\"Message\":\"Confirm Success\"}");
+                        } else {
+                            System.out.print("{\"RspCode\":\"02\",\"Message\":\"Order already confirmed\"}");
+                        }
+                    } else {
+                        System.out.print("{\"RspCode\":\"04\",\"Message\":\"Invalid Amount\"}");
+                    }
+                } else {
+                    System.out.print("{\"RspCode\":\"01\",\"Message\":\"Order not Found\"}");
+                }
+            } else {
+                System.out.print("{\"RspCode\":\"97\",\"Message\":\"Invalid Checksum\"}");
+            }
+        } catch (Exception e) {
+            System.out.print("{\"RspCode\":\"99\",\"Message\":\"Unknow error\"}");
+        }
+
+        return null;
     }
 }
