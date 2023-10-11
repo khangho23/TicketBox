@@ -1,7 +1,7 @@
 [
     {
         "id": "MP07",
-        "countryid": 20,
+        "countryid": null,
         "name": "CÙ LAO XÁC SỐNG",
         "yearofmanufacture": 2022,
         "poster": "MP07.png",
@@ -9,16 +9,11 @@
         "describe": "Phim nói về hành trình của Công - một thầy thuốc đông y cố gắng đưa cha và con gái thoát khỏi sự truy đuổi của xác sống khi đại dịch bùng nổ. Họ thất lạc nhau trên đường chạy trốn. Trong lúc tìm lại con gái, Công gặp những người bụ nạn khác giống mình. Họ cùng nhau hợp sức thành một nhóm, cố gắng vượt qua thử thách sống còn. Liệu kết quả sẽ ra sao khi đại dịch càng ngày càng lan rộng",
         "trailer": "https://www.youtube.com/watch?v=fCi9o3iieJU",
         "status": "1",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP02",
-        "countryid": 1,
+        "countryid": null,
         "name": "NGƯỢC DÒNG THỜI GIAN ĐỂ YÊU ANH",
         "yearofmanufacture": 2022,
         "poster": "MP02.png",
@@ -26,16 +21,11 @@
         "describe": "Gayasorn(Ranee Campen) - tiểu thư sống ở thời Rattanakosin chính là kiếp sau của Karaket ở triều đại Ayutthaya. Có lẽ bởi vậy mà Gaysorn đã chiếm trọn trái tim của Bhop(Thanavat Vatthanaputi) - cũng là hậu duệ của Dej - ngay từ lần đầu gặp mặt . Chàng kỹ sư tài năng đã luôn mơ về một cô con gái có gương mặt giống Gaysorn trong suốt 10 năm qua, và nghĩ rằng cô chính là tri kỉ mà mình đang tìm kiếm",
         "trailer": "https://www.youtube.com/watch?v=Whjb2Dj3nbc",
         "status": "2",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP03",
-        "countryid": 16,
+        "countryid": null,
         "name": "BỘ TỨ DỊ GIỚI: THẾ GIỚI SONG SONG",
         "yearofmanufacture": 2022,
         "poster": "MP03.png",
@@ -43,16 +33,11 @@
         "describe": "Một ngày nọ, một nút bấm ma thuật đột nhiên xuất hiện. Sự kiện này là căn nguyên tạo nên sự giao thoa giữa nhóm các nhân vật chính của Bộ Tứ Dị Giới đến từ sáu loại light novel nổi tiếng gồm KonoSuba, Overlord, Re:Zero - Starting Life in Another World, và Saga of Tanya the Evil khi tất cả đồng thời cùng ấn nút và di chuyển đến thế giới song song - một Isekai hoàn toàn mới với câu chuyện mới được mở ra trong bối cảnh cuộc sống tại trường trung học. Isekai mới này được cai trị bởi một một con golem mất kiểm soát. Họ chạm trán một nữ yêu tinh có tính cách tương tự Megumin, một người đàn ông cầm gậy có vẻ như quen biết với Subaru và một người phụ nữ mặc trang phục giống Tanya. Tất cả phải cố gắng trở lại thế giới của mình",
         "trailer": "https://www.youtube.com/watch?v=sKQdlX-EWNY",
         "status": "2",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP05",
-        "countryid": 23,
+        "countryid": null,
         "name": "MÔN PHÁI VÕ MÈO: HUYỀN THOẠI MỘT CHÚ CHÓ",
         "yearofmanufacture": 2022,
         "poster": "MP05.png",
@@ -60,16 +45,11 @@
         "describe": "Hank là chú chó đáng yêu có ước mơ trở thành một samurai vĩ đại. Trên con đường đi tìm định mệnh, Hank vô tình lạc vào một thị trấn đầy mèo. Và mèo thì không hề thích chó. Cũng vì mong muốn giành được tình cảm của cư dân thị trấn, Hank vô tình mắc vào âm mưu thôn tính thị trấn của tay mèo phản diện Ika Chu. Ika Chu đã từng lừa Hank giúp hắn đuổi các cư dân mèo ra khỏi thị trấn. Cùng với những người bạn mới quen, Hank phải tìm cách ngăn chặn âm mưu của Ika Chu và chuộc lại sai lầm của mình",
         "trailer": "https://www.youtube.com/watch?v=sPwFsXmvwAI",
         "status": "0",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP06",
-        "countryid": 15,
+        "countryid": null,
         "name": "HẠ CÁNH KHẨN CẤP",
         "yearofmanufacture": 2022,
         "poster": "MP06.png",
@@ -77,16 +57,11 @@
         "describe": "Bộ phim xoay quanh chuyến bay kinh hoàng mang số hiệu KI501 của hãng hàng không Sky Korea từ sân bay quốc tế Incheon đến Honolulu, Hawaii. Bất ngờ, virus lạ tấn công các hàng khách trên máy bay rồi khiến họ liên tục ngứa ngáy, nôn ra máu và tử vong trong đau đớn. Một tuyên bố yêu cầu hạ cách khẩn cấp được đưa ra trong bối cảnh tất cả lâm vào trạng thái hoảng loạn tột độ. Trên độ cao 8,534 mét, số phận 150 con người sẽ ra sao trước loại virus tử thần ?",
         "trailer": "https://www.youtube.com/watch?v=CaIYD369OJI",
         "status": "0",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     },
     {
         "id": "MP08",
-        "countryid": 16,
+        "countryid": null,
         "name": "KISAGARI: NHÀ GA NUỐT CHỬNG",
         "yearofmanufacture": 2022,
         "poster": "MP08.png",
@@ -94,16 +69,11 @@
         "describe": "Haruta Tsunematsu đang học nghiên cứu chuyên ngành văn hóa dân gian tại đại học. Cô quyết định lựa chọn truyền thuyết đô thị nổi tiếng là \"Nhà ga Kisagari\" để làm luận văn tốt nghiệp. Đây là câu chuyện rùng rợn từng được lưu truyền và khuấy đảo cộng đồng mạng vào năm 2004. Trong suốt quá trình thu thập tài liệu, Haruma gặp một người phị nữ có tên là Junko Hayama. Nhiều lời đồn rằng, Junko chính là người đã đăng câu chuyện trên lên mạng với tên gọi \"Hasumi\". Junko kể cho Haruna rằng cô đã lưu lạc tới một thế giới khác, và điều đó đã dẫn Haruna tới ga tàu Kisaragi - khởi nguồn của truyền thuyết đô thị năm xưa...",
         "trailer": "https://www.youtube.com/watch?v=sjYGMwVmFW0",
         "status": "2",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     },
     {
         "id": "MP09",
-        "countryid": 24,
+        "countryid": null,
         "name": "TRUY SÁT TẬN CUNG",
         "yearofmanufacture": 2022,
         "poster": "MP09.png",
@@ -111,16 +81,11 @@
         "describe": "Một người đàn ông bị kết án vì một tội ác mà anh ta không phạm phải. Khi vợ anh bị sát hại và con trai anh bị bắt cóc và đưa đến Mexico, anh nghĩ ra một kế hoạch phức tạp và vô cùng nguy hiểm để giải cứu con trai mình và trả thù cho người đã sát hại vợ anh",
         "trailer": "https://www.youtube.com/watch?v=VSbAM_frv2s",
         "status": "2",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP10",
-        "countryid": 15,
+        "countryid": null,
         "name": "GIỚI HẠN TRUY LÙNG",
         "yearofmanufacture": 2022,
         "poster": "MP10.png",
@@ -128,16 +93,11 @@
         "describe": "Hành trình truy đuổi bọn bắt cóc của một nữ cảnh sát đóng giả mẹ của một nạn nhân khiến chính con trai cô cũng bị đặt vào vòng nguy hiểm, khi thân phận của cô có khả năng bị bại lộ. Giới Hạn Truy Lùng không chỉ mang đến nhuengx màn rượt đuổi hồi hộp, các pha hành động mãn nhãn, mà còn là cuộc đấu trí đầy gây cấn giữa hai phe chính - tà",
         "trailer": "https://www.youtube.com/watch?v=r00k3E9oOEk",
         "status": "2",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP11",
-        "countryid": 3,
+        "countryid": null,
         "name": "IVANNA",
         "yearofmanufacture": 2022,
         "poster": "MP11.png",
@@ -145,16 +105,11 @@
         "describe": "Ambar - một cô gái sở hữu đôi mắt âm dương cùng người em Dika đến ở tại một viện dưỡng lão. Tại đây, họ đã phát hiện ra sự thật kinh hoàng về hồn ma không đầu Ivanna và một phần lịch sử thảm khóc của nước nhà",
         "trailer": "https://www.youtube.com/watch?v=i54sZ1O-vPc",
         "status": "2",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP01",
-        "countryid": 1,
+        "countryid": null,
         "name": "QUÁI VẬT SÔNG MEKONG",
         "yearofmanufacture": 2022,
         "poster": "MP01.png",
@@ -162,16 +117,11 @@
         "describe": "Một con quái vật bí ẩn bỗng xuất hiện từ sông Mekong và tấn công vùng Bueng Kan, nó hủy diệt mọi thứ và khiến người dân mất kết nối hoàn toàn với thế giới bên ngoài. Sự kiện gây chấn động toàn Thái Lan này đã khiến các cơ quan chức năng cùng những nhà khoa học vô tình đến Bueng Kan đã tiến hành nghiên cứu phải huy động tất cả các lực lượng để bắt con quái vật điên rồ này trước khi quá muộn",
         "trailer": "https://www.youtube.com/watch?v=orcxSddIA4s",
         "status": "0",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     },
     {
         "id": "MP04",
-        "countryid": 3,
+        "countryid": null,
         "name": "NÔ LỆ CỦA QUỶ 2",
         "yearofmanufacture": 2022,
         "poster": "MP04.png",
@@ -179,16 +129,11 @@
         "describe": "Những sự kiện kinh hoàng xảy ra trong một chung cư cũ dần hé mở bí ẩn tâm linh từ quá khứ khi một gia đình thực hiện giao ước với quỷ",
         "trailer": "https://www.youtube.com/watch?v=DGdTsVlpxKc",
         "status": "2",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP47",
-        "countryid": 20,
+        "countryid": null,
         "name": "CHIẾM ĐOẠT",
         "yearofmanufacture": 2023,
         "poster": "MP47.png ",
@@ -196,16 +141,11 @@
         "describe": "Kể về người vợ của một gia đình thượng lưu thuê cô bảo mẫu “trong mơ” để chăm sóc con trai mình. Nhưng cô không ngờ rằng, phía sau sự trong sáng, tinh khiết kia, cô bảo mẫu luôn che giấu âm mưu nhằm phá hoại hạnh phúc gia đình và khiến cuộc sống của cô thay đổi mãi mãi.",
         "trailer": "https://www.youtube.com/watch?v=ucFzF7mu29g",
         "status": "0",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP12",
-        "countryid": 1,
+        "countryid": null,
         "name": "ÁC QUỶ MA SƠ II",
         "yearofmanufacture": 2023,
         "poster": "MP12.png",
@@ -213,16 +153,11 @@
         "describe": "Là phần phim tiếp nối câu chuyện năm 2019 của The Nun, phim lấy bối cảnh nước Pháp năm 1956, cùng cái chết bí ẩn của một linh mục, một giai thoại đáng sợ và ám ảnh sẽ mở ra tiếp tục xoay quanh nhân vật chính - Sơ Irene. Liệu Sơ Irene có nhận ra, đây chính là hồn ma nữ tu Valak từng có cuộc chiến “sống còn” với cô không lâu trước đây.",
         "trailer": "https://www.youtube.com/watch?v=vab6sPIceuU",
         "status": "1",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP13",
-        "countryid": 20,
+        "countryid": null,
         "name": "KẺ ẨN DANH",
         "yearofmanufacture": 2023,
         "poster": "MP13.png",
@@ -230,16 +165,11 @@
         "describe": "Chuyện kể về Lâm - người đàn ông chân chất có quá khứ bí mật, luôn đặt vợ con và hạnh phúc gia đình lên hàng đầu. Thế nhưng, cuộc sống yên bình của gia đình anh bỗng chốc bị đảo lộn. Lúc này, Lâm phải bảo vệ những điều mà anh yêu thương bằng mọi giá.",
         "trailer": "https://www.youtube.com/watch?v=9yVmRrrxoOc",
         "status": "1",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP14",
-        "countryid": 15,
+        "countryid": null,
         "name": "ĐỊA ĐÀNG SỤP ĐỔ",
         "yearofmanufacture": 2023,
         "poster": "MP14.png",
@@ -247,16 +177,11 @@
         "describe": "Được nhận xét là một “chuẩn mực mới về phản địa đàng trong dòng phim thảm họa Hàn Quốc”, bom tấn ĐỊA ĐÀNG SỤP ĐỔ xoay quanh cơn đại địa chấn san bằng Seoul thành bình địa và hành trình sinh tồn của những người sống sót.",
         "trailer": "https://www.youtube.com/watch?v=HCPx2ReKkBg",
         "status": "1",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     },
     {
         "id": "MP15",
-        "countryid": 15,
+        "countryid": null,
         "name": "KANGDANIEL: CHẠM ĐẾN GIẤC MƠ",
         "yearofmanufacture": 2023,
         "poster": "MP15.png",
@@ -264,16 +189,11 @@
         "describe": "Sau sự nghiệp bùng nổ với vai trò là thành viên của Wanna One - một trong những nhóm nhạc K-pop hot nhất Hàn Quốc, KANGDANIEL đã lựa chọn con đường riêng của mình để phát triển. Sau khoảng thời gian chênh vênh trong những ngày đầu của sự nghiệp solo, \"center quốc dân\" một lần nữa đứng trước người hâm mộ với tour diễn thế giới \"FIRST PARADE\" đánh dấu cho một sự khởi đầu mới. Bộ phim tài liệu \"KANGDANIEL: Chạm đến giấc mơ\" ghi lại hành trình mang \"FIRST PARADE\" đi khắp thế giới và những nỗ lực của KANGDANIEL trên con đường biến giấc mơ của anh ấy thành hiện thực.",
         "trailer": "https://www.youtube.com/watch?v=00fGS87dWQU",
         "status": "1",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP16",
-        "countryid": 23,
+        "countryid": null,
         "name": "THIỆN ÁC ĐỐI ĐẦU",
         "yearofmanufacture": 2023,
         "poster": "MP16.png",
@@ -281,16 +201,11 @@
         "describe": "Robert McCall chuyển đến sinh sống tại miền Nam nước Ý nhưng phát hiện ra bạn bè của mình bị một tổ chức mafia ở địa phương kiểm soát. Khi tính mạng của họ bị đe dọa, ông buộc phải quay trở lại con đường sát thủ để bảo vệ bạn bè.",
         "trailer": "https://www.youtube.com/watch?v=Z82z-Ky-tBg",
         "status": "1",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP17",
-        "countryid": 16,
+        "countryid": null,
         "name": "3DCG! SHIN – CẬU BÉ BÚT CHÌ: ĐẠI CHIẾN SIÊU NĂNG LỰC ~ SUSHI BAY ~",
         "yearofmanufacture": 2023,
         "poster": "MP17.png",
@@ -298,16 +213,11 @@
         "describe": "3DCG! Shin - Cậu Bé Bút Chì: Đại Chiến Siêu Năng Lực ~ Sushi Bay ~. Xoay quanh câu chuyện về hai nguồn sáng đặc biệt từ vũ trụ mang theo siêu năng lực đặc biệt tới Trái Đất. Một nguồn sáng tích cực “nhập” vào nhóc Shin, khiến cặp mông núng nính của cậu trở nên nóng bỏng và có khả năng điều khiển những đồ vật xung quanh theo ý muốn. Một thanh niên trẻ khác tên Mitsuru Hiriya cũng nhận được siêu năng lực này. Đồng thời, một nhà khoa học xấu xa khác nhăm nhe ý định lợi dụng siêu năng lực của Hiriya để trở thành bá chủ.",
         "trailer": "https://www.youtube.com/watch?v=sNQhWlwitr4",
         "status": "1",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP18",
-        "countryid": 23,
+        "countryid": null,
         "name": "HỔ CÁNH CỤT VÀ BIỆT ĐỘI RỪNG XANH 2: QUẬY BANH THẾ GIỚI",
         "yearofmanufacture": 2023,
         "poster": "MP18.png",
@@ -315,16 +225,11 @@
         "describe": "Trong phần phim mới nhất này, đội trưởng hổ cánh cụt Maurice và Biệt Đội Rừng Xanh sẽ phải đối đầu với tên hải ly Henri ranh ma - kẻ đang âm mưu bao phủ khu rừng bằng một thứ hóa chất có thể phát nổ ngay khi chạm vào nước. Để giải cứu khu rừng, Biệt Đội Rừng Xanh buộc phải chạy đua với thời gian trong cuộc phiêu lưu vòng quanh thế giới để tìm ra thuốc giải trước khi mùa mưa đến.",
         "trailer": "https://www.youtube.com/watch?v=58CnNLM2lik",
         "status": "1",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP19",
-        "countryid": 23,
+        "countryid": null,
         "name": "TÌNH BẠN DIỆU KỲ",
         "yearofmanufacture": 2023,
         "poster": "MP19.png",
@@ -332,16 +237,11 @@
         "describe": "Một cuộc phiêu lưu kỳ thú tại thành phố New York hoa lệ của chú rối bỏ trốn với trí tưởng tượng vô biên - Don và món đồ chơi thú nhồi bông bị bỏ rơi - DJ Doggy Dog tại Công viên Trung tâm. Trải qua bao buồn vui, thăng trầm, cuộc phiêu lưu này đã gắn kết hai mảnh đời dường như chẳng liên quan đến nhau ấy, tạo nên một câu chuyện đẹp về tình bạn.",
         "trailer": "https://www.youtube.com/watch?v=sQcO-1j-nOU",
         "status": "1",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP20",
-        "countryid": 14,
+        "countryid": null,
         "name": "OPPENHEIMER",
         "yearofmanufacture": 2023,
         "poster": "MP20.png",
@@ -349,16 +249,11 @@
         "describe": "Với nhân vật trung tâm là J. Robert Oppenheimer, nhà vật lý lý thuyết người đứng đầu phòng thí nghiệm Los Alamos, thời kỳ Thế chiến II. Ông đóng vai trò quan trọng trong Dự án Manhattan, tiên phong trong nhiệm vụ phát triển vũ khí hạt nhân, và được coi là một trong những “cha đẻ của bom nguyên tử”.",
         "trailer": "https://www.youtube.com/watch?v=Pfr4TaUOVGk",
         "status": "1",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP21",
-        "countryid": 15,
+        "countryid": null,
         "name": "BỘ ĐÔI BÁO THỦ",
         "yearofmanufacture": 2023,
         "poster": "MP21.png ",
@@ -366,16 +261,11 @@
         "describe": "Lấy cảm hứng từ một sự kiện có thật - lần đầu tiên một nhà ngoại giao bị bắt cóc trong lịch sử Hàn Quốc, bộ phim hành động Ransomed (tựa Việt: Bộ Đôi Báo Thủ) xoay quanh hành trình giải cứu người đồng nghiệp đang mất tích của nhà ngoại giao Min-jun (Ha Jung-woo thủ vai) và tài xế taxi Pan-su (Ju Ji-hoon thủ vai) ở Beirut, Lebanon vào năm 1986.",
         "trailer": "https://www.youtube.com/watch?v=04PzA6hMTj4",
         "status": "1",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     },
     {
         "id": "MP22",
-        "countryid": 20,
+        "countryid": null,
         "name": "CHẠM VÀO HẠNH PHÚC",
         "yearofmanufacture": 2023,
         "poster": "MP22.png ",
@@ -383,16 +273,11 @@
         "describe": "Câu chuyện là một xã hội thu nhỏ với những quan điểm về tình yêu và giá trị cuộc sống. Để các nhân vật phải thốt lên rằng “Khi yêu, tuổi nào cũng dại”. Ẩn sâu trong câu chuyện tình yêu và những giá trị gia đình là cuộc đấu tranh tư tưởng và những bài học có tính thời đại.",
         "trailer": "https://www.youtube.com/watch?v=qEG5DuASxic",
         "status": "1",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP23",
-        "countryid": 23,
+        "countryid": null,
         "name": "BLUE BEETLE",
         "yearofmanufacture": 2023,
         "poster": "MP23.png ",
@@ -400,16 +285,11 @@
         "describe": "Cậu sinh viên mới tốt nghiệp Jaime Reyes trở về nhà với tràn trề niềm tin và hy vọng về tương lai, để rồi nhận ra quê nhà của anh đã thay đổi rất nhiều so với trước đây. Khi tìm kiếm mục đích sống trên thế giới này, Jamie đối mặt với bước ngoặt cuộc đời khi anh nhận ra mình sở hữu một di sản cổ đại của công nghệ sinh học ngoài hành tinh: Scarab (Bọ Hung). Khi Scarab chọn Jamie trở thành vật chủ, anh được ban tặng một bộ áo giáp với siêu sức mạnh đáng kinh ngạc không ai có thể lường trước. Số phận của Jamie hoàn toàn thay đổi khi giờ đây, anh đã là siêu anh hùng BLUE BEETLE.",
         "trailer": "https://www.youtube.com/watch?v=Jp67Eda2rtg",
         "status": "1",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP24",
-        "countryid": 23,
+        "countryid": null,
         "name": "GRAN TURISMO: TAY ĐUA CỰ PHÁCH",
         "yearofmanufacture": 2023,
         "poster": "MP24.png ",
@@ -417,16 +297,11 @@
         "describe": "Dựa trên câu chuyện điên rồ có thật khi một game thủ đã trở thành tay đua thực thụ.",
         "trailer": "https://www.youtube.com/watch?v=XcbP5CZ5DqE",
         "status": "1",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP25",
-        "countryid": 20,
+        "countryid": null,
         "name": "HÀM TỬ THẦN",
         "yearofmanufacture": 2023,
         "poster": "MP25.png ",
@@ -434,16 +309,11 @@
         "describe": "Trên chuyến hành trình xuyên biển đoàn tụ gia đình, một cơn bão buộc Naomi rời khỏi lộ trình và vướng vào phi vụ nguy hiểm dưới lòng đại dương. Nhiệm vụ khó thành, hàm tử thần chực chờ nuốt chửng, liệu Naomi có thể thoát khỏi biển máu!?",
         "trailer": "https://www.youtube.com/watch?v=VAzGlxGlkOE",
         "status": "1",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP26",
-        "countryid": 23,
+        "countryid": null,
         "name": "GỌI HỒN QUỶ DỮ",
         "yearofmanufacture": 2023,
         "poster": "MP26.png ",
@@ -451,16 +321,11 @@
         "describe": "Một nhóm bạn phát hiện ra bàn tay ma quái cho phép họ triệu hồi các linh hồn bí ẩn. Họ dần bị cuốn vào trò chơi này mà không biết rằng một trong số họ đã đi quá xa và giải phóng thế lực hắc ám kinh hoàng.",
         "trailer": "https://www.youtube.com/watch?v=tMGH7dSzyP0",
         "status": "1",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP27",
-        "countryid": 15,
+        "countryid": null,
         "name": "THE MOON: NHIỆM VỤ CUỐI CÙNG",
         "yearofmanufacture": 2023,
         "poster": "MP27.png ",
@@ -468,16 +333,11 @@
         "describe": "The Moon: Nhiệm Vụ Cuối Cùng lấy mốc thời gian giả định vào năm 2029 khi tàu vũ trụ Woori-ho của Hàn Quốc bắt đầu cuộc hành trình tới Mặt trăng. Điều này đã thu hút sự chú ý của thế giới, nhưng một ngọn lửa Mặt trời bùng lên đã nhấn chìm con tàu vũ trụ, chỉ còn lại duy nhất thành viên phi hành đoàn Hwang Sun-woo (Doh Kyung Soo thủ vai) mắc kẹt tại Mặt trăng. Cựu giám đốc chuyến bay của Trung tâm vũ trụ Naro, Kim Jae-gook (Sul Kyung Gu thủ vai) và giám đốc quỹ đạo Mặt trăng của NASA, Yoon Moon-young (Kim Hee Ae thủ vai) đã tham gia vào một trận chiến khốc liệt chống lại các yếu tố ngoài không gian để đưa Sun-woo trở về an toàn.",
         "trailer": "https://www.youtube.com/watch?v=VlVOVd3zHls",
         "status": "1",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP28",
-        "countryid": 20,
+        "countryid": null,
         "name": "BÊN TRONG VỎ KÉN VÀNG",
         "yearofmanufacture": 2023,
         "poster": "MP28.png ",
@@ -485,16 +345,11 @@
         "describe": "Phim kể về Thiện, một người đàn ông phải chở xác chị dâu chết trong một vụ tai nạn xe máy ở Sài Gòn, và đứa con trai 5 tuổi của cô ấy tên Đạo, người sống sót sau vụ tai nạn, về quê. Ở nông thôn Việt Nam, những hình bóng về tuổi trẻ của chính anh, về người anh trai của anh, người đã ra đi để làm lại cuộc đời ở nơi khác, và về chiến tranh cũng đang chờ đợi anh. Trong suốt cuộc hành trình tìm lại anh trai của mình và là cha của Đạo, Thiện đối diện với quá khứ và suy tư về cuộc đời, về đức tin và lẽ sống, đồng thời phim cũng đã đưa lên màn ảnh rất nhiều cảnh sắc, con người Sài Gòn cũng như Việt Nam",
         "trailer": "https://www.youtube.com/watch?v=YczZiw_frpI",
         "status": "1",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP29",
-        "countryid": 16,
+        "countryid": null,
         "name": "PHIM ĐIỆN ẢNH THÁM TỬ LỪNG DANH CONAN: TÀU NGẦM SẮT MÀU ĐEN",
         "yearofmanufacture": 2023,
         "poster": "MP29.png ",
@@ -502,16 +357,11 @@
         "describe": "Thám Tử Lừng Danh Conan: Tàu Ngầm Sắt Màu Đen lấy bối cảnh tại Pacific Buoy - một trụ sở hàng hải của Interpol có nhiệm vụ kết nối các camera an ninh trên toàn thế giới. Nhóm của Conan, theo lời mời của Sonoko, cũng đến đảo Hachijo để xem cá voi. Tại đây, Conan nhận được thông tin về một nhân viên Europol bị ám sát. Cùng với đó, tính mạng Haibara bị đe dọa, phải chăng thân phận của cô đã bị bại lộ trước Gin…",
         "trailer": "https://www.youtube.com/watch?v=NwnQI9izPFc",
         "status": "1",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP30",
-        "countryid": 16,
+        "countryid": null,
         "name": "ƯỚC NGUYỆN 10 NĂM",
         "yearofmanufacture": 2023,
         "poster": "MP30.png ",
@@ -519,16 +369,11 @@
         "describe": "Chỉ còn 10 năm để sống, Matsuri chẳng còn mơ mộng đến một tương lai hạnh phúc và luôn cố gắng chạy trốn khỏi tình yêu. Nhưng kể từ sau lần gặp Kazuto, từ 2 con người không có lý do để tồn tại lại khao khát sống hạnh phúc cùng nhau.",
         "trailer": "https://www.youtube.com/watch?v=mUDOmsB2lU4",
         "status": "1",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP31",
-        "countryid": 16,
+        "countryid": null,
         "name": "MONSTER",
         "yearofmanufacture": 2023,
         "poster": "MP31.png ",
@@ -536,16 +381,11 @@
         "describe": "Khi thấy con trai bắt đầu có những hành vi lạ, mẹ của Mugino tìm hiểu và phát hiện nguyên nhân bắt nguồn từ một giáo viên ở trường. Nhưng khi bà đến trường, câu chuyện dần được tiết lộ qua góc nhìn của người thầy, đứa trẻ và cả chính người mẹ, sự thật mới dần dần hé lộ. Những vấn nạn bạo lực học đường, kỳ thị đồng tính, tin rác trên mạng xã hội... tạo nên những con quái vật trong mỗi con người.",
         "trailer": "https://www.youtube.com/watch?v=I7gSehlEdKQ",
         "status": "1",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP32",
-        "countryid": 23,
+        "countryid": null,
         "name": "XỨ SỞ CÁC NGUYÊN TỐ",
         "yearofmanufacture": 2023,
         "poster": "MP32.png ",
@@ -553,16 +393,11 @@
         "describe": "Xứ Sở Các Nguyên Tố từ Disney và Pixar lấy bối cảnh tại thành phố các nguyên tố, nơi lửa, nước, đất và không khí cùng chung sống với nhau. Câu chuyện xoay quanh nhân vật Ember, một cô nàng cá tính, thông minh, mạnh mẽ và đầy sức hút. Tuy nhiên, mối quan hệ của cô với Wade - một anh chàng hài hước, luôn thuận thế đẩy dòng - khiến Ember cảm thấy ngờ vực với thế giới này. Được đạo diễn bởi Peter Sohn, sản xuất bởi Denise Ream, và lồng tiếng bởi Leah Lewis (Ember) và Mamoudou Athie (Wade), phim dự kiến khởi chiếu tại rạp vào tháng 23.06.2023.",
         "trailer": "https://www.youtube.com/watch?v=8qTBWDKtyYU",
         "status": "1",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP33",
-        "countryid": 15,
+        "countryid": null,
         "name": "NHÂN DUYÊN TIỀN ĐÌNH",
         "yearofmanufacture": 2023,
         "poster": "MP33.png ",
@@ -570,16 +405,11 @@
         "describe": "Chuyện phim xoay quanh nhân vật Chi-ho (Yoo Hae-jin) - nhà nghiên cứu bim bim với khả năng nếm vị xuất chúng, nhưng lại ngờ nghệch với mọi thứ xung quanh. Chi-ho là một người cực kỳ hướng nội, thích ở một mình và sống như một cái máy được lập trình sẵn mà không hề mắc lỗi dù chỉ một giây. Trong lúc phải đi trả nợ thay cho người anh trai cờ bạc (Cha In-pyo), Chi-ho đã gặp gỡ “nhân viên đòi nợ” Il-young - người phụ nữ hướng ngoại, luôn suy nghĩ tích cực về cuộc sống dù đang ở trong hoàn cảnh khó khăn của một bà mẹ đơn thân. Khác biệt về tính cách lẫn ngoại hình khiến cả hai trở thành “trái dấu hút nhau”. Sự “trái dấu” này đã đẩy đưa cuộc tình của họ đến vô vàn tình huống “cười ra nước mắt” nhưng cũng không kém phần cảm xúc.",
         "trailer": "https://www.youtube.com/watch?v=zlPzyxdhQbI",
         "status": "0",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP34",
-        "countryid": 23,
+        "countryid": null,
         "name": "ÁN MẠNG Ở VENICE",
         "yearofmanufacture": 2023,
         "poster": "MP34.png ",
@@ -587,16 +417,11 @@
         "describe": "Dựa trên tiểu thuyết Halloween Party của nhà văn Agatha Christie, hành trình phá án của thám tử Hercule Poirot tiếp tục được đưa lên màn ảnh rộng.",
         "trailer": "https://www.youtube.com/watch?v=KaQdjPveUU8",
         "status": "0",
-        "limitage": 13,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 13
     },
     {
         "id": "MP35",
-        "countryid": 15,
+        "countryid": null,
         "name": "TRỪNG PHẠT",
         "yearofmanufacture": 2023,
         "poster": "MP35.png ",
@@ -604,16 +429,11 @@
         "describe": "Matt Turner (Liam Neeson) là một doanh nhân người Mỹ thành đạt sống ở Berlin, đang phải cân bằng giữa sự nghiệp tài chính đang bùng nổ và trách nhiệm gia đình. Một buổi sáng đang lái xe đưa con đến trường, Matt nhận được một cuộc điện thoại từ một giọng nói bí ẩn: có một quả bom dưới ghế của anh ấy sẽ phát nổ trừ khi anh ấy hoàn thành một loạt nhiệm vụ cụ thể, và nhanh chóng. Bị mắc kẹt trong một cuộc rượt đuổi tốc độ cao khắp thành phố, Matt phải làm theo chỉ dẫn ngày càng nguy hiểm của “kẻ lạ mặt” trong cuộc chạy đua với thời gian để bảo vệ gia đình và tìm lời giải đáp cho những bí ẩn đang diễn ra. Bộ phim ly kỳ về chiếc đồng hồ tích tắc nhập vai này của các nhà sản xuất phim NON-STOP và THE COMMUTER thu hút khán giả tham gia vào một hành trình cứu chuộc và trả thù có chỉ số octan cao.",
         "trailer": "https://www.youtube.com/watch?v=4r7SXNaCosk",
         "status": "0",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     },
     {
         "id": "MP36",
-        "countryid": 15,
+        "countryid": null,
         "name": "ĐƠN HÀNG TỪ SÁT NHÂN",
         "yearofmanufacture": 2023,
         "poster": "MP36.png ",
@@ -621,16 +441,11 @@
         "describe": "Như bao cô gái chốn công sở, Soo-hyun dù luôn quay cuồng với deadline nhưng vẫn không quên đam mê shopping online của mình. Sau khi mua nhầm một đơn hàng \"chất lượng kém, xứng đáng 1 sao\", Soo-hyun không ngờ rằng đánh giá chân thật của mình đã làm một tên sát nhân máu lạnh nổi điên!",
         "trailer": "https://www.youtube.com/watch?v=NnCgxS3jhZE",
         "status": "0",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP37",
-        "countryid": 1,
+        "countryid": null,
         "name": "ÁNH DƯƠNG SAU HOÀNG HÔN",
         "yearofmanufacture": 2023,
         "poster": "MP37.png ",
@@ -638,16 +453,11 @@
         "describe": "Nhân duyên trời định giữa 2 con người xa lạ được khởi nguồn từ lời nguyền gia tộc buộc Quý nam Phra Ploeng (Zee Pruk Panich) phải ghép tử vi kịp thời với tri kỷ của mình là Saeng Rawee (NuNew Chawarin Perdpiriyawong) nếu không muốn kiếp nạn đại hung sẽ ứng nghiệm vào năm 25 tuổi. Sinh ra đã được định sẵn là mảnh ghép hoàn hảo của đối phương nhưng Phra Ploeng và Rawee lại có màn chào hỏi “kẻ ngang - người dọc” khiến đôi tri kỷ trước lạ sau thương này phải trải qua nhiều thử thách cũng như sự cản trở bởi thế lực tâm linh để hoá giải lời nguyền.",
         "trailer": "https://www.youtube.com/watch?v=UaF85KlH0Pc",
         "status": "0",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP38",
-        "countryid": 16,
+        "countryid": null,
         "name": "IMMERSION - HỌA QỦY",
         "yearofmanufacture": 2023,
         "poster": "MP38.png ",
@@ -655,16 +465,11 @@
         "describe": "Nhà khoa học thiên tài Tomohiko Kataoka được trưởng nhóm nghiên cứu Synthekai VR yêu cầu tham gia cùng họ trên Đảo Abominable. Ở đó, họ đã tạo ra một không gian ảo cho toàn bộ hòn đảo và họ muốn Tomohiko sử dụng các kỹ thuật tiên tiến của mình để nâng cấp dự án. Tuy nhiên, khi Tomohiko đeo kính VR và bước vào thế giới ảo, trời đột nhiên trở nên tối tăm và một người phụ nữ bí ẩn xuất hiện. Những cái chết bí ẩn xảy ra với nhân viên công ty công nghệ VR. Có một nỗi sợ hãi chưa từng có đang chờ đợi giữa thực tế và thế giới ảo.",
         "trailer": "https://www.youtube.com/watch?v=GxzqiadgDsM",
         "status": "0",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     },
     {
         "id": "MP39",
-        "countryid": 20,
+        "countryid": null,
         "name": "LIVE - #PHÁTTRỰCTIẾP",
         "yearofmanufacture": 2023,
         "poster": "MP39.png ",
@@ -672,16 +477,11 @@
         "describe": "Bộ phim Việt đầu tiên trực diện nói về vấn đề bạo lực mạng xã hội. Câu chuyện xoay quanh hai người trẻ đầy tham vọng, bất chấp tất cả để có thể trở nên nổi tiếng trên mạng. Họ dùng đủ cách thức lẫn chiêu trò để đạt được mục đích của mình, cho đến khi chính bản thân họ lại thành con mồi mới cho những kẻ trên mạng, những người sẵn sàng lao vào tấn công người khác chỉ vì “Không ưa con đó.”",
         "trailer": "https://www.youtube.com/watch?v=cZEksCs2FzI",
         "status": "0",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP40",
-        "countryid": 23,
+        "countryid": null,
         "name": "DUMB MONEY - SỨC MẠNH TIỀN LẺ",
         "yearofmanufacture": 2023,
         "poster": "MP40.png ",
@@ -689,16 +489,11 @@
         "describe": "Dumb Money là dựa trên câu chuyện điên rồ có thật về những người hàng ngày lật ngược kịch bản ở Phố Wall và trở nên giàu có bằng cách biến GameStop (Cửa hàng trò chơi điện tử ở trung tâm thương mại) thành công ty hấp dẫn nhất thế giới. ",
         "trailer": "https://www.youtube.com/watch?v=Fg_bhwsRfOQ",
         "status": "0",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP41",
-        "countryid": 23,
+        "countryid": null,
         "name": "EXPEND4ABLES - BIỆT ĐỘI ĐÁNH THUÊ 4",
         "yearofmanufacture": 2023,
         "poster": "MP41.png ",
@@ -706,16 +501,11 @@
         "describe": "Biệt Đội Đánh Thuê 4 (tựa gốc: Expend4ables) tiếp tục theo chân biệt đội đặc biệt này thực hiện các nhiệm vụ mới, lần này là ngăn chặn ông trùm khủng bố Suarto, với âm mưu buôn lậu vũ khí hạt nhân và kích động chiến tranh giữa 2 phe Nga và Mỹ.",
         "trailer": "https://www.youtube.com/watch?v=Cm3Z1jEjHHc",
         "status": "0",
-        "limitage": 17,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 17
     },
     {
         "id": "MP42",
-        "countryid": 23,
+        "countryid": null,
         "name": "PAW PATROL: THE MIGHTY MOVIE",
         "yearofmanufacture": 2023,
         "poster": "MP42.png ",
@@ -723,16 +513,11 @@
         "describe": "Một mảnh thiên thạch kỳ diệu đã rơi xuống Thành Phố Phiêu Lưu, mang đến siêu năng lực cho những chú cún PAW Patrol và biến chúng thành Những Chú Cún Quyền Năng.",
         "trailer": "https://www.youtube.com/watch?v=UDgjJ9XzgHk",
         "status": "0",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP43",
-        "countryid": 23,
+        "countryid": null,
         "name": "PAST LIVES - MUÔN KIẾP NHÂN DUYÊN",
         "yearofmanufacture": 2023,
         "poster": "MP43.png ",
@@ -740,16 +525,11 @@
         "describe": "Muôn Kiếp Nhân Duyên xoay quanh hai nhân vật chính - Nora (Greta Lee) và Hae Sung (Teo Yoo). Tình bạn thân thiết của họ bị chia cắt khi Nora theo gia đình di cư khỏi Hàn Quốc vào năm 12 tuổi. 20 năm sau, như một mối duyên tiền định, họ gặp lại nhau tại Mỹ, nhưng lúc này, Nora đã trở thành vợ của Arthur (John Magaro). Nhìn lại quá khứ, nói về hiện tại và hướng đến tương lai - những cuộc trò chuyện nhẹ nhàng giữa Nora và Hae Sung trong 1 tuần ngắn ngủi ở New York được đan xen bởi các khoảng lặng, khiến người xem chìm đắm vào suy ngẫm về cuộc sống, số phận và tình yêu.",
         "trailer": "https://www.youtube.com/watch?v=w_-dBO6qxIw",
         "status": "0",
-        "limitage": 17,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 17
     },
     {
         "id": "MP44",
-        "countryid": 23,
+        "countryid": null,
         "name": "YÊU NHƯ LẦN ĐẦU",
         "yearofmanufacture": 2023,
         "poster": "MP44.png ",
@@ -757,16 +537,11 @@
         "describe": "Tình yêu sẽ đến với những ai tin tưởng. #LoveAgainMovie, một bộ phim healing cho những ai đã, đang và sẽ yêu. Với sự tham gia diễn viên Priyanka Chopra và Sam Heughan, cùng Céline Dion và bài hát mới của cô.",
         "trailer": "https://www.youtube.com/watch?v=UCkMlEh7qmg",
         "status": "0",
-        "limitage": 18,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 18
     },
     {
         "id": "MP45",
-        "countryid": 23,
+        "countryid": null,
         "name": "NHÀ VỊT DI CƯ",
         "yearofmanufacture": 2023,
         "poster": "MP45.png ",
@@ -774,16 +549,11 @@
         "describe": "Nhà Vịt Di Cư theo chân một gia đình vịt trời gồm vịt bố, vịt mẹ, cậu con trai tuổi teen Dax và vịt út Gwen, trong lần đầu tiên trải nghiệm chuyến di cư tiến về phía nam để trú đông. Thế nhưng, niềm vui vẻ sự háo hức kéo dài không bao lâu, gia đình vịt nhận ra, họ đang bay ngược chiều với tất cả các đàn vịt khác. Không kịp quay đầu, họ bất ngờ gặp phải loạt “chướng ngại vật” là những tòa nhà cao tầng của thành phố hiện đại. Liên tiếp sau đó là những thước phim đầy kịch tính nhưng vô cùng hài hước của nhà vịt trong quá trình khám phá đô thị mới.",
         "trailer": "https://www.youtube.com/watch?v=B4SgxY6SoZ4",
         "status": "0",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP46",
-        "countryid": 20,
+        "countryid": null,
         "name": "NGƯỜI MẶT TRỜI",
         "yearofmanufacture": 2023,
         "poster": "MP46.png ",
@@ -791,16 +561,11 @@
         "describe": "400 năm qua, loài Ma Cà Rồng đã bí mật sống giữa loài người trong hòa bình, nhưng hiểm họa bỗng ập đến khi một cô gái loài người phát hiện được thân phận của hai anh em Ma Cà Rồng. Người anh khát máu quyết săn lùng cô để bảo vệ bí mật giống loài, trong khi người còn lại chạy đua với thời gian để bảo vệ cô bằng mọi giá.",
         "trailer": "https://www.youtube.com/watch?v=L3t9jW4eRAs",
         "status": "0",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     },
     {
         "id": "MP48",
-        "countryid": 23,
+        "countryid": null,
         "name": "QUỶ LÙN TINH NGHỊCH: ĐỒNG TÂM HIỆP NHẠC",
         "yearofmanufacture": 2023,
         "poster": "MP48.png ",
@@ -808,16 +573,11 @@
         "describe": "Sự xuất hiện đột ngột của John Dory, anh trai thất lạc đã lâu của Branch mở ra quá khứ bí mật được che giấu bấy lâu nay của Branch. Đó là quá khứ về một ban nhạc có tên BroZone từng rất nổi tiếng nhưng đã tan rã. Hành trình đi tìm lại các thành viên để làm một ban nhạc như xưa trở thành chuyến phiêu lưu âm nhạc đầy cảm xúc, tràn trề hi vọng về một cuộc sum họp gia đình tuyệt với nhất.",
         "trailer": "https://www.youtube.com/watch?v=izi44lM_HSo",
         "status": "0",
-        "limitage": 0,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 0
     },
     {
         "id": "MP49",
-        "countryid": 23,
+        "countryid": null,
         "name": "ĐẤU TRƯỜNG SINH TỬ: KHÚC HÁT CỦA CHIM CA VÀ RẮN ĐỘC",
         "yearofmanufacture": 2023,
         "poster": "MP49.png ",
@@ -825,16 +585,11 @@
         "describe": "Thương hiệu phim nổi tiếng Đấu Trường Sinh Tử trở lại với phần tiền truyện mang tên ĐẤU TRƯỜNG SINH TỬ: KHÚC HÁT CỦA CHIM CA VÀ RẮN ĐỘC.",
         "trailer": "https://www.youtube.com/watch?v=566MCdQI2Ps",
         "status": "0",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     },
     {
         "id": "MP50",
-        "countryid": 20,
+        "countryid": null,
         "name": "NGƯỜI VỢ CUỐI CÙNG",
         "yearofmanufacture": 2023,
         "poster": "MP50.png",
@@ -842,11 +597,6 @@
         "describe": "Lấy cảm hứng từ tiểu thuyết Hồ Oán Hận, của nhà văn Hồng Thái, Người Vợ Cuối Cùng là một bộ phim tâm lý cổ trang, lấy bối cảnh Việt Nam vào triều Nguyễn. LINH - Người vợ bất đắc dĩ của một viên quan tri huyện, xuất thân là con của một gia đình nông dân nghèo khó, vì không thể hoàn thành nghĩa vụ sinh con nối dõi nên đã chịu sự chèn ép của những người vợ lớn trong gia đình. Sự gặp gỡ tình cờ của cô và người yêu thời thanh mai trúc mã của mình - NH N đã dẫn đến nhiều câu chuyện bất ngờ xảy ra khiến cuộc sống cô hoàn toàn thay đổi.",
         "trailer": "https://www.youtube.com/watch?v=xrUqv530rOI",
         "status": "0",
-        "limitage": 16,
-        "language": null,
-        "type": null,
-        "actor": null,
-        "director": null,
-        "countryName": null
+        "limitage": 16
     }
 ]

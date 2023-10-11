@@ -28,7 +28,12 @@ public class ShowTimeDto extends ShowTime{
 	
     @Column(name = "dimension")
     private String dimensionName;
-	
+    
+    /*
+	 * branchId of ShowTimeDto
+	 */
+    @Column(name = "branchId")
+    private String branchId;
 	/*
 	 * branchName of ShowTimeDto
 	 */
