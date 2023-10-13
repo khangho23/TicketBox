@@ -57,8 +57,9 @@ class MovieService {
 		$$('director').setValue(response.data.director.map(s => { return "" + s.name }));
 		$$('actor').setValue(response.data.actor.map(s => { return "" + s.name }));
 
-		$$('poster').define("data", { poster: "<img src='https://zuhot-cinema-images.s3.amazonaws.com/poster-movie/" + response.data.poster + "' style='height:340px;width:290px' />" });
-
+		$$('poster').define("data", { poster: "<img src='https://zuhot-cinema-images.s3.amazonaws.com/poster-movie/" + response.data.poster + "' style='height:347px;width:290px' />" });
+		$$('poster').define('autoheight', true);
+		$$('poster').resize();
 		const setLanguage = $$("language");
 		if (language != null) {
 			for (let i = 0; i < language.length; i++) {
@@ -92,6 +93,8 @@ class MovieService {
 		}
 
 		$$("trailer").setValues({ src: "<iframe width='560' height='340' src='" + response.data.trailer + "' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' allowfullscreen></iframe>" });
+		$$('trailer').define('autoheight', true);
+		$$('trailer').resize();
 	}
 
 	insert = async () => {
@@ -125,7 +128,6 @@ class MovieService {
 		const blob = await result.blob();
 		const option = { type: blob.type, lastModified: new Date() }
 		var file = new File([blob], upload.file.name, option);
-		console.log(file);
 		const jsonBlob = new Blob([JSON.stringify(dt)], { type: 'application/json' });
 
 		formData.append('json', jsonBlob, 'data.json');
@@ -138,16 +140,21 @@ class MovieService {
 					"Access-Control-Allow-Origin": "*",
 				},
 			}).then((e) => {
-				console.log(e);
-				webix.message("Thêm thành công.", "success");
+				if (e.data == 'SUCCESS') {
+					webix.message("Thêm thành công.", "success");
+					$$("Form").clear();
+					this.fillForm(data.id)
+					this.fillMovie();
+				}
 			})
 		} catch (e) {
-			console.log(e.response.data);
-			webix.message("" + e.response.data.message, "error");
+			if (e.response.data.message == 'Duplicate key') {
+				webix.message("Mã phim này đã tồn tại", "error");
+			} else {
+				webix.message("Lỗi dữ liệu, thêm thất bại", "error");
+			}
 		}
 
-		$$("Form").clear();
-		this.fillMovie();
 	}
 
 	update = async () => {
@@ -162,9 +169,7 @@ class MovieService {
 			trailer: data.trailer,
 			status: data.status,
 			poster: data.poster,
-			arrayLanguage: $$("language").find(function (item) {
-				return item.selected;
-			}).map((s) => s.id),
+			arrayLanguage: [],
 			arrayType: $$("type").find(function (item) {
 				return item.selected;
 			}).map((s) => s.id),
@@ -172,7 +177,10 @@ class MovieService {
 			actor: data.actor.split(",").map(s => { return { name: s } }),
 			director: data.director.split(",").map(s => { return { name: s } }),
 			arrayActor: [],
-			arrayDirector: []
+			arrayDirector: [],
+			language: $$("language").find(function (item) {
+				return item.selected;
+			}).map((s) => { return { id: s.id } })
 		};
 
 		const upload = $$("poster").getValues();
@@ -181,7 +189,6 @@ class MovieService {
 		const blob = await result.blob();
 		const option = { type: blob.type, lastModified: new Date() }
 		var file = new File([blob], upload.file.name, option);
-		console.log(file);
 		const jsonBlob = new Blob([JSON.stringify(dt)], { type: 'application/json' });
 
 		formData.append('json', jsonBlob, 'data.json');
@@ -194,16 +201,46 @@ class MovieService {
 					"Access-Control-Allow-Origin": "*",
 				},
 			}).then((e) => {
-				console.log(e);
-				webix.message("Cập nhật thành công.", "success");
+				if (e.data == 'SUCCESS') {
+					webix.message("Cập nhật thành công.", "success");
+					$$("Form").clear();
+					this.fillForm(data.id)
+					this.fillMovie();
+				}
 			})
 		} catch (e) {
-			console.log(e.response.data);
-			webix.message("" + e.response.data.message, "error");
+			if (e.response.data.message == 'Key does not exist') {
+				webix.message("Mã phim này Không tồn tại", "error");
+			} else {
+				webix.message("Lỗi dữ liệu, cập nhật thất bại", "error");
+			}
 		}
-
-		$$("Form").clear();
 		this.fillMovie();
+	}
+	clear() {
+		$$("Form").clear();
+
+		const languageList = responseLanguage.data.map(s => { return { id: s.id, value: s.name, selected: false } });
+		$$('language').define("data", languageList);
+		$$('language').render();
+
+		const typeList = responseType.data.map((s) => { return { id: s.id, value: s.name, selected: false } });
+		$$('type').define("data", typeList);
+		$$('type').render();
+
+		$$('poster').define("data", { poster: "" })
+		$$('poster').define("autoheight", false);
+		$$('poster').define("height", 0);
+		$$('poster').resize();
+
+		$$("trailer").define("data", { src: "" });
+		$$("trailer").define("autoheight", false);
+		$$("trailer").define("height", 0);
+		$$("trailer").resize();
+	}
+	async fillDataLanguage(movieId) {
+		const response = await axios.get("/api/languageOfMovie/id", { params: { movieId: movieId } });
+		return response.data
 	}
 }
 export default new MovieService();

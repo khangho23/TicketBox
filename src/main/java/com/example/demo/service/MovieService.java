@@ -1,4 +1,4 @@
-	package com.example.demo.service;
+package com.example.demo.service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -181,24 +181,12 @@ public class MovieService implements BaseService<Movie, String> {
 
 	public List<Movie> findAllMovieAdmin() {
 		List<Movie> movies = movieDao.findAllMovieAmin();
-
-		for (Movie movie : movies) {
-			// List Language
-			List<LanguageOfMovie> listLanguageOfMovie = languageOfMovieDao.findByMovieId(movie.getId());
-			List<Language> languages = new ArrayList<>();
-			for (LanguageOfMovie languageOfMovie : listLanguageOfMovie) {
-				Language language = languageDao.findById(languageOfMovie.getLanguageId());
-				languages.add(language);
-			}
-			movie.setLanguage(languages);
-		}
 		return movies;
-
 	}
 
 	public String insertMovie(requestMovieDto movie, MultipartFile multipartFile)
 			throws InvalidRequestParameterException, SQLException, IOException {
-		// check movieId exists or not
+		// Kiểm tra movieId tồn tại chưa
 		Optional<Movie> movieById = movieDao.findById(movie.getId());
 		if (!movieById.isPresent()) {
 			String folder = "poster-movie/";
@@ -207,38 +195,44 @@ public class MovieService implements BaseService<Movie, String> {
 			String key = folder + fileName + "." + extension;
 
 			InputStream inputStream = multipartFile.getInputStream();
-			// Set content-type for Metadata
+			// Đặt content-type cho Metadata
 			ObjectMetadata objectMetadata = new ObjectMetadata();
 			objectMetadata.setContentType("image/" + extension);
 
-			// Save poster to S3 bucket
+			// Lưu movie poster tới S3 bucket
 			s3Service.saveFile(BUCKET_NAME, key, inputStream, objectMetadata);
-
+			// Cập nhật movie poster 
 			movie.setPoster(movie.getId() + "." + extension);
-
-			for (int i = 0; i < movie.getActor().size(); i++) {
-				if (!actorDao.findByName(movie.getActor().get(i).getName()).isPresent()) {
-					actorDao.insert(movie.getActor().get(i));
-					Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
-					movie.getArrayActor().add(actor.get().getId());
-				} else {
-					Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
-					System.out.println(actor.get().getId());
-					movie.getArrayActor().add(actor.get().getId());
+			// Kiểm tra dữ liệu Actor.
+			if (movie.getActor() != null) {
+				for (int i = 0; i < movie.getActor().size(); i++) {
+					if (!actorDao.findByName(movie.getActor().get(i).getName()).isPresent()) {
+						actorDao.insert(movie.getActor().get(i));
+						Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
+						movie.getArrayActor().add(actor.get().getId());
+					} else {
+						Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
+						System.out.println(actor.get().getId());
+						movie.getArrayActor().add(actor.get().getId());
+					}
 				}
 			}
-			for (int i = 0; i < movie.getDirector().size(); i++) {
-				if (!directorDao.findByName(movie.getDirector().get(i).getName()).isPresent()) {
-					directorDao.insert(movie.getDirector().get(i));
-					Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
-					movie.getArrayDirector().add(director.get().getId());
-				} else {
-					Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
-					movie.getArrayDirector().add(director.get().getId());
+			// Kiểm tra dữ liệu Director.
+			if (movie.getDirector() != null) {
+				for (int i = 0; i < movie.getDirector().size(); i++) {
+					if (!directorDao.findByName(movie.getDirector().get(i).getName()).isPresent()) {
+						directorDao.insert(movie.getDirector().get(i));
+						Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
+						movie.getArrayDirector().add(director.get().getId());
+					} else {
+						Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
+						movie.getArrayDirector().add(director.get().getId());
+					}
 				}
 			}
 			Connection connection = dataSource.getConnection();
-			// Chuyển đổi List thành java.sql.Array
+			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
+			// sql)
 			Array languageidArray = connection.createArrayOf("integer", movie.getArrayLanguage().toArray());
 			Array typeidArray = connection.createArrayOf("text", movie.getArrayType().toArray());
 			Array actoridArray = connection.createArrayOf("integer", movie.getArrayActor().toArray());
@@ -247,16 +241,16 @@ public class MovieService implements BaseService<Movie, String> {
 			movieDao.insertMovie(movie.getId(), movie.getCountryid(), movie.getName(), movie.getYearofmanufacture(),
 					movie.getPoster(), movie.getTime(), movie.getDescribe(), movie.getTrailer(), movie.getStatus(),
 					movie.getLimitage(), languageidArray, typeidArray, actoridArray, directoridArray);
-			return RequestStatusEnum.SUCCESS.getResponse();
+			return RequestStatusEnum.SUCCESS.name();
 		}
 		throw new InvalidRequestParameterException("Duplicate key", RequestParameterEnum.EXISTS);
 	}
 
 	public String updateMovie(requestMovieDto movie, MultipartFile multipartFile)
 			throws InvalidRequestParameterException, SQLException, IOException {
-//		Check the movieId is the same
+//		Kiểm tra movieId tồn tại chưa
 		Optional<Movie> movieById = movieDao.findById(movie.getId());
-		if (movieById != null) {
+		if (movieById.isPresent()) {
 			String fileNameExists;
 
 			String folder = "poster-movie/";
@@ -265,11 +259,11 @@ public class MovieService implements BaseService<Movie, String> {
 			String key = folder + fileName + "." + extension;
 
 			InputStream inputStream = multipartFile.getInputStream();
-			// Set content-type for Metadata
+			// Đặt content-type cho Metadata
 			ObjectMetadata objectMetadata = new ObjectMetadata();
 			objectMetadata.setContentType("image/" + extension);
 
-			// Check if a avatar exists
+			// Kiểm tra movie poster đã tồn tại trên aws
 			if (movieById.get().getPoster() != null) {
 				String poster = movieById.get().getPoster();
 				fileNameExists = poster.substring(0, movieById.get().getPoster().indexOf("."));
@@ -277,35 +271,48 @@ public class MovieService implements BaseService<Movie, String> {
 				if (fileNameExists.equals(fileName))
 					s3Service.deleteFile(BUCKET_NAME, folder + poster);
 			}
-			// Upload avatar to S3 bucket
+			// Lưu movie poster tới S3 bucket
 			s3Service.saveFile(BUCKET_NAME, key, inputStream, objectMetadata);
 
-			// Update customer avatar
+			// Cập nhật movie poster 
 			movie.setPoster(movie.getId() + "." + extension);
-
-			for (int i = 0; i < movie.getActor().size(); i++) {
-				if (!actorDao.findByName(movie.getActor().get(i).getName()).isPresent()) {
-					actorDao.insert(movie.getActor().get(i));
-					Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
-					movie.getArrayActor().add(actor.get().getId());
-				} else {
-					Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
-					System.out.println(actor.get().getId());
-					movie.getArrayActor().add(actor.get().getId());
+			// Kiểm tra dữ liệu Actor.
+			if (movie.getActor() != null) {
+				for (int i = 0; i < movie.getActor().size(); i++) {
+					if (!actorDao.findByName(movie.getActor().get(i).getName()).isPresent()) {
+						actorDao.insert(movie.getActor().get(i));
+						Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
+						movie.getArrayActor().add(actor.get().getId());
+					} else {
+						Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
+						System.out.println(actor.get().getId());
+						movie.getArrayActor().add(actor.get().getId());
+					}
 				}
 			}
-			for (int i = 0; i < movie.getDirector().size(); i++) {
-				if (!directorDao.findByName(movie.getDirector().get(i).getName()).isPresent()) {
-					directorDao.insert(movie.getDirector().get(i));
-					Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
-					movie.getArrayDirector().add(director.get().getId());
-				} else {
-					Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
-					movie.getArrayDirector().add(director.get().getId());
+			// Kiểm tra dữ liệu Director.
+			if (movie.getDirector() != null) {
+				for (int i = 0; i < movie.getDirector().size(); i++) {
+					if (!directorDao.findByName(movie.getDirector().get(i).getName()).isPresent()) {
+						directorDao.insert(movie.getDirector().get(i));
+						Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
+						movie.getArrayDirector().add(director.get().getId());
+					} else {
+						Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
+						movie.getArrayDirector().add(director.get().getId());
+					}
+				}
+			}
+			// Kiểm tra dữ liệu Language.
+			for (int i = 0; i < movie.getLanguage().size(); i++) {
+				if (!languageOfMovieDao.findByMovieIdAndLanguageId(movie.getId(), movie.getLanguage().get(i).getId())
+						.isPresent()) {
+					movie.getArrayLanguage().add(movie.getLanguage().get(i).getId());
 				}
 			}
 			Connection connection = dataSource.getConnection();
-			// Chuyển đổi List thành java.sql.Array
+			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
+			// sql)
 			Array languageidArray = connection.createArrayOf("integer", movie.getArrayLanguage().toArray());
 			Array typeidArray = connection.createArrayOf("text", movie.getArrayType().toArray());
 			Array actoridArray = connection.createArrayOf("integer", movie.getArrayActor().toArray());
@@ -313,7 +320,7 @@ public class MovieService implements BaseService<Movie, String> {
 			System.out.println(languageidArray);
 			movieDao.updateMovie(movie.getId(), movie.getCountryid(), movie.getName(), movie.getYearofmanufacture(),
 					movie.getPoster(), movie.getTime(), movie.getDescribe(), movie.getTrailer(), movie.getStatus(),
-					movie.getLimitage(), languageidArray, typeidArray, actoridArray, directoridArray);
+					movie.getLimitage(), typeidArray, actoridArray, directoridArray, languageidArray);
 			return RequestStatusEnum.SUCCESS.name();
 		}
 		throw new InvalidRequestParameterException("Key does not exist", RequestParameterEnum.NOT_EXISTS);

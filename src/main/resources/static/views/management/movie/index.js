@@ -62,7 +62,7 @@ export default class Movie extends JetView {
 								rows: [
 									{
 										view: "text",
-										label: "<i class='fa-solid fa-language '></i> Ngôn Ngữ",
+										label: "<i class='fa-solid fa-language '></i> Ngôn Ngữ <i style='font-style: italic;font-size: medium;font-family:serif;'>(Chỉ được thêm ngôn ngữ)</i>",
 										id: "selectedLanguage",
 										name: "selectedLanguage",
 										readonly: true,
@@ -77,22 +77,34 @@ export default class Movie extends JetView {
 										scrollX: false,
 										footer: true,
 										on: {
-											onItemClick: function (id) {
+											onItemClick: async function (id) {
+												let data = await MovieService.fillDataLanguage($$("Form").getValues().id);
 												const item = this.getItem(id);
-												item.selected = !item.selected;
+												let found = false;
+
+												for (let i = 0; i < data.length; i++) {
+													if (item.id == data[i].languageId) {
+														found = true;
+														break;
+													}
+												}
+
+												item.selected = found ? true : !item.selected;
 												this.updateItem(id, item);
-												console.log(item);
 												const itemNode = this.getItemNode(id);
-												console.log(itemNode)
+
 												if (item.selected) {
 													itemNode.classList.add("selected-item");
 													itemNode.style.backgroundColor = "#C6E2FF";
 												} else {
 													itemNode.classList.remove("selected-item");
+													itemNode.style.backgroundColor = "";
 												}
+
+
 												const selectedItems = this.find(item => item.selected).map(item => item.value);
+
 												$$("selectedLanguage").setValue(selectedItems.join(", "));
-												const language = this.find(item => item.selected).map(item => { return { id: item.id, name: item.value } });
 											}
 										}
 									}
@@ -122,7 +134,6 @@ export default class Movie extends JetView {
 												item.selected = !item.selected;
 												this.updateItem(id, item);
 												const itemNode = this.getItemNode(id);
-												console.log(itemNode)
 												if (item.selected) {
 													itemNode.classList.add("selected-item");
 													itemNode.style.backgroundColor = "#C6E2FF";
@@ -130,8 +141,6 @@ export default class Movie extends JetView {
 													itemNode.classList.remove("selected-item");
 												}
 												const selectedItems = this.find(item => item.selected).map(item => item.value);
-												const type = this.find(item => item.selected).map(item => { return { id: item.id, name: item.value } });
-												console.log(type)
 												$$("selectedType").setValue(selectedItems.join(", "));
 											}
 										}
@@ -175,7 +184,7 @@ export default class Movie extends JetView {
 											var reader = new FileReader();
 											reader.onload = async function (event) {
 												$$("poster").define("data", {
-													poster: "<img src='" + event.target.result + "' style='height:340px;width:290px' />",
+													poster: "<img src='" + event.target.result + "' style='height:347px;width:290px' />",
 													url: event.target.result,
 													file: file
 												});
@@ -202,9 +211,7 @@ export default class Movie extends JetView {
 									}
 								},
 								{
-									view: "button", value: "Mới", css: "new", click: function () {
-										$$("Form").clear();
-									}
+									view: "button", value: "Mới", css: "new", click: MovieService.clear
 								}
 							]
 						}
@@ -252,6 +259,7 @@ export default class Movie extends JetView {
 			view: "form",
 			id: "table",
 			borderless: true,
+			height: 550,
 			rows: [{
 				view: "datatable",
 				id: "datatable",
@@ -286,7 +294,6 @@ export default class Movie extends JetView {
 			view: "scrollview",
 			scroll: "y",
 			body: {
-				height: 1230,
 				rows: [form, table]
 			}
 		}
@@ -294,5 +301,6 @@ export default class Movie extends JetView {
 	init() {
 		MovieService.fillMovie();
 	}
+
 
 }

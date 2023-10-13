@@ -2,4 +2,4 @@ select
 	id,
 	name
 from actor
-where name = /* name */'Anh Dũng'
+where name = /* name */N'Anh Dũng'

@@ -43,6 +43,11 @@
     color: rgb(255, 0, 0);
 }
 
+.form .webix_inp_top_label {
+    font-family: serif;
+    font-weight: bold;
+}
+
 .form {
     background-color: rgb(223, 225, 225) !important;
 }

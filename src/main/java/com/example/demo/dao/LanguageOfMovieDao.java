@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
@@ -13,4 +14,7 @@ import com.example.demo.entity.LanguageOfMovie;
 public interface LanguageOfMovieDao {
 	@Select
 	List<LanguageOfMovie> findByMovieId(String movieId);
+
+	@Select
+	Optional<LanguageOfMovie> findByMovieIdAndLanguageId(String movieId, int languageId);
 }
