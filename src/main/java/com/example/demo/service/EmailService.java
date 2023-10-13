@@ -14,6 +14,7 @@ import org.thymeleaf.context.Context;
 import com.example.demo.constant.Constants;
 import com.example.demo.entity.Customer;
 import com.example.demo.model.MailInfoModel;
+import com.example.demo.model.SendOrderModel;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -29,6 +30,34 @@ public class EmailService {
 	/*
 	 * Return token
 	 */
+	public boolean sendOrder(MailInfoModel mail) throws MessagingException {
+		try {
+			// Tạo message
+			MimeMessage message = sender.createMimeMessage();
+			// Sử dụng Helper để thiết lập các thông tin cần thiết cho message
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+			helper.setFrom(mail.getFrom());
+			helper.setTo(mail.getTo());
+			helper.setSubject(mail.getSubject());
+			Map<String, Object> map = new HashMap<>();
+			map.put("listTicket", ((SendOrderModel) mail.getBody()).getListTicket());
+			map.put("bill", ((SendOrderModel) mail.getBody()).getBill());
+			map.put("QRCode", ((SendOrderModel) mail.getBody()).getQrcode());
+			Context context = new Context();
+			context.setVariables(map);
+			String htmlBody = templateEngine.process(Constants.ORDER, context);
+			helper.setText(htmlBody, true);
+			// Gửi message đến SMTP server
+			sender.send(message);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+	/*
+	 * Return token
+	 */
 	public String sendCode(MailInfoModel mail) throws MessagingException {
 		// Tạo message
 		MimeMessage message = sender.createMimeMessage();
@@ -38,7 +67,7 @@ public class EmailService {
 		helper.setTo(mail.getTo());
 		helper.setSubject(mail.getSubject());
 		Map<String, Object> map = new HashMap<>();
-		map.put("name", mail.getBody().getName());
+		map.put("name", ((Customer) mail.getBody()).getName());
 		map.put("url", Constants.URL);
 		// random token
 		String token = generateRandomToken();
