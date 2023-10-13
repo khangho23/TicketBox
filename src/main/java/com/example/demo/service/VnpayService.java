@@ -79,6 +79,82 @@ public class VnpayService {
         return vnpayPaymentDto;
     }
 
+    public Map<String, String> createToken() {
+        Map<String, String> vnp_Params = new HashMap<>();
+
+        vnp_Params.put("vnp_version", VnpayConfig.vnp_Version);
+        vnp_Params.put("vnp_command", "pay_and_create");
+        vnp_Params.put("vnp_tmn_code", VnpayConfig.vnp_TmnCode);
+        vnp_Params.put("vnp_app_user_id", "1");
+        vnp_Params.put("vnp_card_type", "01");
+        vnp_Params.put("vnp_txn_ref", VnpayConfig.getRandomNumber(8));
+        vnp_Params.put("vnp_txn_desc", "Chuyen tien");
+        vnp_Params.put("vnp_amount", String.valueOf(100000000));
+        vnp_Params.put("vnp_curr_code", "VND");
+        vnp_Params.put("vnp_return_url", VnpayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_ip_addr", "192.168.2.41");
+
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String vnp_CreateDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_create_date", vnp_CreateDate);
+        cld.add(Calendar.MINUTE, TIME_OUT);
+
+        String[] queryAndHashData = buildQueryUrl(vnp_Params);
+        String queryUrl = queryAndHashData[0];
+        String hashData = queryAndHashData[1];
+
+        String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData);
+        queryUrl += "&vnp_secure_hash=" + vnp_SecureHash;
+
+        String paymentUrl = VnpayConfig.vnp_CreateToken + "?" + queryUrl;
+        vnp_Params.put("redirect_url", paymentUrl);
+
+        return vnp_Params;
+    }
+
+    public Map<String, String> paymentAndCreateToken() {
+        Map<String, String> vnp_Params = new HashMap<>();
+
+        vnp_Params.put("vnp_version", VnpayConfig.vnp_Version);
+        vnp_Params.put("vnp_command", "pay_and_create");
+        vnp_Params.put("vnp_tmn_code", VnpayConfig.vnp_TmnCode);
+        vnp_Params.put("vnp_app_user_id", "1");
+        vnp_Params.put("vnp_card_type", "01");
+        vnp_Params.put("vnp_txn_ref", VnpayConfig.getRandomNumber(8));
+        vnp_Params.put("vnp_txn_desc", "Chuyen tien");
+        vnp_Params.put("vnp_amount", String.valueOf(100000000));
+        vnp_Params.put("vnp_curr_code", "VND");
+        vnp_Params.put("vnp_return_url", VnpayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_ip_addr", "192.168.2.41");
+
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String vnp_CreateDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_create_date", vnp_CreateDate);
+        cld.add(Calendar.MINUTE, TIME_OUT);
+
+        String[] queryAndHashData = buildQueryUrl(vnp_Params);
+        String queryUrl = queryAndHashData[0];
+        String hashData = queryAndHashData[1];
+
+        String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData);
+        queryUrl += "&vnp_secure_hash=" + vnp_SecureHash;
+
+        String paymentUrl = VnpayConfig.vnp_PaymentAndCreateToken + "?" + queryUrl;
+        vnp_Params.put("redirect_url", paymentUrl);
+
+        return vnp_Params;
+    }
+
+    public Map<String, String> paymentByToken() {
+        return null;
+    }
+
+    public Map<String, String> removeToken() {
+        return null;
+    }
+
     private String[] buildQueryUrl(Map<String, String> vnp_Params) {
         List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
         Collections.sort(fieldNames);
