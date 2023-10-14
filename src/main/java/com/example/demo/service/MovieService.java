@@ -204,41 +204,15 @@ public class MovieService implements BaseService<Movie, String> {
 			// Cập nhật movie poster 
 			movie.setPoster(movie.getId() + "." + extension);
 			// Kiểm tra dữ liệu Actor.
-			if (movie.getActor() != null) {
-				for (int i = 0; i < movie.getActor().size(); i++) {
-					if (!actorDao.findByName(movie.getActor().get(i).getName()).isPresent()) {
-						actorDao.insert(movie.getActor().get(i));
-						Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
-						movie.getArrayActor().add(actor.get().getId());
-					} else {
-						Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
-						System.out.println(actor.get().getId());
-						movie.getArrayActor().add(actor.get().getId());
-					}
-				}
-			}
-			// Kiểm tra dữ liệu Director.
-			if (movie.getDirector() != null) {
-				for (int i = 0; i < movie.getDirector().size(); i++) {
-					if (!directorDao.findByName(movie.getDirector().get(i).getName()).isPresent()) {
-						directorDao.insert(movie.getDirector().get(i));
-						Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
-						movie.getArrayDirector().add(director.get().getId());
-					} else {
-						Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
-						movie.getArrayDirector().add(director.get().getId());
-					}
-				}
-			}
+
 			Connection connection = dataSource.getConnection();
 			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
 			// sql)
 			Array languageidArray = connection.createArrayOf("integer", movie.getArrayLanguage().toArray());
 			Array typeidArray = connection.createArrayOf("text", movie.getArrayType().toArray());
-			Array actoridArray = connection.createArrayOf("integer", movie.getArrayActor().toArray());
-			Array directoridArray = connection.createArrayOf("integer", movie.getArrayDirector().toArray());
-			System.out.println(languageidArray);
-			movieDao.insertMovie(movie.getId(), movie.getCountryid(), movie.getName(), movie.getYearofmanufacture(),
+			Array actoridArray = connection.createArrayOf("text", movie.getArrayActor().toArray());
+			Array directoridArray = connection.createArrayOf("text", movie.getArrayDirector().toArray());
+			movieDao.insertmovie(movie.getId(), movie.getCountryid(), movie.getName(), movie.getYearofmanufacture(),
 					movie.getPoster(), movie.getTime(), movie.getDescribe(), movie.getTrailer(), movie.getStatus(),
 					movie.getLimitage(), languageidArray, typeidArray, actoridArray, directoridArray);
 			return RequestStatusEnum.SUCCESS.name();
@@ -276,49 +250,16 @@ public class MovieService implements BaseService<Movie, String> {
 
 			// Cập nhật movie poster 
 			movie.setPoster(movie.getId() + "." + extension);
-			// Kiểm tra dữ liệu Actor.
-			if (movie.getActor() != null) {
-				for (int i = 0; i < movie.getActor().size(); i++) {
-					if (!actorDao.findByName(movie.getActor().get(i).getName()).isPresent()) {
-						actorDao.insert(movie.getActor().get(i));
-						Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
-						movie.getArrayActor().add(actor.get().getId());
-					} else {
-						Optional<Actor> actor = actorDao.findByName(movie.getActor().get(i).getName());
-						System.out.println(actor.get().getId());
-						movie.getArrayActor().add(actor.get().getId());
-					}
-				}
-			}
-			// Kiểm tra dữ liệu Director.
-			if (movie.getDirector() != null) {
-				for (int i = 0; i < movie.getDirector().size(); i++) {
-					if (!directorDao.findByName(movie.getDirector().get(i).getName()).isPresent()) {
-						directorDao.insert(movie.getDirector().get(i));
-						Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
-						movie.getArrayDirector().add(director.get().getId());
-					} else {
-						Optional<Director> director = directorDao.findByName(movie.getDirector().get(i).getName());
-						movie.getArrayDirector().add(director.get().getId());
-					}
-				}
-			}
-			// Kiểm tra dữ liệu Language.
-			for (int i = 0; i < movie.getLanguage().size(); i++) {
-				if (!languageOfMovieDao.findByMovieIdAndLanguageId(movie.getId(), movie.getLanguage().get(i).getId())
-						.isPresent()) {
-					movie.getArrayLanguage().add(movie.getLanguage().get(i).getId());
-				}
-			}
+
 			Connection connection = dataSource.getConnection();
 			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
 			// sql)
 			Array languageidArray = connection.createArrayOf("integer", movie.getArrayLanguage().toArray());
 			Array typeidArray = connection.createArrayOf("text", movie.getArrayType().toArray());
-			Array actoridArray = connection.createArrayOf("integer", movie.getArrayActor().toArray());
-			Array directoridArray = connection.createArrayOf("integer", movie.getArrayDirector().toArray());
+			Array actoridArray = connection.createArrayOf("text", movie.getArrayActor().toArray());
+			Array directoridArray = connection.createArrayOf("text", movie.getArrayDirector().toArray());
 			System.out.println(languageidArray);
-			movieDao.updateMovie(movie.getId(), movie.getCountryid(), movie.getName(), movie.getYearofmanufacture(),
+			movieDao.updatemovie(movie.getId(), movie.getCountryid(), movie.getName(), movie.getYearofmanufacture(),
 					movie.getPoster(), movie.getTime(), movie.getDescribe(), movie.getTrailer(), movie.getStatus(),
 					movie.getLimitage(), typeidArray, actoridArray, directoridArray, languageidArray);
 			return RequestStatusEnum.SUCCESS.name();

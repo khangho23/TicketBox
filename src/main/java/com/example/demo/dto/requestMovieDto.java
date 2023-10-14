@@ -13,16 +13,12 @@ import lombok.Data;
 @Data
 @Entity
 public class requestMovieDto extends Movie {
-    @Column(name = "arrayLanguage")
     @Transient
     private List<Integer> arrayLanguage;
-    @Column(name = "arrayType")
     @Transient
     private List<String> arrayType;
-    @Column(name = "arrayActor")
     @Transient
-    private List<Integer> arrayActor;
-    @Column(name = "arrayDirector")
+    private List<String> arrayActor;
     @Transient
-    private List<Integer> arrayDirector;
+    private List<String> arrayDirector;
 }

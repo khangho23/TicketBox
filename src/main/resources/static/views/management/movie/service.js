@@ -116,10 +116,8 @@ class MovieService {
 				return item.selected;
 			}).map((s) => s.id),
 			limitage: Number(data.limitage),
-			actor: data.actor.split(",").map(s => { return { name: s } }),
-			director: data.director.split(",").map(s => { return { name: s } }),
-			arrayActor: [],
-			arrayDirector: []
+			arrayActor: data.actor.split(",").map(s => { return s }),
+			arrayDirector: data.director.split(",").map(s => { return s })
 		};
 
 		const upload = $$("poster").getValues();
@@ -169,18 +167,15 @@ class MovieService {
 			trailer: data.trailer,
 			status: data.status,
 			poster: data.poster,
-			arrayLanguage: [],
+			arrayLanguage: $$("language").find(function (item) {
+				return item.selected;
+			}).map((s) => { return s.id }),
 			arrayType: $$("type").find(function (item) {
 				return item.selected;
 			}).map((s) => s.id),
 			limitage: Number(data.limitage),
-			actor: data.actor.split(",").map(s => { return { name: s } }),
-			director: data.director.split(",").map(s => { return { name: s } }),
-			arrayActor: [],
-			arrayDirector: [],
-			language: $$("language").find(function (item) {
-				return item.selected;
-			}).map((s) => { return { id: s.id } })
+			arrayActor: data.actor.split(",").map(s => { return s }),
+			arrayDirector: data.director.split(",").map(s => { return s }),
 		};
 
 		const upload = $$("poster").getValues();
@@ -215,7 +210,6 @@ class MovieService {
 				webix.message("Lỗi dữ liệu, cập nhật thất bại", "error");
 			}
 		}
-		this.fillMovie();
 	}
 	clear() {
 		$$("Form").clear();
