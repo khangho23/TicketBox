@@ -2,6 +2,7 @@ package com.example.demo.controller.rest;
 
 import com.example.demo.config.VnpayConfig;
 import com.example.demo.dto.VnpayPaymentDto;
+import com.example.demo.dto.VnpayToken;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.VnpayService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -27,7 +29,7 @@ public class VnpayController {
     VnpayService vnpayService;
 
     @PostMapping("/pay")
-    public ResponseEntity<?> createPayment(@RequestBody VnpayPaymentDto vnp) throws InvalidRequestParameterException {
+    public ResponseEntity<?> createPayment(@RequestBody VnpayPaymentDto vnp) throws InvalidRequestParameterException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return ResponseEntity.ok(vnpayService.createPayment(request, vnp));
     }
 
@@ -70,8 +72,13 @@ public class VnpayController {
         return response;
     }
 
-    @GetMapping("/payment-and-create-token")
-    public ResponseEntity<?> tokenCreate() {
-        return ResponseEntity.ok(vnpayService.paymentAndCreateToken());
+    @GetMapping("/create-token")
+    public ResponseEntity<?> createToken() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return ResponseEntity.ok(vnpayService.createToken(request));
+    }
+
+    @GetMapping("/pay-and-create-token")
+    public ResponseEntity<?> paymentAndCreateToken() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return ResponseEntity.ok(vnpayService.paymentAndCreateToken(request));
     }
 }
