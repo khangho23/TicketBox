@@ -1,14 +1,18 @@
 package com.example.demo.service;
 
+import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.config.VnpayConfig;
 import com.example.demo.dto.VnpayPaymentDto;
+import com.example.demo.dto.VnpayToken;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.util.PaymentUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -18,52 +22,29 @@ import java.util.*;
 public class VnpayService {
     private final int REMOVE_DECIMAL_DIGITS = 100;
     private final String BILL_PAYMENT = "250000";
-    private final int TIME_OUT = 15;
+    private final int TIME_OUT = 20;
 
     @Autowired
     PaymentUtils paymentUtils;
 
-    public VnpayPaymentDto createPayment(HttpServletRequest request, VnpayPaymentDto vnp) throws InvalidRequestParameterException {
-        vnp.setVnp_OrderInfo(paymentUtils.validateBankTransferContent(vnp.getVnp_OrderInfo()));
+    public String createPayment(HttpServletRequest request, VnpayPaymentDto vnpayPaymentDto) throws InvalidRequestParameterException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        String content =  paymentUtils.validateBankTransferContent(vnpayPaymentDto.getVnp_OrderInfo());
 
-        VnpayPaymentDto vnpayPaymentDto = new VnpayPaymentDto();
-        vnpayPaymentDto.setVnp_Version(VnpayConfig.vnp_Version);
-        vnpayPaymentDto.setVnp_Command(VnpayConfig.vnp_Command);
-        vnpayPaymentDto.setVnp_TmnCode(VnpayConfig.vnp_TmnCode);
-        vnpayPaymentDto.setVnp_Amount(String.valueOf(Integer.parseInt(vnp.getVnp_Amount()) * REMOVE_DECIMAL_DIGITS));
-        vnpayPaymentDto.setVnp_CurrCode("VND");
-        vnpayPaymentDto.setVnp_BankCode(vnp.getVnp_BankCode());
-        vnpayPaymentDto.setVnp_TxnRef(VnpayConfig.getRandomNumber(8));
-        vnpayPaymentDto.setVnp_OrderInfo(vnp.getVnp_OrderInfo());
-        vnpayPaymentDto.setVnp_OrderType(BILL_PAYMENT);
-        vnpayPaymentDto.setVnp_Locale(vnp.getVnp_Locale());
-        vnpayPaymentDto.setVnp_ReturnUrl(VnpayConfig.vnp_ReturnUrl);
-        vnpayPaymentDto.setVnp_IpAddr(VnpayConfig.getIpAddress(request));
-
-        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String vnp_CreateDate = formatter.format(cld.getTime());
-        vnpayPaymentDto.setVnp_CreateDate(vnp_CreateDate);
-        cld.add(Calendar.MINUTE, TIME_OUT);
-        String vnp_ExpireDate = formatter.format(cld.getTime());
-        vnpayPaymentDto.setVnp_ExpireDate(vnp_ExpireDate);
-
-        Map<String, String> vnp_Params = new LinkedHashMap<>();
-        // Populate vnp_Params with properties from vnpayPaymentDto
-        vnp_Params.put("vnp_Version", vnpayPaymentDto.getVnp_Version());
-        vnp_Params.put("vnp_Command", vnpayPaymentDto.getVnp_Command());
-        vnp_Params.put("vnp_TmnCode", vnpayPaymentDto.getVnp_TmnCode());
-        vnp_Params.put("vnp_Amount", vnpayPaymentDto.getVnp_Amount());
-        vnp_Params.put("vnp_CurrCode", vnpayPaymentDto.getVnp_CurrCode());
+        Map<String, String> vnp_Params = new HashMap<>();
+        vnp_Params.put("vnp_Version", VnpayConfig.vnp_Version);
+        vnp_Params.put("vnp_Command", VnpayConfig.vnp_Command);
+        vnp_Params.put("vnp_TmnCode", VnpayConfig.vnp_TmnCode);
+        vnp_Params.put("vnp_Amount", String.valueOf(Integer.parseInt(vnpayPaymentDto.getVnp_Amount()) * REMOVE_DECIMAL_DIGITS));
+        vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_BankCode", vnpayPaymentDto.getVnp_BankCode());
-        vnp_Params.put("vnp_TxnRef", vnpayPaymentDto.getVnp_TxnRef());
-        vnp_Params.put("vnp_OrderInfo", vnpayPaymentDto.getVnp_OrderInfo());
-        vnp_Params.put("vnp_OrderType", vnpayPaymentDto.getVnp_OrderType());
+        vnp_Params.put("vnp_TxnRef", VnpayConfig.getRandomNumber(8));
+        vnp_Params.put("vnp_OrderInfo" , content);
+        vnp_Params.put("vnp_OrderType", BILL_PAYMENT);
         vnp_Params.put("vnp_Locale", vnpayPaymentDto.getVnp_Locale());
-        vnp_Params.put("vnp_ReturnUrl", vnpayPaymentDto.getVnp_ReturnUrl());
-        vnp_Params.put("vnp_IpAddr", vnpayPaymentDto.getVnp_IpAddr());
-        vnp_Params.put("vnp_CreateDate", vnpayPaymentDto.getVnp_CreateDate());
-        vnp_Params.put("vnp_ExpireDate", vnpayPaymentDto.getVnp_ExpireDate());
+        vnp_Params.put("vnp_ReturnUrl", VnpayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_IpAddr", VnpayConfig.getIpAddress(request));
+
+        paymentInterval(vnp_Params);
 
         String[] queryAndHashData = buildQueryUrl(vnp_Params);
         String queryUrl = queryAndHashData[0];
@@ -72,41 +53,139 @@ public class VnpayService {
         String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData);
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 
-        String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
-        vnp_Params.put("redirect_url", paymentUrl);
-        vnpayPaymentDto.setRedirect_url(paymentUrl);
+//        String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
+//        vnp_Params.put("redirect_url", paymentUrl);
 
-        return vnpayPaymentDto;
+        return VnpayConfig.vnp_PayUrl + "?" + queryUrl;
     }
 
-    private String[] buildQueryUrl(Map<String, String> vnp_Params) {
-        List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
-        Collections.sort(fieldNames);
-        StringBuilder hashData = new StringBuilder();
-        StringBuilder query = new StringBuilder();
-        Iterator<String> itr = fieldNames.iterator();
-        while (itr.hasNext()) {
-            String fieldName = itr.next();
-            String fieldValue = vnp_Params.get(fieldName);
-            if (fieldValue != null && !fieldValue.isEmpty()) {
-                // Build hash data
-                hashData.append(fieldName);
-                hashData.append('=');
-                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+    public String createToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvalidRequestParameterException {
+        String content =  paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
 
-                // Build query
-                query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII));
-                query.append('=');
-                query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+        Map<String, String> vnp_Params = new HashMap<>();
 
-                if (itr.hasNext()) {
-                    query.append('&');
-                    hashData.append('&');
-                }
-            }
-        }
+        vnp_Params.put("vnp_version", VnpayConfig.vnp_Version);
+        vnp_Params.put("vnp_command", "token_create");
+        vnp_Params.put("vnp_tmn_code", VnpayConfig.vnp_TmnCode);
+        vnp_Params.put("vnp_app_user_id", vnpayToken.getVnp_app_user_id());
+        vnp_Params.put("vnp_card_type", vnpayToken.getVnp_card_type());
+        vnp_Params.put("vnp_bank_code", vnpayToken.getVnp_bank_code());
+        vnp_Params.put("vnp_locale", vnpayToken.getVnp_locale());
+        vnp_Params.put("vnp_txn_ref", VnpayConfig.getRandomNumber(8));
+        vnp_Params.put("vnp_txn_desc", content);
+        vnp_Params.put("vnp_curr_code", "VND");
+        vnp_Params.put("vnp_return_url", VnpayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_cancel_url", VnpayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_ip_addr", "192.168.2.41");
 
-        return new String[]{query.toString(), hashData.toString()};
+        currentPaymentTime(vnp_Params);
+
+        String[] queryAndHashData = buildQueryUrl(vnp_Params);
+        String queryUrl = queryAndHashData[0];
+        String hashData = queryAndHashData[1];
+
+        String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData);
+        queryUrl += "&vnp_secure_hash=" + vnp_SecureHash;
+
+        return VnpayConfig.vnp_CreateToken + "?" + queryUrl;
+    }
+
+//    public VnpayToken getToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+//        Map<String, String> vnp_Params = new HashMap<>();
+//
+//        vnp_Params.put("vnp_app_user_id", vnpayToken.getVnp_app_user_id());
+//        vnp_Params.put("vnp_card_type", vnpayToken.getVnp_card_type());
+//        vnp_Params.put("vnp_bank_code", vnpayToken.getVnp_bank_code());
+//        vnp_Params.put("vnp_locale", vnpayToken.getVnp_locale());
+//
+//        return vnpayToken;
+//    }
+
+    public String paymentAndCreateToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
+        String content =  paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
+
+        Map<String, String> vnp_Params = new HashMap<>();
+        vnp_Params.put("vnp_version", VnpayConfig.vnp_Version);
+        vnp_Params.put("vnp_command", "pay_and_create");
+        vnp_Params.put("vnp_tmn_code", VnpayConfig.vnp_TmnCode);
+        vnp_Params.put("vnp_app_user_id", vnpayToken.getVnp_app_user_id());
+        vnp_Params.put("vnp_bank_code", vnpayToken.getVnp_bank_code());
+        vnp_Params.put("vnp_locale", vnpayToken.getVnp_locale());
+        vnp_Params.put("vnp_card_type", vnpayToken.getVnp_card_type());
+        vnp_Params.put("vnp_txn_ref", VnpayConfig.getRandomNumber(8));
+        vnp_Params.put("vnp_txn_desc", content);
+        vnp_Params.put("vnp_amount", String.valueOf(Integer.parseInt(vnpayToken.getVnp_amount()) * REMOVE_DECIMAL_DIGITS));
+        vnp_Params.put("vnp_curr_code", "VND");
+        vnp_Params.put("vnp_return_url", VnpayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_cancel_url", VnpayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_ip_addr", "192.168.2.41");
+        vnp_Params.put("vnp_store_token", "1");
+
+        currentPaymentTime(vnp_Params);
+
+        String[] queryAndHashData = buildQueryUrl(vnp_Params);
+        String queryUrl = queryAndHashData[0];
+        String hashData = queryAndHashData[1];
+
+        String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData);
+        queryUrl += "&vnp_secure_hash=" + vnp_SecureHash;
+
+        return VnpayConfig.vnp_PaymentAndCreateToken + "?" + queryUrl;
+    }
+
+    public String paymentByToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvalidRequestParameterException {
+        String content =  paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
+
+        Map<String, String> vnp_Params = new HashMap<>();
+        vnp_Params.put("vnp_version", VnpayConfig.vnp_Version);
+        vnp_Params.put("vnp_command", "token_pay");
+        vnp_Params.put("vnp_tmn_code", VnpayConfig.vnp_TmnCode);
+        vnp_Params.put("vnp_app_user_id", vnpayToken.getVnp_app_user_id());
+        vnp_Params.put("vnp_token", vnpayToken.getVnp_token());
+        vnp_Params.put("vnp_locale", vnpayToken.getVnp_locale());
+        vnp_Params.put("vnp_txn_ref", VnpayConfig.getRandomNumber(8));
+        vnp_Params.put("vnp_txn_desc", content);
+        vnp_Params.put("vnp_amount", String.valueOf(Integer.parseInt(vnpayToken.getVnp_amount()) * REMOVE_DECIMAL_DIGITS));
+        vnp_Params.put("vnp_curr_code", "VND");
+        vnp_Params.put("vnp_return_url", VnpayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_cancel_url", VnpayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_ip_addr", "192.168.2.41");
+
+        currentPaymentTime(vnp_Params);
+
+        String[] queryAndHashData = buildQueryUrl(vnp_Params);
+        String queryUrl = queryAndHashData[0];
+        String hashData = queryAndHashData[1];
+
+        String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData);
+        queryUrl += "&vnp_secure_hash=" + vnp_SecureHash;
+
+        return VnpayConfig.vnp_PaymentByToken + "?" + queryUrl;
+    }
+
+    public String removeToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvalidRequestParameterException {
+        String content =  paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
+
+        Map<String, String> vnp_Params = new HashMap<>();
+        vnp_Params.put("vnp_version", VnpayConfig.vnp_Version);
+        vnp_Params.put("vnp_command", "token_remove");
+        vnp_Params.put("vnp_tmn_code", VnpayConfig.vnp_TmnCode);
+        vnp_Params.put("vnp_app_user_id", vnpayToken.getVnp_app_user_id());
+        vnp_Params.put("vnp_token", vnpayToken.getVnp_token());
+        vnp_Params.put("vnp_txn_ref", VnpayConfig.getRandomNumber(8));
+        vnp_Params.put("vnp_txn_desc", content);
+        vnp_Params.put("vnp_ip_addr", "192.168.2.41");
+
+        currentPaymentTime(vnp_Params);
+
+        String[] queryAndHashData = buildQueryUrl(vnp_Params);
+        String queryUrl = queryAndHashData[0];
+        String hashData = queryAndHashData[1];
+
+        String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData);
+        queryUrl += "&vnp_secure_hash=" + vnp_SecureHash;
+
+        return VnpayConfig.vnp_RemoveToken + "?" + queryUrl;
     }
 
     public ResponseEntity<?> paymentInformation(HttpServletRequest request, String vnp_OrderInfo, Integer vnp_Amount,
@@ -189,5 +268,52 @@ public class VnpayService {
         }
 
         return null;
+    }
+
+    private String[] buildQueryUrl(Map<String, String> vnp_Params) {
+        List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
+        Collections.sort(fieldNames);
+        StringBuilder hashData = new StringBuilder();
+        StringBuilder query = new StringBuilder();
+        Iterator<String> itr = fieldNames.iterator();
+        while (itr.hasNext()) {
+            String fieldName = itr.next();
+            String fieldValue = vnp_Params.get(fieldName);
+            if (fieldValue != null && !fieldValue.isEmpty()) {
+                // Build hash data
+                hashData.append(fieldName);
+                hashData.append('=');
+                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+
+                // Build query
+                query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII));
+                query.append('=');
+                query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+
+                if (itr.hasNext()) {
+                    query.append('&');
+                    hashData.append('&');
+                }
+            }
+        }
+
+        return new String[]{query.toString(), hashData.toString()};
+    }
+
+    private void currentPaymentTime(Map<String, String> vnp_Params) {
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String vnp_CreateDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_create_date", vnp_CreateDate);
+    }
+
+    private void paymentInterval(Map<String, String> vnp_Params) {
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String vnp_CreateDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+        cld.add(Calendar.MINUTE, TIME_OUT);
+        String vnp_ExpireDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
     }
 }
