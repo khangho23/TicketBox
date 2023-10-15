@@ -1,17 +1,15 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.seasar.doma.Entity;
-import org.seasar.doma.Table;
 
 //@Entity
 //@Table
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vnpay {
+public class VnpayModel {
     private String vnp_BankCode = "";
     private String vnp_TmnCode;
     private String vnp_TxnRef;

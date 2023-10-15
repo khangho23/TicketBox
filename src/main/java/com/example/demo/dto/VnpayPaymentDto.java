@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.Vnpay;
+import com.example.demo.model.VnpayModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VnpayPaymentDto extends Vnpay {
+public class VnpayPaymentDto extends VnpayModel {
     private String vnp_CurrCode;
     private String vnp_OrderType;
     private String vnp_ReturnUrl;
