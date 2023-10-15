@@ -26,7 +26,7 @@ public class RestFilter extends GenericFilterBean {
         Enumeration<String> headerNames = httpRequest.getHeaders("zuhot-key");
         System.out.println(httpRequest.getRequestURI());
         if (httpRequest.getRequestURI().contains("/api")
-                && !headerNames.nextElement().equals(KEY_FILTER)) {
+                && (!headerNames.hasMoreElements() || !headerNames.nextElement().equals(KEY_FILTER))) {
             httpResponse.resetBuffer();
             httpResponse.sendError(404, "Not found");
             httpResponse.setHeader("Content-Type", "application/json");
