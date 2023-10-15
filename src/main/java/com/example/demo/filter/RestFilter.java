@@ -23,7 +23,7 @@ public class RestFilter extends GenericFilterBean {
             FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        Enumeration<String> headerNames = httpRequest.getHeaders("zuhot-key");
+        Enumeration<String> headerNames = httpRequest.getHeaders("Zuhot-Key");
         System.out.println(httpRequest.getRequestURI());
         if (httpRequest.getRequestURI().contains("/api")
                 && (!headerNames.hasMoreElements() || !headerNames.nextElement().equals(KEY_FILTER))) {
