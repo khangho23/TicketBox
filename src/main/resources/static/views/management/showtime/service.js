@@ -13,7 +13,7 @@ class ShowtimeService {
             let data = $$("Form").getValues();
             let dt = {
                 roomId: data.roomId,
-                movieId: data.movieId,
+                languageofmovieid: data.languageofmovieid,
                 dimensionId: data.dimensionId,
                 showDate: data.showDate,
                 startTime: new Date(data.startTime).toLocaleTimeString(),
@@ -51,13 +51,12 @@ class ShowtimeService {
                 let dt = {
                     id: data.id,
                     roomId: data.roomId,
-                    movieId: data.movieId,
+                    languageofmovieid: data.languageofmovieid,
                     dimensionId: data.dimensionId,
                     showDate: data.showDate,
                     startTime: new Date(data.startTime).toLocaleTimeString(),
                     price: data.price
                 }
-                console.log(dt);
                 const response = await axios.post("/api/showtime/updateShowTime", dt);
                 (response.data === "SUCCESS") ? webix.alert("Cập nhật thành công").then(() => this.clearForm()) : console.log(response.data);
             } catch (error) {
