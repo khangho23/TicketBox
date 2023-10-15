@@ -73,12 +73,22 @@ public class VnpayController {
     }
 
     @GetMapping("/create-token")
-    public ResponseEntity<?> createToken() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return ResponseEntity.ok(vnpayService.createToken(request));
+    public ResponseEntity<?> createToken(@RequestBody VnpayToken vnpayToken) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.createToken(request, vnpayToken));
     }
 
     @GetMapping("/pay-and-create-token")
-    public ResponseEntity<?> paymentAndCreateToken() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return ResponseEntity.ok(vnpayService.paymentAndCreateToken(request));
+    public ResponseEntity<?> paymentAndCreateToken(@RequestBody VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.paymentAndCreateToken(request, vnpayToken));
+    }
+
+    @PostMapping("/pay-by-token")
+    public ResponseEntity<?> paymentByToken(@RequestBody VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.paymentByToken(request, vnpayToken));
+    }
+
+    @PostMapping("/remove-token")
+    public ResponseEntity<?> removeToken(@RequestBody VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.removeToken(request, vnpayToken));
     }
 }
