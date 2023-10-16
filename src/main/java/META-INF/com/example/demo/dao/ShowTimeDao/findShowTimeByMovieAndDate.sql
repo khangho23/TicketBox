@@ -3,7 +3,8 @@
 
 SELECT
 	showtime.id,
-	showtime.movieId,
+	showtime.languageofmovieid,
+	languageofmovie.movieid as movieid,
 	showtime.starttime,
 	showtime.price,
 	showtime.showdate,
@@ -15,8 +16,9 @@ SELECT
 	branch.name as branch,
 	branch.address as branchAddress
 FROM showtime 
-JOIN movie on movie.id = showtime.movieid
+JOIN languageofmovie on languageofmovie.id = showtime.languageofmovieid
+JOIN movie on movie.id = languageofmovie.movieid
 JOIN dimension on dimension.id = showtime.dimensionid
 JOIN room on room.id = showtime.roomid
 JOIN branch on branch.id = room.branchid
-WHERE TO_CHAR(showtime.showdate,'MM/DD/YYYY') = /* showdate */'2023-08-19' and showtime.movieid = /* movieId */'MP01';
+WHERE TO_CHAR(showtime.showdate,'MM/DD/YYYY') = /* showdate */'2023-08-19' and languageofmovie.movieid = /* movieId */'MP01';

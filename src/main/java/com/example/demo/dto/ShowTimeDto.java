@@ -18,10 +18,17 @@ public class ShowTimeDto extends ShowTime {
 	/*
 	 * RoomName of ShowTimeDto
 	 */
-
-	@Column(name = "roomName")
-	private String roomName;
-
+	
+	@Column(name = "movieid")
+    private String movieId;
+	
+	/*
+	 * RoomName of ShowTimeDto
+	 */
+	
+	@Column(name = "room")
+    private String roomName;
+	
 	/*
 	 * DimensionName of ShowTimeDto
 	 */

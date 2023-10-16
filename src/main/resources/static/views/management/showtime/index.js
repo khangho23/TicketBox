@@ -67,7 +67,7 @@ export default class Showtime extends JetView {
                                         },
                                     },
                                     {
-                                        view: "combo", label: "Phim - Ngôn ngữ", name: "languageofmovieid", invalidMessage: "Vui lòng chọn ngôn ngữ phim", required: true, labelPosition: "top",
+                                        view: "combo", label: "Phim - Ngôn ngữ", name: "languageOfMovieId", invalidMessage: "Vui lòng chọn ngôn ngữ phim", required: true, labelPosition: "top",
                                         options: {
                                             view: "suggest",
                                             body: {
@@ -124,7 +124,7 @@ export default class Showtime extends JetView {
                                 },
                                 rules: {
                                     "roomId": webix.rules.isNotEmpty,
-                                    "languageofmovieid": webix.rules.isNotEmpty,
+                                    "languageOfMovieId": webix.rules.isNotEmpty,
                                     "dimensionId": webix.rules.isNotEmpty,
                                     "showDate": webix.rules.isNotEmpty,
                                     "startTime": webix.rules.isNotEmpty,

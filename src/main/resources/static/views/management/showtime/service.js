@@ -13,7 +13,7 @@ class ShowtimeService {
             let data = $$("Form").getValues();
             let dt = {
                 roomId: data.roomId,
-                languageofmovieid: data.languageofmovieid,
+                languageOfMovieId: data.languageOfMovieId,
                 dimensionId: data.dimensionId,
                 showDate: data.showDate,
                 startTime: new Date(data.startTime).toLocaleTimeString(),
@@ -51,7 +51,7 @@ class ShowtimeService {
                 let dt = {
                     id: data.id,
                     roomId: data.roomId,
-                    languageofmovieid: data.languageofmovieid,
+                    languageOfMovieId: data.languageOfMovieId,
                     dimensionId: data.dimensionId,
                     showDate: data.showDate,
                     startTime: new Date(data.startTime).toLocaleTimeString(),

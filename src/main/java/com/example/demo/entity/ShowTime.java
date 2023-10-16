@@ -40,7 +40,7 @@ public class ShowTime {
 	 * languageofmovieid of showtime
 	 */
 	@Column
-	private Integer languageofmovieid;
+	private Integer languageOfMovieId;
 	/*
 	 * dimensionId of showtime
 	 */
