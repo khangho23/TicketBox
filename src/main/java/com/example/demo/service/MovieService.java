@@ -43,6 +43,9 @@ import com.example.demo.entity.TypeOfMovie;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.MovieDetailModel;
 import com.example.demo.util.FileUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Service
 public class MovieService implements BaseService<Movie, String> {
@@ -203,18 +206,18 @@ public class MovieService implements BaseService<Movie, String> {
 			s3Service.saveFile(BUCKET_NAME, key, inputStream, objectMetadata);
 			// Cập nhật movie poster 
 			movie.setPoster(movie.getId() + "." + extension);
-			// Kiểm tra dữ liệu Actor.
 
+			ObjectMapper objectMapper = new ObjectMapper();
+	        String json;
 			Connection connection = dataSource.getConnection();
 			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
 			// sql)
-			Array languageidArray = connection.createArrayOf("integer", movie.getArrayLanguage().toArray());
-			Array typeidArray = connection.createArrayOf("text", movie.getArrayType().toArray());
-			Array actoridArray = connection.createArrayOf("text", movie.getArrayActor().toArray());
-			Array directoridArray = connection.createArrayOf("text", movie.getArrayDirector().toArray());
-			movieDao.insertmovie(movie.getId(), movie.getCountryid(), movie.getName(), movie.getYearofmanufacture(),
-					movie.getPoster(), movie.getTime(), movie.getDescribe(), movie.getTrailer(), movie.getStatus(),
-					movie.getLimitage(), languageidArray, typeidArray, actoridArray, directoridArray);
+			movie.setLanguage2(""+connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
+			movie.setType2(""+connection.createArrayOf("text", movie.getArrayType().toArray()));
+			movie.setActor2(""+connection.createArrayOf("text", movie.getArrayActor().toArray()));
+			movie.setDirector2(""+connection.createArrayOf("text", movie.getArrayDirector().toArray()));
+			json = objectMapper.writeValueAsString(movie);
+			movieDao.insertmovie(json);
 			return RequestStatusEnum.SUCCESS.name();
 		}
 		throw new InvalidRequestParameterException("Duplicate key", RequestParameterEnum.EXISTS);
@@ -250,20 +253,21 @@ public class MovieService implements BaseService<Movie, String> {
 
 			// Cập nhật movie poster 
 			movie.setPoster(movie.getId() + "." + extension);
-
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+	        String json;
 			Connection connection = dataSource.getConnection();
 			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
 			// sql)
-			Array languageidArray = connection.createArrayOf("integer", movie.getArrayLanguage().toArray());
-			Array typeidArray = connection.createArrayOf("text", movie.getArrayType().toArray());
-			Array actoridArray = connection.createArrayOf("text", movie.getArrayActor().toArray());
-			Array directoridArray = connection.createArrayOf("text", movie.getArrayDirector().toArray());
-			System.out.println(languageidArray);
-			movieDao.updatemovie(movie.getId(), movie.getCountryid(), movie.getName(), movie.getYearofmanufacture(),
-					movie.getPoster(), movie.getTime(), movie.getDescribe(), movie.getTrailer(), movie.getStatus(),
-					movie.getLimitage(), typeidArray, actoridArray, directoridArray, languageidArray);
+			movie.setLanguage2(""+connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
+			movie.setType2(""+connection.createArrayOf("text", movie.getArrayType().toArray()));
+			movie.setActor2(""+connection.createArrayOf("text", movie.getArrayActor().toArray()));
+			movie.setDirector2(""+connection.createArrayOf("text", movie.getArrayDirector().toArray()));
+			json = objectMapper.writeValueAsString(movie);
+			movieDao.updatemovie(json);
 			return RequestStatusEnum.SUCCESS.name();
 		}
 		throw new InvalidRequestParameterException("Key does not exist", RequestParameterEnum.NOT_EXISTS);
 	}
+	
 }

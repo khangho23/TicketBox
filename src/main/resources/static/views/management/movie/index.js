@@ -27,16 +27,18 @@ export default class Movie extends JetView {
 							cols: [
 								{ view: "text", name: "yearofmanufacture", id: "yearofmanufacture", label: "<i class='fa-solid fa-calendar-days'></i> Năm Khởi Chiếu", invalidMessage: "Năm khởi chiếu trống", labelWidth: 120 },
 								{
-									view: "select",
+									view: "richselect",
 									label: "<i class='fa-solid fa-earth-americas'></i> Quốc Gia",
 									id: "country",
+									value: 1,
 									name: "country",
 									options: [],
 									labelWidth: 120
 								}, {
-									view: "select",
+									view: "richselect",
 									name: "status",
 									id: "status",
+									value: 1,
 									label: "<i class='fa-solid fa-gears'></i> Trạng Thái",
 									options: [
 										{ id: 0, value: "Sắp chiếu" },

@@ -51,13 +51,9 @@ public interface MovieDao {
 	List<Movie> findAllMovieAmin();
 
 	@Function
-	int insertmovie(@In String id, @In Integer countryid, @In String name, @In Integer yearofmanufacture,
-			@In String poster, @In Integer time1, @In String describe, @In String trailer, @In String status,
-			@In Integer limitage, @In Array languageid, @In Array typeid, @In Array actorid, @In Array directorid);
+	int insertmovie(@In String movie);
 
 	@Function
-	int updatemovie(@In String id, @In Integer countryid, @In String name, @In Integer yearofmanufacture,
-			@In String poster, @In Integer time1, @In String describe, @In String trailer, @In String status,
-			@In Integer limitage, @In Array typeid, @In Array actorid, @In Array directorid, @In Array languageid);
+	int updatemovie(@In String movie);
 	
 }

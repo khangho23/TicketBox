@@ -1,8 +1,7 @@
 package com.example.demo.dto;
 
+import java.sql.Array;
 import java.util.List;
-
-import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Transient;
 
@@ -21,4 +20,12 @@ public class requestMovieDto extends Movie {
     private List<String> arrayActor;
     @Transient
     private List<String> arrayDirector;
+    @Transient
+    private String language2;
+    @Transient
+    private String type2;
+    @Transient
+    private String actor2;
+    @Transient
+    private String director2;
 }

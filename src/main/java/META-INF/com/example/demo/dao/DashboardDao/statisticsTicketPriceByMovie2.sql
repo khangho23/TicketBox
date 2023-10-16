@@ -12,8 +12,9 @@ SELECT
 FROM ticket 
 join showtime on ticket.showtimeid = showtime.id
 join languageofmovie ON languageofmovie.id = showtime.languageofmovieid
-join movie on movie.id = languageofmovie.movieid and movie.name= /* movieName */'NGƯỢC DÒNG THỜI GIAN ĐỂ YÊU ANH'
+join movie on movie.id = languageofmovie.movieid
  JOIN months ON TO_CHAR(day, 'DD/MM') = TO_CHAR(showtime.showdate, 'DD/MM')
 and EXTRACT(YEAR FROM showtime.showdate) = /* year */'2023' 
+where movie.name= /* movieName */'NGƯỢC DÒNG THỜI GIAN ĐỂ YÊU ANH'
 GROUP BY day
 ORDER BY month;
