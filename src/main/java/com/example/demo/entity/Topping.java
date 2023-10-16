@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import java.util.Date;
-
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;

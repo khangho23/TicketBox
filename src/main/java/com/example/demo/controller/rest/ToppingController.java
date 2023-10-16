@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +21,14 @@ public class ToppingController {
 	@Autowired
 	ToppingService toppingService;
 
-	@GetMapping("/branch")
+	@GetMapping("/toppingofbranch")
 	public ResponseEntity<?> findByBranchId(@RequestParam("branchid") Optional<String> branchid)
 			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(toppingService.findByBranchid(branchid));
+	}
+	
+	@PostMapping("/order")
+	public ResponseEntity<?> orderTopping(){
+		return null;
 	}
 }

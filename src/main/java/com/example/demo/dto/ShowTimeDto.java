@@ -19,6 +19,13 @@ public class ShowTimeDto extends ShowTime{
 	 * RoomName of ShowTimeDto
 	 */
 	
+	@Column(name = "movieid")
+    private String movieId;
+	
+	/*
+	 * RoomName of ShowTimeDto
+	 */
+	
 	@Column(name = "room")
     private String roomName;
 	
