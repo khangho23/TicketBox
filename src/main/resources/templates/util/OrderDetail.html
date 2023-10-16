@@ -13,66 +13,75 @@
         th,
         td {
             padding: 10px;
-            border: 1px solid #ccc;
+            border-bottom: 2px solid #ccc;
         }
 
         .bg {
+            border-radius: 10px;
             background-size: 500px 100%;
-            background-image: url(https://i.pinimg.com/564x/68/3c/03/683c03e8ff9bc9cf62c53742bfe4b2ad.jpg);
+            background-image: url(https://i.pinimg.com/564x/09/cd/37/09cd3751f9e59f3bc82b982059e7b1c8.jpg);
             background-repeat: no-repeat;
             padding: 40px 44px;
+        }
+
+        .bg-child {
+            border-radius: 10px;
+            padding: 40px 40px;
+            background-color: rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
 
-<body style="font-family: Verdana, Geneva, Tahoma, sans-serif; width: 500px; margin: auto auto;font-weight: bold;">
+<body
+    style="font-family: Verdana, Geneva, Tahoma, sans-serif; width: 500px; margin: auto auto;font-weight: bold; color: #ccc;">
     <div class="bg">
-        <section style="margin-bottom: 20px;">
-            <h2>Đơn hàng:</h2>
-            <table>
-                <tr>
-                    <th>Tên</th>
-                    <th>Số lượng</th>
-                    <th>Giá</th>
-                </tr>
-                <tr th:each="item : ${listTicket}">
-                    <td>Vé VIP</td>
-                    <td>1</td>
-                    <td>[[${#strings.replace(#strings.replace(#numbers.formatCurrency(item.totalPrice), '.00',
-                        'đ'),'$','')}]]
-                    </td>
-                </tr>
-            </table>
-            <p style="float: right;">
-                Tổng tiền: [[${#strings.replace(#strings.replace(#numbers.formatCurrency(bill.totalPrice), '.00',
-                'đ'),'$','')}]]
-            </p>
-        </section>
-        <section style="margin-bottom: 20px;">
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <td>[[${bill.id}]]</td>
-                </tr>
-                <tr>
-                    <th>Ngày tạo</th>
-                    <td>[[${#dates.format(bill.exportDate, 'dd/MM/yyyy')}]]</td>
-                </tr>
-                <tr>
-                    <th>Thanh toán</th>
-                    <td>VNPay</td>
-                </tr>
-                <tr>
-                    <th>QRCode</th>
-                    <td style="text-align: center;">
-                        <img src="https://mcdn.coolmate.me/image/March2023/meme-meo-cute-hai-huoc-1297_421.jpg"
-                            th:src="${QRCode}" alt="Logo.png" style="width: 150px;">
-                    </td>
-                </tr>
-            </table>
-        </section>
-        <img src="https://lh3.googleusercontent.com/fife/AK0iWDyMaMfkXvDGK8UKSWZWaL7jfq7WB29GYsmBvDJoj1BK5TuqfPfjKpphhugJ9WELBBdaseqfuWt-WDYnOLa-qyrOS95C_H1lHqOhDS8ZPaQJcX4PEdPbYBtuKy7k9OFpW2jscEy-pc4qWxXZqKDZXNS1ZLITGtqTRPTn0vYAs6AUemjpISAnQt9LhSC38xwmJkqXNgyPKbp2pJgcNUeofDZ-7syjJr37qLSW9C2z2lUl4NO1rWdQEMRHYNTw3ynAae3fOMnWq56MufLsXQfe9jofTJrgaJyGRZmJi1WS_kSNsPi1B0hQ9DFkzdI8AaCB7aKlj4WZpcLCUU1QcPd2h_sP-lPbRFZc4P5uialv2p8PciQuiNapmmvhjWCdpY00vcfkBJL77l5J3QTt8WzQe21PzONZCHrPFCHfHiL93Oid7dbdzosE8F_ToDlx12uxNScw-ZHXquWalOCbHV9GrjEvPvKoKiaK9SitGSbcMBZQ94OVNd77EDmjnbjEGce_X5mpg_-MgMx4gP95yBvz9-fh8iM1QM_4hZyOIFbE6S3dnhgz1zcRS9gbGfgV95xqr9hotl0ZsZNXMVdLlbtNBnpwtw-KJ5Sft5qWl_8rAuPvzFiNXN7FWi27x0WIlTAwwwJz4pzLwEdX5dPLWt1uSBZhEG8AEU5wb6XQvRCyYNc8b1sBsAxKs89BmS6w7_VZDcEF90XoBlxzF3noXEquwtHYQtpy9hRu-_aAo70J0bBUwjHiJujGo6EFykHsWucFqyQOI3Oy-6TqvzmmL5Gq-x5Y7-IgSP9qwmRTYn-kizA0LoQCrxm23SXYGjlF5JNdSNUJwjHzFncoSz8Pr3x9VFe4HQ4-g1XDnl2mervAzIq6w9ws7gG6QbD2gy_01N6QbznZmd8owzM3sG_aJNs-9-hkpZQNeOnRz_VwN7INJ_PhNHqOIhVUMqx5hPCnDgPuwTt__d3cS2w6GgQu14kSm8zPk5QwvrPhyb0KsBjcBl72sD6jWx2clbIkqqpMCNLGpmkyIhFA5nj79A06m9YVA1wVFL2V6pkChpNY-lUAp_xYpiqLiXxICX0zvJceK3yV54wWr6SaiDTXB9wiZPSF0XIcKNvpSjNhEXEplGVSxYJ5btGSjTdo0VKZ9GdSjEKTn1qpVAJFhnrwGGQIeXMbJD7_V0zAgZ3EikEZglkRmZF0BsXB8JaR_b3JSAYY2XcOoMcgns1FRu_lb_HoiN1yJqBDO4ZkAPoRpQn_XQlCrXRatSzbAbuvIFUuzGwa-bRGa-yeS3t2rmGJ84g2yzE9I93N13EyJh_th-gxtewm11WpszZ3C-BEa8ffS_m91-QbC3iZfkq5zdN2lXynoAPwO687R_9UvXS3OcNiiWhTeqtk9QQvmhHYneVUfJ_SqP11lIMBqgbNhXPDIhyrmPXzCjxwMtYrXt-MKpe4GQAxrso00709ec63OYtfm-H1yCGYQdQwTJ7Dqsj8eBBZ2VoG_9TCZ_moAQZcpwfq9T0wv0slEAhFP02dRsVC6ENSNQrmG49bNgs18kS_iiXyqfa2pLQSmO-7lT5Bk6gZMdQ7HFqGNDnszwR_jsStQVJX4SUVkQGShvLPQzGXBQdXi5OIsPGLRKW2GzDseA=w1920-h923"
-            alt="Logo.png" style="width: 150px;">
+        <div class="bg-child">
+            <section style="margin-bottom: 20px;">
+                <h2>Đơn hàng:</h2>
+                <table>
+                    <tr>
+                        <th>Tên</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                    </tr>
+                    <tr th:each="item : ${listTicket}">
+                        <td>[[${item.name}]]</td>
+                        <td>[[${item.quantity}]]</td>
+                        <td>[[${#strings.replace(#strings.replace(#numbers.formatCurrency(item.amount), '.00',
+                            'đ'),'$','')}]]
+                        </td>
+                    </tr>
+                </table>
+                <p style="float: right;">
+                    Tổng tiền: [[${#strings.replace(#strings.replace(#numbers.formatCurrency(bill.totalPrice), '.00',
+                    'đ'),'$','')}]]
+                </p>
+            </section>
+            <section style="margin-bottom: 20px;">
+                <table>
+                    <tr>
+                        <th>Order ID</th>
+                        <td>[[${bill.id}]]</td>
+                    </tr>
+                    <tr>
+                        <th>Ngày tạo</th>
+                        <td>[[${#dates.format(bill.exportDate, 'dd/MM/yyyy')}]]</td>
+                    </tr>
+                    <tr>
+                        <th>Thanh toán</th>
+                        <td>VNPay</td>
+                    </tr>
+                    <tr>
+                        <th>QRCode</th>
+                        <td style="text-align: center;">
+                            <img th:src="${QRCode}" alt="Logo.png" style="width: 150px;">
+                        </td>
+                    </tr>
+                </table>
+            </section>
+            <img src="https://lh3.googleusercontent.com/fife/AK0iWDyMaMfkXvDGK8UKSWZWaL7jfq7WB29GYsmBvDJoj1BK5TuqfPfjKpphhugJ9WELBBdaseqfuWt-WDYnOLa-qyrOS95C_H1lHqOhDS8ZPaQJcX4PEdPbYBtuKy7k9OFpW2jscEy-pc4qWxXZqKDZXNS1ZLITGtqTRPTn0vYAs6AUemjpISAnQt9LhSC38xwmJkqXNgyPKbp2pJgcNUeofDZ-7syjJr37qLSW9C2z2lUl4NO1rWdQEMRHYNTw3ynAae3fOMnWq56MufLsXQfe9jofTJrgaJyGRZmJi1WS_kSNsPi1B0hQ9DFkzdI8AaCB7aKlj4WZpcLCUU1QcPd2h_sP-lPbRFZc4P5uialv2p8PciQuiNapmmvhjWCdpY00vcfkBJL77l5J3QTt8WzQe21PzONZCHrPFCHfHiL93Oid7dbdzosE8F_ToDlx12uxNScw-ZHXquWalOCbHV9GrjEvPvKoKiaK9SitGSbcMBZQ94OVNd77EDmjnbjEGce_X5mpg_-MgMx4gP95yBvz9-fh8iM1QM_4hZyOIFbE6S3dnhgz1zcRS9gbGfgV95xqr9hotl0ZsZNXMVdLlbtNBnpwtw-KJ5Sft5qWl_8rAuPvzFiNXN7FWi27x0WIlTAwwwJz4pzLwEdX5dPLWt1uSBZhEG8AEU5wb6XQvRCyYNc8b1sBsAxKs89BmS6w7_VZDcEF90XoBlxzF3noXEquwtHYQtpy9hRu-_aAo70J0bBUwjHiJujGo6EFykHsWucFqyQOI3Oy-6TqvzmmL5Gq-x5Y7-IgSP9qwmRTYn-kizA0LoQCrxm23SXYGjlF5JNdSNUJwjHzFncoSz8Pr3x9VFe4HQ4-g1XDnl2mervAzIq6w9ws7gG6QbD2gy_01N6QbznZmd8owzM3sG_aJNs-9-hkpZQNeOnRz_VwN7INJ_PhNHqOIhVUMqx5hPCnDgPuwTt__d3cS2w6GgQu14kSm8zPk5QwvrPhyb0KsBjcBl72sD6jWx2clbIkqqpMCNLGpmkyIhFA5nj79A06m9YVA1wVFL2V6pkChpNY-lUAp_xYpiqLiXxICX0zvJceK3yV54wWr6SaiDTXB9wiZPSF0XIcKNvpSjNhEXEplGVSxYJ5btGSjTdo0VKZ9GdSjEKTn1qpVAJFhnrwGGQIeXMbJD7_V0zAgZ3EikEZglkRmZF0BsXB8JaR_b3JSAYY2XcOoMcgns1FRu_lb_HoiN1yJqBDO4ZkAPoRpQn_XQlCrXRatSzbAbuvIFUuzGwa-bRGa-yeS3t2rmGJ84g2yzE9I93N13EyJh_th-gxtewm11WpszZ3C-BEa8ffS_m91-QbC3iZfkq5zdN2lXynoAPwO687R_9UvXS3OcNiiWhTeqtk9QQvmhHYneVUfJ_SqP11lIMBqgbNhXPDIhyrmPXzCjxwMtYrXt-MKpe4GQAxrso00709ec63OYtfm-H1yCGYQdQwTJ7Dqsj8eBBZ2VoG_9TCZ_moAQZcpwfq9T0wv0slEAhFP02dRsVC6ENSNQrmG49bNgs18kS_iiXyqfa2pLQSmO-7lT5Bk6gZMdQ7HFqGNDnszwR_jsStQVJX4SUVkQGShvLPQzGXBQdXi5OIsPGLRKW2GzDseA=w1920-h923"
+                alt="Logo.png" style="width: 150px;">
+        </div>
     </div>
 </body>
 
