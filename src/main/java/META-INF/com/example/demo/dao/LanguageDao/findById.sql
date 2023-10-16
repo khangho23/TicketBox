@@ -1,1 +1,1 @@
-select * from language where id= /* id */'1'
+select id, name from language where id= /* id */'1'

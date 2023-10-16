@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
@@ -28,5 +29,10 @@ public class RoomController {
     public ResponseEntity<?> findById(@PathVariable("id") String id) throws InvalidRequestParameterException {
         return ResponseEntity.ok(roomService.findById(id)
                 .orElseThrow(() -> new InvalidRequestParameterException("Room", RequestParameterEnum.NOT_EXISTS)));
+    }
+
+    @GetMapping("/getRoomWithFilm")
+    public ResponseEntity<?> getByBranch(@RequestParam("id") String id, @RequestParam("showdate") String showdate) {
+        return ResponseEntity.ok(roomService.getByBranch(id, showdate));
     }
 }

@@ -1,17 +1,28 @@
 package com.example.demo.controller.rest;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.dto.requestMovieDto;
 import com.example.demo.entity.Movie;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.MovieService;
@@ -52,8 +63,7 @@ public class MovieController {
 	}
 
 	@GetMapping("/findMovieById")
-	public ResponseEntity<?> findMovieById(@RequestParam("movieId") String movieId)
-			throws InvalidRequestParameterException {
+	public ResponseEntity<?> findMovieById(@RequestParam("movieId") String movieId) {
 		return ResponseEntity.ok(movieService.findMovieById(movieId));
 	}
 
@@ -67,4 +77,29 @@ public class MovieController {
 			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(movieService.findByShowTimeId(showtimeid));
 	}
+
+	@PostMapping("/insert")
+	public ResponseEntity<?> insertMovie(@RequestPart("json") requestMovieDto movie,
+			@RequestPart("file") MultipartFile multipartFile)
+			throws InvalidRequestParameterException, SQLException, FileNotFoundException, IOException {
+		Tika tika = new Tika();
+		String mimeType = tika.detect(multipartFile.getInputStream());
+		if (mimeType.equals("image/png") || mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
+			return ResponseEntity.ok(movieService.insertMovie(movie, multipartFile));
+		}
+		throw new InvalidRequestParameterException("Insert Failed", RequestParameterEnum.WRONG);
+	}
+
+	@PutMapping(value = "/update", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<?> updateMovie(@RequestPart("json") requestMovieDto movie,
+			@RequestPart("file") MultipartFile multipartFile)
+			throws InvalidRequestParameterException, SQLException, FileNotFoundException, IOException {
+		Tika tika = new Tika();
+		String mimeType = tika.detect(multipartFile.getInputStream());
+		if (mimeType.equals("image/png") || mimeType.equals("image/jpeg") || mimeType.equals("image/jpg")) {
+			return ResponseEntity.ok(movieService.updateMovie(movie, multipartFile));
+		}
+		throw new InvalidRequestParameterException("Update Failed", RequestParameterEnum.WRONG);
+	}
+
 }

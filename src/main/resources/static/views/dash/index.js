@@ -6,25 +6,24 @@ import DashboardMovie from "./Dashboard/DashboardMovie.js";
 const JetView = webix.jet.JetView;
 
 export default class TopView extends JetView {
-	
+
 	config() {
 		return {
-			type:"space", rows:[
-				{
-					type:"wide",
-					cols:[ { $subview:DashboardPriceOfYear }, { $subview:DashboardTicketOfYear }]
-				},{
-					type:"wide",
-					cols:[ { $subview:DashboardMovie}]
-				}
-//				{ type:"wide", cols:[
-//					{ $subview:Projects },
-//					{ type:"wide", rows:[
-//						{ $subview:"dash.stats" },
-//						{ $subview:"dash.projects" }
-//					]}
-//				]}
-			]
+			view: "scrollview",
+			scroll: "y",
+			body: {
+				type: "space", height: 1050, rows: [
+					{
+						type: "wide",
+						height: 400,
+						cols: [{ $subview: DashboardPriceOfYear }, { $subview: DashboardTicketOfYear }]
+					}, {
+						type: "wide",
+						height: 600,
+						cols: [{ $subview: DashboardMovie }]
+					}
+				]
+			}
 		};
 	}
 }

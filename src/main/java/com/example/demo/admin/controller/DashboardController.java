@@ -18,8 +18,8 @@ public class DashboardController {
 	private DashboardService dashboardService;
 	
 	@GetMapping("/findTotalPriceTicket")
-	public ResponseEntity<?> findTotalPriceTicketPerMonthOfYear(@RequestParam("year") int year){
-		return ResponseEntity.ok(dashboardService.findTotalPriceTicketPerMonthOfYear(year));
+	public ResponseEntity<?> findTotalPriceTicketPerMonthOfYear(@RequestParam("year") int year, @RequestParam("branchName") String branchName){
+		return ResponseEntity.ok(dashboardService.findTotalPriceTicketPerMonthOfYear(year,branchName));
 	}
 	
 	@GetMapping("/statisticsTicketPriceByMovie")
@@ -30,5 +30,10 @@ public class DashboardController {
 	@GetMapping("/statisticsTicketPriceByMovie2")
 	public ResponseEntity<?> statisticsTicketPriceByMovie2(String movieName, int year){
 		return ResponseEntity.ok(dashboardService.statisticsTicketPriceByMovie2(movieName, year));
+	}
+	
+	@GetMapping("/fillYear")
+	public ResponseEntity<?> fillYear(){
+		return ResponseEntity.ok(dashboardService.fillYear());
 	}
 }

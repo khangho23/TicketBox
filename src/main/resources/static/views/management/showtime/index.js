@@ -43,7 +43,7 @@ export default class Showtime extends JetView {
                             {
                                 view: "form",
                                 id: "Form",
-                                height: 650,
+                                height: 700,
                                 padding: 10,
                                 elements: [
                                     { view: "text", name: "id", id: "id", label: "Mã xuất chiếu", disabled: true, labelPosition: "top" },
@@ -80,7 +80,7 @@ export default class Showtime extends JetView {
                                         },
                                         on: {
                                             onAfterRender: async function () {
-                                                const { data: result } = await axios.get("/api/languageofmovie");
+                                                const { data: result } = await axios.get("/api/languageOfMovie");
                                                 $$("language").parse(result);
                                             }
                                         },

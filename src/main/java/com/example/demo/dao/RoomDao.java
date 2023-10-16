@@ -17,4 +17,7 @@ public interface RoomDao {
 
     @Select
     Optional<RoomDto> findById(String id);
+
+    @Select
+    List<RoomDto> getByBranch(String id, String showdate);
 }

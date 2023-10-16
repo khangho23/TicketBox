@@ -7,13 +7,18 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.LanguageOfMovieDao;
 import com.example.demo.dto.LanguageOfMovieDto;
+import com.example.demo.entity.LanguageOfMovie;
 
 @Service
 public class LanguageOfMovieService {
     @Autowired
-    LanguageOfMovieDao languageOfMovieDao;
+    private LanguageOfMovieDao languageOfMovieDao;
 
     public List<LanguageOfMovieDto> findAll() {
         return languageOfMovieDao.findAll();
+    }
+
+    public List<LanguageOfMovie> findByMovieId(String MovieId) {
+        return languageOfMovieDao.findByMovieId(MovieId);
     }
 }
