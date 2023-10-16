@@ -13,7 +13,7 @@ import com.example.demo.service.LanguageOfMovieService;
 @RestController
 @RequestMapping("/api/languageOfMovie")
 @CrossOrigin("*")
-public class languageOfMovieController {
+public class LanguageOfMovieController {
 	@Autowired
 	private LanguageOfMovieService languageOfMovieService;
 
