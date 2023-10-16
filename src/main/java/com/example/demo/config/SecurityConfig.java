@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.example.demo.filter.RestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +37,8 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/admin")
                         .permitAll())
                 .logout((logout) -> logout.logoutSuccessUrl("/admin/login"));
-
+        http.addFilterAfter(
+          new RestFilter(), BasicAuthenticationFilter.class);
         return http.build();
     }
 
