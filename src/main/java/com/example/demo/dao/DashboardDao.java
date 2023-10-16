@@ -9,13 +9,17 @@ import com.example.demo.entity.Dashboard;
 @Dao
 @ConfigAutowireable
 public interface DashboardDao {
-	 
-	 @Select
-	 List<Dashboard> findTotalPriceTicketPerMonthOfYear(int year);
-	 
-	 @Select
-	 List<Dashboard> statisticsTicketPriceByMovie();
 
-	 @Select
-	 List<Dashboard> statisticsTicketPriceByMovie2(String movieName,int year);
+	@Select
+	List<Dashboard> findTotalPriceTicketPerMonthOfYear(int year, String branchName);
+
+	@Select
+	List<Dashboard> statisticsTicketPriceByMovie();
+
+	@Select
+	List<Dashboard> statisticsTicketPriceByMovie2(String movieName, int year);
+
+	@Select
+	List<Dashboard> fillYear();
+
 }

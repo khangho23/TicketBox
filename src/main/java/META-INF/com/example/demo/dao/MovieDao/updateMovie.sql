@@ -1,0 +1,1 @@
+select updatemovie(/* movie */'a');

@@ -1,8 +1,10 @@
 package com.example.demo.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.seasar.doma.Dao;
+import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
 
@@ -16,4 +18,10 @@ public interface DirectorDao {
 
 	@Select
 	Director findById(int id);
+	
+	@Select
+	Optional<Director> findByName(String name);
+	
+	@Insert(exclude = {"id"})
+	int insert(Director director);
 }
