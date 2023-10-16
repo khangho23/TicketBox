@@ -23,7 +23,7 @@ public class SendOrderController {
 
     @PostMapping({ "", "/" })
     public ResponseEntity<?> index(@RequestBody SendOrderModel model) throws MessagingException {
-        boolean rs = emailService.sendOrder(new MailInfoModel(model.getTo(), "Hoá Đơn tại ZuhotCinema", model));
+        boolean rs = emailService.sendOrder(new MailInfoModel(model.getInfo().getEmail(), "Hoá Đơn tại ZuhotCinema", model));
         if (rs)
             return ResponseEntity.ok("Thành công");
         return ResponseEntity.ok("Thất bại");

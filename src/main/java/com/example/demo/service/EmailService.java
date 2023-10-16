@@ -40,6 +40,9 @@ public class EmailService {
 			helper.setTo(mail.getTo());
 			helper.setSubject(mail.getSubject());
 			Map<String, Object> map = new HashMap<>();
+			map.put("username", ((SendOrderModel) mail.getBody()).getInfo().getUsername());
+			map.put("phone", ((SendOrderModel) mail.getBody()).getInfo().getPhone());
+			map.put("email", ((SendOrderModel) mail.getBody()).getInfo().getEmail());
 			map.put("listTicket", ((SendOrderModel) mail.getBody()).getListTicket());
 			map.put("bill", ((SendOrderModel) mail.getBody()).getBill());
 			map.put("QRCode", ((SendOrderModel) mail.getBody()).getQrcode());

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SendOrderModel {
-    String to;
+    InfoUserOrderModel info;
     List<ListTicketModel> listTicket;
     Bill bill;
     String qrcode;
