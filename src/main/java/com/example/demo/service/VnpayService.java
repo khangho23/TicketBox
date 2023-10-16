@@ -6,6 +6,7 @@ import com.example.demo.config.VnpayConfig;
 import com.example.demo.dto.VnpayPaymentDto;
 import com.example.demo.dto.VnpayResultDto;
 import com.example.demo.dto.VnpayToken;
+import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.util.PaymentUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +32,9 @@ public class VnpayService {
 
     @Autowired
     BillService billService;
+
+    @Autowired
+    CustomerService customerService;
 
     public String createPayment(HttpServletRequest request, VnpayPaymentDto vnpayPaymentDto) throws InvalidRequestParameterException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         String content = paymentUtils.validateBankTransferContent(vnpayPaymentDto.getVnp_OrderInfo());
@@ -275,9 +279,9 @@ public class VnpayService {
     public String tokenCreated(HttpServletRequest request) throws InvalidRequestParameterException {
         Map<String, String> fields = getFieldsFromRequest(request);
 
-        String vnp_SecureHash = request.getParameter("vnp_SecureHash");
-        fields.remove("vnp_SecureHashType");
-        fields.remove("vnp_SecureHash");
+        // Find by user id
+        Customer customer = customerService.findById(Integer.valueOf(fields.get("vnp_app_user_id")))
+                .orElseThrow();
 
         if ("00".equals(fields.get("vnp_response_code"))) {
             // Insert DB
@@ -288,15 +292,14 @@ public class VnpayService {
     }
 
     public String paymentAndTokenCreated(HttpServletRequest request) throws InvalidRequestParameterException {
-        // TODO: Check payment and token created?
         Map<String, String> fields = getFieldsFromRequest(request);
 
-        String vnp_SecureHash = request.getParameter("vnp_SecureHash");
-        fields.remove("vnp_SecureHashType");
-        fields.remove("vnp_SecureHash");
+        // Find by user id
+        Customer customer = customerService.findById(Integer.valueOf(fields.get("vnp_app_user_id")))
+                .orElseThrow();
 
         if ("00".equals(fields.get("vnp_response_code"))) {
-            // Insert DB
+            // Insert Token into DB
             return RequestStatusEnum.SUCCESS.getResponse();
         }
 

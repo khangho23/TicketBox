@@ -63,4 +63,26 @@ public class VnpayController {
     public ResponseEntity<?> removeToken(@RequestBody VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
         return ResponseEntity.ok(vnpayService.removeToken(request, vnpayToken));
     }
+
+    @PostMapping("/check-token")
+    public ResponseEntity<?> tokenCreated() throws InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.tokenCreated(request));
+    }
+
+    @PostMapping("/check-payment-and-token")
+    public ResponseEntity<?> paymentAndTokenCreated() throws InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.paymentAndTokenCreated(request));
+    }
+
+    @PostMapping("/payment-by-token-stage")
+    public ResponseEntity<?> paymentByTokenStage() throws InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.paymentByTokenStage(request));
+    }
+
+    @PostMapping("/check-token-remove")
+    public ResponseEntity<?> removedToken(@RequestParam String vnp_response_code,
+                                          @RequestParam String vnp_message)
+            throws InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.removedToken(vnp_response_code, vnp_message));
+    }
 }
