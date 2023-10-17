@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,36 +11,36 @@ import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
 @Entity
-@Table
+@Table(name = "staff")
 @Data
 @NoArgsConstructor
 public class Staff {
-    @Id
-    @Column
-    private String id;
+	@Id
+	@Column(name = "id")
+	private String id;
 
-    @Column
-    private String name;
+	@Column(name = "branchid")
+	private String branchId;
+	
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "gender")
+	private boolean gender;
+	
+	@Column(name = "password")
+	private String password;
 
-    @Column
-    private String password;
+	@Column(name = "birthday")
+	private Date birthday;
+	
+	@Column(name = "phone")
+	private String phone;
+	
+	@Column(name = "email")
+	private String email;
+	
+	@Column(name="status")
+	private boolean status;
 
-    @Column
-    private String email;
-
-    @Column
-    private String branchId;
-    
-    @Column
-    private int gender;
-    
-    @Column
-    private Date birthday;
-    
-    @Column
-    private String phone;
-    
-    @Column
-    private int status;
-    
 }
