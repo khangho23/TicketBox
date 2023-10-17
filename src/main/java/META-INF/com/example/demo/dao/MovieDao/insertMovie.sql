@@ -1,0 +1,1 @@
+select insertmovie(/* movie */'a');

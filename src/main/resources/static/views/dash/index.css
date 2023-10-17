@@ -1,0 +1,24 @@
+.tabledash .webix_ss_header,
+.tabledash .webix_hcolumn,
+.tabledash .webix_dd_drag_column,
+.tabledash .webix_hs_left,
+.tabledash .webix_hs_center,
+.tabledash .webix_hs_right {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #eae7e7 !important;
+    letter-spacing: 0.2px;
+    background: rgb(38, 53, 67) !important;
+}
+
+.tabledash {
+    background-color: rgb(223, 225, 225);
+}
+
+.dashboard1,
+.dashboard2,
+.dashboard3,
+.dashboard4 {
+    background: rgb(38, 53, 67) !important;
+}

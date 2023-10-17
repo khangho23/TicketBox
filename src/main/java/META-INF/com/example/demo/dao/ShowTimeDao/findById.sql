@@ -1,20 +1,24 @@
-SELECT
+SELECT 
 	showtime.id,
-	showtime.languageofmovieid,
+	showtime.roomid,
+	showtime.dimensionid,
+	showtime.showdate,
 	showtime.starttime,
 	showtime.price,
-	showtime.showdate,
-	showtime.dimensionid,
-	showtime.roomid,
+	showtime.languageofmovieid,
 	room.name as room,
-	dimension.name as dimension,
-	branch.name as branch,
-	branch.address as branchAddress,
-	movie.id as movieid
-FROM showtime 
-JOIN languageofmovie on languageofmovie.id = showtime.languageofmovieid
-JOIN movie on movie.id = languageofmovie.movieid
+	dimension.name as dimensionName,
+	movie.id as movieid,
+	movie.name as movieName,
+	language.name as languageName,
+	branch.id as branchId,
+	branch.name as branchName,
+	branch.address as branchAddress
+FROM showtime
+JOIN languageofmovie on showtime.languageofmovieid = languageofmovie.id
+JOIN language on languageofmovie.languageid = language.id
+JOIN movie on languageofmovie.movieid = movie.id
 JOIN dimension on dimension.id = showtime.dimensionid
 JOIN room on room.id = showtime.roomid
-JOIN branch on branch.id = room.branchid
+JOIN branch on room.branchid = branch.id
 WHERE showtime.id = /* id */'1'

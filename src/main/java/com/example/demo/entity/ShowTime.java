@@ -37,7 +37,7 @@ public class ShowTime {
 	@Column
 	private String roomId;
 	/*
-	 * movieId of showtime
+	 * languageofmovieid of showtime
 	 */
 	@Column
 	private Integer languageOfMovieId;

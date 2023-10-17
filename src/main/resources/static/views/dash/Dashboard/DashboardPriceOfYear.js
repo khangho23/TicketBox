@@ -31,26 +31,44 @@ export default class ProjectsView extends JetView {
 
 	config() {
 		return {
-			width: 1000,
-			height: 380,
+			width: 900,
 			rows: [
 				{
 					cols: [
 						{
 							view: "select",
-							id: "selectInput",
+							id: "selectYear",
 							label: "Chọn năm:",
-							options: [
-								{ id: "2023", value: "2023" },
-								{ id: "2022", value: "2022" },
-							],
+							options: [],
 							on: {
 								onChange: () => {
-									const inputValue = this.$$("selectInput").getValue();
-									this.defaultInputValue=inputValue;
-									DashboardService.filldata(inputValue)
+									const year = this.$$("selectYear").getValue();
+									const branch = this.$$("selectBranch").getValue();
+									DashboardService.filldata(year, branch)
 										.then((data) => {
-											this.data.datasets[0].label = "Doanh thu từng tháng năm "+inputValue;
+											this.data.datasets[0].label = "Doanh thu từng tháng năm " + year;
+											this.data.datasets[0].data = data.map((item) => item.totalPrice);
+											this.data.labels = data.map((item) => "T " + item.id);
+											this.updateChart();
+										})
+										.catch((error) => {
+											console.error("Lỗi khi gọi API:", error);
+										});
+								},
+							},
+						}, {
+							view: "select",
+							id: "selectBranch",
+							label: "Chọn chi nhánh:",
+							options: [],
+							labelWidth: 120,
+							on: {
+								onChange: () => {
+									const branch = this.$$("selectBranch").getValue();
+									const year = this.$$("selectYear").getValue();
+									DashboardService.filldata(year, branch)
+										.then((data) => {
+											this.data.datasets[0].label = "Doanh thu từng tháng năm " + year;
 											this.data.datasets[0].data = data.map((item) => item.totalPrice);
 											this.data.labels = data.map((item) => "T " + item.id);
 											this.updateChart();
@@ -64,20 +82,24 @@ export default class ProjectsView extends JetView {
 					],
 				},
 				{
-					template: "<div><canvas id='myChart' style='height: 400px;'></canvas></div>",
+					template: "<div><canvas id='myChart' style='height: 450px;'></canvas></div>",
+					css: 'dashboard3'
 				},
 			],
 		};
 	}
 
-	init() {
+	async init() {
+		await DashboardService.fillOption2();
+		const optionBranch = await DashboardService.fillOption();
 		const currentYear = new Date().getFullYear().toString();
-		this.$$("selectInput").setValue(currentYear);
-		DashboardService.filldata(currentYear)
+		this.$$("selectYear").setValue(currentYear);
+		this.$$("selectBranch").setValue(optionBranch[1].id);
+		DashboardService.filldata(currentYear, optionBranch[1].id)
 			.then((data) => {
-				this.data.datasets[0].label = "Doanh thu từng tháng năm "+currentYear;
+				this.data.datasets[0].label = "Doanh thu từng tháng năm " + currentYear;
 				this.data.datasets[0].data = data.map((item) => item.totalPrice);
-				this.data.labels = data.map((item) =>"T"+ item.id);
+				this.data.labels = data.map((item) => "T" + item.id);
 				this.updateChart();
 			})
 			.catch((error) => {
@@ -91,9 +113,31 @@ export default class ProjectsView extends JetView {
 			type: "bar",
 			data: this.data,
 			options: {
+				plugins: {
+					legend: {
+						labels: {
+							color: "white",
+						},
+					},
+				},
 				scales: {
 					y: {
 						beginAtZero: true,
+						ticks: {
+							color: "white"
+						},
+						grid: {
+							color: "white",
+						}
+					},
+					x: {
+						beginAtZero: true,
+						ticks: {
+							color: "white"
+						},
+						grid: {
+							color: "white",
+						}
 					},
 				},
 			},

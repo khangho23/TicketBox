@@ -1,12 +1,17 @@
 package com.example.demo.controller.rest;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.Actor;
+import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.ActorService;
 
 @RestController
@@ -20,5 +25,10 @@ public class ActorController {
 	@GetMapping({"","/"})
 	public ResponseEntity<?> findAll(){
 		return ResponseEntity.ok(actorService.findAll());
+	}
+	
+	@PostMapping("/insert")
+	public void insert (@RequestBody Actor actor) throws InvalidRequestParameterException{
+		actorService.insert(actor);
 	}
 }

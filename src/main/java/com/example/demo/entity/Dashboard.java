@@ -52,5 +52,6 @@ public class Dashboard {
 	 */
 	@Column
 	private int year;
+	
 }
 
