@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.admin.controller.enums.RequestParameterEnum;
 import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.config.VnpayConfig;
 import com.example.demo.dto.VnpayPaymentDto;
+import com.example.demo.dto.VnpayResultDto;
 import com.example.demo.dto.VnpayToken;
+import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.util.PaymentUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,23 +25,29 @@ import java.util.*;
 public class VnpayService {
     private final int REMOVE_DECIMAL_DIGITS = 100;
     private final String BILL_PAYMENT = "250000";
-    private final int TIME_OUT = 20;
+    private final int TIME_OUT = 15;
 
     @Autowired
     PaymentUtils paymentUtils;
 
+    @Autowired
+    BillService billService;
+
+    @Autowired
+    CustomerService customerService;
+
     public String createPayment(HttpServletRequest request, VnpayPaymentDto vnpayPaymentDto) throws InvalidRequestParameterException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        String content =  paymentUtils.validateBankTransferContent(vnpayPaymentDto.getVnp_OrderInfo());
+        String content = paymentUtils.validateBankTransferContent(vnpayPaymentDto.getVnp_OrderInfo());
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", VnpayConfig.vnp_Version);
-        vnp_Params.put("vnp_Command", VnpayConfig.vnp_Command);
+        vnp_Params.put("vnp_Command", "pay");
         vnp_Params.put("vnp_TmnCode", VnpayConfig.vnp_TmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(Integer.parseInt(vnpayPaymentDto.getVnp_Amount()) * REMOVE_DECIMAL_DIGITS));
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_BankCode", vnpayPaymentDto.getVnp_BankCode());
         vnp_Params.put("vnp_TxnRef", VnpayConfig.getRandomNumber(8));
-        vnp_Params.put("vnp_OrderInfo" , content);
+        vnp_Params.put("vnp_OrderInfo", content);
         vnp_Params.put("vnp_OrderType", BILL_PAYMENT);
         vnp_Params.put("vnp_Locale", vnpayPaymentDto.getVnp_Locale());
         vnp_Params.put("vnp_ReturnUrl", VnpayConfig.vnp_ReturnUrl);
@@ -53,14 +62,41 @@ public class VnpayService {
         String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData);
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 
-//        String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
-//        vnp_Params.put("redirect_url", paymentUrl);
-
         return VnpayConfig.vnp_PayUrl + "?" + queryUrl;
     }
 
+    public String refund(HttpServletRequest request, VnpayPaymentDto vnpayPaymentDto) throws InvalidRequestParameterException {
+        String content = paymentUtils.validateBankTransferContent(vnpayPaymentDto.getVnp_OrderInfo());
+        String fullRefund = "02";
+
+        Map<String, String> vnp_Params = new HashMap<>();
+        vnp_Params.put("vnp_RequestId", VnpayConfig.getRandomNumber(32));
+        vnp_Params.put("vnp_Version", VnpayConfig.vnp_Version);
+        vnp_Params.put("vnp_Command", "refund");
+        vnp_Params.put("vnp_TmnCode", VnpayConfig.vnp_TmnCode);
+        vnp_Params.put("vnp_TransactionType", fullRefund);
+        vnp_Params.put("vnp_TxnRef", vnpayPaymentDto.getVnp_TxnRef());
+        vnp_Params.put("vnp_Amount", vnpayPaymentDto.getVnp_Amount());
+        vnp_Params.put("vnp_OrderInfo", vnpayPaymentDto.getVnp_OrderInfo());
+//        vnp_Params.put("vnp_TransactionNo", vnpayPaymentDto.getVnp_Locale());
+        vnp_Params.put("vnp_TransactionDate", vnpayPaymentDto.getVnp_CreateDate());
+        vnp_Params.put("vnp_CreateBy", "NGUYEN VAN A");
+        vnp_Params.put("vnp_IpAddr", "10.68.1.113");
+
+        paymentInterval(vnp_Params);
+
+        String[] queryAndHashData = buildQueryUrl(vnp_Params);
+        String queryUrl = queryAndHashData[0];
+        String hashData = queryAndHashData[1];
+
+        String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.secretKey, hashData);
+        queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
+
+        return VnpayConfig.vnp_ApiUrl + "?" + queryUrl;
+    }
+
     public String createToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvalidRequestParameterException {
-        String content =  paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
+        String content = paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
 
         Map<String, String> vnp_Params = new HashMap<>();
 
@@ -90,19 +126,8 @@ public class VnpayService {
         return VnpayConfig.vnp_CreateToken + "?" + queryUrl;
     }
 
-//    public VnpayToken getToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-//        Map<String, String> vnp_Params = new HashMap<>();
-//
-//        vnp_Params.put("vnp_app_user_id", vnpayToken.getVnp_app_user_id());
-//        vnp_Params.put("vnp_card_type", vnpayToken.getVnp_card_type());
-//        vnp_Params.put("vnp_bank_code", vnpayToken.getVnp_bank_code());
-//        vnp_Params.put("vnp_locale", vnpayToken.getVnp_locale());
-//
-//        return vnpayToken;
-//    }
-
     public String paymentAndCreateToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
-        String content =  paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
+        String content = paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_version", VnpayConfig.vnp_Version);
@@ -134,7 +159,7 @@ public class VnpayService {
     }
 
     public String paymentByToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvalidRequestParameterException {
-        String content =  paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
+        String content = paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_version", VnpayConfig.vnp_Version);
@@ -164,7 +189,7 @@ public class VnpayService {
     }
 
     public String removeToken(HttpServletRequest request, VnpayToken vnpayToken) throws InvalidRequestParameterException {
-        String content =  paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
+        String content = paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_version", VnpayConfig.vnp_Version);
@@ -188,12 +213,7 @@ public class VnpayService {
         return VnpayConfig.vnp_RemoveToken + "?" + queryUrl;
     }
 
-    public ResponseEntity<?> paymentInformation(HttpServletRequest request, String vnp_OrderInfo, Integer vnp_Amount,
-                                                String vnp_BankCode, Optional<String> vnp_BankTranNo,
-                                                Optional<String> vnp_CardType, Optional<String> vnp_PayDate,
-                                                String vnp_ResponseCode, String vnp_TransactionNo,
-                                                String vnp_TransactionStatus, String vnp_TxnRef,
-                                                String vnp_SecureHash1) {
+    public String paymentInformation(HttpServletRequest request) throws InvalidRequestParameterException {
         try {
             /*  IPN URL: Record payment results from VNPAY
             Implementation steps:
@@ -204,27 +224,16 @@ public class VnpayService {
             Update results to Database
             Return recorded results to VNPAY */
 
-            // ex:  	PaymnentStatus = 0; pending
-            //              PaymnentStatus = 1; success
-            //              PaymnentStatus = 2; Faile
+            // ex:  	    PaymnentStatus = 0; Pending
+            //              PaymnentStatus = 1; Success
+            //              PaymnentStatus = 2; Fail
 
             //Begin process return from VNPAY
-            Map<String, String> fields = new HashMap<>();
-            for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements(); ) {
-                String fieldName = URLEncoder.encode(params.nextElement(), StandardCharsets.US_ASCII);
-                String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII);
-                if ((fieldValue != null) && (!fieldValue.isEmpty())) {
-                    fields.put(fieldName, fieldValue);
-                }
-            }
+            Map<String, String> fields = getFieldsFromRequest(request);
 
             String vnp_SecureHash = request.getParameter("vnp_SecureHash");
-            if (fields.containsKey("vnp_SecureHashType")) {
-                fields.remove("vnp_SecureHashType");
-            }
-            if (fields.containsKey("vnp_SecureHash")) {
-                fields.remove("vnp_SecureHash");
-            }
+            fields.remove("vnp_SecureHashType");
+            fields.remove("vnp_SecureHash");
 
             // Check checksum
             String signValue = VnpayConfig.hashAllFields(fields);
@@ -244,30 +253,84 @@ public class VnpayService {
                     if (checkAmount) {
                         if (checkOrderStatus) {
                             if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
-
                                 //Here Code update PaymnentStatus = 1 into your Database
-                            } else {
 
-                                // Here Code update PaymnentStatus = 2 into your Database
+                                return RequestStatusEnum.SUCCESS.getResponse();
                             }
-                            System.out.print("{\"RspCode\":\"00\",\"Message\":\"Confirm Success\"}");
+
+                            throw new InvalidRequestParameterException("Transaction error", RequestParameterEnum.WRONG);
                         } else {
-                            System.out.print("{\"RspCode\":\"02\",\"Message\":\"Order already confirmed\"}");
+                            throw new InvalidRequestParameterException("Order already confirmed", RequestParameterEnum.WRONG);
                         }
                     } else {
-                        System.out.print("{\"RspCode\":\"04\",\"Message\":\"Invalid Amount\"}");
+                        throw new InvalidRequestParameterException("Invalid Amount", RequestParameterEnum.WRONG);
                     }
                 } else {
-                    System.out.print("{\"RspCode\":\"01\",\"Message\":\"Order not Found\"}");
+                    throw new InvalidRequestParameterException("Order already confirmed", RequestParameterEnum.WRONG);
                 }
             } else {
-                System.out.print("{\"RspCode\":\"97\",\"Message\":\"Invalid Checksum\"}");
+                throw new InvalidRequestParameterException("Invalid Checksum", RequestParameterEnum.WRONG);
             }
         } catch (Exception e) {
-            System.out.print("{\"RspCode\":\"99\",\"Message\":\"Unknow error\"}");
+            throw new InvalidRequestParameterException("Unknown error", RequestParameterEnum.WRONG);
+        }
+    }
+
+    public String getToken(HttpServletRequest request) throws InvalidRequestParameterException {
+        Map<String, String> fields = getFieldsFromRequest(request);
+
+        // Find by user id
+        Customer customer = customerService.findById(Integer.valueOf(fields.get("vnp_app_user_id")))
+                .orElseThrow();
+
+        if ("00".equals(fields.get("vnp_response_code"))) {
+            // Insert DB
+            return fields.get("vnp_token");
         }
 
-        return null;
+        throw new InvalidRequestParameterException("Token is invalid", RequestParameterEnum.WRONG);
+    }
+
+    public String paymentAndTokenCreated(HttpServletRequest request) throws InvalidRequestParameterException {
+        Map<String, String> fields = getFieldsFromRequest(request);
+
+        // Find by user id
+        Customer customer = customerService.findById(Integer.valueOf(fields.get("vnp_app_user_id")))
+                .orElseThrow();
+
+        if ("00".equals(fields.get("vnp_response_code"))) {
+            // Insert Token into DB
+            return RequestStatusEnum.SUCCESS.getResponse();
+        }
+
+        throw new InvalidRequestParameterException("Token is invalid", RequestParameterEnum.WRONG);
+    }
+
+    public String paymentByTokenStage(HttpServletRequest request) throws InvalidRequestParameterException {
+        // TODO: Check stage when payment by token
+        Map<String, String> fields = getFieldsFromRequest(request);
+
+        String vnp_SecureHash = request.getParameter("vnp_SecureHash");
+        fields.remove("vnp_SecureHashType");
+        fields.remove("vnp_SecureHash");
+
+        if ("00".equals(fields.get("vnp_response_code"))) {
+            // Insert DB
+            return RequestStatusEnum.SUCCESS.getResponse();
+        }
+
+        throw new InvalidRequestParameterException("Token is invalid", RequestParameterEnum.WRONG);
+    }
+
+    public String removedToken(String vnp_response_code, String vnp_message) throws InvalidRequestParameterException {
+        // TODO: Updating database
+        if ("00".equals(vnp_response_code)) {
+            // Update DB
+            // Set token = null when Response code is 00
+            return RequestStatusEnum.SUCCESS.getResponse();
+        }
+
+        throw new InvalidRequestParameterException("Remove token is failed", RequestParameterEnum.WRONG);
     }
 
     private String[] buildQueryUrl(Map<String, String> vnp_Params) {
@@ -315,5 +378,18 @@ public class VnpayService {
         cld.add(Calendar.MINUTE, TIME_OUT);
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
+    }
+
+    private Map<String, String> getFieldsFromRequest(HttpServletRequest request) {
+        Map<String, String> fields = new HashMap<>();
+        for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements(); ) {
+            String fieldName = URLEncoder.encode(params.nextElement(), StandardCharsets.US_ASCII);
+            String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII);
+            if ((fieldValue != null) && (!fieldValue.isEmpty())) {
+                fields.put(fieldName, fieldValue);
+            }
+        }
+
+        return fields;
     }
 }
