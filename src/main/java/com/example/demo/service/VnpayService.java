@@ -25,7 +25,7 @@ import java.util.*;
 public class VnpayService {
     private final int REMOVE_DECIMAL_DIGITS = 100;
     private final String BILL_PAYMENT = "250000";
-    private final int TIME_OUT = 20;
+    private final int TIME_OUT = 15;
 
     @Autowired
     PaymentUtils paymentUtils;
@@ -276,7 +276,7 @@ public class VnpayService {
         }
     }
 
-    public String tokenCreated(HttpServletRequest request) throws InvalidRequestParameterException {
+    public String getToken(HttpServletRequest request) throws InvalidRequestParameterException {
         Map<String, String> fields = getFieldsFromRequest(request);
 
         // Find by user id
@@ -285,7 +285,7 @@ public class VnpayService {
 
         if ("00".equals(fields.get("vnp_response_code"))) {
             // Insert DB
-            return RequestStatusEnum.SUCCESS.getResponse();
+            return fields.get("vnp_token");
         }
 
         throw new InvalidRequestParameterException("Token is invalid", RequestParameterEnum.WRONG);
