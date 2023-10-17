@@ -66,7 +66,7 @@ public class VnpayController {
 
     @PostMapping("/token")
     public ResponseEntity<?> getToken() throws InvalidRequestParameterException {
-        return ResponseEntity.ok(vnpayService.tokenCreated(request));
+        return ResponseEntity.ok(vnpayService.getToken(request));
     }
 
     @PostMapping("/check-payment-and-token")
