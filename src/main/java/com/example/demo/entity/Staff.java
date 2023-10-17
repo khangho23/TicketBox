@@ -3,30 +3,45 @@ package com.example.demo.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.sql.Date;
+
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
-@Entity(immutable = true)
-@Table(name = "staff")
+@Entity
+@Table
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Staff {
     @Id
-    @Column(name = "id")
+    @Column
     private String id;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @Column(name = "password")
+    @Column
     private String password;
 
-    @Column(name = "email")
+    @Column
     private String email;
 
-    @Column(name = "branch_id")
+    @Column
     private String branchId;
+    
+    @Column
+    private int gender;
+    
+    @Column
+    private Date birthday;
+    
+    @Column
+    private String phone;
+    
+    @Column
+    private int status;
+    
 }

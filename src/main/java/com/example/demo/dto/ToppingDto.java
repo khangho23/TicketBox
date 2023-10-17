@@ -17,24 +17,14 @@ public class ToppingDto extends Topping {
 	/*
 	 * toppingofbranchid of topping
 	 */
-	@Id
 	@Column
 	private Integer toppingofbranchid;
 	/*
 	 * branchid of topping
 	 */
 	@Column(name = "branchid")
-	private String branch;
-	/*
-	 * name of topping
-	 */
-	@Column(name = "name")
-	private String name;
-	/*
-	 * logo of topping
-	 */
-	@Column(name = "logo")
-	private String logo;
+	private String branchId;
+	
 	/*
 	 * quantity of topping
 	 */
