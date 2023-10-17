@@ -1,1 +1,6 @@
-select id,movieId,languageId from languageofmovie where movieid = /* movieId */'MP01'
+select 
+	id,
+	movieId,
+	languageId 
+	from languageofmovie 
+where movieid = /* movieId */'MP01'

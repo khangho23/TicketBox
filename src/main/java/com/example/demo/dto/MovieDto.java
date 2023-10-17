@@ -14,7 +14,7 @@ public class MovieDto extends Movie {
     private String movieTypeName;
     @Column(name = "ACTORS")
     private String actorsName;
-    @Column(name = "DIRECTORS")
+    @Column(name = "directors")
     private String directorsName;
     @Column(name = "LANGUAGES")
     private String languagesName;

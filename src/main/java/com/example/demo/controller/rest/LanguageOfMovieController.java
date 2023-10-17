@@ -21,4 +21,9 @@ public class LanguageOfMovieController {
 	public ResponseEntity<?> findByMovieId(@RequestParam("movieId") String movieId) {
 		return ResponseEntity.ok(languageOfMovieService.findByMovieId(movieId));
 	}
+
+	@GetMapping({ "", "/" })
+	public ResponseEntity<?> findAll() {
+		return ResponseEntity.ok(languageOfMovieService.findAll());
+	}
 }

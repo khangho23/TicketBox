@@ -7,18 +7,9 @@ import com.example.demo.entity.Room;
 
 import lombok.Data;
 
-@Entity
 @Data
-public class RoomDto extends Room{
-    @Column
-    private String moviename;
-
-    @Column
-    private String starttime;
-
-    @Column
-    private String total;
-
-    @Column
-    private int status;
+@Entity
+public class RoomDto extends Room {
+    @Column(name = "branchName")
+    private String branchName;
 }

@@ -23,7 +23,7 @@ public class Room {
 	@Column
 	private String id;
 	/*
-	 * brandid of payment method
+	 * branchid of payment method
 	 */
 	@Column
 	private String branchid;

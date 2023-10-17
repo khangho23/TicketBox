@@ -8,6 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.demo.dao.ShowTimeDao;
 import com.example.demo.dto.ShowTimeDto;
+import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.admin.controller.enums.RequestStatusEnum;
+import com.example.demo.entity.ShowTime;
+import com.example.demo.exception.InvalidRequestParameterException;
 @Service
 public class ShowTimeService {
 	@Autowired
@@ -25,11 +29,35 @@ public class ShowTimeService {
 			int toIndex = Math.min(startItem + pageSize, totalElements);
 			System.out.println(toIndex);
 			listMovieByDate = listMovieByDate.subList(startItem, toIndex);
-			return new PageImpl<>(listMovieByDate, PageRequest.of(pageable.getPageNumber(), pageSize),totalElements);
+			return new PageImpl<>(listMovieByDate, PageRequest.of(pageable.getPageNumber(), pageSize), totalElements);
 		}
 	}
 
-	public ShowTimeDto findById(int id){
-		return showtimeDao.findById(id);
+	public ShowTimeDto findById(int id) throws InvalidRequestParameterException {
+		return showtimeDao.findById(id)
+				.orElseThrow(() -> new InvalidRequestParameterException("id", RequestParameterEnum.NOT_FOUND));
+	}
+
+	public List<ShowTimeDto> findAll() {
+		return showtimeDao.findAll();
+	}
+
+	public RequestStatusEnum insert(ShowTime showTime) throws InvalidRequestParameterException {
+		return (showtimeDao.insert(showTime)) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE;
+	}
+
+	public RequestStatusEnum update(ShowTime req) throws InvalidRequestParameterException {
+		showtimeDao.findById(req.getId())
+				.orElseThrow(() -> new InvalidRequestParameterException(req.getId() + "",
+						RequestParameterEnum.NOT_FOUND));
+		return (showtimeDao.update(req) == 1) ? RequestStatusEnum.SUCCESS
+				: RequestStatusEnum.FAILURE;
+	}
+
+	public RequestStatusEnum delete(Integer id) throws InvalidRequestParameterException {
+		ShowTime showTime = showtimeDao.findById(id)
+				.orElseThrow(() -> new InvalidRequestParameterException(id + "",
+						RequestParameterEnum.NOT_FOUND));
+		return (showtimeDao.delete(showTime) == 1) ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE;
 	}
 }

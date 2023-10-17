@@ -8,6 +8,7 @@ import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @Entity
 @Table
@@ -21,5 +22,5 @@ public class LanguageOfMovie {
 	private String movieId;
 	@Column
 	private int languageId;
-	
+
 }

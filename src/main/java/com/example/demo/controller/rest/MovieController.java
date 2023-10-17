@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -53,7 +52,8 @@ public class MovieController {
 	}
 
 	@GetMapping("/getDetail")
-	public ResponseEntity<?> findMovieDetailPage(@RequestParam("id") String movieId) {
+	public ResponseEntity<?> findMovieDetailPage(@RequestParam("id") String movieId)
+			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(movieService.findMovieDetailPage(movieId));
 	}
 
@@ -73,7 +73,8 @@ public class MovieController {
 	}
 
 	@GetMapping("/getByShowTime")
-	public ResponseEntity<?> getByShowTime(@RequestParam("showtimeid") int showtimeid) {
+	public ResponseEntity<?> getByShowTime(@RequestParam("showtimeid") int showtimeid)
+			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(movieService.findByShowTimeId(showtimeid));
 	}
 

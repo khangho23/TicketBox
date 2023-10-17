@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-
+import java.time.LocalTime;
 import java.sql.Date;
 
 import org.seasar.doma.Column;
@@ -37,10 +37,10 @@ public class ShowTime {
 	@Column
 	private String roomId;
 	/*
-	 * movieId of showtime
+	 * languageofmovieid of showtime
 	 */
 	@Column
-	private String movieId;
+	private Integer languageOfMovieId;
 	/*
 	 * dimensionId of showtime
 	 */
@@ -55,7 +55,7 @@ public class ShowTime {
 	 * startTime of showtime
 	 */
 	@Column
-	private String startTime;
+	private LocalTime startTime;
 	/*
 	 * price of showtime
 	 */
