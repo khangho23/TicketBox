@@ -18,5 +18,4 @@ public class VnpayPaymentDto extends VnpayModel {
     private String vnp_ExpireDate;
     private String vnp_CreateDate;
     private String vnp_Version;
-    private String redirect_url;
 }

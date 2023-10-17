@@ -14,7 +14,14 @@ import lombok.Data;
 
 @Data
 @Entity
-public class ShowTimeDto extends ShowTime{
+public class ShowTimeDto extends ShowTime {
+	/*
+	 * RoomName of ShowTimeDto
+	 */
+	
+	@Column(name = "movieid")
+    private String movieId;
+	
 	/*
 	 * RoomName of ShowTimeDto
 	 */
@@ -25,32 +32,37 @@ public class ShowTimeDto extends ShowTime{
 	/*
 	 * DimensionName of ShowTimeDto
 	 */
-	
-    @Column(name = "dimension")
-    private String dimensionName;
-    
-    /*
+
+	@Column(name = "dimensionName")
+	private String dimensionName;
+
+	/*
 	 * branchId of ShowTimeDto
 	 */
-    @Column(name = "branchId")
-    private String branchId;
+	@Column(name = "branchId")
+	private String branchId;
 	/*
 	 * branchName of ShowTimeDto
 	 */
-	
-    @Column(name = "branch")
-    private String branchName;
-    
+
+	@Column(name = "branchName")
+	private String branchName;
+
 	/*
 	 * branchAddress of ShowTimeDto
 	 */
-    
-    @Column(name = "branchAddress")
-    private String branchAddress;
-	
+
+	@Column(name = "branchAddress")
+	private String branchAddress;
+
 	/*
 	 * movieName of ShowTimeDto
 	 */
 	@Column(name = "movieName")
 	private String movieName;
+	/*
+	 * languageName of ShowTimeDto
+	 */
+	@Column(name = "languageName")
+	private String languageName;
 }

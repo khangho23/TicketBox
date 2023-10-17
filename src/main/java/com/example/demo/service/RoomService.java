@@ -23,4 +23,8 @@ public class RoomService implements BaseService<RoomDto, String> {
     public Optional<RoomDto> findById(String id) {
         return roomDao.findById(id);
     }
+
+    public List<RoomDto> getByBranch(String id, String showdate) {
+        return roomDao.getByBranch(id, showdate);
+    }
 }
