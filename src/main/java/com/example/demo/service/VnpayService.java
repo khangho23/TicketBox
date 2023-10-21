@@ -3,10 +3,13 @@ package com.example.demo.service;
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
 import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.config.VnpayConfig;
+import com.example.demo.dto.BillDetailsDto;
 import com.example.demo.dto.VnpayPaymentDto;
 import com.example.demo.dto.VnpayResultDto;
 import com.example.demo.dto.VnpayToken;
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.PaymentDetails;
+import com.example.demo.entity.PaymentMethod;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.util.PaymentUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +39,11 @@ public class VnpayService {
     @Autowired
     CustomerService customerService;
 
-    public String createPayment(HttpServletRequest request, VnpayPaymentDto vnpayPaymentDto) throws InvalidRequestParameterException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    @Autowired
+    PaymentService paymentService;
+
+    public String createPayment(HttpServletRequest request, VnpayPaymentDto vnpayPaymentDto)
+            throws InvalidRequestParameterException {
         String content = paymentUtils.validateBankTransferContent(vnpayPaymentDto.getVnp_OrderInfo());
 
         Map<String, String> vnp_Params = new HashMap<>();
@@ -214,6 +221,8 @@ public class VnpayService {
     }
 
     public String paymentInformation(HttpServletRequest request) throws InvalidRequestParameterException {
+//        billId.orElseThrow();
+
         try {
             /*  IPN URL: Record payment results from VNPAY
             Implementation steps:
@@ -238,6 +247,13 @@ public class VnpayService {
             // Check checksum
             String signValue = VnpayConfig.hashAllFields(fields);
             if (signValue.equals(vnp_SecureHash)) {
+                PaymentDetails paymentDetails = new PaymentDetails();
+                paymentDetails.setPayMethodId("PM4"); // PM4 is VNPay payment
+                paymentDetails.setStatus(0);
+                paymentDetails.setBillId(2);
+                paymentDetails.setVnp_TransactionNo(fields.get("vnp_TransactionNo"));
+                paymentService.insertPaymentDetails(paymentDetails);
+
                 // vnp_TxnRef exists in your database
                 boolean checkOrderId = true;
 
@@ -254,10 +270,14 @@ public class VnpayService {
                         if (checkOrderStatus) {
                             if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
                                 //Here Code update PaymnentStatus = 1 into your Database
+                                paymentDetails.setStatus(1);
+                                paymentService.updateStatusPaymentDetails(paymentDetails);
 
-                                return RequestStatusEnum.SUCCESS.getResponse();
+//                                return RequestStatusEnum.SUCCESS.getResponse();
                             }
 
+                            paymentDetails.setStatus(2);
+                            paymentService.updateStatusPaymentDetails(paymentDetails);
                             throw new InvalidRequestParameterException("Transaction error", RequestParameterEnum.WRONG);
                         } else {
                             throw new InvalidRequestParameterException("Order already confirmed", RequestParameterEnum.WRONG);
@@ -272,6 +292,7 @@ public class VnpayService {
                 throw new InvalidRequestParameterException("Invalid Checksum", RequestParameterEnum.WRONG);
             }
         } catch (Exception e) {
+//            e.printStackTrace();
             throw new InvalidRequestParameterException("Unknown error", RequestParameterEnum.WRONG);
         }
     }

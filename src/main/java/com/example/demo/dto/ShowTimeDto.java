@@ -33,7 +33,7 @@ public class ShowTimeDto extends ShowTime {
 	 * DimensionName of ShowTimeDto
 	 */
 
-	@Column(name = "dimensionName")
+	@Column(name = "dimensionname")
 	private String dimensionName;
 
 	/*
@@ -45,7 +45,7 @@ public class ShowTimeDto extends ShowTime {
 	 * branchName of ShowTimeDto
 	 */
 
-	@Column(name = "branchName")
+	@Column(name = "branchname")
 	private String branchName;
 
 	/*

@@ -1,6 +1,7 @@
 package com.example.demo.controller.rest;
 
 import com.example.demo.config.VnpayConfig;
+import com.example.demo.dto.BillDetailsDto;
 import com.example.demo.dto.VnpayPaymentDto;
 import com.example.demo.dto.VnpayResultDto;
 import com.example.demo.dto.VnpayToken;
@@ -30,7 +31,8 @@ public class VnpayController {
     VnpayService vnpayService;
 
     @PostMapping("/pay")
-    public ResponseEntity<?> createPayment(@RequestBody VnpayPaymentDto vnp) throws InvalidRequestParameterException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public ResponseEntity<?> createPayment(@RequestBody VnpayPaymentDto vnp)
+            throws InvalidRequestParameterException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return ResponseEntity.ok(vnpayService.createPayment(request, vnp));
     }
 
@@ -50,7 +52,8 @@ public class VnpayController {
     }
 
     @PostMapping("/pay-and-create-token")
-    public ResponseEntity<?> paymentAndCreateToken(@RequestBody VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
+    public ResponseEntity<?> paymentAndCreateToken(@RequestBody VnpayToken vnpayToken)
+            throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
         return ResponseEntity.ok(vnpayService.paymentAndCreateToken(request, vnpayToken));
     }
 
