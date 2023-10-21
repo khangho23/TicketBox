@@ -1,0 +1,70 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee - Zuhot</title>
+    <div th:insert="~{common/script-import}"></div>
+    <style>
+        .w-40 {
+            width: 40% !important;
+        }
+
+        .col-1 {
+            width: 7.8% !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav th:insert="~{common/navbar-empl}"></nav>
+    <div class="m-5 d-flex justify-content-between">
+        <div class="w-40 mx-auto">
+            <div class="mt-4 p-5 text-black rounded">
+                <h1 class="movie-name"></h1>
+                <p class="movie-information"></p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">STT</th>
+                                <th scope="col" class="text-center">Thông tin</th>
+                                <th scope="col" class="text-center">Tạm tính</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-price"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" class="text-end">Tổng cộng:</td>
+                                <td id="price-total" class="text-center"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <button class="btn btn-success w-100">Tiếp tục</button>
+            </div>
+        </div>
+        <div class="w-50">
+            <div class="seat-container w-100"></div>
+            <h3 class="text-center text-success my-3">Chú thích</h3>
+            <div class="seat-state d-flex justify-content-between mb-5">
+                <section>
+                    <button class="btn btn-primary">A0</button> Ghế chưa chọn
+                </section>
+                <section>
+                    <button class="btn btn-success">A0</button> Ghế được chọn
+                </section>
+                <section>
+                    <button class="btn btn-danger">A0</button> Ghế đã được book
+                </section>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        let showtimeid = /*[[${showtimeid}]]*/ "";
+        let emplId = /*[[${emplId}]]*/ "";
+    </script>
+    <script th:src="@{/js/empl/book-seat.js}" type="module"></script>
+</body>
+
+</html>

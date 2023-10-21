@@ -20,10 +20,8 @@ public class StaffDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Staff> staff = staffDao.findByEmail(email);
-		System.out.println(staff);
 		if(!staff.isPresent()) {
 			throw new UsernameNotFoundException("Không tồn tại người dùng "+email);
-		
 		}
 		return User.withUsername(staff.get().getEmail())
                 .password(staff.get().getPassword())

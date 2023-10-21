@@ -54,4 +54,8 @@ public class ShowTimeController {
 			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(showtimeService.update(showTime));
 	}
+	@GetMapping("/cd")
+	public ResponseEntity<?> cd (@RequestParam("branchid") String branchid) {
+		return ResponseEntity.ok(showtimeService.findByCurrentDate(branchid));
+	}
 }
