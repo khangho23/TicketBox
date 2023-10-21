@@ -11,9 +11,9 @@ SELECT
 	showtime.dimensionid,
 	showtime.roomid,
 	room.name as room,
-	dimension.name as dimension,
+	dimension.name as dimensionName,
 	branch.id as branchId,
-	branch.name as branch,
+	branch.name as branchName,
 	branch.address as branchAddress
 FROM showtime 
 JOIN languageofmovie on languageofmovie.id = showtime.languageofmovieid

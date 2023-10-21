@@ -11,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class VnpayConfig {
+    private static final String returnUrl = "http://localhost:3000";
+
     public static String secretKey = "MRBWPIEUEHSXCBSJEBIJSNKPTQOBYJDM";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
     public static String vnp_CreateToken = "https://sandbox.vnpayment.vn/token_ui/create-token.html";
@@ -18,7 +20,8 @@ public class VnpayConfig {
     public static String vnp_PaymentAndCreateToken = "https://sandbox.vnpayment.vn/token_ui/pay-create-token.html";
     public static String vnp_PaymentByToken = "https://sandbox.vnpayment.vn/token_ui/payment-token.html";
     public static String vnp_RemoveToken = "https://sandbox.vnpayment.vn/token_ui/remove-token.html";
-    public static String vnp_ReturnUrl = "http://localhost:3000/book/complete";
+    public static String vnp_ReturnUrlAfterComplete = returnUrl + "/book/complete";
+    public static String vnp_ReturnUrlAfterCreateToken = returnUrl + "/save/card";
     public static String vnp_CancelUrl = "http://localhost:3000/book/cancel";
     public static String vnp_TmnCode = "1AXWHH3Y";
     public static String vnp_Version = "2.1.0";

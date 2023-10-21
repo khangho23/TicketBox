@@ -1,3 +1,6 @@
-select *
+select 
+	email,
+	name,
+	password
 from staff
-where email = /* email */'kien@gmail.com'
+where email = /* email */'duc@gmail.com'
