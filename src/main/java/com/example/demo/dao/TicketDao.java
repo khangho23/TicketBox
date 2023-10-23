@@ -20,4 +20,5 @@ public interface TicketDao {
 
 	@Select
 	List<TicketDto> findByBillId(Integer billId);
+	
 }

@@ -38,4 +38,5 @@ public class TicketService implements BaseService<Ticket, Integer> {
 
 		return ticketDao.findByBillId(billId.get());
 	}
+	
 }
