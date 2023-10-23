@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,27 +22,33 @@ public class SecurityConfig {
 	
 	@Autowired
 	private StaffDetailsService staffDetailsService;
-	
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable()
+                .cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/admin/*", "/admin")
-                        .authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/admin/*", "/admin").hasRole("ADMIN")
+                        .requestMatchers("/empl/*", "/empl").hasRole("EMPLOYEE")
+                                .anyRequest().permitAll()
+                        )
                 .authenticationProvider(authenticationProvider())
                 .formLogin((form) -> form
                         .loginPage("/admin/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/admin")
                         .failureUrl("/admin/login?error=true")
                         .permitAll())
+                .exceptionHandling((exceptionHandling) -> exceptionHandling
+                        .accessDeniedHandler((request, response, authException) -> {
+                            response.sendRedirect("/access-denied"); // Điều này sẽ chuyển hướng đến trang lỗi xác thực tùy chỉnh
+                        })
+                )
                 .logout((logout) -> logout.logoutSuccessUrl("/admin/login"));
-        http.addFilterAfter(
-          new RestFilter(), BasicAuthenticationFilter.class);
+
+        http.addFilterAfter(new RestFilter(), BasicAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -57,5 +64,4 @@ public class SecurityConfig {
         dao.setPasswordEncoder(passwordEncoder());
         return dao;
     }
-
 }
