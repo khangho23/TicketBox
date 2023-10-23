@@ -3,5 +3,5 @@ from showtime s left join languageofmovie l on s.languageofmovieid = l.id
 				left join movie m on m.id = l.movieid
 				left join "language" la on la.id = l.languageid
 				left join room r on r.id = s.roomid
-where s.showdate = '2023-09-16' and r.branchid = /* branchid */'cn2'
+where s.showdate = '2023-10-22' and r.branchid = /* branchid */'cn2'
 order by s.starttime

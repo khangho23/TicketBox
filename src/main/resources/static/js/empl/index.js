@@ -27,26 +27,37 @@ const convertData = (result) => {
 }
 
 const fillElement = () => {
-    showtime.forEach(s => {
+   const groupedShowtime = showtime.reduce((acc, s) => {
+        const key = s.starttime;
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(s);
+        return acc;
+    }, {});
+
+    Object.values(groupedShowtime).forEach((group) => {
         $(".show-time").append(`
-        <section class="showtime-item mb-4">
-            <p class="showtime-title">${s.starttime}</p>
-            <div class="row row-showtime">
-                <div class="card col-1">
-                    <img class="card-img-top" src="${URL_IMAGE}${s.movieid}.png" alt="Card image cap">
-                    <div class="card-body">
-                        <p onclick="window.location.href = '/empl/book-seat_${s.id}_1'" style="font-size:small;cursor:pointer;">${s.movies[0]}</p>
-                    </div>
+            <section class="showtime-item mb-4">
+                <p class="showtime-title">${group[0].starttime}</p>
+                <div class="row row-showtime">
+                    ${group.map((s) => `
+                        <div class="card col-2 m-2 p-0">
+                            <img class="card-img-top w-100" src="${URL_IMAGE}${s.movieid}.png" alt="Card image cap" style="height:305px">
+                            <div class="card-body">
+                                <p onclick="window.location.href = '/empl/book-seat_${s.id}_1'" style="font-size:small;cursor:pointer;">${s.movies}</p>
+                            </div>
+                        </div>
+                    `).join("")}
                 </div>
-            </div>
-        </section>
+            </section>
         `);
-    })
+    });
 }
 
 $(document).ready(async function () {
     $(".title").text(`${$(".title").text()} ${getCurrentDay()}`);
-    const { data: result } = await fetch.get("/showtime/cd", { params: { branchid: "cn2" } });
+    const { data: result } = await fetch.get("/showtime/cd", { params: { branchid: "cn1" } });
     showtime = convertData(result);
     fillElement();
 });
