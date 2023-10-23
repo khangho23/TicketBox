@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .permitAll())
                 .exceptionHandling((exceptionHandling) -> exceptionHandling
                         .accessDeniedHandler((request, response, authException) -> {
-                            response.sendRedirect("/access-denied"); // Điều này sẽ chuyển hướng đến trang lỗi xác thực tùy chỉnh
+                            response.sendRedirect("/access-denied");
                         })
                 )
                 .logout((logout) -> logout.logoutSuccessUrl("/admin/login"));
