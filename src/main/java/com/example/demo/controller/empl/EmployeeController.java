@@ -24,8 +24,11 @@ public class EmployeeController {
         return PATH.concat("/book-seat");
     }
 
-    @GetMapping(value = { "/book-payment_{emplId}" })
-    public String book_payment(@PathVariable String emplId) {
+    @GetMapping(value = { "/book-payment_{showtimeid}_{emplId}" })
+    public String book_payment(@PathVariable("showtimeid") int showtimeid, @PathVariable("emplId") String emplId,
+            Model model) {
+        model.addAttribute("showtimeid", showtimeid);
+        model.addAttribute("emplId", emplId);
         return PATH.concat("/book-payment");
     }
 }
