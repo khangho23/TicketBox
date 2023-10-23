@@ -18,8 +18,8 @@
 
 <body>
     <nav th:insert="~{common/navbar-empl}"></nav>
-    <div class="m-5 d-flex justify-content-between">
-        <div class="w-40 mx-auto">
+    <div class="p-5 d-flex justify-content-between">
+        <div class="w-40 mx-auto bg-light rounded-3">
             <div class="mt-4 p-5 text-black rounded">
                 <h1 class="movie-name"></h1>
                 <p class="movie-information"></p>
@@ -45,9 +45,10 @@
             </div>
         </div>
         <div class="w-50">
+            <div class="w-100 py-5 mb-5 rounded-3 text-center bg-dark text-white">Màn hình chiếu</div>
             <div class="seat-container w-100"></div>
-            <h3 class="text-center text-success my-3">Chú thích</h3>
-            <div class="seat-state d-flex justify-content-between mb-5">
+            <h5 class="text-center text-white bg-dark bg-opacity-75 rounded-3 py-2">Chú thích</h5>
+            <div class="seat-state d-flex justify-content-between mb-5 bg-dark bg-opacity-75 text-white p-5 rounded-3">
                 <section>
                     <img src="/images/icon/ItemDefault.svg" alt="ItemDefault.svg">
                     <label>Ghế chưa chọn</label>

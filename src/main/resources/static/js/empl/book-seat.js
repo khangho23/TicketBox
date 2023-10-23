@@ -8,8 +8,8 @@ let seatToChoose = [];
 const fillSeat = (row, seats) => {
     let result = "";
     seats.forEach((s, i) => {
-        let state_item = s.booked ? 'btn-danger' : 'btn-secondary';
-        let ready_item = state_item == 'btn-secondary' ? 'btn-light' : 'btn-secondary';
+        let state_item = s.booked ? 'btn-light' : 'btn-light';
+        let ready_item = state_item == 'btn-light' ? 'btn-outline-light' : 'btn-light';
         let state_bg = s.booked ? 'background-image: url(/images/icon/ItemHasBooked.svg)' : 'background-image: url(/images/icon/ItemDefault.svg)';
         let ready_bg = state_bg == 'background-image: url(/images/icon/ItemDefault.svg)' ? 'background-image: url(/images/icon/ItemChoose.svg)' : 'background-image: url(/images/icon/ItemDefault.svg)';
         result += `<button class="col-1 btn ${state_item}" state-button="${ready_item}" id="seat-${row}-${i}" ${s.booked ? 'disabled' : ''}  style="height: 50px; background-position: center;background-repeat: no-repeat;${state_bg};" state-bg="${ready_bg}">${s.booked ? '' : s.name}</button>`;
@@ -69,7 +69,7 @@ function chooseSeat() {
         let setStyle = $(this).attr('state-bg');
         $(this).attr("style", "height: 50px; background-position: center;background-repeat: no-repeat;" + setStyle);
         $(this).attr("state-bg", currentStyle);
-        if (setClass == "btn-light") {
+        if (setClass == "btn-outline-light") {
             const { data: prices } = await fetch.get("/seat/getTotalPrice", { params: { showtimeid: showtimeid, name: seat_name } });
             seatToChoose.push({
                 name: seat_name,
