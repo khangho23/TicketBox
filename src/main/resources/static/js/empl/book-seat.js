@@ -1,4 +1,6 @@
 import { fetch } from "../axios.js";
+import { formatCurrency } from "../../common/NumberUtil.js";
+
 
 let seat = [];
 let showtime = {};
@@ -28,11 +30,11 @@ const fillTablePrice = () => {
         <tr class="">
             <td scope="row" class="text-center">${i + 1}</td>
             <td class="text-center">${s.name}</td>
-            <td class="text-center">${s.total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
+            <td class="text-center">${formatCurrency(s.total)}</td>
         </tr>
     `);
     })
-    $("#price-total").text(total_price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+    $("#price-total").text(formatCurrency(total_price));
 }
 
 const fillRow = () => {
@@ -75,5 +77,4 @@ function chooseSeat() {
         localStorage.setItem(`seat_${showtimeid}_${emplId}`, JSON.stringify(seatToChoose));
         fillTablePrice();
     });
-    // $().removeClass("btn*");
 }
