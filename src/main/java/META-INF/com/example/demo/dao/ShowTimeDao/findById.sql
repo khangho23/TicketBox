@@ -7,12 +7,12 @@ SELECT
 	showtime.price,
 	showtime.languageofmovieid,
 	room.name as room,
-	dimension.name as dimension,
+	dimension.name as dimensionname,
 	movie.id as movieid,
 	movie.name as movieName,
 	language.name as languageName,
 	branch.id as branchId,
-	branch.name as branch,
+	branch.name as branchName,
 	branch.address as branchAddress
 FROM showtime
 JOIN languageofmovie on showtime.languageofmovieid = languageofmovie.id

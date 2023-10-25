@@ -25,17 +25,17 @@ public class ShowTimeDto extends ShowTime {
 	/*
 	 * RoomName of ShowTimeDto
 	 */
-	
+
 	@Column(name = "movieid")
-    private String movieId;
-	
+	private String movieId;
+
 	/*
 	 * RoomName of ShowTimeDto
 	 */
-	
+
 	@Column(name = "room")
-    private String roomName;
-	
+	private String roomName;
+
 	/*
 	 * DimensionName of ShowTimeDto
 	 */
@@ -72,8 +72,11 @@ public class ShowTimeDto extends ShowTime {
 	 */
 	@Column(name = "languageName")
 	private String languageName;
-	
+
 	@Transient
 	private List<String> movies = new ArrayList<>();
-	
+
+	@Column(name = "ticketNumber")
+	private int ticketNumber;
+
 }
