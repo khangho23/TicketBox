@@ -43,10 +43,10 @@ export default class Showtime extends JetView {
                             {
                                 view: "form",
                                 id: "Form",
-                                height: 700,
+                                height: 600,
                                 padding: 10,
                                 elements: [
-                                    { view: "text", name: "id", id: "id", label: "Mã xuất chiếu", disabled: true, labelPosition: "top" },
+                                    { view: "text", name: "id", id: "id", label: "Mã xuất chiếu", disabled: true, labelPosition: "top", hidden:true },
                                     {
                                         view: "combo", label: "Số phòng", name: "roomId", invalidMessage: "Vui lòng chọn số phòng", required: true, labelPosition: "top",
                                         options: {

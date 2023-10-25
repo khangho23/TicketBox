@@ -1,25 +1,28 @@
 package com.example.demo.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.demo.dao.ShowTimeDao;
+import com.example.demo.domain.ShowTimeHasMovies;
 import com.example.demo.dto.ShowTimeDto;
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
 import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.entity.ShowTime;
 import com.example.demo.exception.InvalidRequestParameterException;
+
 @Service
-public class ShowTimeService {
+public class ShowTimeService{
 	@Autowired
 	private ShowTimeDao showtimeDao;
-	
-	public Object findShowtimeByMovieAndDate(String showdate, String movieId ,Integer page, Pageable pageable ){
-		
-		List<ShowTimeDto>listMovieByDate = showtimeDao.findShowTimeByMovieAndDate(showdate,movieId);
+
+	public Object findShowtimeByMovieAndDate(String showdate, String movieId, Integer page, Pageable pageable) {
+
+		List<ShowTimeDto> listMovieByDate = showtimeDao.findShowTimeByMovieAndDate(showdate, movieId);
 		int pageSize = 4;
 		int startItem = page * pageSize;
 		int totalElements = listMovieByDate.size();
@@ -59,5 +62,11 @@ public class ShowTimeService {
 				.orElseThrow(() -> new InvalidRequestParameterException(id + "",
 						RequestParameterEnum.NOT_FOUND));
 		return (showtimeDao.delete(showTime) == 1) ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE;
+	}
+
+	public List<?> findByCurrentDate(String branchid) {
+		List<ShowTimeHasMovies> dto = showtimeDao.findByCurrentDate(branchid).stream()
+				.map(ShowTimeHasMovies::convert).toList();
+		return dto;
 	}
 }

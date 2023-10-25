@@ -1,0 +1,81 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee - Zuhot</title>
+    <div th:insert="~{common/script-import}"></div>
+    <style>
+        .w-40 {
+            width: 40% !important;
+        }
+
+        .col-1 {
+            width: 7.8% !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav th:insert="~{common/navbar-empl}"></nav>
+    <div class="loading" style="display: flex; justify-content: center; height: 500px; align-items: center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="p-5 seat" style="display: flex; justify-content: space-between;">
+        <div class="w-40 mx-auto bg-light rounded-3">
+            <div class="mt-4 p-5 text-black rounded">
+                <h1 class="movie-name"></h1>
+                <p class="movie-information"></p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">STT</th>
+                                <th scope="col" class="text-center">Thông tin</th>
+                                <th scope="col" class="text-center">Tạm tính</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-price"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" class="text-end">Tổng cộng:</td>
+                                <td id="price-total" class="text-center"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <a class="btn btn-success w-100 btn-continue">Tiếp tục</a>
+            </div>
+        </div>
+        <div class="w-50">
+            <div class="w-100 py-5 mb-5 rounded-3 text-center bg-dark text-white">Màn hình chiếu</div>
+            <div class="seat-container w-100"></div>
+            <h5 class="text-center text-white bg-dark bg-opacity-75 rounded-3 py-2">Chú thích</h5>
+            <div class="seat-state d-flex justify-content-between mb-5 bg-dark bg-opacity-75 text-white p-5 rounded-3">
+                <section>
+                    <img src="/images/icon/ItemDefault.svg" alt="ItemDefault.svg">
+                    <label>Ghế chưa chọn</label>
+                </section>
+                <section>
+                    <img src="/images/icon/ItemChoose.svg" alt="ItemChoose.svg">
+                    <label>Ghế được chọn</label>
+                </section>
+                <section>
+                    <img src="/images/icon/ItemHasBooked.svg" alt="ItemHasBooked.svg">
+                    <label>Ghế đã được book</label>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        let showtimeid = /*[[${showtimeid}]]*/ "";
+        let emplId = /*[[${emplId}]]*/ "";
+    </script>
+    <script th:src="@{/js/empl/book-seat.js}" type="module"></script>
+    <script>
+    </script>
+</body>
+
+</html>

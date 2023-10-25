@@ -23,6 +23,9 @@ public interface ShowTimeDao {
 	@Select
 	List<ShowTimeDto> findAll();
 
+	@Select
+	List<ShowTimeDto> findByCurrentDate(String branchid);
+
 	@Insert(exclude = { "id" })
 	int insert(ShowTime showTime);
 

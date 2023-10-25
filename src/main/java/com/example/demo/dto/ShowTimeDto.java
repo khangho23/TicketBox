@@ -1,10 +1,17 @@
 package com.example.demo.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
+import org.seasar.doma.Transient;
+
 import com.example.demo.entity.ShowTime;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /*
  * 
@@ -18,17 +25,17 @@ public class ShowTimeDto extends ShowTime {
 	/*
 	 * RoomName of ShowTimeDto
 	 */
-	
+
 	@Column(name = "movieid")
-    private String movieId;
-	
+	private String movieId;
+
 	/*
 	 * RoomName of ShowTimeDto
 	 */
-	
+
 	@Column(name = "room")
-    private String roomName;
-	
+	private String roomName;
+
 	/*
 	 * DimensionName of ShowTimeDto
 	 */
@@ -65,4 +72,11 @@ public class ShowTimeDto extends ShowTime {
 	 */
 	@Column(name = "languageName")
 	private String languageName;
+
+	@Transient
+	private List<String> movies = new ArrayList<>();
+
+	@Column(name = "ticketNumber")
+	private int ticketNumber;
+
 }
