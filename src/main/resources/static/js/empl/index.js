@@ -1,7 +1,6 @@
 import { fetch } from "../axios.js";
 const URL_IMAGE = "https://zuhot-cinema-images.s3.amazonaws.com/poster-movie/";
 let showtime = [];
-let ticket = [];
 
 const getCurrentDay = () => {
 	return new Date().toLocaleDateString("vi-VI");
