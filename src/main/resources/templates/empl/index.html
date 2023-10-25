@@ -1,21 +1,26 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee - Zuhot</title>
-    <div th:insert="~{common/script-import}"></div>
-    <link rel="stylesheet" th:href="@{/styles/empl/index.css}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee - Zuhot</title>
+<div th:insert="~{common/script-import}"></div>
+<link rel="stylesheet" th:href="@{/styles/empl/index.css}">
 </head>
 
 <body>
-    <nav th:insert="~{common/navbar-empl}"></nav>
-    <div class="mx-5">
-        <h1 class="text-success title">Lịch chiếu hôm nay </h1>
-        <div class="show-time">
-        </div>
-    </div>
-    <script th:src="@{/js/empl/index.js}" type="module"></script>
+	<nav th:insert="~{common/navbar-empl}"></nav>
+	<div class="mx-5 text-center">
+		<h1 class="text-success title">Lịch chiếu hôm nay</h1>
+		<div class="loading"
+			style="display: flex; justify-content: center; height: 500px; align-items: center">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
+		<div class="show-time"></div>
+	</div>
+	<script th:src="@{/js/empl/index.js}" type="module"></script>
 </body>
 
 </html>

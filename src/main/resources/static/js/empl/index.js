@@ -62,7 +62,13 @@ const fillElement = () => {
 
 $(document).ready(async function() {
 	$(".title").text(`${$(".title").text()} ${getCurrentDay()}`);
+	$(".show-time").hide();
 	const { data: result } = await fetch.get("/showtime/cd", { params: { branchid: "cn1" } });
 	showtime = convertData(result);
+	$.when(showtime).done(()=>{
+		$(".loading").fadeToggle(500,()=>{
+			$(".show-time").fadeIn(500);
+			})
+	})
 	fillElement();
 });
