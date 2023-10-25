@@ -1,0 +1,119 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee - Zuhot</title>
+    <div th:insert="~{common/script-import}"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        .w-40 {
+            width: 40% !important;
+        }
+
+        .col-1 {
+            width: 7.8% !important;
+        }
+
+        .spinner-3 {
+            width: 50px;
+            padding: 6px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: #000000;
+            --_m:
+                conic-gradient(#0000 10%, #000),
+                linear-gradient(#000 0 0) content-box;
+            -webkit-mask: var(--_m);
+            mask: var(--_m);
+            -webkit-mask-composite: source-out;
+            mask-composite: subtract;
+            animation: s3 1s infinite linear;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        @keyframes s3 {
+            to {
+                transform: rotate(1turn)
+            }
+        }
+
+        .spinner-2 {
+            display: none;
+            width: 50px;
+            padding: 8px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: #000000;
+            --_m:
+                conic-gradient(#0000 10%, #000),
+                linear-gradient(#000 0 0) content-box;
+            -webkit-mask: var(--_m);
+            mask: var(--_m);
+            -webkit-mask-composite: source-out;
+            mask-composite: subtract;
+            animation: s2 1s infinite linear;
+        }
+
+        @keyframes s2 {
+            to {
+                transform: rotate(1turn)
+            }
+        }
+
+        .body {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav th:insert="~{common/navbar-empl}"></nav>
+    <div class="row justify-content-center d-flex align-items-center h-auto">
+        <div class="spinner-3 h-100"></div>
+    </div>
+    <div class="m-5 justify-content-between body">
+        <div class="w-75">
+            <div class="topping-container w-100"></div>
+        </div>
+        <div class="w-40 mx-auto">
+            <div class="mt-4 p-5 text-black rounded">
+                <h1 class="movie-name"></h1>
+                <p class="movie-information"></p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">STT</th>
+                                <th scope="col" class="text-center">Thông tin</th>
+                                <th scope="col" class="text-center">Số lượng</th>
+                                <th scope="col" class="text-center">Tạm tính</th>
+                            </tr>
+                        </thead>
+                        <tbody class="row justify-content-center d-flex">
+                            <tr class="spinner-2 "></tr>
+                        </tbody>
+                        <tbody id="table-price"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" class="text-end">Tổng cộng:</td>
+                                <td id="price-total" class="text-center"></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <button class="btn btn-success w-100">Tiếp tục</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        let showtimeid = /*[[${showtimeid}]]*/ "";
+        let emplId = /*[[${emplId}]]*/ "";
+    </script>
+    <script th:src="@{/js/empl/book-topping.js}" type="module"></script>
+</body>
+
+</html>
