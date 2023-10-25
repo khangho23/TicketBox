@@ -51,5 +51,14 @@ $(document).ready(async function () {
     $.each($("[data=money]"), (index, element) => {
         $(element).text(formatCurrency($(element).text()));
     });
+    $("#pay-button").click(() => {
+        $("#loading-button").fadeIn(5000, $("#temp").load("/js/empl/receipt.html", function (response, status, request) {
+            window.print();
+        }));
+
+    });
 });
+
+
+
 
