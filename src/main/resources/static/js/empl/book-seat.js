@@ -62,6 +62,7 @@ $(document).ready(async function () {
     fillRow();
     fillMovie();
     chooseSeat();
+    init();
 });
 function chooseSeat() {
     $("button").on("click", async function () {
@@ -87,4 +88,17 @@ function chooseSeat() {
         fillTablePrice();
     });
     // $().removeClass("btn*");
+}
+function init() {
+    const url = document.location.href;
+    const seatUrl = url.slice(url.indexOf("seat"), url.length);
+    localStorage.removeItem(seatUrl);
+    $('.btn-continue').click(function () {
+        const paymentUrl = url.replace("seat", "payment");
+        const seat = localStorage.getItem(seatUrl);
+
+        if (seat?.length > 2) {
+            window.location.href = paymentUrl;
+        }
+    });
 }
