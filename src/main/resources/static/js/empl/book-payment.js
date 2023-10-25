@@ -5,9 +5,11 @@ let seat = [];
 let movie = {};
 let showtime = {};
 let price = {};
-
+let topping = [];
+let priceTopping = {};
 $(document).ready(async function () {
     seat = JSON.parse(localStorage.getItem(`seat_${showtimeid}_${emplId}`));
+    topping = JSON.parse(localStorage.getItem(`topping_${showtimeid}_${emplId}`));
     movie = (await fetch.get("/movie/getByShowTime?showtimeid=" + showtimeid)).data;
     showtime = (await fetch.get("/showtime/" + showtimeid)).data;
     $.when(seat, movie, showtime).done(() => {
@@ -16,6 +18,7 @@ $(document).ready(async function () {
             $(`#movie-${key}`)?.text(value);
         })
         $(`#seat-name`).text(seat.map(s => s.name).reduce((a, b) => a + ", " + b));
+        $(`#topping-name`).text(topping.map(s => s.name).reduce((a, b) => a + ", " + b));
         $(`#st-starttime`).text(showtime.startTime);
     })
     price = {
@@ -23,11 +26,15 @@ $(document).ready(async function () {
         vat: 0,
         total: 0
     };
+    priceTopping = {
+        topping: topping.map(obj => obj.total).reduce((a, b) => a + b)
+    }
+    $("#price-topping").text(priceTopping.topping);
     $("#price-seat").text(price.seat);
     price.vat = price.seat * 0.05;
     price.total = price.seat + price.vat;
     $("#vat").text(price.vat);
-    $("#total").text(price.total);
+    $("#total").text(price.total + priceTopping.topping);
 
     $("input[type=radio][name=options]").change(function () {
         let payment = {

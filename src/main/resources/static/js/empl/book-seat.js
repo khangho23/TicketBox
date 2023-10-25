@@ -94,7 +94,7 @@ function init() {
     const seatUrl = url.slice(url.indexOf("seat"), url.length);
     localStorage.removeItem(seatUrl);
     $('.btn-continue').click(function () {
-        const paymentUrl = url.replace("seat", "payment");
+        const paymentUrl = url.replace("seat", "topping");
         const seat = localStorage.getItem(seatUrl);
 
         if (seat?.length > 2) {

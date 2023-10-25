@@ -173,4 +173,18 @@ $(document).ready(async function () {
         })
         .fail(function () {
         });
+    init();
 });
+function init() {
+    const url = document.location.href;
+    const toppingUrl = url.slice(url.indexOf("topping"), url.length);
+    localStorage.removeItem(toppingUrl);
+    $('.btn-continue').click(function () {
+        const paymentUrl = url.replace("topping", "payment");
+        const topping = localStorage.getItem(toppingUrl);
+        console.log();
+        if (topping?.length > 2) {
+            window.location.href = paymentUrl;
+        }
+    });
+}
