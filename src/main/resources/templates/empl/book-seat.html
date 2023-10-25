@@ -18,7 +18,12 @@
 
 <body>
     <nav th:insert="~{common/navbar-empl}"></nav>
-    <div class="p-5 d-flex justify-content-between">
+    <div class="loading" style="display: flex; justify-content: center; height: 500px; align-items: center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="p-5 seat" style="display: flex; justify-content: space-between;">
         <div class="w-40 mx-auto bg-light rounded-3">
             <div class="mt-4 p-5 text-black rounded">
                 <h1 class="movie-name"></h1>

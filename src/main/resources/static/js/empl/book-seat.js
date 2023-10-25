@@ -48,9 +48,14 @@ const fillRow = () => {
 }
 
 $(document).ready(async function () {
-
+    $(".seat").hide();
     const { data: result } = await fetch.get("/seat/getSeatHasCheckTicket?id=" + showtimeid);
     const { data: result2 } = await fetch.get("/showtime/" + showtimeid);
+    $.when(showtime, seat).done(() => {
+        $(".loading").fadeToggle(500, () => {
+            $(".seat").fadeIn(500);
+        })
+    })
     showtime = result2;
     seat = result;
     console.log(showtime);
