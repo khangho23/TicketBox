@@ -5,120 +5,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee - Zuhot</title>
     <div th:insert="~{common/script-import}"></div>
+    <style>
+        #temp,
+        #temp * {
+            display: none;
+        }
+
+        @media print {
+            body * {
+                display: none;
+            }
+
+            #temp,
+            #temp * {
+                display: block;
+            }
+
+            @page {
+                size: 8.5in 11in;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <nav th:insert="~{common/navbar-empl}"></nav>
-    <section class="mx-5">
+    <div id="loading" style="height: 500px; display: flex; justify-content: center; align-items: center;">
+        <div class="spinner-border m-5" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <section class="mx-5 main" style="display:none;">
         <div class="d-flex justify-content-between align-items-center mb-5">
             <div class="d-flex flex-row align-items-center">
                 <h4 class="text-uppercase mt-1">Zuhot</h4>
                 <span class="ms-2 me-3">Thanh toán</span>
             </div>
-            <a th:href="@{/empl}">Cancel and return to the website</a>
+            <a th:href="@{/empl}">Hủy bỏ và trở lại trang chính.</a>
         </div>
 
         <div class="row">
             <div class="col-md-7 col-lg-7 col-xl-6 mb-4 mb-md-0">
-                <h5 class="mb-0 text-success">$85.00</h5>
-                <h5 class="mb-3">Diabites Pump & Supplies</h5>
+                <h5 class="mb-3">Thông tin vé</h5>
+                <ul>
+                    <li>Tên phim: <span id="movie-name"></span></li>
+                    <li>Năm sản xuất: <span id="movie-yearofmanufacture"></span></li>
+                    <li>Ghế: <span id="seat-name"></span></li>
+                    <li>Giờ chiếu: <span id="st-starttime"></span></li>
+                </ul>
+                <hr>
+                <h5 class="mb-3">Phương thức thanh toán</h5>
                 <div>
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-row mt-1">
-                            <h6>Insurance Responsibility</h6>
-                            <h6 class="fw-bold text-success ms-1">$71.76</h6>
-                        </div>
-                        <div class="d-flex flex-row align-items-center text-primary">
-                            <span class="ms-1">Add Insurer card</span>
-                        </div>
-                    </div>
-                    <p>
-                        Insurance claim and all neccessary dependencies will be submitted to your
-                        insurer for the covered portion of this order.
-                    </p>
-                    <div class="p-2 d-flex justify-content-between align-items-center" style="background-color: #eee;">
-                        <span>Aetna - Open Access</span>
-                        <span>Aetna - OAP</span>
-                    </div>
-                    <hr />
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex flex-row mt-1">
-                            <h6>Patient Balance</h6>
-                            <h6 class="fw-bold text-success ms-1">$13.24</h6>
-                        </div>
-                        <div class="d-flex flex-row align-items-center text-primary">
-                            <span class="ms-1">Add Payment card</span>
-                        </div>
-                    </div>
-                    <p>
-                        Insurance claim and all neccessary dependencies will be submitted to your
-                        insurer for the covered portion of this order.
-                    </p>
                     <div class="d-flex flex-column mb-3">
                         <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                            <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" />
+                            <input type="radio" class="btn-check" value="cash" name="options" id="option1"
+                                autocomplete="off" />
                             <label class="btn btn-outline-primary btn-lg" for="option1">
                                 <div class="d-flex justify-content-between">
-                                    <span>VISA </span>
-                                    <span>**** 5436</span>
+                                    <span>Tiền mặt</span>
+                                    <span>Tiền thối: <span data="money" class="refund-cash">0</span></span>
                                 </div>
                             </label>
-
-                            <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off"
-                                checked />
+                            <div id="cash" class="d-none w-100" style="height: 50px;">
+                                <input type="text" placeholder="Số tiền mặt" class="form-control w-100" />
+                            </div>
+                            <input type="radio" class="btn-check" value="visa" name="options" id="option2"
+                                autocomplete="off" checked />
                             <label class="btn btn-outline-primary btn-lg" for="option2">
                                 <div class="d-flex justify-content-between">
                                     <span>MASTER CARD </span>
                                     <span>**** 5038</span>
                                 </div>
                             </label>
+                            <input type="radio" class="btn-check" value="master" name="options" id="option3"
+                                autocomplete="off" />
+                            <label class="btn btn-outline-primary btn-lg" for="option3">
+                                <div class="d-flex justify-content-between">
+                                    <span>VISA </span>
+                                    <span>**** 5038</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
-                    <div class="btn btn-success btn-lg btn-block">Proceed to payment</div>
+                    <button type="button" id="pay-button" class="btn btn-success btn-lg btn-block">
+                        <span id="loading-button" class="spinner-border spinner-border-sm" style="display: none;"
+                            role="status" aria-hidden="true"></span>
+                        Thanh toán
+                    </button>
                 </div>
             </div>
             <div class="col-md-5 col-lg-4 col-xl-4 offset-lg-1 offset-xl-2">
                 <div class="p-3" style="background-color: #eee;">
-                    <span class="fw-bold">Order Recap</span>
+                    <span class="fw-bold">Hóa đơn</span>
+                    <div id="pay-cash" class="d-none">
+                        <span>Tiền mặt</span> <span>+ <span class="output-cash" data="money">0</span></span>
+                    </div>
+                    <hr>
                     <div class="d-flex justify-content-between mt-2">
-                        <span>contracted Price</span> <span>$186.86</span>
+                        <span>Giá ghế (Cơ bản)</span> <span class="text-success">+ <span id="price-seat"
+                                data="money">186.86</span></span>
                     </div>
                     <div class="d-flex justify-content-between mt-2">
-                        <span>Amount Deductible</span> <span>$0.0</span>
+                        <span>Loại ghế</span> <span>Thường</span>
                     </div>
                     <div class="d-flex justify-content-between mt-2">
-                        <span>Coinsurance(0%)</span> <span>+ $0.0</span>
+                        <span>Thuế (5%)</span> <span class="text-danger">+ <span id="vat" data="money">0</span></span>
                     </div>
+                    <hr>
                     <div class="d-flex justify-content-between mt-2">
-                        <span>Copayment </span> <span>+ 40.00</span>
-                    </div>
-                    <hr />
-                    <div class="d-flex justify-content-between mt-2">
-                        <span class="lh-sm">Total Deductible,<br />
-                            Coinsurance and copay
-                        </span>
-                        <span>$40.00</span>
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <span class="lh-sm">Maximum out-of-pocket <br />
-                            on insurance policy</span>
-                        <span>$40.00</span>
+                        <span>Giảm giá</span> <span class="text-danger">- <span data="money">0</span></span>
                     </div>
                     <hr />
                     <div class="d-flex justify-content-between mt-2">
-                        <span>Insurance Responsibility </span> <span>$71.76</span>
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <span>Patient Balance </span> <span>$13.24</span>
-                    </div>
-                    <hr />
-                    <div class="d-flex justify-content-between mt-2">
-                        <span>Total </span> <span class="text-success">$85.00</span>
+                        <span>Tổng đơn </span> <span class="text-success" id="total" data="money">85</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <div id="temp"></div>
+    <script th:inline="javascript">
+        let showtimeid = /*[[${showtimeid}]]*/ "";
+        let emplId = /*[[${emplId}]]*/ "";
+    </script>
+    <script th:src="@{/js/empl/book-payment.js}" type="module"></script>
 </body>
 
 </html>

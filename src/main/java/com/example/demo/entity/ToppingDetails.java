@@ -5,25 +5,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
+import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
 @Entity
 @Table
 @Data
 @NoArgsConstructor
-public class ToppingOfBranch {
+public class ToppingDetails {
     @Column
     private Integer id;
 
-    @Column(name = "branchid")
-    private Integer branchId;
+    @Column(name = "toppingofbranch")
+    private Integer toppinngOfBranchId;
 
-    @Column(name = "toppingid")
-    private Integer toppingId;
+    @Column(name = "pricewhenbuy")
+    private double priceWhenBuy;
 
     @Column
     private int quantity;
-
-    @Column
-    private double price;
 }

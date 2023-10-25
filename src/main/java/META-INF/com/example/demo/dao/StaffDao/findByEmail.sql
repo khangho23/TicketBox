@@ -1,6 +1,7 @@
 select 
 	email,
 	name,
-	password
+	password,
+	role
 from staff
 where email = /* email */'duc@gmail.com'

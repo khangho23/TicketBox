@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.TicketService;
 
 @RestController

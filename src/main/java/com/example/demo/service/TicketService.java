@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +38,12 @@ public class TicketService implements BaseService<Ticket, Integer> {
 			throw new InvalidRequestParameterException("Ticket", RequestParameterEnum.NOTHING);
 
 		return ticketDao.findByBillId(billId.get());
+	}
+
+	public String insert(Optional<Ticket> ticket) throws InvalidRequestParameterException {
+		if (ticket.isEmpty()) throw new InvalidRequestParameterException("Ticket", RequestParameterEnum.NOTHING);
+
+		ticketDao.insert(ticket.get());
+		return RequestStatusEnum.SUCCESS.getResponse();
 	}
 }

@@ -43,4 +43,6 @@ public class Staff {
 	@Column(name="status")
 	private boolean status;
 
+	@Column
+	private int role;
 }

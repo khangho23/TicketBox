@@ -18,8 +18,13 @@
 
 <body>
     <nav th:insert="~{common/navbar-empl}"></nav>
-    <div class="m-5 d-flex justify-content-between">
-        <div class="w-40 mx-auto">
+    <div class="loading" style="display: flex; justify-content: center; height: 500px; align-items: center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="p-5 seat" style="display: flex; justify-content: space-between;">
+        <div class="w-40 mx-auto bg-light rounded-3">
             <div class="mt-4 p-5 text-black rounded">
                 <h1 class="movie-name"></h1>
                 <p class="movie-information"></p>
@@ -41,21 +46,25 @@
                         </tfoot>
                     </table>
                 </div>
-                <button class="btn btn-success w-100">Tiếp tục</button>
+                <a class="btn btn-success w-100 btn-continue">Tiếp tục</a>
             </div>
         </div>
         <div class="w-50">
+            <div class="w-100 py-5 mb-5 rounded-3 text-center bg-dark text-white">Màn hình chiếu</div>
             <div class="seat-container w-100"></div>
-            <h3 class="text-center text-success my-3">Chú thích</h3>
-            <div class="seat-state d-flex justify-content-between mb-5">
+            <h5 class="text-center text-white bg-dark bg-opacity-75 rounded-3 py-2">Chú thích</h5>
+            <div class="seat-state d-flex justify-content-between mb-5 bg-dark bg-opacity-75 text-white p-5 rounded-3">
                 <section>
-                    <button class="btn btn-primary">A0</button> Ghế chưa chọn
+                    <img src="/images/icon/ItemDefault.svg" alt="ItemDefault.svg">
+                    <label>Ghế chưa chọn</label>
                 </section>
                 <section>
-                    <button class="btn btn-success">A0</button> Ghế được chọn
+                    <img src="/images/icon/ItemChoose.svg" alt="ItemChoose.svg">
+                    <label>Ghế được chọn</label>
                 </section>
                 <section>
-                    <button class="btn btn-danger">A0</button> Ghế đã được book
+                    <img src="/images/icon/ItemHasBooked.svg" alt="ItemHasBooked.svg">
+                    <label>Ghế đã được book</label>
                 </section>
             </div>
         </div>
@@ -65,6 +74,8 @@
         let emplId = /*[[${emplId}]]*/ "";
     </script>
     <script th:src="@{/js/empl/book-seat.js}" type="module"></script>
+    <script>
+    </script>
 </body>
 
 </html>
