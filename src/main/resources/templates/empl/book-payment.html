@@ -9,46 +9,46 @@
 
 <body>
     <nav th:insert="~{common/navbar-empl}"></nav>
-    <section class="mx-5">
+    <div id="loading" style="height: 500px; display: flex; justify-content: center; align-items: center;">
+        <div class="spinner-border m-5" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <section class="mx-5 main" style="display:none;">
         <div class="d-flex justify-content-between align-items-center mb-5">
             <div class="d-flex flex-row align-items-center">
                 <h4 class="text-uppercase mt-1">Zuhot</h4>
                 <span class="ms-2 me-3">Thanh toán</span>
             </div>
-            <a th:href="@{/empl}">Cancel and return to the website</a>
+            <a th:href="@{/empl}">Hủy bỏ và trở lại trang chính.</a>
         </div>
 
         <div class="row">
             <div class="col-md-7 col-lg-7 col-xl-6 mb-4 mb-md-0">
+                <h5 class="mb-3">Thông tin vé</h5>
+                <ul>
+                    <li>Tên phim: <span id="movie-name"></span></li>
+                    <li>Năm sản xuất: <span id="movie-yearofmanufacture"></span></li>
+                    <li>Ghế: <span id="seat-name"></span></li>
+                    <li>Giờ chiếu: <span id="st-starttime"></span></li>
+                </ul>
+                <hr>
                 <h5 class="mb-3">Phương thức thanh toán</h5>
                 <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex flex-row mt-1">
-                            <h6>Patient Balance</h6>
-                            <h6 class="fw-bold text-success ms-1">$13.24</h6>
-                        </div>
-                        <div class="d-flex flex-row align-items-center text-primary">
-                            <span class="ms-1">Add Payment card</span>
-                        </div>
-                    </div>
-                    <p>
-                        Insurance claim and all neccessary dependencies will be submitted to your
-                        insurer for the covered portion of this order.
-                    </p>
                     <div class="d-flex flex-column mb-3">
                         <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                            <input type="radio" class="btn-check" value="1" name="options" id="option1"
+                            <input type="radio" class="btn-check" value="cash" name="options" id="option1"
                                 autocomplete="off" />
                             <label class="btn btn-outline-primary btn-lg" for="option1">
                                 <div class="d-flex justify-content-between">
                                     <span>Tiền mặt</span>
-                                    <span>5436 VND</span>
+                                    <span>Tiền thối: <span data="money" class="refund-cash">0</span></span>
                                 </div>
                             </label>
                             <div id="cash" class="d-none w-100" style="height: 50px;">
                                 <input type="text" placeholder="Số tiền mặt" class="form-control w-100" />
                             </div>
-                            <input type="radio" class="btn-check" value="2" name="options" id="option2"
+                            <input type="radio" class="btn-check" value="visa" name="options" id="option2"
                                 autocomplete="off" checked />
                             <label class="btn btn-outline-primary btn-lg" for="option2">
                                 <div class="d-flex justify-content-between">
@@ -56,7 +56,7 @@
                                     <span>**** 5038</span>
                                 </div>
                             </label>
-                            <input type="radio" class="btn-check" value="3" name="options" id="option3"
+                            <input type="radio" class="btn-check" value="master" name="options" id="option3"
                                 autocomplete="off" />
                             <label class="btn btn-outline-primary btn-lg" for="option3">
                                 <div class="d-flex justify-content-between">
@@ -72,22 +72,26 @@
             <div class="col-md-5 col-lg-4 col-xl-4 offset-lg-1 offset-xl-2">
                 <div class="p-3" style="background-color: #eee;">
                     <span class="fw-bold">Hóa đơn</span>
-                    <div class="d-flex justify-content-between mt-2">
-                        <span>Giá ghế (Cơ bản)</span> <span id="price-seat">$186.86</span>
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <span>Loại ghế</span> <span>$0.0</span>
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <span>Thuế (5%)</span> <span>+ $0.0</span>
+                    <div id="pay-cash" class="d-none">
+                        <span>Tiền mặt</span> <span>+ <span class="output-cash" data="money">0</span></span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between mt-2">
-                        <span>Giảm giá</span> <span>- 40.00</span>
+                        <span>Giá ghế (Cơ bản)</span> <span class="text-success">+ <span id="price-seat" data="money">186.86</span></span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <span>Loại ghế</span> <span>Thường</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <span>Thuế (5%)</span> <span class="text-danger">+ <span id="vat" data="money">0</span></span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mt-2">
+                        <span>Giảm giá</span> <span class="text-danger">- <span data="money">0</span></span>
                     </div>
                     <hr />
                     <div class="d-flex justify-content-between mt-2">
-                        <span>Tổng đơn </span> <span class="text-success">$85.00</span>
+                        <span>Tổng đơn </span> <span class="text-success" id="total" data="money">85</span>
                     </div>
                 </div>
             </div>
