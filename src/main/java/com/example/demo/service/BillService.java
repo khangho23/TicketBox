@@ -35,4 +35,10 @@ public class BillService {
 
         return billDetails;
     }
+
+    public String insert(BillDetailsDto billDetailsDto) {
+
+
+        return null;
+    }
 }
