@@ -23,4 +23,10 @@ public class PaymentService {
     public void updateStatusPaymentDetails(PaymentDetails paymentDetails) throws InvalidRequestParameterException {
         paymentDetailsDao.updateStatus(paymentDetails);
     }
+
+    public PaymentDetails findByTransactionNo(Optional<String> vnp_TransactionNo) throws InvalidRequestParameterException {
+        vnp_TransactionNo.orElseThrow();
+
+        return paymentDetailsDao.findByTransactionNo(vnp_TransactionNo.get());
+    }
 }

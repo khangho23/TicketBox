@@ -33,4 +33,11 @@ public class TokenVnpayService implements BaseService<Ticket, Integer> {
 		// TODO Auto-generated method stub
 		tokenVnpayDao.insert(tokenVnpay);
 	}
+
+	public TokenVnpay findByCustomerId(Optional<Integer> customerId) throws InvalidRequestParameterException {
+		// TODO Auto-generated method stub
+		customerId.orElseThrow();
+
+		return tokenVnpayDao.findByCustomerId(customerId.get());
+	}
 }

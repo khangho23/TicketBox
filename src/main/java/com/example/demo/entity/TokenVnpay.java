@@ -11,7 +11,8 @@ import org.seasar.doma.*;
 @NoArgsConstructor
 public class TokenVnpay {
     @Id
-
+    @SequenceGenerator(sequence = "tokenvnpay_id_seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     @Column
     private Integer id;
 

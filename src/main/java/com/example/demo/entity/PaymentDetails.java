@@ -35,4 +35,7 @@ public class PaymentDetails {
 
 	@Column(name = "vnp_transactionno")
 	private String vnp_TransactionNo;
+
+	@Column
+	private double amout;
 }
