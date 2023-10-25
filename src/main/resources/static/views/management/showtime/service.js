@@ -16,7 +16,7 @@ class ShowtimeService {
                 languageOfMovieId: data.languageOfMovieId,
                 dimensionId: data.dimensionId,
                 showDate: data.showDate,
-                startTime: new Date(data.startTime).toLocaleTimeString(),
+                startTime: new Date(data.startTime).toLocaleTimeString('it-IT'),
                 price: data.price
             }
             try {
@@ -54,7 +54,7 @@ class ShowtimeService {
                     languageOfMovieId: data.languageOfMovieId,
                     dimensionId: data.dimensionId,
                     showDate: data.showDate,
-                    startTime: new Date(data.startTime).toLocaleTimeString(),
+                    startTime: new Date(data.startTime).toLocaleTimeString('it-IT'),
                     price: data.price
                 }
                 const response = await axios.post("/api/showtime/updateShowTime", dt);

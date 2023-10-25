@@ -1,6 +1,4 @@
 import { fetch } from "../axios.js";
-import { formatCurrency } from "../../common/NumberUtil.js";
-
 
 let seat = [];
 let showtime = {};
@@ -10,9 +8,11 @@ let seatToChoose = [];
 const fillSeat = (row, seats) => {
     let result = "";
     seats.forEach((s, i) => {
-        let state_item = s.booked ? 'btn-danger' : 'btn-primary';
-        let ready_item = state_item == 'btn-primary' ? 'btn-success' : 'btn-primary';
-        result += `<button class="col-1 btn ${state_item}" state-button="${ready_item}" id="seat-${row}-${i}" ${s.booked ? 'disabled' : ''}>${s.name}</button>`;
+        let state_item = s.booked ? 'btn-light' : 'btn-light';
+        let ready_item = state_item == 'btn-light' ? 'btn-outline-light' : 'btn-light';
+        let state_bg = s.booked ? 'background-image: url(/images/icon/ItemHasBooked.svg)' : 'background-image: url(/images/icon/ItemDefault.svg)';
+        let ready_bg = state_bg == 'background-image: url(/images/icon/ItemDefault.svg)' ? 'background-image: url(/images/icon/ItemChoose.svg)' : 'background-image: url(/images/icon/ItemDefault.svg)';
+        result += `<button class="col-1 btn ${state_item}" state-button="${ready_item}" id="seat-${row}-${i}" ${s.booked ? 'disabled' : ''}  style="height: 50px; background-position: center;background-repeat: no-repeat;${state_bg};" state-bg="${ready_bg}">${s.booked ? '' : s.name}</button>`;
     });
     return result;
 }
@@ -30,11 +30,11 @@ const fillTablePrice = () => {
         <tr class="">
             <td scope="row" class="text-center">${i + 1}</td>
             <td class="text-center">${s.name}</td>
-            <td class="text-center">${formatCurrency(s.total)}</td>
+            <td class="text-center">${s.total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
         </tr>
     `);
     })
-    $("#price-total").text(formatCurrency(total_price));
+    $("#price-total").text(total_price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
 }
 
 const fillRow = () => {
@@ -48,15 +48,21 @@ const fillRow = () => {
 }
 
 $(document).ready(async function () {
-
+    $(".seat").hide();
     const { data: result } = await fetch.get("/seat/getSeatHasCheckTicket?id=" + showtimeid);
     const { data: result2 } = await fetch.get("/showtime/" + showtimeid);
+    $.when(showtime, seat).done(() => {
+        $(".loading").fadeToggle(500, () => {
+            $(".seat").fadeIn(500);
+        })
+    })
     showtime = result2;
     seat = result;
     console.log(showtime);
     fillRow();
     fillMovie();
     chooseSeat();
+    init();
 });
 function chooseSeat() {
     $("button").on("click", async function () {
@@ -65,7 +71,11 @@ function chooseSeat() {
         let setClass = $(this).attr('state-button');
         $(this).attr("class", "col-1 btn " + setClass);
         $(this).attr("state-button", currentClass);
-        if (setClass == "btn-success") {
+        let currentStyle = $(this).attr('style').split(";")[3];
+        let setStyle = $(this).attr('state-bg');
+        $(this).attr("style", "height: 50px; background-position: center;background-repeat: no-repeat;" + setStyle);
+        $(this).attr("state-bg", currentStyle);
+        if (setClass == "btn-outline-light") {
             const { data: prices } = await fetch.get("/seat/getTotalPrice", { params: { showtimeid: showtimeid, name: seat_name } });
             seatToChoose.push({
                 name: seat_name,
@@ -76,5 +86,19 @@ function chooseSeat() {
         }
         localStorage.setItem(`seat_${showtimeid}_${emplId}`, JSON.stringify(seatToChoose));
         fillTablePrice();
+    });
+    // $().removeClass("btn*");
+}
+function init() {
+    const url = document.location.href;
+    const seatUrl = url.slice(url.indexOf("seat"), url.length);
+    localStorage.removeItem(seatUrl);
+    $('.btn-continue').click(function () {
+        const paymentUrl = url.replace("seat", "payment");
+        const seat = localStorage.getItem(seatUrl);
+
+        if (seat?.length > 2) {
+            window.location.href = paymentUrl;
+        }
     });
 }
