@@ -21,7 +21,6 @@ export default class MenuView extends JetView {
 						{ id: "managementActor", value: "Đạo diễn" },
 						{ id: "managementDirector", value: "Diễn viên" },
 						{ id: "management-showtime", value: "Xuất chiếu" },
-                        { id: "management-seat", value: "Đặt chỗ" }
 					]
 				},
 				{ id: "statistical", value: "Thống kê", icon: "mdi mdi-chart-areaspline" },
