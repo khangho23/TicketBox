@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.dao.ToppingDao;
+import com.example.demo.dao.ToppingDetailsDao;
 import com.example.demo.dto.ToppingDto;
+import com.example.demo.entity.Ticket;
+import com.example.demo.entity.ToppingDetails;
 import com.example.demo.exception.InvalidRequestParameterException;
 
 @Service
@@ -17,6 +21,9 @@ public class ToppingService {
 	@Autowired
 	ToppingDao toppingDao;
 	
+	@Autowired
+	ToppingDetailsDao toppingDetailsDao;
+	
 	public List<ToppingDto> findByBranchid(Optional<String> branchid) throws InvalidRequestParameterException{
 		if (branchid.isEmpty())
 			throw new InvalidRequestParameterException("Topping", RequestParameterEnum.NOTHING);
@@ -24,7 +31,10 @@ public class ToppingService {
 		
 	}
 	
-	public Object orderTopping(){
-		return null;
+	public String orderTopping(Optional<ToppingDetails> toppingDetails) throws InvalidRequestParameterException{
+		if (toppingDetails.isEmpty()) throw new InvalidRequestParameterException("Topping Details", RequestParameterEnum.NOTHING);
+		
+		toppingDetailsDao.insert(toppingDetails.get());
+		return RequestStatusEnum.SUCCESS.getResponse();
 	}
 }
