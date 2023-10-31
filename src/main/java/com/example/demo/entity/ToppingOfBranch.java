@@ -12,8 +12,8 @@ import org.seasar.doma.Table;
 @Data
 @NoArgsConstructor
 public class ToppingOfBranch {
-    @Column
-    private Integer id;
+    @Column(name = "billid")
+    private Integer billId;
 
     @Column(name = "branchid")
     private Integer branchId;

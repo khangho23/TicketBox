@@ -4,7 +4,10 @@ import java.util.Date;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
+import org.seasar.doma.GeneratedValue;
+import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
+import org.seasar.doma.SequenceGenerator;
 import org.seasar.doma.Table;
 
 import lombok.Data;
@@ -19,6 +22,8 @@ public class Ticket {
 	 * id of ticket
 	 */
 	@Id
+    @SequenceGenerator(sequence = "ticket_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column
 	private Integer id;
 	/*
@@ -52,8 +57,8 @@ public class Ticket {
 	@Column
 	private Double vat;
 	/*
-	 * exportStatus of ticket
+	 * billid of ticket
 	 */
-	@Column(name = "exportstatus")
-	private Boolean exportStatus;
+	@Column(name = "billid")
+	private Integer billId;
 }
