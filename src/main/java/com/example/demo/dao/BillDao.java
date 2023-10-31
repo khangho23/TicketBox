@@ -28,4 +28,7 @@ public interface BillDao {
 
 	@Update(sqlFile = true)
 	int updateRateAndReview(RateAndReviewBillModel model);
+
+	@Select
+	List<Bill> findByMovie(String id);
 }

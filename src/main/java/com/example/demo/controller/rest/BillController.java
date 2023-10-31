@@ -36,4 +36,9 @@ public class BillController {
     public ResponseEntity<?> updateRateAndReview(@RequestBody RateAndReviewBillModel model){
         return ResponseEntity.ok(billService.updateRateAndReview(model));
     }
+
+    @GetMapping("/getByMovie")
+    public ResponseEntity<?> getByMovie(@RequestParam("id") String id){
+        return ResponseEntity.ok(billService.findByMovie(id));
+    }
 }

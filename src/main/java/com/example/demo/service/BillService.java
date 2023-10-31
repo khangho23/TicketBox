@@ -83,4 +83,8 @@ public class BillService {
 	public int updateRateAndReview(RateAndReviewBillModel model){
 		return billDao.updateRateAndReview(model);
 	}
+
+	public List<Bill> findByMovie(String id){
+		return billDao.findByMovie(id);
+	}
 }
