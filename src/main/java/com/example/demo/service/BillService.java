@@ -12,6 +12,8 @@ import com.example.demo.entity.Ticket;
 import com.example.demo.entity.ToppingDetails;
 import com.example.demo.enums.PaymentStatus;
 import com.example.demo.exception.InvalidRequestParameterException;
+import com.example.demo.model.RateAndReviewBillModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,4 +102,12 @@ public class BillService {
 
 	        return uuid.toString();
 	 }
+
+	public int updateRateAndReview(RateAndReviewBillModel model){
+		return billDao.updateRateAndReview(model);
+	}
+
+	public List<Bill> findByMovie(String id){
+		return billDao.findByMovie(id);
+	}
 }

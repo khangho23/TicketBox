@@ -18,31 +18,40 @@ import java.sql.Date;
 @NoArgsConstructor
 public class Bill {
     /*
-     *	Id of bill
+     * Id of bill
      */
     @Id
     @SequenceGenerator(sequence = "bill_id_seq")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
     private Integer id;
     /*
-     *	total price of bill
+     * total price of bill
      */
     @Column(name = "totalprice")
     private double totalPrice;
     /*
-     *	export date of bill
+     * export date of bill
      */
     @Column
     private Date exportDate;
     /*
-     *	status of bill
+     * status of bill
      */
     @Column(name = "exportstatus")
     private Integer exportStatus;
     /*
-     *	status of bill
+     *	qrcode of bill
      */
     @Column(name = "qrcode")
     private String qrCode;
+     * rate of movie
+     */
+    @Column(name = "rate")
+    private double rate;
+    /*
+     * review of movie
+     */
+    @Column(name = "review")
+    private String review;
 }
