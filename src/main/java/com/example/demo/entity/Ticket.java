@@ -56,4 +56,9 @@ public class Ticket {
 	 */
 	@Column(name = "exportstatus")
 	private Boolean exportStatus;
+	/*
+	 * billid of ticket
+	 */
+	@Column(name = "billid")
+	private Integer billId;
 }
