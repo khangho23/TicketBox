@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BillService {
@@ -51,6 +52,7 @@ public class BillService {
 		if (billDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
 		billDto.get().setExportStatus(PaymentStatus.PENDING.getValue());
+		billDto.get().setQrCode(generateUniqueUUID());
 		billDao.insert(billDto.get());
 
 		billDto.get().getTickets().stream().forEach(ticket -> {
@@ -78,8 +80,24 @@ public class BillService {
 		return RequestStatusEnum.SUCCESS.getResponse();
 	}
 	
-	public BillDetailsDto findBillDetailsByQrCode(Optional<String> qrCode) {
+	public BillDetailsDto findBillDetailsByQrCode(Optional<String> qrCode) throws InvalidRequestParameterException {
 		qrCode.orElseThrow();
+		if (qrCode.get().length() != 32) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.WRONG);
+		
 		return billDao.findBillDetailsByQrCode(qrCode.get());
 	}
+	
+	 private String generateUniqueUUID() {
+	        UUID uuid = null;
+	        boolean isUnique = false;
+
+	        while (!isUnique) {
+	            uuid = UUID.randomUUID();
+	            if (billDao.findBillDetailsByQrCode(uuid.toString()) == null) {
+	                isUnique = true;
+	            }
+	        }
+
+	        return uuid.toString();
+	 }
 }
