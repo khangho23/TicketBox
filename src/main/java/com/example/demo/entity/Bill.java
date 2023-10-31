@@ -35,4 +35,14 @@ public class Bill {
      */
     @Column(name = "exportstatus")
     private Integer exportStatus;
+    /*
+     *	review of movie
+     */
+    @Column(name="review")
+    private String review;
+    /*
+     *	rate of movie
+     */
+    @Column(name="rate")
+    private double rate;
 }
