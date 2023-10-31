@@ -1,10 +1,52 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
-    hóa đơn
-    hello các bạn
+    <h1 class="text-center">Zuhot Cinema</h1>
+    <h3 class="text-center">Hóa đơn</h3>
+    <hr>
+    <div class="d-flex justify-content-between w-100">
+        <section>Tên phim:</section>
+        <section id="bill-movie-name" class="text-end"></section>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-between w-100 my-3">
+        <section>Ghế:</section>
+        <section id="bill-seat-name" class="text-end"></section>
+    </div>
+    <div class="d-flex justify-content-between w-100 my-3">
+        <section>Giá:</section>
+        <section id="bill-seat-price" class="text-end" data="money"></section>
+    </div>
+    <div class="d-flex justify-content-between w-100 my-3">
+        <section>Thuế (5%):</section>
+        <section id="bill-vat" class="text-end" data="money"></section>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-between w-100 my-3">
+        <section>Topping:</section>
+        <section id="bill-topping-name" class="text-end"></section>
+    </div>
+    <div class="d-flex justify-content-between w-100 my-3">
+        <section>Giá:</section>
+        <section id="bill-topping-price" class="text-end" data="money"></section>
+    </div>
+    <div class="d-flex justify-content-between w-100 my-3">
+        <section class="fw-bold">Tổng cộng:</section>
+        <section id="bill-total" class="text-end" data="money"></section>
+    </div>
+    <div class="d-flex justify-content-start w-100 my-3">
+        <span>Địa chỉ:</span>
+        <span id="bill-address"></span>
+    </div>
+    <div class="d-flex justify-content-start w-100 my-3">
+        <span>Phòng:</span>
+        <span id="bill-room"></span>
+    </div>
 </body>
+
 </html>

@@ -38,4 +38,8 @@ public class EmployeeController {
     	model.addAttribute("emplId",emplId);
     	return PATH.concat("/book-topping");
     }
+    @GetMapping("/scan-ticket")
+    public String scan_ticket(){
+        return PATH.concat("/scan-ticket");
+    }
 }

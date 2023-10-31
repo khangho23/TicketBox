@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/admin/*", "/admin","/").hasRole("ADMIN")
-                        .requestMatchers("/empl/*", "/empl").hasRole("EMPLOYEE")
+                        // .requestMatchers("/empl/*", "/empl").hasRole("EMPLOYEE")
                                 .anyRequest().permitAll()
                         )
                 .authenticationProvider(authenticationProvider())
