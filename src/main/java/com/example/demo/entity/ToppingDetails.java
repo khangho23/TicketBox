@@ -13,10 +13,10 @@ import org.seasar.doma.Table;
 @Data
 @NoArgsConstructor
 public class ToppingDetails {
-    @Column
-    private Integer id;
+    @Column(name = "billid")
+    private Integer billId;
 
-    @Column(name = "toppingofbranch")
+    @Column(name = "toppingofbranchid")
     private Integer toppinngOfBranchId;
 
     @Column(name = "pricewhenbuy")
