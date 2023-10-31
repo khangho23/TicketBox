@@ -77,4 +77,9 @@ public class BillService {
 
 		return RequestStatusEnum.SUCCESS.getResponse();
 	}
+	
+	public BillDetailsDto findBillDetailsByQrCode(Optional<String> qrCode) {
+		qrCode.orElseThrow();
+		return billDao.findBillDetailsByQrCode(qrCode.get());
+	}
 }

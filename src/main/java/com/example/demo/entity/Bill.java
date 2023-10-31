@@ -40,4 +40,9 @@ public class Bill {
      */
     @Column(name = "exportstatus")
     private Integer exportStatus;
+    /*
+     *	status of bill
+     */
+    @Column(name = "qrcode")
+    private String qrCode;
 }

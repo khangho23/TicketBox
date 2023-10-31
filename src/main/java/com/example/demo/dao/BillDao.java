@@ -20,6 +20,9 @@ public interface BillDao {
 	@Select
 	BillDetailsDto getBillDetails(Integer billId, Integer customerId);
 	
+	@Select
+	BillDetailsDto findBillDetailsByQrCode(String qrCode);
+	
 	@Insert
 	int insert(Bill bill);
 }
