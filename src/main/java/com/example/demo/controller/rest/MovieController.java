@@ -102,4 +102,8 @@ public class MovieController {
 		throw new InvalidRequestParameterException("Update Failed", RequestParameterEnum.WRONG);
 	}
 
+	@GetMapping(value="/getByBill")
+	public ResponseEntity<?> getByBill(@RequestParam("id") int id){
+		return ResponseEntity.ok(movieService.getByBill(id));
+	}
 }

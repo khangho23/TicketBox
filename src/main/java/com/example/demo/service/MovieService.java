@@ -269,5 +269,7 @@ public class MovieService implements BaseService<Movie, String> {
 		}
 		throw new InvalidRequestParameterException("Key does not exist", RequestParameterEnum.NOT_EXISTS);
 	}
-	
+	public Movie getByBill(int id){
+		return movieDao.getByBill(id);
+	}
 }

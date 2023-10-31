@@ -1,16 +1,13 @@
 package com.example.demo.controller.rest;
 
 import com.example.demo.dto.BillDto;
-import com.example.demo.entity.Bill;
-import com.example.demo.entity.Ticket;
-import com.example.demo.entity.ToppingDetails;
 import com.example.demo.exception.InvalidRequestParameterException;
+import com.example.demo.model.RateAndReviewBillModel;
 import com.example.demo.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,5 +30,10 @@ public class BillController {
     @PostMapping("/save")
     public ResponseEntity<?> insertBill(@RequestBody Optional<BillDto> billDto) throws InvalidRequestParameterException {
         return ResponseEntity.ok(billService.insertBill(billDto));
+    }
+
+    @PostMapping("/updateRateAndReview")
+    public ResponseEntity<?> updateRateAndReview(@RequestBody RateAndReviewBillModel model){
+        return ResponseEntity.ok(billService.updateRateAndReview(model));
     }
 }

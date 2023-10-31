@@ -20,7 +20,6 @@ public class TicketDto extends Ticket {
 	/*
 	 * id of ticket
 	 */
-	@Id
 	@Column
 	private Integer id;
 	/*

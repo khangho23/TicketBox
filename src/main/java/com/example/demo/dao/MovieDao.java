@@ -57,5 +57,5 @@ public interface MovieDao {
 	int updatemovie(@In String movie);
 	
 	@Select
-	Movie getByBill(String id);
+	Movie getByBill(int id);
 }

@@ -12,7 +12,8 @@ SELECT
 	limitage
 FROM Movie
 join country on Movie.countryid = country.id
-join langugeofmovie on langugeofmovie.movieid = Movie.id
-join showtime on langugeofmovie.id = showtime.langugeofmovieid
+join languageofmovie on languageofmovie.movieid = Movie.id
+join showtime on languageofmovie.id = showtime.languageofmovieid
 join ticket on ticket.showtimeid = showtime.id
-WHERE Movie.id = /* id */'MP00';
+join bill on bill.id = ticket.billid
+WHERE bill.id = /* id */0 LIMIT 1;
