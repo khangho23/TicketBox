@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.ToppingDetails;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.ToppingService;
 
@@ -27,8 +28,8 @@ public class ToppingController {
 		return ResponseEntity.ok(toppingService.findByBranchid(branchid));
 	}
 	
-	@PostMapping("/order")
-	public ResponseEntity<?> orderTopping(){
-		return null;
-	}
+//	@PostMapping("/order")
+//	public ResponseEntity<?> orderTopping(Optional<ToppingDetails> topping) throws InvalidRequestParameterException{
+//		return ResponseEntity.ok(toppingService.orderTopping(topping));
+//	}
 }

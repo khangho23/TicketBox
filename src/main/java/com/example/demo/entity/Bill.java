@@ -4,7 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
+import org.seasar.doma.GeneratedValue;
+import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
+import org.seasar.doma.SequenceGenerator;
 import org.seasar.doma.Table;
 
 import java.sql.Date;
@@ -18,6 +21,8 @@ public class Bill {
      *	Id of bill
      */
     @Id
+    @SequenceGenerator(sequence = "bill_id_seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     @Column
     private Integer id;
     /*

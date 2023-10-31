@@ -1,5 +1,9 @@
 package com.example.demo.controller.rest;
 
+import com.example.demo.dto.BillDto;
+import com.example.demo.entity.Bill;
+import com.example.demo.entity.Ticket;
+import com.example.demo.entity.ToppingDetails;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +28,10 @@ public class BillController {
     @GetMapping("/details/{id}")
     public ResponseEntity<?> getBillDetails(@PathVariable("id") Optional<Integer> billId, @RequestParam Optional<Integer> customerId) throws InvalidRequestParameterException {
         return ResponseEntity.ok(billService.getBillDetails(billId, customerId));
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<?> insertBill(@RequestBody Optional<BillDto> billDto) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(billService.insertBill(billDto));
     }
 }
