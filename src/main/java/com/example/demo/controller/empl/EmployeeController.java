@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.dto.BillDetailsDto;
 import com.example.demo.dto.BillDto;
 import com.example.demo.entity.Bill;
+import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.BillService;
 
 @Controller
@@ -59,7 +60,7 @@ public class EmployeeController {
     
     @GetMapping("/qr")
     @ResponseBody
-    public BillDetailsDto qrResult(@RequestParam Optional<String> qrCode){
+    public BillDetailsDto qrResult(@RequestParam Optional<String> qrCode) throws InvalidRequestParameterException{
         return billService.findBillDetailsByQrCode(qrCode);
     }
 }

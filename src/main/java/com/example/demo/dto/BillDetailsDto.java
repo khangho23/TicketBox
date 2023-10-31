@@ -21,6 +21,8 @@ public class BillDetailsDto extends Bill {
     private Date showDate;
     @Column(name = "movie")
     private String movieName;
+    @Column(name = "language")
+    private String languageName;
     @Column(name = "limitage")
     private int limitAge;
     @Column(name = "yearofmanufacture")
