@@ -49,7 +49,12 @@
 						"<p>Tên khách hàng: " + data.customer + "</p>" + 
 						"<p>Số điện thoại khách hàng: " + data.customerPhone + "</p>" + 
 						"<p>Email khách hàng: " + data.customerEmail + "</p>" + 
-						"<p>Ghế: " + data.seats + "</p>"
+						"<p>Ghế: " + data.seats + "</p>" +
+						
+						(data.toppingName) ? "<p>" + data.toppingName + "</p>" +
+											 "<p>" + data.toppingTotalPrice + "</p>" : "" +
+											
+						"<p>" + data.ticketTotalPrice + "</p>"
 					"</div>";
 				})
 				.catch(error => {
