@@ -87,4 +87,8 @@ public class BillService {
 	public List<Bill> findByMovie(String id){
 		return billDao.findByMovie(id);
 	}
+
+	public int updateExportStatus(int id, boolean exportstatus){
+		return billDao.updateExportStatus(id, exportstatus);
+	}
 }

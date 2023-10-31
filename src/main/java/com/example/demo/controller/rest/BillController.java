@@ -41,4 +41,9 @@ public class BillController {
     public ResponseEntity<?> getByMovie(@RequestParam("id") String id){
         return ResponseEntity.ok(billService.findByMovie(id));
     }
+
+    @GetMapping("/updateExportStatus")
+    public ResponseEntity<?> updateExportStatus(@RequestParam("id") int id, @RequestParam("exportstatus") boolean exportstatus){
+        return ResponseEntity.ok(billService.updateExportStatus(id, exportstatus));
+    }
 }

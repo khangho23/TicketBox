@@ -31,4 +31,7 @@ public interface BillDao {
 
 	@Select
 	List<Bill> findByMovie(String id);
+
+	@Update(sqlFile = true)
+	int updateExportStatus(int id, boolean exportstatus);
 }
