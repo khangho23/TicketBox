@@ -55,12 +55,9 @@ public class BillService {
 //    }
 
 	public String insertBill(Optional<BillDto> billDto) throws InvalidRequestParameterException {
-//		if (tickets.isEmpty())
-//			throw new InvalidRequestParameterException("Ticket", RequestParameterEnum.NOT_FOUND);
-
 		if (billDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
-//		billDto.get().getBill().setExportStatus(PaymentStatus.PENDING.getValue());
+		billDto.get().setExportStatus(PaymentStatus.PENDING.getValue());
 		billDao.insert(billDto.get());
 
 		billDto.get().getTickets().stream().forEach(ticket -> {
