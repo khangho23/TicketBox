@@ -47,13 +47,6 @@ public class BillService {
 		return billDetails;
 	}
 
-//    public Bill insertBill(Optional<Bill> bill) throws InvalidRequestParameterException {
-//    	if (bill.isEmpty()) throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
-//    	
-//    	billDao.insert(bill.get());
-//        return bill.get();
-//    }
-
 	public String insertBill(Optional<BillDto> billDto) throws InvalidRequestParameterException {
 		if (billDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
