@@ -86,7 +86,10 @@ public class BillService {
 		qrCode.orElseThrow();
 		if (qrCode.get().length() != 32) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.WRONG);
 		
-		return billDao.findBillDetailsByQrCode(qrCode.get());
+		BillDetailsDto billDetailsDto = billDao.findBillDetailsByQrCode(qrCode.get());
+		if (billDetailsDto == null) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.NOT_EXISTS);
+		
+		return billDetailsDto;
 	}
 	
 	 private String generateUniqueUUID() {

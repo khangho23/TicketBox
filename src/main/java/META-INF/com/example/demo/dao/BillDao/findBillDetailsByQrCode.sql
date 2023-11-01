@@ -53,4 +53,5 @@ GROUP BY bill.id,
          branch.address,
          customer.name,
          customer.phone,
-         customer.email;
+         customer.email,
+	bill.qrcode;

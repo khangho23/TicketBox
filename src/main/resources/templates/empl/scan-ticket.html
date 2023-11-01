@@ -35,7 +35,7 @@
 	</div>
 	<script type="text/javascript">
 		function onScanSuccess(qrCodeMessage) {
-			$.get(`/api/bill/qr?qrCode=gggggggggggggggggggggggggggfffff`, function(data) {
+			$.get(`/api/bill/qr?qrCode=${qrCodeMessage}`, function(data) {
 			  document.getElementById('result').innerHTML = `
 			    <div>
 			      <p>Phim: ${data.movieName}</p>
