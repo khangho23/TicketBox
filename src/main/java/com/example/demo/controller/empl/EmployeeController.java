@@ -57,10 +57,4 @@ public class EmployeeController {
     public String scan_ticket(){
         return PATH.concat("/scan-ticket");
     }
-    
-    @GetMapping("/qr")
-    @ResponseBody
-    public BillDetailsDto qrResult(@RequestParam Optional<String> qrCode) throws InvalidRequestParameterException{
-        return billService.findBillDetailsByQrCode(qrCode);
-    }
 }

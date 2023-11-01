@@ -45,6 +45,7 @@ public class Bill {
      */
     @Column(name = "qrcode")
     private String qrCode;
+    /*
      * rate of movie
      */
     @Column(name = "rate")

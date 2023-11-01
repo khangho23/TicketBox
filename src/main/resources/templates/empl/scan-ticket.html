@@ -18,6 +18,7 @@
 		}
 	</style>
 	<script th:src="@{/js/html5-qrcode.min.js}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -34,36 +35,38 @@
 	</div>
 	<script type="text/javascript">
 		function onScanSuccess(qrCodeMessage) {
-			fetch(`qr?qrCode=${qrCodeMessage}`)
-				.then(response => response.json())
-				.then(data => {
-					document.getElementById('result').innerHTML = 
-					  '<div>' + 
-					    '<p>Phim: ' + data.movieName + '</p>' + 
-					    '<p>Giới hạn tuổi: ' + data.limitAge + '</p>' + 
-					    '<p>Năm phát hành: ' + data.yearOfManufacture + '</p>' + 
-					    '<p>Đất nước: ' + data.country + '</p>' + 
-					    '<p>Phòng chiếu: ' + data.roomName + '</p>' + 
-					    '<p>Chi nhánh: ' + data.branchName + '</p>' + 
-					    '<p>Địa chỉ: ' + data.branchAddress + '</p>' + 
-					    '<p>Tên khách hàng: ' + data.customer + '</p>' + 
-					    '<p>Số điện thoại khách hàng: ' + data.customerPhone + '</p>' + 
-					    '<p>Email khách hàng: ' + data.customerEmail + '</p>' + 
-					    '<p>Ghế: ' + data.seats + '</p>' +
-											
-					    /* '<p>' + (data.toppingName !== null) ? 
-						        '<p>Topping: ' + data.toppingName + '</p>' +
-							    '<p>Tổng giá topping: ' + data.toppingTotalPrice + '</p>' 
-					    : '<></>' 
-					    + '</p>' + */
-																
-					    '<p>Tổng tiền: ' + data.ticketTotalPrice + '</p>' +
-					  '</div>';
-				})
-				.catch(error => {
-					console.error(error);
-					document.getElementById('result').innerHTML = '<span class="result">' + error.errorMessage + '</span>';
-				});
+			$.get(`/api/bill/qr?qrCode=gggggggggggggggggggggggggggfffff`, function(data) {
+			  document.getElementById('result').innerHTML = `
+			    <div>
+			      <p>Phim: ${data.movieName}</p>
+			      <p>Giới hạn tuổi: ${data.limitAge}</p>
+			      <p>Năm phát hành: ${data.yearOfManufacture}</p>
+			      <p>Đất nước: ${data.country}</p>
+			      <p>Phòng chiếu: ${data.roomName}</p>
+			      <p>Chi nhánh: ${data.branchName}</p>
+			      <p>Địa chỉ: ${data.branchAddress}</p>
+			      <p>Tên khách hàng: ${data.customer}</p>
+			      <p>Số điện thoại khách hàng: ${data.customerPhone}</p>
+			      <p>Email khách hàng: ${data.customerEmail}</p>
+			      <p>Ghế: ${data.seats}</p>
+			      ${
+			        data.toppingName !== null
+			          ? `
+				          <span>
+				            <p>Topping: ${data.toppingName}</p>
+				            <p>Tổng giá topping: ${data.toppingTotalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+				          </span>
+			          `
+			          : '<span></span>'
+			      }
+			      <p>Tổng tiền: ${data.ticketTotalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+			    </div>
+			  `;
+			})
+			.fail(function(error) {
+			  console.error(error);
+			  document.getElementById('result').innerHTML = `<span class="result">${error.errorMessage}</span>`;
+			});
 		}
 		function onScanError(errorMessage) {
 			//handle scan error
