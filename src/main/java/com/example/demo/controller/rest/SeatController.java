@@ -28,12 +28,12 @@ public class SeatController {
 
     @GetMapping("/getSeatHasCheckTicket")
     public ResponseEntity<?> getSeatHasCheckTicket(@RequestParam("id") int id){
-        // Map<String,Object> map = new HashMap<>();
-        // map.put("seat",seatService.getSeatHasCheckTicket(id));
-        // map.put("movie",movieService.findByShowTimeId(id));
+		
         return ResponseEntity.ok(seatService.getSeatHasCheckTicket(id));
     }
-
+    
+    
+    
     @GetMapping("/getTotalPrice")
     public ResponseEntity<?> getTotalPrice(@RequestParam("showtimeid") int showtimeid, @RequestParam("name") String name){
         return ResponseEntity.ok(seatService.getTotal(showtimeid, name));
