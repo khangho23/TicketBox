@@ -1,6 +1,8 @@
 package com.example.demo.controller.rest;
 
-import com.example.demo.dto.BillDto;
+import com.example.demo.dto.BillTicketDto;
+import com.example.demo.dto.BillToppingDetailsDto;
+import com.example.demo.entity.ToppingDetails;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.RateAndReviewBillModel;
 import com.example.demo.service.BillService;
@@ -27,9 +29,9 @@ public class BillController {
         return ResponseEntity.ok(billService.getBillDetails(billId, customerId));
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<?> insertBill(@RequestBody Optional<BillDto> billDto) throws InvalidRequestParameterException {
-        return ResponseEntity.ok(billService.insertBill(billDto));
+    @PostMapping("/ticket")
+    public ResponseEntity<?> insertBill(@RequestBody Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(billService.insertBillAndTicket(billTicketDto));
     }
 
     @PostMapping("/updateRateAndReview")
@@ -45,5 +47,10 @@ public class BillController {
     @GetMapping("/updateExportStatus")
     public ResponseEntity<?> updateExportStatus(@RequestParam("id") int id, @RequestParam("exportstatus") boolean exportstatus){
         return ResponseEntity.ok(billService.updateExportStatus(id, exportstatus));
+    }
+    
+    @PostMapping("/topping")
+    public ResponseEntity<?> insertToppingDetailsInBill(@RequestBody Optional<BillToppingDetailsDto> billToppingDetails) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(billService.insertToppingDetailsInBill(billToppingDetails));
     }
 }

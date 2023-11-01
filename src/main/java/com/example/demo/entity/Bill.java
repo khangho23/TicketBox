@@ -33,7 +33,7 @@ public class Bill {
     /*
      * export date of bill
      */
-    @Column
+    @Column(name = "exportdate")
     private Date exportDate;
     /*
      * status of bill
@@ -50,5 +50,9 @@ public class Bill {
      */
     @Column(name = "review")
     private String review;
-
+    /*
+     * review of movie
+     */
+    @Column(name = "qrcode")
+    private String qrCode;
 }
