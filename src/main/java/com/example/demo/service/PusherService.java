@@ -17,6 +17,6 @@ public class PusherService {
     
     public void realtime(String channel, String event, String message) {
 		p.setCluster("ap1");
-		p.trigger(channel, channel, Collections.singletonMap("message", message));
+		p.trigger(channel, event, Collections.singletonMap("message", message));
     }
 }
