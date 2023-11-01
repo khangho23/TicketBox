@@ -1,16 +1,26 @@
 package com.example.demo.controller.rest;
 
+import java.util.Collections;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.demo.dto.BillTicketDto;
 import com.example.demo.dto.BillToppingDetailsDto;
-import com.example.demo.entity.ToppingDetails;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.RateAndReviewBillModel;
 import com.example.demo.service.BillService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import com.example.demo.service.PusherService;
+import com.pusher.rest.Pusher;
 
 @RestController
 @RequestMapping("/api/bill")
@@ -19,6 +29,8 @@ public class BillController {
     @Autowired
     private BillService billService;
 
+    @Autowired
+    private PusherService pusher;
     @GetMapping(value = {"", "/"})
     public ResponseEntity<?> getBillHistory(@RequestParam Optional<Integer> customerId) throws InvalidRequestParameterException {
         return ResponseEntity.ok(billService.getBillHistory(customerId));
@@ -31,6 +43,7 @@ public class BillController {
 
     @PostMapping("/ticket")
     public ResponseEntity<?> insertBill(@RequestBody Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
+		pusher.realtime("my-channel","my-event","Chọn vé");
         return ResponseEntity.ok(billService.insertBillAndTicket(billTicketDto));
     }
 
