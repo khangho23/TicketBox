@@ -18,6 +18,9 @@ import java.util.List;
 @ConfigAutowireable
 public interface BillDao {
 	@Select
+	Bill findById(Integer id);
+	
+	@Select
 	List<BillHistoryDto> getBillHistory(Integer customerId);
 
 	@Select
@@ -34,4 +37,7 @@ public interface BillDao {
 
 	@Update(sqlFile = true)
 	int updateExportStatus(int id, boolean exportstatus);
+	
+	@Update(sqlFile = true)
+	int updateTotalPrice(int id, double totalPrice);
 }

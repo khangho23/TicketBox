@@ -1,10 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
-import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.dao.BillDao;
 import com.example.demo.dto.BillDetailsDto;
-import com.example.demo.dto.BillDto;
+import com.example.demo.dto.BillTicketDto;
+import com.example.demo.dto.BillToppingDetailsDto;
 import com.example.demo.dto.BillHistoryDto;
 import com.example.demo.dto.TicketDto;
 import com.example.demo.entity.Bill;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class BillService {
@@ -30,6 +31,11 @@ public class BillService {
 
 	@Autowired
 	ToppingService toppingService;
+	
+	public Bill findById(Optional<Integer> id) {
+		id.orElseThrow();
+		return billDao.findById(id.get());
+	}
 
 	public List<BillHistoryDto> getBillHistory(Optional<Integer> customerId) throws InvalidRequestParameterException {
 		if (customerId.isEmpty())
@@ -49,35 +55,56 @@ public class BillService {
 		return billDetails;
 	}
 
-	public String insertBill(Optional<BillDto> billDto) throws InvalidRequestParameterException {
-		if (billDto.isEmpty())
+	public Integer insertBillAndTicket(Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
+		AtomicReference<Double> totalPrice = new AtomicReference<>(0.0);
+		
+		if (billTicketDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
-		billDto.get().setExportStatus(PaymentStatus.PENDING.getValue());
-		billDao.insert(billDto.get());
+		billTicketDto.get().setExportStatus(PaymentStatus.PENDING.getValue());
+		billDao.insert(billTicketDto.get());
 
-		billDto.get().getTickets().stream().forEach(ticket -> {
+		billTicketDto.get().getTickets().stream().forEach(ticket -> {
 			Optional<Ticket> optionalTicket = Optional.of(ticket);
 
 			try {
-				optionalTicket.get().setBillId(billDto.get().getId());
+				optionalTicket.get().setBillId(billTicketDto.get().getId());
+				totalPrice.updateAndGet(price -> price + optionalTicket.get().getTotalPrice());
 				ticketService.insert(optionalTicket);
 			} catch (InvalidRequestParameterException e) {
 				e.printStackTrace();
 			}
 		});
 
-		billDto.get().getToppingDetails().stream().forEach(topping -> {
-			Optional<ToppingDetails> optionalTicket = Optional.of(topping);
+		if (totalPrice.get() != 0)
+			billDao.updateTotalPrice(billTicketDto.get().getId(), totalPrice.get());
+
+		return billTicketDto.get().getId();
+	}
+	
+	public Integer insertToppingDetailsInBill(Optional<BillToppingDetailsDto> billToppingDetails) throws InvalidRequestParameterException {
+		Integer billId = billToppingDetails.get().getBillId();
+		
+		if (billId == null) 
+			throw new InvalidRequestParameterException("Bill ID", RequestParameterEnum.NOTHING);
+
+		Double defaultPrice = billDao.findById(billId).getTotalPrice();
+		AtomicReference<Double> totalPrice = new AtomicReference<>(defaultPrice);
+		
+		billToppingDetails.get().getToppingDetails().stream().forEach(topping -> {
+			Optional<ToppingDetails> optionalTopping = Optional.of(topping);
 
 			try {
-				optionalTicket.get().setBillId(billDto.get().getId());
-				toppingService.orderTopping(optionalTicket);
+				optionalTopping.get().setBillId(billId);
+				totalPrice.updateAndGet(price -> price + optionalTopping.get().getPriceWhenBuy());
+				toppingService.orderTopping(optionalTopping);
 			} catch (InvalidRequestParameterException e) {
 				e.printStackTrace();
 			}
 		});
+		
+		if (totalPrice.get() != defaultPrice) billDao.updateTotalPrice(billId, totalPrice.get());
 
-		return RequestStatusEnum.SUCCESS.getResponse();
+		return billId;
 	}
 
 	public int updateRateAndReview(RateAndReviewBillModel model){
