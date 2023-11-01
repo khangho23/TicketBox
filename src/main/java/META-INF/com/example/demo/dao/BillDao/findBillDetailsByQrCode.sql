@@ -36,7 +36,7 @@ FROM bill
          JOIN country ON movie.countryid = country.id
          LEFT JOIN toppingdetails ON bill.id = toppingdetails.billid
          LEFT JOIN topping ON toppingdetails.billid = bill.id
-WHERE bill.qrcode IN (/* qrCode */'gggggggggggggggggggggggggggggggg')
+WHERE bill.qrcode = /* qrCode */'gggggggggggggggggggggggggggggggg'
 GROUP BY bill.id,
          bill.exportdate,
          bill.exportstatus,
