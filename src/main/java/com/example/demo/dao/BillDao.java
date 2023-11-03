@@ -40,4 +40,7 @@ public interface BillDao {
 	
 	@Update(sqlFile = true)
 	int updateTotalPrice(int id, double totalPrice);
+	
+	@Select
+	BillDetailsDto checkout(Integer billId, Integer customerId);
 }
