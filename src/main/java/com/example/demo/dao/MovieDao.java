@@ -1,20 +1,17 @@
 package com.example.demo.dao;
 
-import java.sql.Array;
 import java.util.List;
 import java.util.Optional;
 
 import org.seasar.doma.Dao;
 import org.seasar.doma.Function;
 import org.seasar.doma.In;
-import org.seasar.doma.Insert;
-import org.seasar.doma.Procedure;
 import org.seasar.doma.Select;
-import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
 
 import com.example.demo.dto.MovieDto;
 import com.example.demo.dto.PosterDto;
+import com.example.demo.dto.ReviewDto;
 import com.example.demo.entity.Movie;
 
 @Dao
@@ -55,7 +52,10 @@ public interface MovieDao {
 
 	@Function
 	int updatemovie(@In String movie);
-	
+
 	@Select
 	Movie getByBill(int id);
+
+	@Select
+	List<ReviewDto> getReviewByMovie(String id);
 }

@@ -2,18 +2,15 @@ package com.example.demo.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.ReturnedType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,9 +40,7 @@ import com.example.demo.entity.TypeOfMovie;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.MovieDetailModel;
 import com.example.demo.util.FileUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Service
 public class MovieService implements BaseService<Movie, String> {
@@ -115,7 +110,7 @@ public class MovieService implements BaseService<Movie, String> {
 
 	public MovieDetailModel findMovieDetailPage(String movieId) {
 		MovieDto movieDto = movieDao.findMovieDetailPage(movieId);
-		return new MovieDetailModel(movieDto, movieDao.findByTypeOfMovieId(movieDto.getMovieTypeId().split(",")));
+		return new MovieDetailModel(movieDto, movieDao.findByTypeOfMovieId(movieDto.getMovieTypeId().split(",")), movieDao.getReviewByMovie(movieId));
 	}
 
 	public MovieDto findByShowTimeId(int showTimeId) {
@@ -204,11 +199,11 @@ public class MovieService implements BaseService<Movie, String> {
 
 			// Lưu movie poster tới S3 bucket
 			s3Service.saveFile(BUCKET_NAME, key, inputStream, objectMetadata);
-			// Cập nhật movie poster 
+			// Cập nhật movie poster
 			movie.setPoster(movie.getId() + "." + extension);
 
 			ObjectMapper objectMapper = new ObjectMapper();
-	        String json;
+			String json;
 			Connection connection = dataSource.getConnection();
 			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
 			// sql)
@@ -251,11 +246,11 @@ public class MovieService implements BaseService<Movie, String> {
 			// Lưu movie poster tới S3 bucket
 			s3Service.saveFile(BUCKET_NAME, key, inputStream, objectMetadata);
 
-			// Cập nhật movie poster 
+			// Cập nhật movie poster
 			movie.setPoster(movie.getId() + "." + extension);
-			
+
 			ObjectMapper objectMapper = new ObjectMapper();
-	        String json;
+			String json;
 			Connection connection = dataSource.getConnection();
 			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
 			// sql)
