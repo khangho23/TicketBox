@@ -51,8 +51,13 @@ public class Bill {
     @Column(name = "review")
     private String review;
     /*
-     * review of movie
+     * qrcode of bill
      */
     @Column(name = "qrcode")
     private String qrCode;
+    /*
+     * customerid of bill
+     */
+    @Column(name = "customerid")
+    private Integer customerId;
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.dao.BillDao;
 import com.example.demo.dto.BillDetailsDto;
 import com.example.demo.dto.BillTicketDto;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 @Service
 public class BillService {
@@ -57,9 +59,14 @@ public class BillService {
 
 	public Integer insertBillAndTicket(Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
 		AtomicReference<Double> totalPrice = new AtomicReference<>(0.0);
-		
+				
 		if (billTicketDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
+		
+
+		if (billTicketDto.get().getCustomerId() == null)
+			throw new InvalidRequestParameterException("Customer ID", RequestParameterEnum.NOTHING);
+		
 		billTicketDto.get().setExportStatus(PaymentStatus.PENDING.getValue());
 		billDao.insert(billTicketDto.get());
 
@@ -117,5 +124,17 @@ public class BillService {
 
 	public int updateExportStatus(int id, boolean exportstatus){
 		return billDao.updateExportStatus(id, exportstatus);
+	}
+
+	public BillDetailsDto checkout(Optional<Integer> billId, Optional<Integer> customerId) throws InvalidRequestParameterException {
+		customerId.orElseThrow(() -> new InvalidRequestParameterException("Customer Id", RequestParameterEnum.NOT_EXISTS));
+		
+		billId.orElseThrow(() -> new InvalidRequestParameterException("Checkout", RequestParameterEnum.NOT_EXISTS));
+		BillDetailsDto billCheckout = billDao.checkout(billId.get(), customerId.get());
+		
+		if (billCheckout == null) 
+			throw new InvalidRequestParameterException("Checkout", RequestParameterEnum.NOT_FOUND);
+		
+		return billCheckout;
 	}
 }

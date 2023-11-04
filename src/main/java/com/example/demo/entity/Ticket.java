@@ -27,11 +27,6 @@ public class Ticket {
 	@Column
 	private Integer id;
 	/*
-	 * customerId of ticket
-	 */
-	@Column(name = "customerid")
-	private Integer customerId;
-	/*
 	 * seatDetailsId of ticket
 	 */
 	@Column(name = "seatdetailsid")
