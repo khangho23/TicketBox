@@ -11,17 +11,15 @@ import com.example.demo.entity.Country;
 import com.example.demo.exception.InvalidRequestParameterException;
 
 @Service
-public class CountryService implements BaseService<Country, Integer> {
+public class CountryService {
 
 	@Autowired
 	CountryDao countryDao;
 
-	@Override
 	public List<Country> findAll() {
 		return countryDao.findAll();
 	}
 
-	@Override
 	public Optional<Country> findById(Integer id) throws InvalidRequestParameterException {
 		return countryDao.findById(id);
 	}

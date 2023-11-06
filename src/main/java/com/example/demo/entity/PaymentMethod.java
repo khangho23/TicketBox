@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
  *	payment method 
  * 
  */
-
 @Entity
 @Table
 @Data

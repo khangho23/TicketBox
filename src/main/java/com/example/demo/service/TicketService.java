@@ -14,18 +14,15 @@ import com.example.demo.entity.Ticket;
 import com.example.demo.exception.InvalidRequestParameterException;
 
 @Service
-public class TicketService implements BaseService<Ticket, Integer> {
+public class TicketService{
 	@Autowired
 	TicketDao ticketDao;
 
-	@Override
 	public List<Ticket> findAll() {
 		return ticketDao.findAll();
 	}
 
-	@Override
 	public Optional<Ticket> findById(Integer id) throws InvalidRequestParameterException {
-		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
 	

@@ -10,16 +10,14 @@ import com.example.demo.dao.DimensionDao;
 import com.example.demo.entity.Dimension;
 
 @Service
-public class DimensionService implements BaseService<Dimension, Integer> {
+public class DimensionService {
     @Autowired
     DimensionDao dimensionDao;
 
-    @Override
     public List<Dimension> findAll() {
         return dimensionDao.findAll();
     }
 
-    @Override
     public Optional<Dimension> findById(Integer id) {
         return dimensionDao.findById(id);
     }

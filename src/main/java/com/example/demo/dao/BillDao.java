@@ -3,7 +3,6 @@ package com.example.demo.dao;
 import com.example.demo.dto.BillDetailsDto;
 import com.example.demo.dto.BillHistoryDto;
 import com.example.demo.entity.Bill;
-import com.example.demo.entity.Customer;
 import com.example.demo.model.RateAndReviewBillModel;
 
 import org.seasar.doma.Dao;

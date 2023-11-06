@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
  * Customer of theater
  * 
  */
-
 @Entity
 @Table
 @Data
