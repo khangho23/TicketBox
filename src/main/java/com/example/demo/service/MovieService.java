@@ -2,18 +2,15 @@ package com.example.demo.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.ReturnedType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +27,7 @@ import com.example.demo.dao.MovieDao;
 import com.example.demo.dao.MovieDetailsDao;
 import com.example.demo.dao.TypeOfMovieDao;
 import com.example.demo.dto.MovieDto;
+import com.example.demo.dto.ReviewDto;
 import com.example.demo.dto.requestMovieDto;
 import com.example.demo.entity.Actor;
 import com.example.demo.entity.ActorOfMovie;
@@ -43,9 +41,7 @@ import com.example.demo.entity.TypeOfMovie;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.MovieDetailModel;
 import com.example.demo.util.FileUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Service
 public class MovieService {
@@ -194,7 +190,7 @@ public class MovieService {
 			movie.setPoster(movie.getId() + "." + extension);
 
 			ObjectMapper objectMapper = new ObjectMapper();
-	        String json;
+			String json;
 			Connection connection = dataSource.getConnection();
 			movie.setLanguage2(""+connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
 			movie.setType2(""+connection.createArrayOf("text", movie.getArrayType().toArray()));
@@ -229,7 +225,7 @@ public class MovieService {
 			s3Service.saveFile(BUCKET_NAME, key, inputStream, objectMetadata);
 			movie.setPoster(movie.getId() + "." + extension);
 			ObjectMapper objectMapper = new ObjectMapper();
-	        String json;
+			String json;
 			Connection connection = dataSource.getConnection();
 			movie.setLanguage2(""+connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
 			movie.setType2(""+connection.createArrayOf("text", movie.getArrayType().toArray()));
@@ -243,5 +239,9 @@ public class MovieService {
 	}
 	public Movie getByBill(int id){
 		return movieDao.getByBill(id);
+	}
+
+	public List<ReviewDto> getReviewByMovieId(String id, Integer pageSize, Integer page) {
+		return movieDao.getReviewByMovieId(id, pageSize, page);
 	}
 }
