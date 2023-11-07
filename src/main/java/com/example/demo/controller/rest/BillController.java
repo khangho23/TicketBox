@@ -42,7 +42,7 @@ public class BillController {
 
     @PostMapping("/ticket")
     public ResponseEntity<?> insertBillAndTicket(@RequestBody Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
-        pusher.realtime("my-channel","my-event","Chọn vé");
+        pusher.realtime("seatPage-channel","seatOrder-event","Chọn vé");
         return ResponseEntity.ok(billService.insertBillAndTicket(billTicketDto));
     }
 
