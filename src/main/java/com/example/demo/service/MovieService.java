@@ -44,7 +44,7 @@ import com.example.demo.util.FileUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class MovieService implements BaseService<Movie, String> {
+public class MovieService {
 
 	@Autowired
 	private MovieDao movieDao;
@@ -83,20 +83,16 @@ public class MovieService implements BaseService<Movie, String> {
 	// will be uploaded
 	final String BUCKET_NAME = "zuhot-cinema-images";
 
-	@Override
 	public List<Movie> findAll() {
-		// TODO Auto-generated method stub
 		return movieDao.findAll();
 	}
 
-	@Override
 	public Optional<Movie> findById(String id) throws InvalidRequestParameterException {
 		return Optional.of(movieDao.findById(id)
 				.orElseThrow(() -> new InvalidRequestParameterException("Phim", RequestParameterEnum.NOT_FOUND)));
 	}
 
 	public List<Movie> findByStatus(String status) throws InvalidRequestParameterException {
-		// TODO Auto-generated method stub
 		List<Movie> list = movieDao.findByStatus(status);
 		if (list.size() <= 0) {
 			throw new InvalidRequestParameterException("Phim", RequestParameterEnum.NOT_FOUND);
@@ -105,7 +101,6 @@ public class MovieService implements BaseService<Movie, String> {
 	}
 
 	public List<Movie> findMoviesNowShowing() {
-		// TODO Auto-generated method stub
 		return movieDao.findMoviesNowShowing();
 	}
 
@@ -137,10 +132,8 @@ public class MovieService implements BaseService<Movie, String> {
 		}
 		return list;
 	}
-	// ADMIN
 
 	public Optional<Movie> findMovieById(String movieId) {
-		// List Languages
 		Optional<Movie> movie = movieDao.findById(movieId);
 		List<Language> languages = new ArrayList<>();
 		List<LanguageOfMovie> listLanguageOfMovies = languageOfMovieDao.findByMovieId(movieId);
@@ -149,7 +142,6 @@ public class MovieService implements BaseService<Movie, String> {
 			languages.add(language);
 		}
 		movie.get().setLanguage(languages);
-		// List Types
 		List<TypeOfMovie> types = new ArrayList<>();
 		List<MovieDetails> listTypeOfMovies = movieDetailsDao.findByMovieId(movieId);
 		for (MovieDetails typeOfMovie : listTypeOfMovies) {
@@ -157,7 +149,6 @@ public class MovieService implements BaseService<Movie, String> {
 			types.add(type.get());
 		}
 		movie.get().setType(types);
-		// List Actors
 		List<Actor> actors = new ArrayList<>();
 		List<ActorOfMovie> listActorOfMovie = actorOfMovieDao.findByMovieId(movieId);
 		for (ActorOfMovie actorOfMovie : listActorOfMovie) {
@@ -165,7 +156,6 @@ public class MovieService implements BaseService<Movie, String> {
 			actors.add(actor);
 		}
 		movie.get().setActor(actors);
-		// List Directors
 		List<Director> directors = new ArrayList<>();
 		List<DirectorOfMovie> listDirectorOfMovie = directorOfMovieDao.findByMovieId(movieId);
 		for (DirectorOfMovie directorOfMovie : listDirectorOfMovie) {
@@ -185,7 +175,6 @@ public class MovieService implements BaseService<Movie, String> {
 
 	public String insertMovie(requestMovieDto movie, MultipartFile multipartFile)
 			throws InvalidRequestParameterException, SQLException, IOException {
-		// Kiểm tra movieId tồn tại chưa
 		Optional<Movie> movieById = movieDao.findById(movie.getId());
 		if (!movieById.isPresent()) {
 			String folder = "poster-movie/";
@@ -194,20 +183,15 @@ public class MovieService implements BaseService<Movie, String> {
 			String key = folder + fileName + "." + extension;
 
 			InputStream inputStream = multipartFile.getInputStream();
-			// Đặt content-type cho Metadata
 			ObjectMetadata objectMetadata = new ObjectMetadata();
 			objectMetadata.setContentType("image/" + extension);
 
-			// Lưu movie poster tới S3 bucket
 			s3Service.saveFile(BUCKET_NAME, key, inputStream, objectMetadata);
-			// Cập nhật movie poster
 			movie.setPoster(movie.getId() + "." + extension);
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			String json;
 			Connection connection = dataSource.getConnection();
-			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
-			// sql)
 			movie.setLanguage2(""+connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
 			movie.setType2(""+connection.createArrayOf("text", movie.getArrayType().toArray()));
 			movie.setActor2(""+connection.createArrayOf("text", movie.getArrayActor().toArray()));
@@ -221,22 +205,16 @@ public class MovieService implements BaseService<Movie, String> {
 
 	public String updateMovie(requestMovieDto movie, MultipartFile multipartFile)
 			throws InvalidRequestParameterException, SQLException, IOException {
-//		Kiểm tra movieId tồn tại chưa
 		Optional<Movie> movieById = movieDao.findById(movie.getId());
 		if (movieById.isPresent()) {
 			String fileNameExists;
-
 			String folder = "poster-movie/";
 			String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());
 			String fileName = movie.getId();
 			String key = folder + fileName + "." + extension;
-
 			InputStream inputStream = multipartFile.getInputStream();
-			// Đặt content-type cho Metadata
 			ObjectMetadata objectMetadata = new ObjectMetadata();
 			objectMetadata.setContentType("image/" + extension);
-
-			// Kiểm tra movie poster đã tồn tại trên aws
 			if (movieById.get().getPoster() != null) {
 				String poster = movieById.get().getPoster();
 				fileNameExists = poster.substring(0, movieById.get().getPoster().indexOf("."));
@@ -244,17 +222,11 @@ public class MovieService implements BaseService<Movie, String> {
 				if (fileNameExists.equals(fileName))
 					s3Service.deleteFile(BUCKET_NAME, folder + poster);
 			}
-			// Lưu movie poster tới S3 bucket
 			s3Service.saveFile(BUCKET_NAME, key, inputStream, objectMetadata);
-
-			// Cập nhật movie poster
 			movie.setPoster(movie.getId() + "." + extension);
-
 			ObjectMapper objectMapper = new ObjectMapper();
 			String json;
 			Connection connection = dataSource.getConnection();
-			// Chuyển đổi thành java.sql.Array(tương thích với biến truyền vào ở function
-			// sql)
 			movie.setLanguage2(""+connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
 			movie.setType2(""+connection.createArrayOf("text", movie.getArrayType().toArray()));
 			movie.setActor2(""+connection.createArrayOf("text", movie.getArrayActor().toArray()));

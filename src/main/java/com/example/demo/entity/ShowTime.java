@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
  * showtime of theater
  * 
  */
-
 @Entity
 @Table
 @Data

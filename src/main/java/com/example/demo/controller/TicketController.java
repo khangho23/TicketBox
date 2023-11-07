@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
-import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.TicketService;
 
 @RestController
@@ -31,7 +30,6 @@ public class TicketController {
 	public ResponseEntity<?> findByCustomerId(@RequestParam Optional<Integer> customerId) {
 		if (ticketService.findByCustomerId(customerId).isEmpty())
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RequestParameterEnum.NOTHING);
-
 		return ResponseEntity.ok(ticketService.findByCustomerId(customerId));
 	}
 }

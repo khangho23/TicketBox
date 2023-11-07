@@ -10,16 +10,14 @@ import com.example.demo.dao.RoomDao;
 import com.example.demo.dto.RoomDto;
 
 @Service
-public class RoomService implements BaseService<RoomDto, String> {
+public class RoomService{
     @Autowired
     RoomDao roomDao;
 
-    @Override
     public List<RoomDto> findAll() {
         return roomDao.findAll();
     }
 
-    @Override
     public Optional<RoomDto> findById(String id) {
         return roomDao.findById(id);
     }

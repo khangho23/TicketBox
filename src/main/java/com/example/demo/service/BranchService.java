@@ -11,17 +11,15 @@ import com.example.demo.entity.Branch;
 import com.example.demo.exception.InvalidRequestParameterException;
 
 @Service
-public class BranchService implements BaseService<Branch, String> {
+public class BranchService {
 
 	@Autowired
 	BranchDao branchDao;
 
-	@Override
 	public List<Branch> findAll() {
 		return branchDao.findAll();
 	}
 
-	@Override
 	public Optional<Branch> findById(String id) throws InvalidRequestParameterException {
 		return branchDao.findById(id);
 	}

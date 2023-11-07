@@ -14,30 +14,24 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TokenVnpayService implements BaseService<Ticket, Integer> {
+public class TokenVnpayService {
 	@Autowired
 	TokenVnpayDao tokenVnpayDao;
 
-	@Override
 	public List<Ticket> findAll() {
 		return null;
 	}
 
-	@Override
 	public Optional<Ticket> findById(Integer id) throws InvalidRequestParameterException {
-		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
 
 	public void insert(TokenVnpay tokenVnpay) throws InvalidRequestParameterException {
-		// TODO Auto-generated method stub
 		tokenVnpayDao.insert(tokenVnpay);
 	}
 
 	public TokenVnpay findByCustomerId(Optional<Integer> customerId) throws InvalidRequestParameterException {
-		// TODO Auto-generated method stub
 		customerId.orElseThrow();
-
 		return tokenVnpayDao.findByCustomerId(customerId.get());
 	}
 }

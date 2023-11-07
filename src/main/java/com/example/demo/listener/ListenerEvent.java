@@ -10,8 +10,6 @@ public class ListenerEvent {
     ApplicationEventPublisher applicationEventPublisher;
 
     public void checkTokenEvent(String guestName) {
-        // Phát ra một sự kiện HandleTokenEvent
-        // source (Nguồn phát ra) chính là class này
         applicationEventPublisher.publishEvent(new MyEmail(this, guestName));
     }
 }

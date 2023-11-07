@@ -1,9 +1,6 @@
 package com.example.demo.controller.rest;
 
-import com.example.demo.config.VnpayConfig;
-import com.example.demo.dto.BillDetailsDto;
 import com.example.demo.dto.VnpayPaymentDto;
-import com.example.demo.dto.VnpayResultDto;
 import com.example.demo.dto.VnpayToken;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.VnpayService;
@@ -12,13 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/vnpay")

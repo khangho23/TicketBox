@@ -1,6 +1,5 @@
 package com.example.demo.controller.rest;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +41,8 @@ public class BillController {
     }
 
     @PostMapping("/ticket")
-    public ResponseEntity<?> insertBill(@RequestBody Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
-		pusher.realtime("my-channel","my-event","Chọn vé");
+    public ResponseEntity<?> insertBillAndTicket(@RequestBody Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
+        pusher.realtime("seatPage-channel","seatOrder-event","Chọn vé");
         return ResponseEntity.ok(billService.insertBillAndTicket(billTicketDto));
     }
 
@@ -65,5 +64,10 @@ public class BillController {
     @PostMapping("/topping")
     public ResponseEntity<?> insertToppingDetailsInBill(@RequestBody Optional<BillToppingDetailsDto> billToppingDetails) throws InvalidRequestParameterException {
         return ResponseEntity.ok(billService.insertToppingDetailsInBill(billToppingDetails));
+    }
+    
+    @GetMapping("/checkout")
+    public ResponseEntity<?> checkout(@RequestParam Optional<Integer> billId, @RequestParam Optional<Integer> customerId) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(billService.checkout(billId, customerId));
     }
 }

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
  * Dashboard of theater
  * 
  */
-
 @Entity
 @Table
 @Data
@@ -52,6 +51,5 @@ public class Dashboard {
 	 */
 	@Column
 	private int year;
-	
 }
 
