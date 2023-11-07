@@ -106,4 +106,9 @@ public class MovieController {
 	public ResponseEntity<?> getByBill(@RequestParam("id") int id){
 		return ResponseEntity.ok(movieService.getByBill(id));
 	}
+
+	@GetMapping("/getReviewByMovieId/{id}")
+	public ResponseEntity<?> getReviewByMovieId(@PathVariable("id") String id) {
+		return ResponseEntity.ok(movieService.getReviewByMovieId(id));
+	}
 }

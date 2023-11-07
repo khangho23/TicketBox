@@ -27,6 +27,7 @@ import com.example.demo.dao.MovieDao;
 import com.example.demo.dao.MovieDetailsDao;
 import com.example.demo.dao.TypeOfMovieDao;
 import com.example.demo.dto.MovieDto;
+import com.example.demo.dto.ReviewDto;
 import com.example.demo.dto.requestMovieDto;
 import com.example.demo.entity.Actor;
 import com.example.demo.entity.ActorOfMovie;
@@ -110,7 +111,7 @@ public class MovieService implements BaseService<Movie, String> {
 
 	public MovieDetailModel findMovieDetailPage(String movieId) {
 		MovieDto movieDto = movieDao.findMovieDetailPage(movieId);
-		return new MovieDetailModel(movieDto, movieDao.findByTypeOfMovieId(movieDto.getMovieTypeId().split(",")), movieDao.getReviewByMovie(movieId));
+		return new MovieDetailModel(movieDto, movieDao.findByTypeOfMovieId(movieDto.getMovieTypeId().split(",")));
 	}
 
 	public MovieDto findByShowTimeId(int showTimeId) {
@@ -266,5 +267,9 @@ public class MovieService implements BaseService<Movie, String> {
 	}
 	public Movie getByBill(int id){
 		return movieDao.getByBill(id);
+	}
+
+	public List<ReviewDto> getReviewByMovieId(String id) {
+		return movieDao.getReviewByMovieId(id);
 	}
 }

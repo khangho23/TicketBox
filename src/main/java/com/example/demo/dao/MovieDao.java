@@ -57,5 +57,5 @@ public interface MovieDao {
 	Movie getByBill(int id);
 
 	@Select
-	List<ReviewDto> getReviewByMovie(String id);
+	List<ReviewDto> getReviewByMovieId(String id);
 }
