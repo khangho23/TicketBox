@@ -104,13 +104,13 @@ public class BillService {
 				ToppingOfBranch toppingOfBranch = toppingService.findToppingOfBranchById(optionalTopping.get().getToppinngOfBranchId());
 				optionalTopping.get().setBillId(billId);
 				totalPrice.updateAndGet(price -> price + optionalTopping.get().getPriceWhenBuy());
-				int quantityAfterOrdered = toppingOfBranch.getQuantity() - optionalTopping.get().getQuantity();
-				if (quantityAfterOrdered < 0) throw new IllegalFieldValueException("quantity", "" + quantityAfterOrdered);
+				if (optionalTopping.get().getQuantity() > toppingOfBranch.getQuantity())
+					throw new IllegalFieldValueException("quantity", "" + optionalTopping.get().getQuantity());
 				
 				toppingService.orderTopping(optionalTopping);
 				toppingService.updateToppingOfBranchAfterOrdered(
 						optionalTopping.get().getToppinngOfBranchId(),
-						quantityAfterOrdered
+						optionalTopping.get().getQuantity()
 				);
 			} catch (InvalidRequestParameterException e) {
 				e.printStackTrace();
