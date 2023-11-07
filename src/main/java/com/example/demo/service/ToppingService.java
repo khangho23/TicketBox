@@ -12,6 +12,7 @@ import com.example.demo.dao.ToppingDao;
 import com.example.demo.dao.ToppingDetailsDao;
 import com.example.demo.dto.ToppingDto;
 import com.example.demo.entity.ToppingDetails;
+import com.example.demo.entity.ToppingOfBranch;
 import com.example.demo.exception.InvalidRequestParameterException;
 
 @Service
@@ -22,6 +23,11 @@ public class ToppingService {
 	
 	@Autowired
 	ToppingDetailsDao toppingDetailsDao;
+	
+	public ToppingOfBranch findToppingOfBranchById(Integer id) throws InvalidRequestParameterException{
+		return toppingDao.findToppingOfBranchById(id);
+	}
+	
 	
 	public List<ToppingDto> findByBranchid(Optional<String> branchid) throws InvalidRequestParameterException{
 		if (branchid.isEmpty())
@@ -34,6 +40,11 @@ public class ToppingService {
 		if (toppingDetails.isEmpty()) throw new InvalidRequestParameterException("Topping Details", RequestParameterEnum.NOTHING);
 		
 		toppingDetailsDao.insert(toppingDetails.get());
+		return RequestStatusEnum.SUCCESS.getResponse();
+	}
+	
+	public String updateToppingOfBranchAfterOrdered(Integer id, int quantity) throws InvalidRequestParameterException {
+		if (quantity != 0) toppingDao.updateToppingOfBranchAfterOrdered(id, quantity);
 		return RequestStatusEnum.SUCCESS.getResponse();
 	}
 }

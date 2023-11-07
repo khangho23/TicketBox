@@ -16,14 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class SeatHasCheckTicket extends Seat {
-    /*
-     * name of seat
-     */
     @Column
     private String row;
-
     @Column
     private String seats;
-
 }
 

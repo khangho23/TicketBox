@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
+import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
 @Entity
@@ -12,14 +13,15 @@ import org.seasar.doma.Table;
 @Data
 @NoArgsConstructor
 public class ToppingOfBranch {
-    @Column(name = "billid")
-    private Integer billId;
+	@Id
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "branchid")
-    private Integer branchId;
+    private String branchId;
 
     @Column(name = "toppingid")
-    private Integer toppingId;
+    private String toppingId;
 
     @Column
     private int quantity;

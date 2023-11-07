@@ -21,9 +21,10 @@ public class SeatModel {
         seats = new ArrayList<>();
         for(int i = 0 ; i < arr.length ; i++){
             String[] obj = arr[i].split(":");
-            String name = obj[0];
-            boolean isBooked = Boolean.parseBoolean(obj[1]);
-            seats.add(new SeatHasCheck(name,isBooked));
+            Integer seatDetailsId = Integer.parseInt(obj[0]);
+            String name = obj[1];
+            boolean isBooked = Boolean.parseBoolean(obj[2]);
+            seats.add(new SeatHasCheck(seatDetailsId, name, isBooked));
         }
         seats = seats.stream()
                         .sorted((a,b)->
@@ -37,6 +38,7 @@ public class SeatModel {
 @NoArgsConstructor
 @AllArgsConstructor
 class SeatHasCheck {
+	private Integer seatDetailsId;
     private String name;
     private boolean isBooked;
 }

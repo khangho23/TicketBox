@@ -11,9 +11,10 @@ WITH seat_ordered AS (
     ORDER BY ticket.id
 )
 
-SELECT seat.rowseat AS Row,
+SELECT 
+		seat.rowseat AS Row,
         STRING_AGG (
-            seat.rowseat|| seat.orderseat::text || ':'||
+            sdt.id || ':' || seat.rowseat || seat.orderseat::text || ':'||
             CASE 
                 WHEN
                     so.ticketId IS NULL

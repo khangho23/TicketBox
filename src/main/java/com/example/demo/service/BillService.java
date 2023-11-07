@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.admin.controller.enums.RequestParameterEnum;
-import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.dao.BillDao;
 import com.example.demo.dto.BillDetailsDto;
 import com.example.demo.dto.BillTicketDto;
@@ -11,17 +10,18 @@ import com.example.demo.dto.TicketDto;
 import com.example.demo.entity.Bill;
 import com.example.demo.entity.Ticket;
 import com.example.demo.entity.ToppingDetails;
+import com.example.demo.entity.ToppingOfBranch;
 import com.example.demo.enums.PaymentStatus;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.RateAndReviewBillModel;
 
+import org.joda.time.IllegalFieldValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 
 @Service
 public class BillService {
@@ -99,11 +99,19 @@ public class BillService {
 		
 		billToppingDetails.get().getToppingDetails().stream().forEach(topping -> {
 			Optional<ToppingDetails> optionalTopping = Optional.of(topping);
-
+						
 			try {
+				ToppingOfBranch toppingOfBranch = toppingService.findToppingOfBranchById(optionalTopping.get().getToppinngOfBranchId());
 				optionalTopping.get().setBillId(billId);
 				totalPrice.updateAndGet(price -> price + optionalTopping.get().getPriceWhenBuy());
+				int quantityAfterOrdered = toppingOfBranch.getQuantity() - optionalTopping.get().getQuantity();
+				if (quantityAfterOrdered < 0) throw new IllegalFieldValueException("quantity", "" + quantityAfterOrdered);
+				
 				toppingService.orderTopping(optionalTopping);
+				toppingService.updateToppingOfBranchAfterOrdered(
+						optionalTopping.get().getToppinngOfBranchId(),
+						quantityAfterOrdered
+				);
 			} catch (InvalidRequestParameterException e) {
 				e.printStackTrace();
 			}
