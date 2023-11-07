@@ -102,13 +102,13 @@ public class MovieController {
 		throw new InvalidRequestParameterException("Update Failed", RequestParameterEnum.WRONG);
 	}
 
-	@GetMapping(value="/getByBill")
-	public ResponseEntity<?> getByBill(@RequestParam("id") int id){
+	@GetMapping(value = "/getByBill")
+	public ResponseEntity<?> getByBill(@RequestParam("id") int id) {
 		return ResponseEntity.ok(movieService.getByBill(id));
 	}
 
 	@GetMapping("/getReviewByMovieId/{id}")
-	public ResponseEntity<?> getReviewByMovieId(@PathVariable("id") String id) {
-		return ResponseEntity.ok(movieService.getReviewByMovieId(id));
+	public ResponseEntity<?> getReviewByMovieId(@PathVariable("id") String id, @RequestParam Integer pageSize, @RequestParam Integer page) {
+		return ResponseEntity.ok(movieService.getReviewByMovieId(id, pageSize, page));
 	}
 }

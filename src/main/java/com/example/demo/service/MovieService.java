@@ -269,7 +269,7 @@ public class MovieService implements BaseService<Movie, String> {
 		return movieDao.getByBill(id);
 	}
 
-	public List<ReviewDto> getReviewByMovieId(String id) {
-		return movieDao.getReviewByMovieId(id);
+	public List<ReviewDto> getReviewByMovieId(String id, Integer pageSize, Integer page) {
+		return movieDao.getReviewByMovieId(id, pageSize, page);
 	}
 }
