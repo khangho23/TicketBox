@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
  * Dimension of showtime
  * 
  */
-
 @Entity
 @Table
 @NoArgsConstructor

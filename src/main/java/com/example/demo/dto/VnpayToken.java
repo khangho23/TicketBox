@@ -8,9 +8,23 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(value = { "vnp_cancel_url", "vnp_command", "vnp_create_date", "vnp_curr_code",
-        "vnp_ip_addr", "vnp_locale", "vnp_message", "vnp_pay_date", "vnp_return_url",
-        "vnp_secure_hash", "vnp_store_token", "vnp_tmn_code", "vnp_txn_ref", "vnp_version", "redirect_url" })
+@JsonIgnoreProperties(value = {
+        "vnp_cancel_url",
+        "vnp_command",
+        "vnp_create_date",
+        "vnp_curr_code",
+        "vnp_ip_addr",
+        "vnp_locale",
+        "vnp_message",
+        "vnp_pay_date",
+        "vnp_return_url",
+        "vnp_secure_hash",
+        "vnp_store_token",
+        "vnp_tmn_code",
+        "vnp_txn_ref",
+        "vnp_version",
+        "redirect_url"
+})
 public class VnpayToken {
     private String vnp_amount;
     private String vnp_app_user_id;

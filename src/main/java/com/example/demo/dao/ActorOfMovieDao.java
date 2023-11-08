@@ -11,6 +11,6 @@ import com.example.demo.entity.ActorOfMovie;
 @Dao
 @ConfigAutowireable
 public interface ActorOfMovieDao {
-@Select
-List<ActorOfMovie> findByMovieId(String movieId);
+    @Select
+    List<ActorOfMovie> findByMovieId(String movieId);
 }

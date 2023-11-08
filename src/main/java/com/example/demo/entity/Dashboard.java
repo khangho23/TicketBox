@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
  * Dashboard of theater
  * 
  */
-
 @Entity
 @Table
 @Data

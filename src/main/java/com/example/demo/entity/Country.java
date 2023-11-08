@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
  *	Country of movie
  *
  */
-
 @Entity
 @NoArgsConstructor
 @Table

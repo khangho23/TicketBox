@@ -5,15 +5,11 @@ import org.seasar.doma.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /*
  * 
  * Branch of theater
  * 
  */
-
 @Entity
 @Data
 @NoArgsConstructor

@@ -1,11 +1,7 @@
 package com.example.demo.dto;
 
-import java.sql.Date;
-import java.sql.Time;
-
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
-import org.seasar.doma.Id;
 
 import com.example.demo.entity.Topping;
 

@@ -9,9 +9,7 @@ import org.seasar.doma.Transient;
 
 import com.example.demo.entity.ShowTime;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /*
  * 

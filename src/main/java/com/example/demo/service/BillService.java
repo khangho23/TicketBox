@@ -10,10 +10,12 @@ import com.example.demo.dto.TicketDto;
 import com.example.demo.entity.Bill;
 import com.example.demo.entity.Ticket;
 import com.example.demo.entity.ToppingDetails;
+import com.example.demo.entity.ToppingOfBranch;
 import com.example.demo.enums.PaymentStatus;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.RateAndReviewBillModel;
 
+import org.joda.time.IllegalFieldValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,9 +59,14 @@ public class BillService {
 
 	public Integer insertBillAndTicket(Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
 		AtomicReference<Double> totalPrice = new AtomicReference<>(0.0);
-		
+				
 		if (billTicketDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
+		
+
+		if (billTicketDto.get().getCustomerId() == null)
+			throw new InvalidRequestParameterException("Customer ID", RequestParameterEnum.NOTHING);
+		
 		billTicketDto.get().setExportStatus(PaymentStatus.PENDING.getValue());
 		billDao.insert(billTicketDto.get());
 
@@ -92,11 +99,19 @@ public class BillService {
 		
 		billToppingDetails.get().getToppingDetails().stream().forEach(topping -> {
 			Optional<ToppingDetails> optionalTopping = Optional.of(topping);
-
+						
 			try {
+				ToppingOfBranch toppingOfBranch = toppingService.findToppingOfBranchById(optionalTopping.get().getToppinngOfBranchId());
 				optionalTopping.get().setBillId(billId);
 				totalPrice.updateAndGet(price -> price + optionalTopping.get().getPriceWhenBuy());
+				if (optionalTopping.get().getQuantity() > toppingOfBranch.getQuantity())
+					throw new IllegalFieldValueException("quantity", "" + optionalTopping.get().getQuantity());
+				
 				toppingService.orderTopping(optionalTopping);
+				toppingService.updateToppingOfBranchAfterOrdered(
+						optionalTopping.get().getToppinngOfBranchId(),
+						optionalTopping.get().getQuantity()
+				);
 			} catch (InvalidRequestParameterException e) {
 				e.printStackTrace();
 			}
@@ -117,5 +132,17 @@ public class BillService {
 
 	public int updateExportStatus(int id, boolean exportstatus){
 		return billDao.updateExportStatus(id, exportstatus);
+	}
+
+	public BillDetailsDto checkout(Optional<Integer> billId, Optional<Integer> customerId) throws InvalidRequestParameterException {
+		customerId.orElseThrow(() -> new InvalidRequestParameterException("Customer Id", RequestParameterEnum.NOT_EXISTS));
+		
+		billId.orElseThrow(() -> new InvalidRequestParameterException("Checkout", RequestParameterEnum.NOT_EXISTS));
+		BillDetailsDto billCheckout = billDao.checkout(billId.get(), customerId.get());
+		
+		if (billCheckout == null) 
+			throw new InvalidRequestParameterException("Checkout", RequestParameterEnum.NOT_FOUND);
+		
+		return billCheckout;
 	}
 }

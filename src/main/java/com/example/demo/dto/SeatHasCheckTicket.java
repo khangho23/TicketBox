@@ -12,19 +12,13 @@ import com.example.demo.entity.Seat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-// @DomainConverters({StringListConverter.class})
 @Data
 @NoArgsConstructor
 @Entity
 public class SeatHasCheckTicket extends Seat {
-    /*
-     * name of seat
-     */
     @Column
     private String row;
-
     @Column
     private String seats;
-
 }
 

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
  * DirectorOfMovie of movie
  * 
  */
-
 @Data
 @Entity
 @NoArgsConstructor

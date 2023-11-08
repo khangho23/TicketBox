@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,8 +16,6 @@ import com.example.demo.service.BranchService;
 import com.example.demo.service.CountryService;
 import com.example.demo.service.MovieService;
 import com.example.demo.service.TypeOfMovieService;
-import com.pusher.rest.Pusher;
-import com.pusher.rest.PusherException;
 
 @RestController
 @RequestMapping("/api/home")

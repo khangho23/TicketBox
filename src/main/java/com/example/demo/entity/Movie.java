@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
  * movie
  * 
  */
-
 @Entity
 @Table
 @Data

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
  *	room of theater 
  * 
  */
-
 @Entity
 @Data
 @NoArgsConstructor
