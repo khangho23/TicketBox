@@ -248,10 +248,7 @@ $(document).ready(async function () {
         select();
     }
     $('li').click(function () {
-        // Loại bỏ lớp (class) "selected" từ tất cả các thẻ li
         $('li').removeClass('selected');
-
-        // Thêm lớp (class) "selected" vào thẻ li mà người dùng vừa nhấn
         $(this).addClass('selected');
     });
     byDate();
