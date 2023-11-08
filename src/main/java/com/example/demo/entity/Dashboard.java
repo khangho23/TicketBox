@@ -53,5 +53,14 @@ public class Dashboard {
 	@Column
 	private int year;
 	
+	@Column
+	private int hour;
+	
+	@Column
+	private String date;
+	
+	@Column
+	private int totalShowtime;
+	
 }
 

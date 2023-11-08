@@ -14,12 +14,23 @@ public interface DashboardDao {
 	List<Dashboard> findTotalPriceTicketPerMonthOfYear(int year, String branchName);
 
 	@Select
-	List<Dashboard> statisticsTicketPriceByMovie();
+	List<Dashboard> statisticsTicketPriceByMovie(String branchName);
 
 	@Select
-	List<Dashboard> statisticsTicketPriceByMovie2(String movieName, int year);
+	List<Dashboard> statisticsTicketPriceByMovie2(String movieName, int year, String branchName);
 
 	@Select
 	List<Dashboard> fillYear();
+	
+	@Select
+	List<Dashboard> statisticsTicketPriceByMovieForDay(String movieName, String date, String branchId);
 
+	@Select
+	List<Dashboard> statisticsTicketPriceByMovieFromDate(String movieName, String startDate,String endDate, String branchId);
+	
+	@Select
+	List<Dashboard> MovieOfBranch(String branchId);
+	
+	@Select
+	List<Dashboard> statisticsTotalShowtimeOfYear(int year, String branchId);
 }
