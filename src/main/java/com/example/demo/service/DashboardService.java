@@ -17,15 +17,28 @@ public class DashboardService {
 		return dashboardDao.findTotalPriceTicketPerMonthOfYear(year,branchName);
 	}
 	
-	public List<Dashboard> statisticsTicketPriceByMovie() {
-		return dashboardDao.statisticsTicketPriceByMovie();
+	public List<Dashboard> statisticsTicketPriceByMovie(String branchName) {
+		return dashboardDao.statisticsTicketPriceByMovie(branchName);
 	}
 	
-	public List<Dashboard> statisticsTicketPriceByMovie2(String movieName, int year){
-		return dashboardDao.statisticsTicketPriceByMovie2(movieName, year);
+	public List<Dashboard> statisticsTicketPriceByMovie2(String movieName, int year,String branchName){
+		return dashboardDao.statisticsTicketPriceByMovie2(movieName, year,branchName);
 	}
 	
 	public List<Dashboard> fillYear(){
 		return dashboardDao.fillYear();
+	}
+	
+	public List<Dashboard> statisticsTicketPriceByMovieForDay(String movieName, String date, String branchId){
+		return dashboardDao.statisticsTicketPriceByMovieForDay(movieName,date,branchId);
+	}
+	public List<Dashboard> statisticsTicketPriceByMovieFromDate(String movieName, String startDate,String endDate, String branchId){
+		return dashboardDao.statisticsTicketPriceByMovieFromDate(movieName,startDate,endDate,branchId);
+	}
+	public List<Dashboard> MovieOfBranch(String branchId){
+		return dashboardDao.MovieOfBranch(branchId);
+	}
+	public List<Dashboard> statisticsTotalShowtimeOfYear(int year,String branchId){
+		return dashboardDao.statisticsTotalShowtimeOfYear(year, branchId);
 	}
 }

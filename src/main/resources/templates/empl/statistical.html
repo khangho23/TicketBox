@@ -1,0 +1,68 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee - Zuhot</title>
+    <div th:insert="~{common/script-import}"></div>
+    <link rel="stylesheet" th:href="@{/styles/empl/index.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <style>
+        #chartPriceFromDate {
+            width: 100%;
+            height: 400px;
+        }
+
+        #chartTicketFromDate {
+            width: 100%;
+            height: 400px;
+        }
+
+        #chartYearTotalTicket,
+        #chartYearTotalShowtime {
+            width: 100%;
+            height: 450px;
+        }
+
+        #chartYearTotalPrice {
+            width: 100%;
+            height: 300px;
+        }
+
+        #ticketCurrentDay,
+        #priceCurrentDay {
+            width: 100%;
+            height: 400px;
+        }
+
+        .selected {
+            background-color: rgb(114, 113, 113) !important;
+            color: white !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav th:insert="~{common/navbar-empl}"></nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2" style="height: 1000px">
+                <ul>
+                    <li class="list-unstyled text-bg-light py-3 " id="byDate">Thống kế chi tiết theo ngày</li>
+                    <li class="list-unstyled text-bg-light py-3 " id="fromDate">Thống kế từ ngày</li>
+                    <li class="list-unstyled text-bg-light py-3 " id="byYear">Thống kế trong năm</li>
+                </ul>
+            </div>
+            <div class="col-10 content"></div>
+        </div>
+    </div>
+
+    </div>
+
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script th:src="@{/js/empl/statistics.js}" type="module"></script>
+</body>
+
+</html>

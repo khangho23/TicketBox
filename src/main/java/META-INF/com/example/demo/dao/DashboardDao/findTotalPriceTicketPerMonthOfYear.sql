@@ -10,11 +10,12 @@ SELECT
     COALESCE(sum(ticket.totalprice), 0) AS totalPrice,
 	COALESCE(count(ticket.id), 0) AS totalTicket
 FROM ticket 
+join bill on bill.id = ticket.billid
 join showtime on ticket.showtimeid = showtime.id
 join room on room.id = showtime.roomid
 join branch on branch.id = room.branchid
-right JOIN months ON TO_CHAR(month, 'MM') = TO_CHAR(showtime.showdate, 'MM')
-and EXTRACT(YEAR FROM showtime.showdate) = /* year */'2023'
+right JOIN months ON TO_CHAR(month, 'MM') = TO_CHAR(bill.exportdate, 'MM')
+and EXTRACT(YEAR FROM bill.exportdate) = /* year */'2023'
 and branch.name =/* branchName */'Hưng Thịnh'
 GROUP BY month
 ORDER BY id;

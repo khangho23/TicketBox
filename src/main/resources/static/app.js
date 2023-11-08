@@ -1,8 +1,6 @@
 import "//cdn.webix.com/libs/jet/webix-jet.js"
 import Main from "./views/main.js";
 import Dash from "./views/dash/index.js";
-import Actor from "./views/management/actor/index.js"
-import Director from "./views/management/director/index.js"
 import Movie from "./views/management/movie/index.js"
 import Showtime from "./views/management/showtime/index.js"
 const JetApp = webix.jet.JetApp;
@@ -27,8 +25,6 @@ export default class InventoryApp extends JetApp {
 				admin: Main,
 				dash: Dash,
 				"managementMovie": Movie,
-				"managementDirector": Director,
-				"managementActor": Actor,
 				"management-showtime": Showtime,
 			},
 			theme: theme || ""

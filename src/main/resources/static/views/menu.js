@@ -8,22 +8,19 @@ export default class MenuView extends JetView {
 		const theme = this.app.config.theme;
 		return {
 			width: 200,
-			height:window.innerHeight,
+			height: window.innerHeight,
 			localId: "side:menu",
 			view: "sidebar",
-//			collapsed: true,
+			//			collapsed: true,
 			css: theme,
 			data: [
-				{ id: "dash", value: "Dashboard", icon: "mdi mdi-view-dashboard" },
+				{ id: "dash", value: "Dashboard", icon: "mdi mdi-chart-areaspline" },
 				{
 					id: "management", icon: "mdi mdi-puzzle", value: "Quản lý", data: [
 						{ id: "managementMovie", value: "Phim" },
-						{ id: "managementActor", value: "Đạo diễn" },
-						{ id: "managementDirector", value: "Diễn viên" },
 						{ id: "management-showtime", value: "Xuất chiếu" },
 					]
 				},
-				{ id: "statistical", value: "Thống kê", icon: "mdi mdi-chart-areaspline" },
 				{ id: "setting", value: "Cài đặt", icon: "mdi mdi-cogs" },
 				{ id: "help", value: "Hỗ trợ", icon: "wxi-alert" }
 			]
