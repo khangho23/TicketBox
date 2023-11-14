@@ -1,3 +1,3 @@
 SELECT ticket.*
 FROM ticket
-WHERE id = /* id */1;
+WHERE id = /* ticket */1;
