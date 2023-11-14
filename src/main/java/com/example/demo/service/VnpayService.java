@@ -305,7 +305,7 @@ public class VnpayService {
             tokenVnpay.setVnp_card_number(fields.get("vnp_card_number"));
 
             // Insert DB
-            tokenVnpayService.insert(tokenVnpay);
+            tokenVnpayService.insert(Optional.of(tokenVnpay));
 
             return RequestStatusEnum.SUCCESS.getResponse();
         }
