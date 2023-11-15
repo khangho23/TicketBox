@@ -13,4 +13,4 @@ LEFT JOIN
 JOIN 
     movie ON languageofmovie.movieid = movie.id
 WHERE 
-    movie.id = /* id */'MP07';
+    movie.id = /* id */'MP07' AND bill.rate IS NOT NULL;

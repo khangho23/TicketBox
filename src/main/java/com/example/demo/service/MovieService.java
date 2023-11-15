@@ -27,7 +27,6 @@ import com.example.demo.dao.MovieDao;
 import com.example.demo.dao.MovieDetailsDao;
 import com.example.demo.dao.TypeOfMovieDao;
 import com.example.demo.dto.MovieDto;
-import com.example.demo.dto.ReviewDto;
 import com.example.demo.dto.requestMovieDto;
 import com.example.demo.entity.Actor;
 import com.example.demo.entity.ActorOfMovie;
@@ -40,7 +39,6 @@ import com.example.demo.entity.MovieDetails;
 import com.example.demo.entity.TypeOfMovie;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.MovieDetailModel;
-import com.example.demo.model.ReviewModel;
 import com.example.demo.util.FileUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -240,9 +238,5 @@ public class MovieService {
 	}
 	public Movie getByBill(int id){
 		return movieDao.getByBill(id);
-	}
-
-	public ReviewModel getReviewByMovieId(String id, Integer pageSize, Integer page) {
-		return new ReviewModel(movieDao.getReviewByMovieId(id, pageSize, page), movieDao.getTotalReviewByMovieId(id));
 	}
 }
