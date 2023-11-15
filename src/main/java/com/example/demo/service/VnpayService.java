@@ -316,13 +316,13 @@ public class VnpayService {
 				.findByCustomerId(Optional.of(Integer.parseInt(fields.get("vnp_app_user_id")))) != null;
 
 		if ("00".equals(fields.get("vnp_response_code")) && !customerIdIsPresent) {
-			Optional<TokenVnpay> tokenVnpay = Optional.of(new TokenVnpay());
-			tokenVnpay.get().setVnp_app_user_id(Integer.parseInt(fields.get("vnp_app_user_id")));
-			tokenVnpay.get().setVnp_token(fields.get("vnp_token"));
-			tokenVnpay.get().setVnp_card_number(fields.get("vnp_card_number"));
+			TokenVnpay tokenVnpay = new TokenVnpay();
+			tokenVnpay.setVnp_app_user_id(Integer.parseInt(fields.get("vnp_app_user_id")));
+			tokenVnpay.setVnp_token(fields.get("vnp_token"));
+			tokenVnpay.setVnp_card_number(fields.get("vnp_card_number"));
 
-			// Insert DB
-			tokenVnpayService.insert(tokenVnpay);
+            // Insert DB
+            tokenVnpayService.insert(Optional.of(tokenVnpay));
 
 			return RequestStatusEnum.SUCCESS.getResponse();
 		}

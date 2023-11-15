@@ -10,4 +10,5 @@ SELECT
 	status,
 	limitage
 FROM Movie
-WHERE LOWER(name) LIKE /* name */'HA';
+WHERE LOWER(name) LIKE /* name */'HA'
+ORDER BY id ASC;

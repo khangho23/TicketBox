@@ -27,7 +27,6 @@ import com.example.demo.dao.MovieDao;
 import com.example.demo.dao.MovieDetailsDao;
 import com.example.demo.dao.TypeOfMovieDao;
 import com.example.demo.dto.MovieDto;
-import com.example.demo.dto.ReviewDto;
 import com.example.demo.dto.requestMovieDto;
 import com.example.demo.entity.Actor;
 import com.example.demo.entity.ActorOfMovie;
@@ -239,9 +238,5 @@ public class MovieService {
 	}
 	public Movie getByBill(int id){
 		return movieDao.getByBill(id);
-	}
-
-	public List<ReviewDto> getReviewByMovieId(String id, Integer pageSize, Integer page) {
-		return movieDao.getReviewByMovieId(id, pageSize, page);
 	}
 }

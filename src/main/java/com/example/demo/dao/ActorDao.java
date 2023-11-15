@@ -21,7 +21,4 @@ public interface ActorDao {
 	
 	@Select
 	Optional<Actor> findByName(String name);
-	
-	@Insert(exclude = {"id"})
-	int insert(Actor actor);
 }
