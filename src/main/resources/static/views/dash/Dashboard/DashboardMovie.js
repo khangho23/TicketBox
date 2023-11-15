@@ -56,6 +56,12 @@ export default class StatsView extends JetView {
 		],
 	};
 	config() {
+		function exportToExcel() {
+			webix.toExcel("datatable", {
+				spans: true,
+				styles: true
+			});
+		};
 		const self = this;
 		return {
 			rows: [
@@ -64,18 +70,22 @@ export default class StatsView extends JetView {
 					height: 60
 				},
 				{
-					view: "select",
-					id: "selectBranch3",
-					label: "Chọn chi nhánh:",
-					options: [],
-					labelWidth: 120,
-					on: {
-						onChange: () => {
-							const branch = this.$$("selectBranch3").getValue();
-							DashboardService.filldata4(branch);
+					cols: [{
+						view: "select",
+						id: "selectBranch3",
+						label: "Chọn chi nhánh:",
+						options: [],
+						labelWidth: 120,
+						on: {
+							onChange: () => {
+								const branch = this.$$("selectBranch3").getValue();
+								DashboardService.filldata4(branch);
+							},
 						},
 					},
-				},
+					{ view: "button", width: 130, value: "Export to Excel", click: exportToExcel }]
+				}
+				,
 				{
 					cols: [
 						{
@@ -230,4 +240,5 @@ export default class StatsView extends JetView {
 		this.chart2.update();
 		this.chart.update();
 	}
+
 }
