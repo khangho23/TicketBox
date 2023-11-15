@@ -14,13 +14,14 @@ export default class MenuView extends JetView {
 			//			collapsed: true,
 			css: theme,
 			data: [
-				{ id: "dash", value: "Dashboard", icon: "mdi mdi-chart-areaspline" },
+				{ id: "dash", value: "Dashboard", icon: "mdi mdi-chart-bar-stacked" },
 				{
-					id: "management", icon: "mdi mdi-puzzle", value: "Quản lý", data: [
-						{ id: "managementMovie", value: "Phim" },
-						{ id: "management-showtime", value: "Xuất chiếu" },
+					id: "management", icon: "mdi mdi-puzzle", value: "Phim", data: [
+						{ id: "managementMovie", value: "Quản lý phim", icon: "mdi mdi-movie" },
+
 					]
 				},
+				{ id: "management-showtime", value: "Xuất chiếu", icon: "mdi mdi-movie-roll" },
 				{ id: "setting", value: "Cài đặt", icon: "mdi mdi-cogs" },
 				{ id: "help", value: "Hỗ trợ", icon: "wxi-alert" }
 			]

@@ -70,8 +70,10 @@
 
 <body>
     <nav th:insert="~{common/navbar-empl}"></nav>
-    <div class="row justify-content-center d-flex align-items-center h-auto">
-        <div class="spinner-3 h-100"></div>
+    <div class="loading" style="display: flex; justify-content: center; height: 500px; align-items: center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     <div class="m-5 justify-content-between body">
         <div class="w-75">
@@ -91,11 +93,13 @@
                                 <th scope="col" class="text-center">Tạm tính</th>
                             </tr>
                         </thead>
-                        <tbody class="row justify-content-center d-flex">
-                            <tr class="spinner-2 "></tr>
-                        </tbody>
+                        <tr>
+                            <td colspan="4" class="text-center loading2" role="status" style="display: none;">
+                                <span class="spinner-border "></span>
+                            </td>
+                        </tr>
                         <tbody id="table-price"></tbody>
-                        <tfoot>
+                        <tfoot id="table-tfoot">
                             <tr>
                                 <td colspan="2" class="text-end">Tổng cộng:</td>
                                 <td id="price-total" class="text-center"></td>
