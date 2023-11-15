@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import com.example.demo.dto.BillDetailsDto;
 import com.example.demo.dto.BillHistoryDto;
+import com.example.demo.dto.ReviewDto;
 import com.example.demo.entity.Bill;
 import com.example.demo.model.RateAndReviewBillModel;
 
@@ -42,4 +43,10 @@ public interface BillDao {
 	
 	@Select
 	BillDetailsDto checkout(Integer billId, Integer customerId);
+
+	@Select
+	List<ReviewDto> getReviewByMovieId(String id, Integer pageSize, Integer page);
+
+	@Select
+	Integer getTotalReviewByMovieId(String id);
 }

@@ -19,7 +19,6 @@ import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.RateAndReviewBillModel;
 import com.example.demo.service.BillService;
 import com.example.demo.service.PusherService;
-import com.pusher.rest.Pusher;
 
 @RestController
 @RequestMapping("/api/bill")
@@ -70,4 +69,9 @@ public class BillController {
     public ResponseEntity<?> checkout(@RequestParam Optional<Integer> billId, @RequestParam Optional<Integer> customerId) throws InvalidRequestParameterException {
         return ResponseEntity.ok(billService.checkout(billId, customerId));
     }
+
+    @GetMapping("/getReviewByMovieId/{id}")
+	public ResponseEntity<?> getReviewByMovieId(@PathVariable("id") String id, @RequestParam Integer pageSize, @RequestParam Integer page) {
+		return ResponseEntity.ok(billService.getReviewByMovieId(id, pageSize, page));
+	}
 }

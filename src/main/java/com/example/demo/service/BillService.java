@@ -14,6 +14,7 @@ import com.example.demo.entity.ToppingOfBranch;
 import com.example.demo.enums.PaymentStatus;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.RateAndReviewBillModel;
+import com.example.demo.model.ReviewModel;
 
 import org.joda.time.IllegalFieldValueException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,5 +145,9 @@ public class BillService {
 			throw new InvalidRequestParameterException("Checkout", RequestParameterEnum.NOT_FOUND);
 		
 		return billCheckout;
+	}
+
+	public ReviewModel getReviewByMovieId(String id, Integer pageSize, Integer page) {
+		return new ReviewModel(billDao.getReviewByMovieId(id, pageSize, page), billDao.getTotalReviewByMovieId(id));
 	}
 }
