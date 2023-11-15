@@ -16,8 +16,8 @@ export default class MenuView extends JetView {
 			data: [
 				{ id: "dash", value: "Dashboard", icon: "mdi mdi-chart-bar-stacked" },
 				{
-					id: "management", icon: "mdi mdi-puzzle", value: "Quản lý Phim", data: [
-						{ id: "managementMovie", value: "Phim", icon: "mdi mdi-movie" },
+					id: "management", icon: "mdi mdi-puzzle", value: "Phim", data: [
+						{ id: "managementMovie", value: "Quản lý phim", icon: "mdi mdi-movie" },
 
 					]
 				},
