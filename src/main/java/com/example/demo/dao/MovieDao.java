@@ -58,4 +58,7 @@ public interface MovieDao {
 
 	@Select
 	List<ReviewDto> getReviewByMovieId(String id, Integer pageSize, Integer page);
+
+	@Select
+	Integer getTotalReviewByMovieId(String id);
 }

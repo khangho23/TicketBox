@@ -40,6 +40,7 @@ import com.example.demo.entity.MovieDetails;
 import com.example.demo.entity.TypeOfMovie;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.MovieDetailModel;
+import com.example.demo.model.ReviewModel;
 import com.example.demo.util.FileUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -241,7 +242,7 @@ public class MovieService {
 		return movieDao.getByBill(id);
 	}
 
-	public List<ReviewDto> getReviewByMovieId(String id, Integer pageSize, Integer page) {
-		return movieDao.getReviewByMovieId(id, pageSize, page);
+	public ReviewModel getReviewByMovieId(String id, Integer pageSize, Integer page) {
+		return new ReviewModel(movieDao.getReviewByMovieId(id, pageSize, page), movieDao.getTotalReviewByMovieId(id));
 	}
 }
