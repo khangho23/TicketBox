@@ -1,4 +1,4 @@
 select 
-	to_char(createdate,'yyyy') as year 
-from ticket
+	to_char(exportdate,'yyyy') as year 
+from bill
 group by year
