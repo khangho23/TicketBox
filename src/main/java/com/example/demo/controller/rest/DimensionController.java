@@ -26,7 +26,6 @@ public class DimensionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Integer id) throws InvalidRequestParameterException {
-        return ResponseEntity.ok(dimensionService.findById(id)
-                .orElseThrow(() -> new InvalidRequestParameterException("Dimension", RequestParameterEnum.NOT_EXISTS)));
+        return ResponseEntity.ok(dimensionService.findById(id));
     }
 }
