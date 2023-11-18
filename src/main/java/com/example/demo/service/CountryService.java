@@ -19,9 +19,4 @@ public class CountryService {
 	public List<Country> findAll() {
 		return countryDao.findAll();
 	}
-
-	public Optional<Country> findById(Integer id) throws InvalidRequestParameterException {
-		return countryDao.findById(id);
-	}
-
 }
