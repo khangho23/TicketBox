@@ -33,7 +33,7 @@ public class Bill {
     /*
      * export date of bill
      */
-    @Column(name = "exportdate")
+    @Column(name = "exportdate",insertable = false, updatable = false)
     private Date exportDate;
     /*
      * status of bill

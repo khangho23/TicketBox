@@ -22,8 +22,8 @@ public class Ticket {
 	 * id of ticket
 	 */
 	@Id
-    @SequenceGenerator(sequence = "ticket_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(sequence = "ticket_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column
 	private Integer id;
 	/*
@@ -35,7 +35,7 @@ public class Ticket {
 	 * showtimeId of ticket
 	 */
 	@Column(name = "showtimeid")
-	private Integer showtimeId;	
+	private Integer showtimeId;
 	/*
 	 * totalPrice of ticket
 	 */
@@ -44,7 +44,7 @@ public class Ticket {
 	/*
 	 * createDate of ticket
 	 */
-	@Column(name = "createdate")
+	@Column(name = "createdate", insertable = false, updatable = false)
 	private Date createDate;
 	/*
 	 * vat of ticket
