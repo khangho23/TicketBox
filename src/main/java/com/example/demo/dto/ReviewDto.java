@@ -15,7 +15,7 @@ public class ReviewDto {
     @Column
     private String review;
     @Column
-    private Timestamp exportdate;
+    private String exportdate;
     @Column
     private String name;
 }
