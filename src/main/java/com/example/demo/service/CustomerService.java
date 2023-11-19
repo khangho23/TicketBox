@@ -23,7 +23,7 @@ import com.example.demo.util.FileUtils;
 import jakarta.mail.MessagingException;
 
 @Service
-public class CustomerService implements BaseService<Customer, Integer> {
+public class CustomerService {
     @Autowired
     CustomerDao customerDao;
     @Autowired
@@ -33,15 +33,12 @@ public class CustomerService implements BaseService<Customer, Integer> {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    // The name of an existing bucket, or access point ARN, to which the new object will be uploaded
     final String BUCKET_NAME = "zuhot-cinema-images";
 
-    @Override
     public List<Customer> findAll() {
         return customerDao.findAll();
     }
 
-    @Override
     public Optional<Customer> findById(Integer id) {
         return customerDao.findById(id);
     }
@@ -102,20 +99,18 @@ public class CustomerService implements BaseService<Customer, Integer> {
 
         String folder = "avatar-user/";
 
-        // Type of file
         String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());
 
         String fileName = "cus" + customerId;
-        // The key under which to store the new object
+
         String key = folder + fileName + "." + extension;
 
         InputStream inputStream = multipartFile.getInputStream();
 
-        // Set content-type for Metadata
         ObjectMetadata objectMetadata = new ObjectMetadata();
+
         objectMetadata.setContentType("image/" + extension);
 
-        // Check if a avatar exists
         if (customer.get().getAvatar() != null) {
             String avatar = customer.get().getAvatar();
             fileNameExists = avatar.substring(0, customer.get().getAvatar().indexOf("."));
@@ -124,10 +119,8 @@ public class CustomerService implements BaseService<Customer, Integer> {
                 s3Service.deleteFile(BUCKET_NAME, folder + avatar);
         }
 
-        // Upload avatar to S3 bucket
         s3Service.saveFile(BUCKET_NAME, key, inputStream, objectMetadata);
 
-        // Update customer avatar
         customer.get().setAvatar("cus" + customerId + "." + extension);
         customerDao.updateAvatar(customer.get());
         return RequestStatusEnum.SUCCESS.getResponse();

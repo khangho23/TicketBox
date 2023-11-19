@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
  * Favorite of customer
  * 
  */
-
 @Entity
 @NoArgsConstructor
 @Data

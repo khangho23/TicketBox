@@ -26,9 +26,4 @@ public class ActorController {
 	public ResponseEntity<?> findAll(){
 		return ResponseEntity.ok(actorService.findAll());
 	}
-	
-	@PostMapping("/insert")
-	public void insert (@RequestBody Actor actor) throws InvalidRequestParameterException{
-		actorService.insert(actor);
-	}
 }

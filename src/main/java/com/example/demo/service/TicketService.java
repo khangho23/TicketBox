@@ -14,22 +14,23 @@ import com.example.demo.entity.Ticket;
 import com.example.demo.exception.InvalidRequestParameterException;
 
 @Service
-public class TicketService implements BaseService<Ticket, Integer> {
+public class TicketService {
 	@Autowired
 	TicketDao ticketDao;
 
-	@Override
 	public List<Ticket> findAll() {
 		return ticketDao.findAll();
 	}
 
-	@Override
-	public Optional<Ticket> findById(Integer id) throws InvalidRequestParameterException {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public Ticket findById(Optional<Integer> id) throws InvalidRequestParameterException {
+		id.orElseThrow(() ->
+				new InvalidRequestParameterException("Ticket id", RequestParameterEnum.NOTHING));
+
+		return ticketDao.findById(id.get());
 	}
 	
-	public List<TicketDto> findByCustomerId(Optional<Integer> customerId) {		
+	public List<TicketDto> findByCustomerId(Optional<Integer> customerId) throws InvalidRequestParameterException {	
+		customerId.orElseThrow(() -> new InvalidRequestParameterException("", RequestParameterEnum.NOTHING));
 		return ticketDao.findByCustomerId(customerId.get());
 	}
 

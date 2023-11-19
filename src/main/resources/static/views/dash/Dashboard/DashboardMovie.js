@@ -56,6 +56,12 @@ export default class StatsView extends JetView {
 		],
 	};
 	config() {
+		function exportToExcel() {
+			webix.toExcel("datatable", {
+				spans: true,
+				styles: true
+			});
+		};
 		const self = this;
 		return {
 			rows: [
@@ -63,6 +69,23 @@ export default class StatsView extends JetView {
 					template: "<h1 style='font-family:Bookman'>Thống kê Phim</h1>",
 					height: 60
 				},
+				{
+					cols: [{
+						view: "select",
+						id: "selectBranch3",
+						label: "Chọn chi nhánh:",
+						options: [],
+						labelWidth: 120,
+						on: {
+							onChange: () => {
+								const branch = this.$$("selectBranch3").getValue();
+								DashboardService.filldata4(branch);
+							},
+						},
+					},
+					{ view: "button", width: 130, value: "Export to Excel", click: exportToExcel }]
+				}
+				,
 				{
 					cols: [
 						{
@@ -88,7 +111,7 @@ export default class StatsView extends JetView {
 									if (selectedItem) {
 										const movieName = selectedItem.movieName;
 										const year = selectedItem.year;
-										DashboardService.filldata5(movieName, year)
+										DashboardService.filldata5(movieName, year, $$("selectBranch3").getValue())
 											.then((data) => {
 												self.data.datasets[0].data = data.map((item) => item.totalPrice);
 												self.data.labels = data.map((item) => item.month);
@@ -119,9 +142,13 @@ export default class StatsView extends JetView {
 		}
 
 	};
-	init() {
-		DashboardService.filldata4().then((data1) => {
-			DashboardService.filldata5(data1[0].movieName, data1[0].year)
+	async init() {
+		const optionBranch = await DashboardService.fillOption();
+		console.log(optionBranch);
+		this.$$("selectBranch3").setValue(optionBranch[1].id);
+		DashboardService.filldata4(optionBranch[1].id)
+		DashboardService.filldata4("Bình Tân").then((data1) => {
+			DashboardService.filldata5(data1[0].movieName, data1[0].year, optionBranch[1].id)
 				.then((data) => {
 					this.data.datasets[0].data = data.map((item) => item.totalPrice);
 					this.data.labels = data.map((item) => item.month);
@@ -135,8 +162,6 @@ export default class StatsView extends JetView {
 					console.error("Lỗi khi gọi API:", error);
 				});
 		});
-		const chart = this.$$("chart");
-
 
 		const ctx = document.getElementById('myChart2');
 		ctx.style.width = '1500px';
@@ -215,4 +240,5 @@ export default class StatsView extends JetView {
 		this.chart2.update();
 		this.chart.update();
 	}
+
 }

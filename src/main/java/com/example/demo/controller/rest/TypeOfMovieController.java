@@ -15,7 +15,6 @@ public class TypeOfMovieController {
 
 	@GetMapping(value= {"","/"})
 	public ResponseEntity<?> findAll() {
-		// TODO Auto-generated method stub
 		return ResponseEntity.ok(typeOfMovieService.findAll());
 	}
 

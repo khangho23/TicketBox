@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.LanguageOfMovieService;
 
 @RestController
@@ -18,7 +19,7 @@ public class LanguageOfMovieController {
 	private LanguageOfMovieService languageOfMovieService;
 
 	@GetMapping("/id")
-	public ResponseEntity<?> findByMovieId(@RequestParam("movieId") String movieId) {
+	public ResponseEntity<?> findByMovieId(@RequestParam("movieId") String movieId) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(languageOfMovieService.findByMovieId(movieId));
 	}
 

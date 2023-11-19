@@ -1,4 +1,6 @@
 SELECT 
+	s3.id as stt,
+	r.id as roomId,
 	s.rowseat || s.orderseat AS name, 
 	s.pricecommon+s2.surchage+s4.price AS total
 FROM seat s LEFT JOIN seattype s2 ON s.seattypeid = s2.id

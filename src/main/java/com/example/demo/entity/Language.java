@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
  * Language of movie
  * 
  */
-
 @Entity
 @Table
 @Data

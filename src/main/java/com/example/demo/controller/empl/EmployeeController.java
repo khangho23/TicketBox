@@ -57,4 +57,8 @@ public class EmployeeController {
     public String scan_ticket(){
         return PATH.concat("/scan-ticket");
     }
+    @GetMapping(value = { "/statistical"})
+    public String statistical() {
+        return PATH.concat("/statistical");
+    }
 }

@@ -28,10 +28,7 @@ public class TicketController {
 	}
 
 	@GetMapping("get-customers")
-	public ResponseEntity<?> findByCustomerId(@RequestParam Optional<Integer> customerId) {
-		if (ticketService.findByCustomerId(customerId).isEmpty())
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(RequestParameterEnum.NOTHING);
-
+	public ResponseEntity<?> findByCustomerId(@RequestParam Optional<Integer> customerId) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(ticketService.findByCustomerId(customerId));
 	}
 }

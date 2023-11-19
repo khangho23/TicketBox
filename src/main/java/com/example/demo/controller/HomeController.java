@@ -1,13 +1,8 @@
 package com.example.demo.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import com.example.demo.entity.Movie;
-import com.example.demo.exception.InvalidRequestParameterException;
-import org.seasar.doma.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.BranchService;
 import com.example.demo.service.CountryService;
 import com.example.demo.service.MovieService;
@@ -42,6 +38,7 @@ public class HomeController {
 		map.put("branch", branchService.findAll());
 		return ResponseEntity.ok(map);
 	}
+
 
 	@GetMapping("/search")
 	public ResponseEntity<?> searchMovie(@RequestParam("country") int country,

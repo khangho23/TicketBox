@@ -136,12 +136,15 @@ const quantity = () => {
         }
         $('#table-price').fadeOut(0)
         $('#price-total').fadeOut(0)
+        $('#table-tfoot').fadeOut(0)
         $.when(fillTablePrice())
             .done(function (result1) {
-                $('.spinner-2').css('display', 'block');
-                $('.spinner-2').fadeToggle(1000, function () {
-                    $('#table-price').fadeIn(1000)
-                    $('#price-total').fadeIn(1000)
+
+                $('.loading2').fadeToggle(500, function () {
+                    $('#table-price').fadeIn(500)
+                    $('#price-total').fadeIn(500)
+                    $('.loading2').css('display', 'none');
+                    $('#table-tfoot').fadeIn(500)
                 })
 
             });
@@ -159,13 +162,19 @@ const fillContainerTopping = (result) => {
         </section>`);
 }
 
+const cookieStaff = document.cookie;
+function getCookie(name) {
+    return cookieStaff.split(`${name}=`).pop();
+}
+
 $(document).ready(async function () {
-    const { data: result } = await fetch.get("/topping/toppingofbranch", { params: { branchid: "cn1" } });
+    const branchId = getCookie("branchId").split("_").shift();
+    const { data: result } = await fetch.get("/topping/toppingofbranch", { params: { branchid: branchId } });
     fillContainerTopping(result);
     quantity();
     $.when(result)
         .done(function (result1) {
-            $('.spinner-3').fadeToggle(1000, function () {
+            $('.loading').fadeToggle(500, function () {
                 $('.body').fadeIn(1000)
                 $('.body').css('display', 'flex');
             })
@@ -175,7 +184,9 @@ $(document).ready(async function () {
         });
     init();
 });
+
 function init() {
+
     const url = document.location.href;
     const toppingUrl = url.slice(url.indexOf("topping"), url.length);
     localStorage.removeItem(toppingUrl);

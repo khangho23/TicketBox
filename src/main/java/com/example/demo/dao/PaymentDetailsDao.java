@@ -1,7 +1,6 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.PaymentDetails;
-import com.example.demo.entity.PaymentMethod;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;

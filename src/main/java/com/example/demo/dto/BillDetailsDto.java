@@ -13,6 +13,8 @@ import java.util.List;
 @Data
 @Entity
 public class BillDetailsDto extends Bill {
+	@Column
+    private String poster;
     @Column(name = "paymentmethod")
     private String paymentMethod;
     @Column(name = "starttime")
@@ -21,6 +23,8 @@ public class BillDetailsDto extends Bill {
     private Date showDate;
     @Column(name = "movie")
     private String movieName;
+    @Column(name = "movie_status")
+    private int movieStatus;
     @Column(name = "language")
     private String languageName;
     @Column(name = "limitage")
@@ -49,6 +53,8 @@ public class BillDetailsDto extends Bill {
     private double toppingTotalPrice;
     @Column(name = "ticket_totalprice")
     private double ticketTotalPrice;
+    @Column(name = "ticket_vat")
+    private double ticketVat;
     @Transient
     private List<TicketDto> tickets;
 }

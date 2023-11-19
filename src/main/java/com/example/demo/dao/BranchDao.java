@@ -15,7 +15,4 @@ public interface BranchDao {
 
 	@Select
 	List<Branch> findAll();
-	
-	@Select
-	Optional<Branch> findById(String id);
 }
