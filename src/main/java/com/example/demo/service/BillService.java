@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -63,7 +64,7 @@ public class BillService {
 				
 		if (billTicketDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
-		
+		// billDto.get().setQrCode(generateUniqueUUID());
 
 		if (billTicketDto.get().getCustomerId() == null)
 			throw new InvalidRequestParameterException("Customer ID", RequestParameterEnum.NOTHING);
@@ -122,6 +123,30 @@ public class BillService {
 
 		return billId;
 	}
+	
+	public BillDetailsDto findBillDetailsByQrCode(Optional<String> qrCode) throws InvalidRequestParameterException {
+		qrCode.orElseThrow();
+		if (qrCode.get().length() != 32) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.WRONG);
+		
+		BillDetailsDto billDetailsDto = billDao.findBillDetailsByQrCode(qrCode.get());
+		if (billDetailsDto == null) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.NOT_EXISTS);
+		
+		return billDetailsDto;
+	}
+	
+	 private String generateUniqueUUID() {
+	        UUID uuid = null;
+	        boolean isUnique = false;
+
+	        while (!isUnique) {
+	            uuid = UUID.randomUUID();
+	            if (billDao.findBillDetailsByQrCode(uuid.toString()) == null) {
+	                isUnique = true;
+	            }
+	        }
+
+	        return uuid.toString();
+	 }
 
 	public int updateRateAndReview(RateAndReviewBillModel model){
 		return billDao.updateRateAndReview(model);
