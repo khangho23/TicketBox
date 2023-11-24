@@ -21,4 +21,4 @@ JOIN movie on movie.id = languageofmovie.movieid
 JOIN dimension on dimension.id = showtime.dimensionid
 JOIN room on room.id = showtime.roomid
 JOIN branch on branch.id = room.branchid
-WHERE TO_CHAR(showtime.showdate,'MM/DD/YYYY') = /* showdate */'2023-08-19' and languageofmovie.movieid = /* movieId */'MP01';
+WHERE TO_CHAR(showtime.showdate,'DD/MM/YYYY') = /* showdate */'2023-08-19' and languageofmovie.movieid = /* movieId */'MP01';
