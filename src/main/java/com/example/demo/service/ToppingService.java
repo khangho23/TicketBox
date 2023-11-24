@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
-import com.example.demo.admin.controller.enums.RequestStatusEnum;
+import com.example.demo.enums.RequestParameterEnum;
+import com.example.demo.enums.RequestStatusEnum;
 import com.example.demo.dao.ToppingDao;
 import com.example.demo.dao.ToppingDetailsDao;
 import com.example.demo.dto.ToppingDto;

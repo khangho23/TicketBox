@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.dao.BillDao;
 import com.example.demo.dto.BillDetailsDto;
 import com.example.demo.dto.BillTicketDto;
@@ -60,7 +60,7 @@ public class BillService {
 
 	public Integer insertBillAndTicket(Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
 		AtomicReference<Double> totalPrice = new AtomicReference<>(0.0);
-				
+		
 		if (billTicketDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
 		
@@ -70,13 +70,14 @@ public class BillService {
 		
 		billTicketDto.get().setExportStatus(PaymentStatus.PENDING.getValue());
 		billDao.insert(billTicketDto.get());
-
-		billTicketDto.get().getTickets().stream().forEach(ticket -> {
+		billTicketDto.get().getTickets().forEach(ticket -> {
 			Optional<Ticket> optionalTicket = Optional.of(ticket);
-
+			double vat = optionalTicket.get().getTotalPrice() * optionalTicket.get().getVat();
+			
 			try {
 				optionalTicket.get().setBillId(billTicketDto.get().getId());
-				totalPrice.updateAndGet(price -> price + optionalTicket.get().getTotalPrice());
+				totalPrice.updateAndGet(
+						price -> price + optionalTicket.get().getTotalPrice() + vat);
 				ticketService.insert(optionalTicket);
 			} catch (InvalidRequestParameterException e) {
 				e.printStackTrace();
@@ -131,8 +132,10 @@ public class BillService {
 		return billDao.findByMovie(id);
 	}
 
-	public int updateExportStatus(int id, boolean exportstatus){
-		return billDao.updateExportStatus(id, exportstatus);
+	public int updateExportStatus(Optional<Integer> id, Optional<Integer> exportstatus) throws InvalidRequestParameterException {
+		id.orElseThrow(() -> new InvalidRequestParameterException("Bill id", RequestParameterEnum.NOTHING));
+		exportstatus.orElseThrow(() -> new InvalidRequestParameterException("Bill exportstatus", RequestParameterEnum.NOTHING));
+		return billDao.updateExportStatus(id.get(), exportstatus.get());
 	}
 
 	public BillDetailsDto checkout(Optional<Integer> billId, Optional<Integer> customerId) throws InvalidRequestParameterException {

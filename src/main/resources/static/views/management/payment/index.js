@@ -14,7 +14,7 @@ export default class Payment extends JetView {
 				id: "datatable",
 				css: "datatable",
 				columns: [
-					{ id: "branchName", header: ["Chi nhánh", { content: "selectFilter" }], width: 140, css: { "text-align": "center" }, tooltip: "", editor: "text" },
+					{ id: "branchName", header: ["Chi nhánh", { content: "selectFilter" }], width: 340, css: { "text-align": "center" }, tooltip: "", editor: "text" },
 					{ id: "branchName", header: ["Phòng"], width: 140, css: { "text-align": "center" }, tooltip: "", editor: "text" },
 					{ id: "branchName", header: ["Số lượng"], width: 140, css: { "text-align": "center" }, tooltip: "", editor: "text" },
 				],

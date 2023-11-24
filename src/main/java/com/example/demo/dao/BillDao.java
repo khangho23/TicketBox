@@ -36,7 +36,7 @@ public interface BillDao {
 	List<Bill> findByMovie(String id);
 
 	@Update(sqlFile = true)
-	int updateExportStatus(int id, boolean exportstatus);
+	int updateExportStatus(Integer id, Integer exportstatus);
 	
 	@Update(sqlFile = true)
 	int updateTotalPrice(int id, double totalPrice);

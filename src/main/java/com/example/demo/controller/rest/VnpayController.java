@@ -24,11 +24,13 @@ public class VnpayController {
 
     @PostMapping("/pay")
     public ResponseEntity<?> createPayment(
-    		@RequestHeader("X-FORWARDED-FOR") Optional<String> ipAddress, 
-    		@RequestBody VnpayPaymentDto vnp)
+    		@RequestHeader("X-FORWARDED-FOR") Optional<String> ipAddress,
+    		@RequestBody VnpayPaymentDto vnp,
+    		@RequestParam Optional<String> billId,
+    		@RequestParam Optional<String> paymentMethod)
             throws InvalidRequestParameterException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return ResponseEntity
-        		.ok(vnpayService.createPayment(ipAddress.orElse(request.getRemoteAddr()), vnp));
+    	return ResponseEntity
+        		.ok(vnpayService.createPayment(ipAddress.orElse(request.getRemoteAddr()), vnp, billId, paymentMethod));
     }
 
     @PostMapping("/payment-information")
@@ -50,24 +52,29 @@ public class VnpayController {
 
     @PostMapping("/pay-and-create-token")
     public ResponseEntity<?> paymentAndCreateToken(
-    		@RequestHeader("HTTP_X_FORWARDED_FOR") Optional<String> ipAddress,
-    		@RequestBody VnpayToken vnpayToken)
+    		@RequestHeader("X-FORWARDED-FOR") Optional<String> ipAddress,
+    		@RequestBody VnpayToken vnpayToken,
+    		@RequestParam Optional<String>  billId,
+    		@RequestParam Optional<String>  paymentMethod)
             throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
-        return ResponseEntity.ok(vnpayService.paymentAndCreateToken(ipAddress.orElse(request.getRemoteAddr()), vnpayToken));
+        return ResponseEntity.ok(vnpayService.paymentAndCreateToken(ipAddress.orElse(request.getRemoteAddr()), 
+        		vnpayToken, billId, paymentMethod));
     }
 
     @PostMapping("/pay-by-token")
     public ResponseEntity<?> paymentByToken(
     		@RequestHeader("X-FORWARDED-FOR") Optional<String> ipAddress,
-    		@RequestBody VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
-        return ResponseEntity.ok(vnpayService.paymentByToken(ipAddress.orElse(request.getLocalAddr()), vnpayToken));
+    		@RequestBody VnpayToken vnpayToken,
+    		@RequestParam Optional<String>  billId,
+    		@RequestParam Optional<String>  paymentMethod) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.paymentByToken(ipAddress.orElse(request.getRemoteAddr()), vnpayToken, billId, paymentMethod));
     }
 
     @DeleteMapping("/remove-token")
     public ResponseEntity<?> removeToken(
     		@RequestHeader("X-FORWARDED-FOR") Optional<String> ipAddress,
-    		@RequestBody VnpayToken vnpayToken) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
-        return ResponseEntity.ok(vnpayService.removeToken(ipAddress.orElse(request.getLocalAddr()), vnpayToken));
+    		@RequestBody VnpayToken vnpayToken) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.removeToken(ipAddress.orElse(request.getRemoteAddr()), vnpayToken));
     }
 
     @GetMapping("/save-token")
@@ -87,8 +94,9 @@ public class VnpayController {
 
     @PostMapping("/check-token-remove")
     public ResponseEntity<?> removedToken(@RequestParam String vnp_response_code,
-                                          @RequestParam String vnp_message)
+                                          @RequestParam String vnp_message,
+                                          @RequestParam Optional<Integer> id)
             throws InvalidRequestParameterException {
-        return ResponseEntity.ok(vnpayService.removedToken(vnp_response_code, vnp_message));
+        return ResponseEntity.ok(vnpayService.removedToken(id,vnp_response_code, vnp_message));
     }
 }

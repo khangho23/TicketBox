@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.dto.requestMovieDto;
 import com.example.demo.entity.Movie;
 import com.example.demo.exception.InvalidRequestParameterException;

@@ -14,7 +14,7 @@ import com.example.demo.entity.Ticket;
 @ConfigAutowireable
 public interface TicketDao {
 	@Select
-	Ticket findById(Integer id);
+	Ticket findById(Integer ticket);
 	
 	@Select
 	List<Ticket> findAll();

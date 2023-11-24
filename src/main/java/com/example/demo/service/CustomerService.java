@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
-import com.example.demo.admin.controller.enums.RequestStatusEnum;
+import com.example.demo.enums.RequestParameterEnum;
+import com.example.demo.enums.RequestStatusEnum;
 import com.example.demo.dao.CustomerDao;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
@@ -111,8 +111,9 @@ public class CustomerService {
 
         objectMetadata.setContentType("image/" + extension);
 
-        if (customer.get().getAvatar() != null) {
-            String avatar = customer.get().getAvatar();
+        
+        String avatar = customer.get().getAvatar();
+        if (avatar != null) {
             fileNameExists = avatar.substring(0, customer.get().getAvatar().indexOf("."));
 
             if (fileNameExists.equals(fileName))
