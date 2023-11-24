@@ -51,9 +51,7 @@ public class CustomerService {
         Customer customer = customerDao.findByEmail(email)
                 .orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
         if (customer.isActive()) {
-            if (
-                password.equals(customer.getPassword())
-            ) {
+            if (passwordEncoder.matches(password, customer.getPassword())) {
                 return customer;
             } else {
                 throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
