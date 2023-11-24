@@ -41,6 +41,11 @@ public class Bill {
     @Column(name = "exportstatus")
     private Integer exportStatus;
     /*
+     *	qrcode of bill
+     */
+    @Column(name = "qrcode")
+    private String qrCode;
+    /*
      * rate of movie
      */
     @Column(name = "rate")
@@ -50,11 +55,7 @@ public class Bill {
      */
     @Column(name = "review")
     private String review;
-    /*
-     * qrcode of bill
-     */
-    @Column(name = "qrcode")
-    private String qrCode;
+
     /*
      * customerid of bill
      */

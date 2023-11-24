@@ -1,49 +1,81 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee - Zuhot</title>
-    <div th:insert="~{common/script-import}"></div>
-    <link rel="stylesheet" th:href="@{/styles/empl/index.css}">
-    <style>
-        .result {
-            background-color: green;
-            color: #fff;
-            padding: 20px;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Employee - Zuhot</title>
+	<div th:insert="~{common/script-import}"></div>
+	<link rel="stylesheet" th:href="@{/styles/empl/index.css}">
+	<style>
+		.result {
+			background-color: green;
+			color: #fff;
+			padding: 20px;
+		}
 
-        .row {
-            display: flex;
-        }
-    </style>
-    <script th:src="@{/js/html5-qrcode.min.js}"></script>
+		.row {
+			display: flex;
+		}
+	</style>
+	<script th:src="@{/js/html5-qrcode.min.js}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <nav th:insert="~{common/navbar-empl}"></nav>
+	<nav th:insert="~{common/navbar-empl}"></nav>
 
-    <div class="row">
-        <div class="col">
-            <div style="width:500px;" id="reader"></div>
-        </div>
-        <div class="col" style="padding:30px;">
-            <h4>SCAN RESULT</h4>
-            <div id="result">Result Here</div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        function onScanSuccess(qrCodeMessage) {
-            document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
-        }
-        function onScanError(errorMessage) {
-            //handle scan error
-        }
-        var html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250 });
-        html5QrcodeScanner.render(onScanSuccess, onScanError);
-    </script>
-    <script th:src="@{/js/empl/scan-ticket.js}" type="module"></script>
+	<div class="row">
+		<div class="col">
+			<div style="width:500px;" id="reader"></div>
+		</div>
+		<div class="col" style="padding:30px;">
+			<h4>SCAN RESULT</h4>
+			<div id="result">Result Here</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function onScanSuccess(qrCodeMessage) {
+			$.get(`/api/bill/qr?qrCode=${qrCodeMessage}`, function(data) {
+			  document.getElementById('result').innerHTML = `
+			    <div>
+			      <p>Phim: ${data.movieName}</p>
+			      <p>Giới hạn tuổi: ${data.limitAge}</p>
+			      <p>Năm phát hành: ${data.yearOfManufacture}</p>
+			      <p>Đất nước: ${data.country}</p>
+			      <p>Phòng chiếu: ${data.roomName}</p>
+			      <p>Chi nhánh: ${data.branchName}</p>
+			      <p>Địa chỉ: ${data.branchAddress}</p>
+			      <p>Tên khách hàng: ${data.customer}</p>
+			      <p>Số điện thoại khách hàng: ${data.customerPhone}</p>
+			      <p>Email khách hàng: ${data.customerEmail}</p>
+			      <p>Ghế: ${data.seats}</p>
+			      ${
+			        data.toppingName !== null
+			          ? `
+				          <span>
+				            <p>Topping: ${data.toppingName}</p>
+				            <p>Tổng giá topping: ${data.toppingTotalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+				          </span>
+			          `
+			          : '<span></span>'
+			      }
+			      <p>Tổng tiền: ${data.ticketTotalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+			    </div>
+			  `;
+			})
+			.fail(function(error) {
+			  console.error(error);
+			  document.getElementById('result').innerHTML = `<span class="result">${error.errorMessage}</span>`;
+			});
+		}
+		function onScanError(errorMessage) {
+			//handle scan error
+		}
+		var html5QrcodeScanner = new Html5QrcodeScanner(
+			"reader", {fps: 10, qrbox: 250});
+		html5QrcodeScanner.render(onScanSuccess, onScanError);
+	</script>
+	<script th:src="@{/js/empl/scan-ticket.js}" type="module"></script>
 </body>
 
 </html>
