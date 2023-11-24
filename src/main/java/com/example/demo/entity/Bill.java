@@ -55,11 +55,7 @@ public class Bill {
      */
     @Column(name = "review")
     private String review;
-    /*
-     * qrcode of bill
-     */
-    @Column(name = "qrcode")
-    private String qrCode;
+
     /*
      * customerid of bill
      */

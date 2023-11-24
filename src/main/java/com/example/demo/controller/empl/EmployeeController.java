@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.BillDetailsDto;
-import com.example.demo.dto.BillDto;
 import com.example.demo.entity.Bill;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.service.BillService;
