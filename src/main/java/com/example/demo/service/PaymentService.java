@@ -1,10 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
-import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.dao.PaymentDetailsDao;
 import com.example.demo.entity.PaymentDetails;
-import com.example.demo.entity.PaymentMethod;
 import com.example.demo.exception.InvalidRequestParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

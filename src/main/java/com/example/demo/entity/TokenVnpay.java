@@ -24,4 +24,13 @@ public class TokenVnpay {
 
     @Column
     private String vnp_card_number;
+    
+    @Column
+    private String vnp_card_type;
+    
+    @Column
+    private String vnp_bank_code;
+    
+    @Column
+    private String vnp_create_date;
 }

@@ -61,7 +61,8 @@ public class BillController {
     }
 
     @GetMapping("/updateExportStatus")
-    public ResponseEntity<?> updateExportStatus(@RequestParam("id") int id, @RequestParam("exportstatus") boolean exportstatus){
+    public ResponseEntity<?> updateExportStatus(@RequestParam("id") Optional<Integer> id,
+                                                @RequestParam("exportstatus") Optional<Integer> exportstatus) throws InvalidRequestParameterException {
         return ResponseEntity.ok(billService.updateExportStatus(id, exportstatus));
     }
     

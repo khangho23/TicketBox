@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dao.ShowTimeDao;
 import com.example.demo.domain.ShowTimeHasMovies;
 import com.example.demo.dto.ShowTimeDto;
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
-import com.example.demo.admin.controller.enums.RequestStatusEnum;
+import com.example.demo.enums.RequestParameterEnum;
+import com.example.demo.enums.RequestStatusEnum;
 import com.example.demo.entity.ShowTime;
 import com.example.demo.exception.InvalidRequestParameterException;
 
