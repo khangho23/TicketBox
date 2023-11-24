@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin/management-movie")
 public class MovieManagementController {
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<?> index() {
         return null;
     }

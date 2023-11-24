@@ -2,7 +2,7 @@ package com.example.demo.exception;
 
 import org.springframework.http.HttpStatus;
 
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.model.ErrorResponseModel;
 
 import lombok.Getter;
