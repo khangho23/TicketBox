@@ -14,7 +14,7 @@ import com.example.demo.service.DashboardService;
 @RestController
 @RequestMapping("/api/v2/dashboard")
 @CrossOrigin("*")
-public class DashboardController {
+public class DashboardController2 {
 	@Autowired
 	private DashboardService dashboardService;
 
