@@ -35,9 +35,9 @@ public class MovieController {
 	private MovieService movieService;
 
 	@GetMapping(value = { "", "/" })
-	public ResponseEntity<?> findAll(@RequestParam("status") Optional<String> status)
+	public ResponseEntity<?> findAll(@RequestParam("status") Optional<String> status,@RequestParam Optional<Integer> pageSize, Optional<Integer> page)
 			throws InvalidRequestParameterException {
-		List<Movie> list = !status.isPresent() ? movieService.findAll() : movieService.findByStatus(status.get());
+		List<Movie> list = !status.isPresent() ? movieService.findAll() : movieService.findByStatus(status.get(),pageSize,page);
 		return ResponseEntity.ok(list);
 	}
 
