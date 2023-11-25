@@ -50,6 +50,7 @@ public class CustomerService {
     public Customer authenticator(String email, String password) throws InvalidRequestParameterException {
         Customer customer = customerDao.findByEmail(email)
                 .orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
+        System.out.println(customer.getPassword());
         if (customer.isActive()) {
             if (passwordEncoder.matches(password, customer.getPassword())) {
                 return customer;

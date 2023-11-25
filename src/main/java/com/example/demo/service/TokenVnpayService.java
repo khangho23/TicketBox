@@ -26,8 +26,8 @@ public class TokenVnpayService {
 	public TokenVnpay findByCustomerId(Optional<Integer> customerId) throws InvalidRequestParameterException {
 		customerId.orElseThrow(() -> new InvalidRequestParameterException("TokenVnpay customerId", RequestParameterEnum.NOTHING));
 		TokenVnpay tokenVnpay = tokenVnpayDao.findByCustomerId(customerId.get());
-		if (tokenVnpay == null) 
-			throw new InvalidRequestParameterException("Token Vnpay", RequestParameterEnum.NOT_FOUND);
+//		if (tokenVnpay == null) 
+//			throw new InvalidRequestParameterException("Token Vnpay", RequestParameterEnum.NOT_FOUND);
 		
 		return tokenVnpay;
 	}
