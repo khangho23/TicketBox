@@ -20,4 +20,17 @@ public class StaffService {
 		staff.setPassword(securityConfig.passwordEncoder().encode(staff.getPassword()));
 		return (staffDao.insert(staff)== 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
 	}
+
+	public Optional<Staff> login(AccountModel account){
+		Optional<Staff> staff = staffDao.findByEmail(account.getEmail());
+        if (!staff.isEmpty()) {
+            if (account.getPassword().equals(staff.getPassword())) {
+                return staff;
+            } else {
+                throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
+            }
+        } else {
+            throw new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS);
+        }
+	}
 }

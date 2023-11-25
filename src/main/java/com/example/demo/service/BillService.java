@@ -64,7 +64,7 @@ public class BillService {
 		
 		if (billTicketDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
-		// billDto.get().setQrCode(generateUniqueUUID());
+		billTicketDto.get().setQrCode(generateUniqueUUID());
 
 		if (billTicketDto.get().getCustomerId() == null)
 			throw new InvalidRequestParameterException("Customer ID", RequestParameterEnum.NOTHING);

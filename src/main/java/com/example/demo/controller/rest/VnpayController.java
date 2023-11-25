@@ -77,9 +77,9 @@ public class VnpayController {
         return ResponseEntity.ok(vnpayService.removeToken(ipAddress.orElse(request.getRemoteAddr()), vnpayToken));
     }
 
-    @GetMapping("/save-token")
-    public ResponseEntity<?> saveToken() throws InvalidRequestParameterException {
-        return ResponseEntity.ok(vnpayService.saveToken(request));
+    @PostMapping("/save-token")
+    public ResponseEntity<?> saveToken(@RequestBody VnpayToken vnpayToken) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(vnpayService.saveToken(vnpayToken));
     }
 
     @PostMapping("/check-payment-and-token")

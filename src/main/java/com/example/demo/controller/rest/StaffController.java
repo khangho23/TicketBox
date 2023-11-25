@@ -22,4 +22,9 @@ public class StaffController {
 	public void insert(@RequestBody Staff staff) throws InvalidRequestParameterException{
 		staffService.insert(staff);
 	}
+
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody AccountModel staff) throws InvalidRequestParameterException{
+		reutnr ResponseEntity.ok(staffService.login(staff));
+	}
 }

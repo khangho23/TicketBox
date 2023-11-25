@@ -122,7 +122,6 @@ public class VnpayService {
 		vnp_Params.put("vnp_tmn_code", VnpayConfig.vnp_TmnCode);
 		vnp_Params.put("vnp_app_user_id", vnpayToken.getVnp_app_user_id());
 		vnp_Params.put("vnp_card_type", vnpayToken.getVnp_card_type());
-		vnp_Params.put("vnp_bank_code", vnpayToken.getVnp_bank_code());
 		vnp_Params.put("vnp_locale", vnpayToken.getVnp_locale());
 		vnp_Params.put("vnp_txn_ref", VnpayConfig.getRandomNumber(8));
 		vnp_Params.put("vnp_txn_desc", content);
@@ -322,17 +321,18 @@ public class VnpayService {
         }
 	}
 
-	public String saveToken(HttpServletRequest request) throws InvalidRequestParameterException {
-		Map<String, String> fields = getFieldsFromRequest(request);
-
+	public String saveToken(VnpayToken vnpayToken) throws InvalidRequestParameterException {
 		boolean customerIdIsPresent = tokenVnpayService
-				.findByCustomerId(Optional.of(Integer.parseInt(fields.get("vnp_app_user_id")))) != null;
+				.findByCustomerId(Optional.of(Integer.parseInt(vnpayToken.getVnp_app_user_id()))) != null;
 
-		if ("00".equals(fields.get("vnp_response_code")) && !customerIdIsPresent) {
+		if ("00".equals(vnpayToken.getVnp_response_code()) && !customerIdIsPresent) {
 			TokenVnpay tokenVnpay = new TokenVnpay();
-			tokenVnpay.setVnp_app_user_id(Integer.parseInt(fields.get("vnp_app_user_id")));
-			tokenVnpay.setVnp_token(fields.get("vnp_token"));
-			tokenVnpay.setVnp_card_number(fields.get("vnp_card_number"));
+			tokenVnpay.setVnp_app_user_id(Integer.parseInt(vnpayToken.getVnp_app_user_id()));
+			tokenVnpay.setVnp_token(vnpayToken.getVnp_token());
+			tokenVnpay.setVnp_card_number(vnpayToken.getVnp_card_number());
+			tokenVnpay.setVnp_bank_code(vnpayToken.getVnp_bank_code());
+			tokenVnpay.setVnp_card_type(vnpayToken.getVnp_card_type());
+			tokenVnpay.setVnp_create_date(vnpayToken.getVnp_pay_date());
 
 			// Insert DB
 			tokenVnpayService.insert(Optional.of(tokenVnpay));
@@ -395,7 +395,7 @@ public class VnpayService {
 		customerId.orElseThrow(
 				() -> new InvalidRequestParameterException("Vnpay vnp_app_user_id", RequestParameterEnum.NOTHING));
 
-		fields.remove("vnp_SecureHash");
+		fields.remove("vnp_secure_hash");
 		
 		TokenVnpay token = tokenVnpayService.findByCustomerId(customerId);
 
