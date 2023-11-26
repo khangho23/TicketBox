@@ -25,10 +25,10 @@ public class StaffService {
 		return (staffDao.insert(staff)== 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
 	}
 
-	public Optional<Staff> login(AccountModel account){
+	public Optional<Staff> login(AccountModel account) throws InvalidRequestParameterException{
 		Optional<Staff> staff = staffDao.findByEmail(account.getEmail());
         if (!staff.isEmpty()) {
-            if (account.getPassword().equals(staff.getPassword())) {
+            if (account.getPassword().equals(staff.get().getPassword())) {
                 return staff;
             } else {
                 throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
