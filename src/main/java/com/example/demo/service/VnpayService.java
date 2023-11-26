@@ -377,6 +377,8 @@ public class VnpayService {
 			tokenVnpay.setVnp_token(fields.get("vnp_token"));
 
 			tokenVnpayService.insert(Optional.of(tokenVnpay));
+			
+			billService.updateExportStatus(billId, Optional.of(BillExportStatus.SUCCESS.getValue()));
 
 			return RequestStatusEnum.SUCCESS.getResponse();
 		}
@@ -409,6 +411,7 @@ public class VnpayService {
 			paymentDetails.setStatus(PaymentStatus.SUCCESS.getValue());
 
 			paymentService.insertPaymentDetails(paymentDetails);
+			billService.updateExportStatus(billId, Optional.of(1));
 			
 			return RequestStatusEnum.SUCCESS.getResponse();
 		}
