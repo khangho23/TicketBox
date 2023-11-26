@@ -1,6 +1,7 @@
 package com.example.demo.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Staff;
 import com.example.demo.exception.InvalidRequestParameterException;
+import com.example.demo.model.AccountModel;
 import com.example.demo.service.StaffService;
 
 @RestController
@@ -25,6 +27,6 @@ public class StaffController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody AccountModel staff) throws InvalidRequestParameterException{
-		reutnr ResponseEntity.ok(staffService.login(staff));
+		return ResponseEntity.ok(staffService.login(staff));
 	}
 }
