@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.dao.DashboardDao;
+import com.example.demo.dto.TicketInDayDto;
 import com.example.demo.entity.Dashboard;
 import com.example.demo.exception.InvalidRequestParameterException;
 
@@ -76,5 +77,9 @@ public class DashboardService {
 			throw new InvalidRequestParameterException("Thống kê", RequestParameterEnum.NOT_FOUND);
 		}
 		return list;
+	}
+
+	public List<TicketInDayDto> statisticsTotalTicketInDay(String movieId, String branchId) {
+		return dashboardDao.statisticsTotalTicketInDay(movieId, branchId);
 	}
 }
