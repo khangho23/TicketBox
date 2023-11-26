@@ -31,13 +31,8 @@ FROM bill
          JOIN branch ON room.branchid = branch.id
          JOIN showtime ON showtime.id = ticket.showtimeid
          JOIN languageofmovie ON languageofmovie.id = showtime.languageofmovieid
-	  JOIN movie ON movie.id = languageofmovie.movieid
-	  JOIN "language" ON "language".id = languageofmovie.languageid
-         JOIN country ON movie.countryid = country.id
-         LEFT JOIN toppingdetails ON bill.id = toppingdetails.billid
-         LEFT JOIN topping ON toppingdetails.billid = bill.id
-WHERE ticket.billid = /* billId */1 AND ticket.customerid = /* customerId */1
-         JOIN language ON language.id = languageofmovie.languageid
+	 JOIN movie ON movie.id = languageofmovie.movieid
+	 JOIN "language" ON "language".id = languageofmovie.languageid
          JOIN country ON movie.countryid = country.id
          LEFT JOIN toppingdetails ON bill.id = toppingdetails.billid
          LEFT JOIN topping ON toppingdetails.billid = bill.id
@@ -48,11 +43,11 @@ GROUP BY bill.id,
          paymentmethod.name,
          starttime,
          showdate,
-		 movie.poster,
+	 movie.poster,
          movie.name,
          movie.limitage,
          movie.yearofmanufacture,
-		 language.name,
+	 language.name,
          country.name,
          room.name,
          branch.name,
