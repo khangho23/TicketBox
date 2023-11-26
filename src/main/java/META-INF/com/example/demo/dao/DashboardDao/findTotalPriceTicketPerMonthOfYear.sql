@@ -8,7 +8,8 @@ WITH months AS (
 SELECT 
     TO_CHAR(month, 'MM') AS id,
     COALESCE(sum(ticket.totalprice), 0) AS totalPrice,
-	COALESCE(count(ticket.id), 0) AS totalTicket
+	COALESCE(count(ticket.id), 0) AS totalTicket,
+	TO_CHAR(month, 'MM') AS month
 FROM ticket 
 join bill on bill.id = ticket.billid
 join showtime on ticket.showtimeid = showtime.id
