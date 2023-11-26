@@ -16,6 +16,9 @@ public interface TokenVnpayDao {
 	@Select
 	TokenVnpay findByCustomerId(Integer customerId);
 	
+	@Select
+	TokenVnpay findById(Integer id);
+	
 	@Delete(sqlFile = true)
 	int deleteById(Integer id);
 }
