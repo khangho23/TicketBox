@@ -65,8 +65,8 @@ public class DashboardNewController {
 		return ResponseEntity.ok(dashboardService.statisticsTotalShowtimeOfYear(year, branchId));
 	}
 
-	@GetMapping("/statisticsTotalShowtimeOfDay")
-	public ResponseEntity<?> statisticsTotalShowtimeOfDay(@RequestParam("movieId") String movieId, @RequestParam("branchId") String branchId){
-		return ResponseEntity.ok(dashboardService.statisticsTotalShowtimeOfDay(movieId, branchId));
+	@GetMapping("/statisticsTotalTicketInDay")
+	public ResponseEntity<?> statisticsTotalTicketInDay(@RequestParam("movieId") String movieId, @RequestParam("branchId") String branchId){
+		return ResponseEntity.ok(dashboardService.statisticsTotalTicketInDay(movieId, branchId));
 	}
 }

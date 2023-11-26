@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class ShowtimeByDayDto {
+public class TicketInDayDto {
     @Column(name = "starttime")
     private String starttime;
     @Column(name = "quantity")
