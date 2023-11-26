@@ -36,4 +36,13 @@ public class TokenVnpayService {
 		id.orElseThrow(() -> new InvalidRequestParameterException("TokenVnpay id", RequestParameterEnum.NOTHING));
 		tokenVnpayDao.deleteById(id.get());
 	}
+	
+	public TokenVnpay findById(Optional<Integer> id) throws InvalidRequestParameterException {
+		id.orElseThrow(() -> new InvalidRequestParameterException("TokenVnpay id", RequestParameterEnum.NOTHING));
+		TokenVnpay tokenVnpay = tokenVnpayDao.findById(id.get());
+		if (tokenVnpay == null) 
+			throw new InvalidRequestParameterException("Token Vnpay", RequestParameterEnum.NOT_FOUND);
+		
+		return tokenVnpay;
+	}
 }

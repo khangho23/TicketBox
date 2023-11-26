@@ -416,14 +416,11 @@ public class VnpayService {
 		throw new InvalidRequestParameterException("Token is invalid", RequestParameterEnum.WRONG);
 	}
 
-	public String removedToken(Optional<Integer> id, String vnp_response_code, String vnp_message)
+	public String removedToken(Optional<Integer> id)
 			throws InvalidRequestParameterException {
-		if ("00".equals(vnp_response_code)) {
-			tokenVnpayService.deleteById(id);
+			TokenVnpay token = tokenVnpayService.findById(id);
+			tokenVnpayService.deleteById(Optional.of(token.getId()));
 			return RequestStatusEnum.SUCCESS.getResponse();
-		}
-
-		throw new InvalidRequestParameterException("Remove token is failed", RequestParameterEnum.WRONG);
 	}
 
 	private String[] buildQueryUrl(Map<String, String> vnp_Params) {
