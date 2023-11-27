@@ -14,13 +14,13 @@ import com.example.demo.entity.Dashboard;
 public interface DashboardDao {
 
 	@Select
-	List<Dashboard> findTotalPriceTicketPerMonthOfYear(int year, String branchName);
+	List<Dashboard> findTotalPriceTicketPerMonthOfYear(int year, String branchId);
 
 	@Select
-	List<Dashboard> statisticsTicketPriceByMovie(String branchName);
+	List<Dashboard> statisticsTicketPriceByMovie(String branchId);
 
 	@Select
-	List<Dashboard> statisticsTicketPriceByMovie2(String movieName, int year, String branchName);
+	List<Dashboard> statisticsTicketPriceByMovie2(String movieId, int year, String branchId);
 
 	@Select
 	List<Dashboard> fillYear();

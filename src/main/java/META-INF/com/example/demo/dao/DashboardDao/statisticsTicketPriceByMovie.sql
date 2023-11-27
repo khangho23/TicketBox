@@ -10,5 +10,5 @@ JOIN languageofmovie ON languageofmovie.id = showtime.languageofmovieid
 JOIN movie ON movie.id = languageofmovie.movieid
 JOIN room ON room.id = showtime.roomid
 JOIN branch ON branch.id = room.branchid
-where branch.Name =/* branchName */'Bình Tân'
+where branch.id =/* branchId */'cn1'
 group by movieName,year
