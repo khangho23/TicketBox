@@ -21,7 +21,7 @@ public class VnpayConfig {
     public static String vnp_PaymentByToken = "https://sandbox.vnpayment.vn/token_ui/payment-token.html";
     public static String vnp_RemoveToken = "https://sandbox.vnpayment.vn/token_ui/remove-token.html";
     public static String vnp_ReturnUrlAfterComplete = returnUrl + "/book/complete";
-    public static String vnp_ReturnUrlAfterCreateToken = returnUrl + "/save/card";
+    public static String vnp_ReturnUrlAfterCreateToken = returnUrl + "/user/bank-integration";
     public static String vnp_CancelUrl = "http://localhost:3000/book/cancel";
     public static String vnp_TmnCode = "1AXWHH3Y";
     public static String vnp_Version = "2.1.0";

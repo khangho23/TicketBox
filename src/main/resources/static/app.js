@@ -3,6 +3,7 @@ import Main from "./views/main.js";
 import Dash from "./views/dash/index.js";
 import Movie from "./views/management/movie/index.js"
 import Showtime from "./views/management/showtime/index.js"
+import Payment from "./views/management/payment/index.js"
 const JetApp = webix.jet.JetApp;
 const UrlRouter = webix.jet.UrlRouter;
 
@@ -26,6 +27,7 @@ export default class InventoryApp extends JetApp {
 				dash: Dash,
 				"managementMovie": Movie,
 				"management-showtime": Showtime,
+				"management-payment": Payment,
 			},
 			theme: theme || ""
 		}, config, true));

@@ -7,4 +7,4 @@ SELECT
     vnp_bank_code,
     vnp_create_date
 FROM tokenvnpay
-WHERE customerid = /* customerId */0
+WHERE id = /* id */0

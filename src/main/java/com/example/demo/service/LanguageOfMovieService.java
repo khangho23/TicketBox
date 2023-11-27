@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.dao.LanguageOfMovieDao;
 import com.example.demo.dto.LanguageOfMovieDto;
 import com.example.demo.entity.LanguageOfMovie;

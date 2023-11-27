@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
+import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.dto.requestMovieDto;
 import com.example.demo.entity.Movie;
 import com.example.demo.exception.InvalidRequestParameterException;
@@ -35,9 +35,9 @@ public class MovieController {
 	private MovieService movieService;
 
 	@GetMapping(value = { "", "/" })
-	public ResponseEntity<?> findAll(@RequestParam("status") Optional<String> status)
+	public ResponseEntity<?> findAll(@RequestParam("status") Optional<String> status,@RequestParam Optional<Integer> pageSize, Optional<Integer> page)
 			throws InvalidRequestParameterException {
-		List<Movie> list = !status.isPresent() ? movieService.findAll() : movieService.findByStatus(status.get());
+		List<Movie> list = !status.isPresent() ? movieService.findAll() : movieService.findByStatus(status.get(),pageSize,page);
 		return ResponseEntity.ok(list);
 	}
 
