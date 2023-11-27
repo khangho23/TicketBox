@@ -37,4 +37,12 @@ public class StaffService {
             throw new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS);
         }
 	}
+
+	public Optional <Staff> findById(String id) throws InvalidRequestParameterException{
+		Optional<Staff> staff = staffDao.findById(id);
+		if(staff.isEmpty()){
+			throw new InvalidRequestParameterException("id", RequestParameterEnum.WRONG);
+		}
+		return staff;
+	}
 }

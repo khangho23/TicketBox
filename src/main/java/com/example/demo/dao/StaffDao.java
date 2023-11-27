@@ -18,4 +18,7 @@ public interface StaffDao {
 	
 	@Select
 	Optional<Staff> findByEmail(String email);
+
+	@Select
+	Optional<Staff> findById(String id);
 }
