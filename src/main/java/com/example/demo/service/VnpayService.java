@@ -377,6 +377,8 @@ public class VnpayService {
 			tokenVnpay.setVnp_token(fields.get("vnp_token"));
 
 			tokenVnpayService.insert(Optional.of(tokenVnpay));
+			
+			billService.updateExportStatus(billId, Optional.of(BillExportStatus.SUCCESS.getValue()));
 
 			return RequestStatusEnum.SUCCESS.getResponse();
 		}
@@ -409,6 +411,7 @@ public class VnpayService {
 			paymentDetails.setStatus(PaymentStatus.SUCCESS.getValue());
 
 			paymentService.insertPaymentDetails(paymentDetails);
+			billService.updateExportStatus(billId, Optional.of(1));
 			
 			return RequestStatusEnum.SUCCESS.getResponse();
 		}
@@ -416,14 +419,11 @@ public class VnpayService {
 		throw new InvalidRequestParameterException("Token is invalid", RequestParameterEnum.WRONG);
 	}
 
-	public String removedToken(Optional<Integer> id, String vnp_response_code, String vnp_message)
+	public String removedToken(Optional<Integer> id)
 			throws InvalidRequestParameterException {
-		if ("00".equals(vnp_response_code)) {
-			tokenVnpayService.deleteById(id);
+			TokenVnpay token = tokenVnpayService.findById(id);
+			tokenVnpayService.deleteById(Optional.of(token.getId()));
 			return RequestStatusEnum.SUCCESS.getResponse();
-		}
-
-		throw new InvalidRequestParameterException("Remove token is failed", RequestParameterEnum.WRONG);
 	}
 
 	private String[] buildQueryUrl(Map<String, String> vnp_Params) {

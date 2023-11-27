@@ -64,14 +64,14 @@ public class BillService {
 		
 		if (billTicketDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
-		billTicketDto.get().setQrCode(generateUniqueUUID());
+//		billTicketDto.get().setQrCode(generateUniqueUUID());
 
 		if (billTicketDto.get().getCustomerId() == null)
 			throw new InvalidRequestParameterException("Customer ID", RequestParameterEnum.NOTHING);
 		
 		billTicketDto.get().setExportStatus(PaymentStatus.PENDING.getValue());
 		billDao.insert(billTicketDto.get());
-		billTicketDto.get().getTickets().forEach(ticket -> {
+		billTicketDto.get().getTickets().stream().forEach(ticket -> {
 			Optional<Ticket> optionalTicket = Optional.of(ticket);
 			double vat = optionalTicket.get().getTotalPrice() * optionalTicket.get().getVat();
 			
@@ -106,7 +106,8 @@ public class BillService {
 			try {
 				ToppingOfBranch toppingOfBranch = toppingService.findToppingOfBranchById(optionalTopping.get().getToppinngOfBranchId());
 				optionalTopping.get().setBillId(billId);
-				totalPrice.updateAndGet(price -> price + optionalTopping.get().getPriceWhenBuy());
+				totalPrice.updateAndGet(price -> price + 
+						optionalTopping.get().getPriceWhenBuy() * optionalTopping.get().getQuantity());
 				if (optionalTopping.get().getQuantity() > toppingOfBranch.getQuantity())
 					throw new IllegalFieldValueException("quantity", "" + optionalTopping.get().getQuantity());
 				

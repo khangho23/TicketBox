@@ -70,7 +70,7 @@ public class VnpayController {
         return ResponseEntity.ok(vnpayService.paymentByToken(ipAddress.orElse(request.getRemoteAddr()), vnpayToken, billId, paymentMethod));
     }
 
-    @DeleteMapping("/remove-token")
+    @PostMapping("/remove-token")
     public ResponseEntity<?> removeToken(
     		@RequestHeader("X-FORWARDED-FOR") Optional<String> ipAddress,
     		@RequestBody VnpayToken vnpayToken) throws InvalidRequestParameterException {
@@ -92,11 +92,9 @@ public class VnpayController {
         return ResponseEntity.ok(vnpayService.paymentByTokenStage(request));
     }
 
-    @PostMapping("/check-token-remove")
-    public ResponseEntity<?> removedToken(@RequestParam String vnp_response_code,
-                                          @RequestParam String vnp_message,
-                                          @RequestParam Optional<Integer> id)
+    @DeleteMapping("/check-token-remove")
+    public ResponseEntity<?> removedToken(@RequestParam Optional<Integer> id)
             throws InvalidRequestParameterException {
-        return ResponseEntity.ok(vnpayService.removedToken(id,vnp_response_code, vnp_message));
+        return ResponseEntity.ok(vnpayService.removedToken(id));
     }
 }

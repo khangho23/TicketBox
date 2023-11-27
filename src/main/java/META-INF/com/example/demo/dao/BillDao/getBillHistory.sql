@@ -30,4 +30,5 @@ GROUP BY bill.id,
          movie.time,
          room.name,
          branch.name,
-         customer.address;
+         customer.address
+ORDER BY bill.id DESC;

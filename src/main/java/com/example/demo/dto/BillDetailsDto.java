@@ -55,6 +55,10 @@ public class BillDetailsDto extends Bill {
     private double ticketTotalPrice;
     @Column(name = "ticket_vat")
     private double ticketVat;
+    @Column(name = "ticket_quantity")
+    private double ticketQuantity;
+    @Column(name = "topping_quantity")
+    private double toppingQuantity;
     @Transient
     private List<TicketDto> tickets;
 }
