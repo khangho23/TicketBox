@@ -61,5 +61,7 @@ public class Dashboard {
 	@Column
 	private int totalShowtime;
 	
+	@Column
+	private String movieId;
 }
 
