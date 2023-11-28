@@ -12,6 +12,7 @@ import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.enums.RequestStatusEnum;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.model.AccountModel;
+import com.example.demo.model.StaffUpdatePasswordModel;
 
 @Service
 public class StaffService {
@@ -44,5 +45,20 @@ public class StaffService {
 			throw new InvalidRequestParameterException("id", RequestParameterEnum.WRONG);
 		}
 		return staff;
+	}
+
+	public RequestStatusEnum update(Staff staff) throws InvalidRequestParameterException{
+		return (staffDao.update(staff)== 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
+	}
+
+	public RequestStatusEnum updatePassword(StaffUpdatePasswordModel model) throws InvalidRequestParameterException{
+		Optional<Staff>obj = staffDao.findById(model.getId());
+		if(obj.isEmpty()){
+			throw new InvalidRequestParameterException("id", RequestParameterEnum.WRONG);
+		}
+		if(!model.getPasswordOld().equals(obj.get().getPassword())){
+			throw new InvalidRequestParameterException("Mật khẩu cũ không chính xác", RequestParameterEnum.WRONG);
+		}
+		return (staffDao.updatePassword(model)== 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
 	}
 }

@@ -3,6 +3,9 @@ select
 	email,
 	name,
 	password,
+    birthday,
+    gender,
+    phone,
 	role,
 	branchId
 from staff

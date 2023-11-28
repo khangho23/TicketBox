@@ -18,4 +18,6 @@ public class ReviewDto {
     private String exportdate;
     @Column
     private String name;
+    @Column
+    private String avatar;
 }
