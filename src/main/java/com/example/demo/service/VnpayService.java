@@ -15,7 +15,9 @@ import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.util.PaymentUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;
@@ -376,9 +378,14 @@ public class VnpayService {
 			tokenVnpay.setVnp_create_date("vnp_pay_date");
 			tokenVnpay.setVnp_token(fields.get("vnp_token"));
 
-			tokenVnpayService.insert(Optional.of(tokenVnpay));
 			
 			billService.updateExportStatus(billId, Optional.of(BillExportStatus.SUCCESS.getValue()));
+			
+			try {
+				tokenVnpayService.insert(Optional.of(tokenVnpay));
+			} catch (DuplicateKeyException e) {
+				e.getStackTrace();
+			}
 
 			return RequestStatusEnum.SUCCESS.getResponse();
 		}
