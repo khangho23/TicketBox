@@ -12,7 +12,7 @@ SELECT movie.poster,
        STRING_AGG(DISTINCT CONCAT(toppingdetails.quantity, topping.name), ', ') AS topping,
 	   (SELECT SUM(totalprice) FROM ticket
        	WHERE billid = /* billId */0) AS ticket_totalprice,
-       SUM(DISTINCT ticket.totalprice * ticket.vat) AS ticket_vat,
+       ticket.vat AS ticket_vat,
 	   SUM(toppingdetails.pricewhenbuy) AS topping_totalprice
 FROM bill
 JOIN ticket ON ticket.billid = bill.id
@@ -36,4 +36,5 @@ GROUP BY movie.poster,
          movie.status,
          branch.name,
          branch.address,
-         customer.name;
+         customer.name,
+	 ticket.vat;
