@@ -1,20 +1,15 @@
 package com.example.demo.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.admin.controller.enums.RequestParameterEnum;
-import com.example.demo.admin.controller.enums.RequestStatusEnum;
 import com.example.demo.dao.MovieConfigDao;
-import com.example.demo.dao.MovieDao;
 import com.example.demo.dto.MovieConfigDto;
-import com.example.demo.entity.Movie;
 import com.example.demo.entity.MovieConfig;
+import com.example.demo.enums.RequestParameterEnum;
+import com.example.demo.enums.RequestStatusEnum;
 import com.example.demo.exception.InvalidRequestParameterException;
 
 @Service
