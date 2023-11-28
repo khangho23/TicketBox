@@ -11,4 +11,5 @@ LEFT JOIN languageofmovie on languageofmovie.id = showtime.languageofmovieid
 JOIN movie on languageofmovie.movieid = movie.id
 WHERE movie.id = /* id */'MP07' AND bill.rate != 0
 GROUP BY bill.id, customer.name, customer.avatar
-LIMIT CAST(/* pageSize */4 AS INT) OFFSET (CAST(/* page */1 AS INT) - 1) * CAST(/* pageSize */4 AS INT);
+ORDER BY bill.id DESC 
+LIMIT CAST(/* pageSize */4 AS INT) OFFSET (CAST(/* page */1 AS INT) - 1) * CAST(/* pageSize */4 AS INT)
