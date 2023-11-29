@@ -27,6 +27,4 @@ public interface MovieConfigDao {
 	@Select()
 	List<MovieConfig> findAllByMovieId(String movieId);
 	
-	@Select()
-	List<MovieConfigDto> findAll();
 }

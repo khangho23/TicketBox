@@ -3,7 +3,7 @@ SET
 startdate = /* movieConfig.startDate */'0',
 enddate = /* movieConfig.endDate */'0',
 createdate = /* movieConfig.createDate */'0',
-updatedate = /* movieConfig.updateDate */'0',
+updatedate = CURRENT_DATE,
 status = 
         CASE
             WHEN CURRENT_DATE BETWEEN /* movieConfig.startDate */'0' AND /* movieConfig.endDate */'0' THEN 1

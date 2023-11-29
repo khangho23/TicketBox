@@ -32,14 +32,4 @@ public class MovieConfigService {
 		}
 		return list;
 	}
-
-	public List<MovieConfigDto> FindAllMovieConfig() throws InvalidRequestParameterException {
-		List<MovieConfigDto> listMovie = movieConfigDao.findAll();
-		for (MovieConfigDto movieConfig : listMovie) {
-			List<MovieConfig> MovieConfigById = movieConfigDao.findAllByMovieId(movieConfig.getId());
-			movieConfig.setListMovieConfig(MovieConfigById);
-		}
-
-		return listMovie;
-	};
 }

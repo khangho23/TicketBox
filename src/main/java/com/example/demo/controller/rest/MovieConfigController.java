@@ -32,8 +32,4 @@ public class MovieConfigController {
     public ResponseEntity<?> findAllByMovieId (@RequestParam String movieId )throws InvalidRequestParameterException {
         return ResponseEntity.ok(movieConfigService.findAllByMovieId(movieId));
     }
-    @RequestMapping("/findAll")
-    public ResponseEntity<?> findAll()throws InvalidRequestParameterException {
-        return ResponseEntity.ok(movieConfigService.FindAllMovieConfig());
-    }
 }
