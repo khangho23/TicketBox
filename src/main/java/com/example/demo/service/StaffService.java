@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.config.SecurityConfig;
@@ -20,6 +21,9 @@ public class StaffService {
 	private StaffDao staffDao;
 	@Autowired
 	private SecurityConfig securityConfig;
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 
 	public RequestStatusEnum insert(Staff staff) throws InvalidRequestParameterException{
 		staff.setPassword(securityConfig.passwordEncoder().encode(staff.getPassword()));
@@ -29,7 +33,7 @@ public class StaffService {
 	public Optional<Staff> login(AccountModel account) throws InvalidRequestParameterException{
 		Optional<Staff> staff = staffDao.findByEmail(account.getEmail());
         if (!staff.isEmpty()) {
-            if (account.getPassword().equals(staff.get().getPassword())) {
+            if (passwordEncoder.matches(account.getPassword(), staff.get().getPassword())) {
                 return staff;
             } else {
                 throw new InvalidRequestParameterException("Password", RequestParameterEnum.WRONG);
