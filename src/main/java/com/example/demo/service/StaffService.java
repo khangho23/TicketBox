@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.config.SecurityConfig;
 import com.example.demo.dao.StaffDao;
+import com.example.demo.dto.StaffRespDto;
 import com.example.demo.entity.Staff;
 import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.enums.RequestStatusEnum;
@@ -45,8 +46,8 @@ public class StaffService {
 		}
 	}
 
-	public Optional<Staff> loginE(AccountModel account) throws InvalidRequestParameterException {
-		Optional<Staff> staff = staffDao.findByEmail(account.getEmail());
+	public Optional<StaffRespDto> loginE(AccountModel account) throws InvalidRequestParameterException {
+		Optional<StaffRespDto> staff = staffDao.check(account.getEmail());
 		if (!staff.isEmpty()) {
 			if (account.getPassword() != staff.get().getPassword()) {
 				if(staff.get().getRole()<3){
