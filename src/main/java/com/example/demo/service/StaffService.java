@@ -91,7 +91,6 @@ public class StaffService {
 	}
 
 	public RequestStatusEnum update(Staff staff) throws InvalidRequestParameterException {
-		staff.setPassword(securityConfig.passwordEncoder().encode(staff.getPassword()));
 		return (staffDao.update(staff) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
 	}
 
