@@ -33,8 +33,13 @@ public class StaffController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody AccountModel staff) throws InvalidRequestParameterException{
-		return ResponseEntity.ok(staffService.login(staff));
+	public ResponseEntity<?> loginA(@RequestBody AccountModel staff) throws InvalidRequestParameterException{
+		return ResponseEntity.ok(staffService.loginA(staff));
+	}
+
+	@PostMapping("/loginE")
+	public ResponseEntity<?> loginE(@RequestBody AccountModel staff) throws InvalidRequestParameterException{
+		return ResponseEntity.ok(staffService.loginE(staff));
 	}
 
 	@GetMapping("/{id}")

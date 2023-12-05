@@ -10,6 +10,7 @@ import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
 
 import com.example.demo.dto.StaffDto;
+import com.example.demo.dto.StaffRespDto;
 import com.example.demo.entity.Staff;
 import com.example.demo.model.StaffUpdatePasswordModel;
 
@@ -22,6 +23,9 @@ public interface StaffDao {
 	
 	@Select
 	Optional<Staff> findByEmail(String email);
+
+	@Select
+	Optional<StaffRespDto> check(String email);
 
 	@Select
 	Optional<Staff> findById(String id);
