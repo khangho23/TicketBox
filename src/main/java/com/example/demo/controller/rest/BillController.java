@@ -55,7 +55,7 @@ public class BillController {
         return ResponseEntity.ok(billService.findByMovie(id));
     }
     
-    @GetMapping("/getQR/{qrCode}")
+    @GetMapping("/getByQR/{qrCode}")
     public ResponseEntity<?> qrResult(@PathVariable Optional<String> qrCode) throws InvalidRequestParameterException{
         return ResponseEntity.ok(billService.findBillDetailsByQrCode(qrCode));
     }
