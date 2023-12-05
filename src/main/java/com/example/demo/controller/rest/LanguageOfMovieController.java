@@ -30,7 +30,7 @@ public class LanguageOfMovieController {
 		return ResponseEntity.ok(languageOfMovieService.findAll());
 	}
 	
-	@GetMapping("/get-by-movieconfig")
+	@GetMapping("/get-by-movie-config")
 	public ResponseEntity<?> findByMovieConfig(@RequestParam Optional<String> branchId) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(languageOfMovieService.findByMovieConfig(branchId));
 	}
