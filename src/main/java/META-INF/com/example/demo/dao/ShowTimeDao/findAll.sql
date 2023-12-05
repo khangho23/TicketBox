@@ -12,7 +12,7 @@ SELECT
 	movie.name as movieName,
 	language.name as languageName,
 	branch.id as branchId,
-	branch.name as branchName,
+	branch.name as branchname,
 	branch.address as branchAddress
 FROM showtime
 JOIN languageofmovie on languageofmovie.id = showtime.languageofmovieid

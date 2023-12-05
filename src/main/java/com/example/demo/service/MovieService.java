@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -91,8 +92,14 @@ public class MovieService {
 				.orElseThrow(() -> new InvalidRequestParameterException("Phim", RequestParameterEnum.NOT_FOUND)));
 	}
 
-	public List<Movie> findByStatus(String status) throws InvalidRequestParameterException {
-		List<Movie> list = movieDao.findByStatus(status);
+	public List<Movie> findByStatus(String status, Optional<Integer> pageSize, Optional<Integer> page)
+			throws InvalidRequestParameterException {
+		List<Movie> list;
+		if (page.isEmpty() && pageSize.isEmpty()) {
+			list = movieDao.findByStatus(status, null, null);
+		} else {
+			list = movieDao.findByStatus(status, pageSize.get(), page.get());
+		}
 		if (list.size() <= 0) {
 			throw new InvalidRequestParameterException("Phim", RequestParameterEnum.NOT_FOUND);
 		}
@@ -191,10 +198,10 @@ public class MovieService {
 			ObjectMapper objectMapper = new ObjectMapper();
 			String json;
 			Connection connection = dataSource.getConnection();
-			movie.setLanguage2(""+connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
-			movie.setType2(""+connection.createArrayOf("text", movie.getArrayType().toArray()));
-			movie.setActor2(""+connection.createArrayOf("text", movie.getArrayActor().toArray()));
-			movie.setDirector2(""+connection.createArrayOf("text", movie.getArrayDirector().toArray()));
+			movie.setLanguage2("" + connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
+			movie.setType2("" + connection.createArrayOf("text", movie.getArrayType().toArray()));
+			movie.setActor2("" + connection.createArrayOf("text", movie.getArrayActor().toArray()));
+			movie.setDirector2("" + connection.createArrayOf("text", movie.getArrayDirector().toArray()));
 			json = objectMapper.writeValueAsString(movie);
 			movieDao.insertmovie(json);
 			return RequestStatusEnum.SUCCESS.name();
@@ -226,17 +233,18 @@ public class MovieService {
 			ObjectMapper objectMapper = new ObjectMapper();
 			String json;
 			Connection connection = dataSource.getConnection();
-			movie.setLanguage2(""+connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
-			movie.setType2(""+connection.createArrayOf("text", movie.getArrayType().toArray()));
-			movie.setActor2(""+connection.createArrayOf("text", movie.getArrayActor().toArray()));
-			movie.setDirector2(""+connection.createArrayOf("text", movie.getArrayDirector().toArray()));
+			movie.setLanguage2("" + connection.createArrayOf("integer", movie.getArrayLanguage().toArray()));
+			movie.setType2("" + connection.createArrayOf("text", movie.getArrayType().toArray()));
+			movie.setActor2("" + connection.createArrayOf("text", movie.getArrayActor().toArray()));
+			movie.setDirector2("" + connection.createArrayOf("text", movie.getArrayDirector().toArray()));
 			json = objectMapper.writeValueAsString(movie);
 			movieDao.updatemovie(json);
 			return RequestStatusEnum.SUCCESS.name();
 		}
 		throw new InvalidRequestParameterException("Key does not exist", RequestParameterEnum.NOT_EXISTS);
 	}
-	public Movie getByBill(int id){
+
+	public Movie getByBill(int id) {
 		return movieDao.getByBill(id);
 	}
 }

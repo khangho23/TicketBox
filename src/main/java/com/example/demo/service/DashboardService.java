@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.dao.DashboardDao;
+import com.example.demo.dto.TicketInDayDto;
 import com.example.demo.entity.Dashboard;
 import com.example.demo.exception.InvalidRequestParameterException;
 
@@ -15,26 +16,26 @@ public class DashboardService {
 	@Autowired
 	private DashboardDao dashboardDao;
 
-	public List<Dashboard> findTotalPriceTicketPerMonthOfYear(int year, String branchName)
+	public List<Dashboard> findTotalPriceTicketPerMonthOfYear(int year, String branchId)
 			throws InvalidRequestParameterException {
-		List<Dashboard> list = dashboardDao.findTotalPriceTicketPerMonthOfYear(year, branchName);
+		List<Dashboard> list = dashboardDao.findTotalPriceTicketPerMonthOfYear(year, branchId);
 		if (list.size() <= 0) {
 			throw new InvalidRequestParameterException("Thống kê", RequestParameterEnum.NOT_FOUND);
 		}
 		return list;
 	}
 
-	public List<Dashboard> statisticsTicketPriceByMovie(String branchName) throws InvalidRequestParameterException {
-		List<Dashboard> list = dashboardDao.statisticsTicketPriceByMovie(branchName);
+	public List<Dashboard> statisticsTicketPriceByMovie(String branchId) throws InvalidRequestParameterException {
+		List<Dashboard> list = dashboardDao.statisticsTicketPriceByMovie(branchId);
 		if (list.size() <= 0) {
 			throw new InvalidRequestParameterException("Thống kê", RequestParameterEnum.NOT_FOUND);
 		}
 		return list;
 	}
 
-	public List<Dashboard> statisticsTicketPriceByMovie2(String movieName, int year, String branchName)
+	public List<Dashboard> statisticsTicketPriceByMovie2(String movieId, int year, String branchId)
 			throws InvalidRequestParameterException {
-		List<Dashboard> list = dashboardDao.statisticsTicketPriceByMovie2(movieName, year, branchName);
+		List<Dashboard> list = dashboardDao.statisticsTicketPriceByMovie2(movieId, year, branchId);
 		if (list.size() <= 0) {
 			throw new InvalidRequestParameterException("Thống kê", RequestParameterEnum.NOT_FOUND);
 		}
@@ -76,5 +77,9 @@ public class DashboardService {
 			throw new InvalidRequestParameterException("Thống kê", RequestParameterEnum.NOT_FOUND);
 		}
 		return list;
+	}
+
+	public List<TicketInDayDto> statisticsTotalTicketInDay(String movieId, String branchId) {
+		return dashboardDao.statisticsTotalTicketInDay(movieId, branchId);
 	}
 }

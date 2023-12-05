@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.Staff;
 
 import lombok.Data;
 
@@ -19,6 +20,13 @@ public class MailInfoModel {
 	}
 
 	public MailInfoModel(String to, String subject, SendOrderModel body) {
+		this.from = "Zuhot Cinema <zuhot@gmail.com>";
+		this.to = to;
+		this.subject = subject;
+		this.body = body;
+	}
+
+	public MailInfoModel(String to, String subject, Staff body) {
 		this.from = "Zuhot Cinema <zuhot@gmail.com>";
 		this.to = to;
 		this.subject = subject;

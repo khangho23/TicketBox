@@ -8,6 +8,7 @@ import org.seasar.doma.Function;
 import org.seasar.doma.In;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dto.MovieDto;
 import com.example.demo.dto.PosterDto;
@@ -23,7 +24,7 @@ public interface MovieDao {
 	Optional<Movie> findById(String id);
 
 	@Select
-	List<Movie> findByStatus(String status);
+	List<Movie> findByStatus(String status, Integer pageSize, Integer page);
 
 	@Select
 	List<Movie> findMoviesNowShowing();
