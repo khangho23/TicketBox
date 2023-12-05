@@ -36,7 +36,7 @@ public interface MovieDao {
 	List<Movie> findMovieHomePage(String branchid, int countryid, String typeofmovieid, String status);
 
 	@Select
-	List<Movie> findByName(String name);
+	List<Movie> findByName(String name, String status);
 
 	@Select
 	List<PosterDto> findByTypeOfMovieId(String[] typeofmovieid);

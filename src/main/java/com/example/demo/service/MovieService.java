@@ -131,13 +131,14 @@ public class MovieService {
 
 	}
 
-	public List<Movie> findByName(String name) throws InvalidRequestParameterException {
-		List<Movie> list = movieDao.findByName("%" + name.toLowerCase() + "%");
-		if (list.size() <= 0) {
-			throw new InvalidRequestParameterException("Phim", RequestParameterEnum.NOT_FOUND);
-		}
-		return list;
-	}
+	   public List<Movie> findByName(String name, String status) throws InvalidRequestParameterException {
+		      List<Movie> list = this.movieDao.findByName("%" + name.toLowerCase() + "%", status);
+		      if (list.size() <= 0) {
+		         throw new InvalidRequestParameterException("Phim", RequestParameterEnum.NOT_FOUND);
+		      } else {
+		         return list;
+		      }
+		   }
 
 	public Optional<Movie> findMovieById(String movieId) {
 		Optional<Movie> movie = movieDao.findById(movieId);
