@@ -22,4 +22,7 @@ public interface LanguageOfMovieDao {
 
 	@Select
 	Optional<LanguageOfMovie> findByMovieIdAndLanguageId(String movieId, int languageId);
+	
+	@Select
+	List<LanguageOfMovieDto> findByMovieConfig(String branchId);
 }

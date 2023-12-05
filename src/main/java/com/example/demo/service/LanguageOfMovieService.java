@@ -29,4 +29,13 @@ public class LanguageOfMovieService {
 		}
 		return list;
     }
+    
+    public List<LanguageOfMovieDto> findByMovieConfig(Optional<String> branchId) throws InvalidRequestParameterException {
+    	branchId.orElseThrow(() -> new InvalidRequestParameterException("LanguageOfMovieService branchId", RequestParameterEnum.NOTHING));
+    	List<LanguageOfMovieDto> languageOfMovie = languageOfMovieDao.findByMovieConfig(branchId.get());
+    	if (languageOfMovie.isEmpty()) 
+    		throw new InvalidRequestParameterException("LanguageOfMovieService", RequestParameterEnum.NOT_FOUND);
+    	
+    	return languageOfMovie;
+    }
 }
