@@ -1,5 +1,7 @@
 package com.example.demo.controller.rest;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,5 +36,10 @@ public class RoomController {
     @GetMapping("/getRoomWithFilm")
     public ResponseEntity<?> getByBranch(@RequestParam("id") String id, @RequestParam("showdate") String showdate) {
         return ResponseEntity.ok(roomService.getByBranch(id, showdate));
+    }
+    
+    @GetMapping("/get-by-branch")
+    public ResponseEntity<?> getByBranch(@RequestParam Optional<String> branchId) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(roomService.findByBranchId(branchId));
     }
 }
