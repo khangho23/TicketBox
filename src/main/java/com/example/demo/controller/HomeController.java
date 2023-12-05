@@ -39,13 +39,13 @@ public class HomeController {
 		return ResponseEntity.ok(map);
 	}
 
-
-	@GetMapping("/search")
+	@GetMapping({ "/search" })
 	public ResponseEntity<?> searchMovie(@RequestParam("country") int country,
 			@RequestParam("movieType") String movieType, @RequestParam("branch") String branch,
 			@RequestParam("status") String status, @RequestParam("name") String name)
 			throws InvalidRequestParameterException {
-		return ResponseEntity.ok(name.isEmpty() ? movieService.findMovieHomePage(branch, country, movieType, status)
-				: movieService.findByName(name));
+		return ResponseEntity
+				.ok(name.isEmpty() ? this.movieService.findMovieHomePage(branch, country, movieType, status)
+						: this.movieService.findByName(name, status));
 	}
 }
