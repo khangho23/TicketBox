@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.seasar.doma.Dao;
@@ -8,6 +9,7 @@ import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
 
+import com.example.demo.dto.StaffDto;
 import com.example.demo.entity.Staff;
 import com.example.demo.model.StaffUpdatePasswordModel;
 
@@ -29,4 +31,10 @@ public interface StaffDao {
 
 	@Update(sqlFile = true)
 	int updatePassword(StaffUpdatePasswordModel staff);
+
+	@Select
+	List<StaffDto> findAll();
+
+	@Update(include = { "status" })
+	int updateStatus(Staff staff);
 }

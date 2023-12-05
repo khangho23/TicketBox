@@ -16,6 +16,8 @@ import com.example.demo.model.AccountModel;
 import com.example.demo.model.StaffUpdatePasswordModel;
 import com.example.demo.service.StaffService;
 
+import jakarta.mail.MessagingException;
+
 @RestController
 @RequestMapping("/api/staff")
 @CrossOrigin("*")
@@ -24,8 +26,10 @@ public class StaffController {
 	private StaffService staffService;
 
 	@PostMapping("/insert")
-	public void insert(@RequestBody Staff staff) throws InvalidRequestParameterException{
-		staffService.insert(staff);
+	public ResponseEntity<?> insert(@RequestBody Staff staff)
+			throws InvalidRequestParameterException, MessagingException {
+		staff.setStatus(true);
+		return ResponseEntity.ok(staffService.insert(staff));
 	}
 
 	@PostMapping("/login")
@@ -46,5 +50,15 @@ public class StaffController {
 	@PostMapping("/updatePassword")
 	public void update(@RequestBody StaffUpdatePasswordModel staff) throws InvalidRequestParameterException{
 		staffService.updatePassword(staff);
+	}
+
+	@GetMapping({ "/", "" })
+	public ResponseEntity<?> findAll() {
+		return ResponseEntity.ok(staffService.findAll());
+	}
+
+	@PostMapping("/updateStatus")
+	public ResponseEntity<?> updateStatus(@RequestBody Staff staff) throws InvalidRequestParameterException {
+		return ResponseEntity.ok(staffService.updateStatus(staff));
 	}
 }
