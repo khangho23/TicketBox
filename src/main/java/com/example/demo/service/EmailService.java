@@ -13,6 +13,7 @@ import org.thymeleaf.context.Context;
 
 import com.example.demo.constant.Constants;
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.Staff;
 import com.example.demo.model.MailInfoModel;
 import com.example.demo.model.SendOrderModel;
 
@@ -86,6 +87,24 @@ public class EmailService {
 
 	public void send(String to, String subject, Customer body) throws MessagingException {
 		this.sendCode(new MailInfoModel(to, subject, body));
+	}
+
+	public void sendPassword(MailInfoModel mail) throws MessagingException {
+		// Tạo message
+		MimeMessage message = sender.createMimeMessage();
+		// Sử dụng Helper để thiết lập các thông tin cần thiết cho message
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+		helper.setFrom(mail.getFrom());
+		helper.setTo(mail.getTo());
+		helper.setSubject(mail.getSubject());
+		Map<String, Object> map = new HashMap<>();
+		map.put("password", ((Staff) mail.getBody()).getPassword());
+		Context context = new Context();
+		context.setVariables(map);
+		String htmlBody = templateEngine.process(Constants.INSERT_STAFF, context);
+		helper.setText(htmlBody, true);
+		// Gửi message đến SMTP server
+		sender.send(message);
 	}
 
 	public static String generateRandomToken() {
