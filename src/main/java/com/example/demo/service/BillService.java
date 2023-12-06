@@ -127,8 +127,8 @@ public class BillService {
 	}
 	
 	public BillDetailsDto findBillDetailsByQrCode(Optional<String> qrCode) throws InvalidRequestParameterException {
-		qrCode.orElseThrow();
-		if (qrCode.get().length() != 32) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.WRONG);
+		// qrCode.orElseThrow();
+		// if (qrCode.get().length() != 32) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.WRONG);
 		
 		BillDetailsDto billDetailsDto = billDao.findBillDetailsByQrCode(qrCode.get());
 		if (billDetailsDto == null) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.NOT_EXISTS);
