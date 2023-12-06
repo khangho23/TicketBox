@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
+import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
 
 import com.example.demo.dto.LanguageOfMovieDto;
@@ -21,4 +22,7 @@ public interface LanguageOfMovieDao {
 
 	@Select
 	Optional<LanguageOfMovie> findByMovieIdAndLanguageId(String movieId, int languageId);
+	
+	@Select
+	List<LanguageOfMovieDto> findByMovieConfig(String branchId);
 }

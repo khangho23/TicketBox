@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
@@ -68,5 +69,13 @@ public class ShowTimeService{
 		List<ShowTimeHasMovies> dto = showtimeDao.findByCurrentDate(branchid).stream()
 				.map(ShowTimeHasMovies::convert).toList();
 		return dto;
+	}
+	
+	public List<ShowTimeDto> findByBranch(Optional<String> branchId) throws InvalidRequestParameterException {
+		branchId.orElseThrow(() -> new InvalidRequestParameterException("Showtime branchId", RequestParameterEnum.NOTHING));
+		List<ShowTimeDto> showtime = showtimeDao.findByBranch(branchId.get());
+		if (showtime.isEmpty()) throw new InvalidRequestParameterException("Showtime", RequestParameterEnum.NOT_FOUND);
+		
+		return showtime;
 	}
 }
