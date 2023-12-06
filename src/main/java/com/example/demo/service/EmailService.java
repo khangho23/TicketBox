@@ -119,6 +119,7 @@ public class EmailService {
 		helper.setTo(mail.getTo());
 		helper.setSubject(mail.getSubject());
 		Map<String, Object> map = new HashMap<>();
+		map.put("email", ((Customer) mail.getBody()).getEmail());
 		map.put("url", Constants.URL);
 		// random token
 		String token = generateRandomToken();

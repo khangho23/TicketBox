@@ -26,6 +26,7 @@ import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.listener.ListenerEvent;
 import com.example.demo.model.AccountModel;
+import com.example.demo.model.ForgotPasswordModel;
 import com.example.demo.service.CustomerService;
 
 @RestController
@@ -116,8 +117,23 @@ public class CustomerController {
 		return ResponseEntity.ok(customerService.deleteAvatar(customerId, avatar));
 	}
 
-	@PostMapping("/forgotPassword")
+	@GetMapping("/forgot-password")
 	public ResponseEntity<?> forgotPassword(@RequestParam String email) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.forgotPassword(email));
 	}
+
+	@PostMapping("/check-token")
+	public ResponseEntity<?> checkToken(@RequestBody ForgotPasswordModel forgotPasswordModel) throws InvalidRequestParameterException {
+		return ResponseEntity.ok(customerService.checkToken(forgotPasswordModel));
+	}
+
+	@GetMapping("/findByEmail")
+	public ResponseEntity<?> findByEmail(@RequestParam String email) throws InvalidRequestParameterException {
+		return ResponseEntity.ok(customerService.findByEmail(email).orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS)));
+	}
+	
+	@PostMapping("/change-password")
+	public ResponseEntity<?> changePassword(@RequestBody Customer customer) throws InvalidRequestParameterException {
+		return ResponseEntity.ok(customerService.changePassword(customer));
+	}	
 }
