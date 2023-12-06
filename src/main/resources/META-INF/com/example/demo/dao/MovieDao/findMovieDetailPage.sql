@@ -7,7 +7,7 @@ SELECT movie.id, movie.name, yearofmanufacture,
        STRING_AGG(DISTINCT actor.name, ', ') AS actors,
 	   STRING_AGG(DISTINCT director.name, ', ') AS directors,
 	   STRING_AGG(DISTINCT language.name, ', ') AS languages,
-	   AVG(bill.rate) AS rate
+	   (SELECT AVG(test.rate) FROM BILL JOIN (SELECT bill.id, bill.rate AS rate FROM movie LEFT JOIN languageofmovie ON languageofmovie.movieid = movie.id LEFT JOIN showtime ON languageofmovie.id = showtime.languageofmovieid LEFT JOIN ticket ON showtime.id = ticket.showtimeid LEFT JOIN bill ON ticket.billid = bill.id WHERE movie.id = /* movieid */'MP01' AND bill.rate is not null AND bill.rate != 0 GROUP BY bill.id) AS TEST ON TEST.id = bill.id) AS rate
 FROM movie
 LEFT JOIN moviedetails ON movie.id = moviedetails.movieid
 LEFT JOIN typeofmovie ON moviedetails.typeofmovieid = typeofmovie.id
