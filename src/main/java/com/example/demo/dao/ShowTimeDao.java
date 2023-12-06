@@ -34,4 +34,7 @@ public interface ShowTimeDao {
 
 	@Delete
 	int delete(ShowTime showTime);
+
+	@Select
+	List<ShowTimeDto> findByBranch(String branchId);
 }

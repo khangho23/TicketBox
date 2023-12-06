@@ -1,4 +1,6 @@
 package com.example.demo.controller.rest;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -57,5 +59,10 @@ public class ShowTimeController {
 	@GetMapping("/cd")
 	public ResponseEntity<?> cd (@RequestParam("branchid") String branchid) {
 		return ResponseEntity.ok(showtimeService.findByCurrentDate(branchid));
+	}
+	
+	@GetMapping("/get-by-branch")
+	public ResponseEntity<?> findByBranch(@RequestParam Optional<String> branchId) throws InvalidRequestParameterException {
+		return ResponseEntity.ok(showtimeService.findByBranch(branchId));
 	}
 }
