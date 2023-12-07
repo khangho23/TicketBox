@@ -48,12 +48,7 @@ public class CustomerController {
 	public ResponseEntity<?> findById(@PathVariable String id) {
 		return ResponseEntity.ok(customerService.findById(Integer.parseInt(id)).get());
 	}
-
-	@GetMapping("")
-	public ResponseEntity<?> findByEmail(@RequestParam("email") String email) {
-		return ResponseEntity.ok(customerService.findByEmail(email));
-	}
-
+	
 	@PostMapping("/save")
 	public void save(@RequestBody Customer customer) throws InvalidRequestParameterException {
 		customerService.insert(customer);
