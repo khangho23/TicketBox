@@ -7,7 +7,7 @@ SELECT
 	showtime.price,
 	showtime.languageofmovieid,
 	room.name as room,
-	dimension.name as dimensionname,
+	dimension.name as dimensionName,
 	movie.id as movieid,
 	movie.name as movieName,
 	language.name as languageName,
