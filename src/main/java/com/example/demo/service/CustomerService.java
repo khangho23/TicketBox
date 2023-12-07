@@ -16,7 +16,9 @@ import com.example.demo.enums.RequestStatusEnum;
 import com.example.demo.dao.CustomerDao;
 import com.example.demo.entity.Customer;
 import com.example.demo.exception.InvalidRequestParameterException;
+import com.example.demo.listener.ListenerEvent;
 import com.example.demo.model.AccountModel;
+import com.example.demo.model.ForgotPasswordModel;
 import com.example.demo.model.MailInfoModel;
 import com.example.demo.util.FileUtils;
 
@@ -32,6 +34,8 @@ public class CustomerService {
 	S3Service s3Service;
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	@Autowired
+	ListenerEvent listenerEvent;
 
 	final String BUCKET_NAME = "zuhot-cinema-images";
 
@@ -178,5 +182,41 @@ public class CustomerService {
 		}
 		customer.setActive(true);
 		return (customerDao.updateActive(customer) == 1 ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
+	}
+
+	public String forgotPassword(String email) throws InvalidRequestParameterException {
+		Customer customer = customerDao.findByEmail(email).orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
+		if(customer.getToken() != null) {
+			throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
+		}else{
+			try {
+				customer.setToken(emailService.forgotPassword(new MailInfoModel(email, "Quên mật khẩu tại Zuhot Cinema", customer)));
+				if(customerDao.updateToken(customer) == 1){
+					listenerEvent.checkTokenEvent(customer.getEmail());
+					return RequestStatusEnum.SUCCESS.getResponse();
+				} else {
+					return RequestStatusEnum.FAILURE.getResponse();
+				}
+			} catch (MessagingException e) {
+				throw new InvalidRequestParameterException("Email", RequestParameterEnum.INVALID_TYPE);
+			}
+		}
+	}
+
+	public String checkToken(ForgotPasswordModel forgotPasswordModel) throws InvalidRequestParameterException {
+		Customer customer = customerDao.findByEmail(forgotPasswordModel.getEmail()).orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
+		if(customer.getToken() == null){
+			throw new InvalidRequestParameterException("Token", RequestParameterEnum.NOT_EXISTS);
+		} else if(customer.getToken().equals(forgotPasswordModel.getUserToken())){
+			return RequestStatusEnum.SUCCESS.getResponse();
+		} else {
+			throw new InvalidRequestParameterException("Token", RequestParameterEnum.WRONG);
+		}
+	}
+
+	public String changePassword(Customer account) throws InvalidRequestParameterException {
+		Customer customer = customerDao.findById(account.getId()).orElseThrow(() -> new InvalidRequestParameterException("Customer", RequestParameterEnum.NOT_FOUND));
+		customer.setPassword(passwordEncoder.encode(account.getPassword()));
+		return (customerDao.updatePassword(customer) == 1 ? RequestStatusEnum.SUCCESS.getResponse() : RequestStatusEnum.FAILURE.getResponse());
 	}
 }

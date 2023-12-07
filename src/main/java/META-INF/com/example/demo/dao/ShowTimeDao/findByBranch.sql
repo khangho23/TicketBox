@@ -21,4 +21,5 @@ JOIN movie on movie.id = languageofmovie.movieid
 JOIN dimension on dimension.id = showtime.dimensionid
 JOIN room on room.id = showtime.roomid
 JOIN branch on room.branchid = branch.id
+WHERE branch.id = /* branchId */'cn1'
 ORDER BY showtime.id ASC

@@ -24,7 +24,7 @@ FROM bill
          LEFT JOIN paymentmethoddetails ON paymentmethoddetails.billid = bill.id
          LEFT JOIN paymentmethod ON paymentmethod.id = paymentmethoddetails.paymethodid
          JOIN ticket ON ticket.billid = bill.id
-         JOIN customer ON ticket.customerid = customer.id
+         JOIN customer ON bill.customerid = customer.id
          JOIN seatdetails ON ticket.seatdetailsid = seatdetails.id
          JOIN seat ON seat.id = seatdetails.seatid
          JOIN room ON room.id = seatdetails.roomid
