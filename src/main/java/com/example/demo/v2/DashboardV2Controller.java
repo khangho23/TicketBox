@@ -47,7 +47,7 @@ public class DashboardV2Controller {
 	public ResponseEntity<?> statisticsTicketPriceByMovieForDay(@RequestParam("movieId") String movieId,
 			@RequestParam("date") String date, @RequestParam("branchId") String branchId)
 			throws InvalidRequestParameterException {
-		return ResponseEntity.ok(dashboardService.statisticsTicketPriceByMovieForDay(movieName, date, branchId));
+		return ResponseEntity.ok(dashboardService.statisticsTicketPriceByMovieForDay(movieId, date, branchId));
 	}
 
 	@GetMapping("/statisticsTicketPriceByMovieFromDate")

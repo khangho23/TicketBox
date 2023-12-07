@@ -12,7 +12,7 @@ join room on room.id = showtime.roomid
 JOIN branch on branch.id = room.branchid
 where 
 TO_CHAR(bill.exportdate, 'YYYY-MM-DD')= /* date */'2023-10-01'
-/*%if movieName.length() > 0*/
+/*%if movieId.length() > 0*/
     and movie.id = /* movieId */'MP01'
 /*%end*/
 and branch.id =/* branchId */'cn2'
