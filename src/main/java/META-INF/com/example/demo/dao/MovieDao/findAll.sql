@@ -8,4 +8,5 @@ SELECT id,
 	trailer,
 	status,
 	limitage
-FROM Movie;
+FROM Movie
+order by id;
