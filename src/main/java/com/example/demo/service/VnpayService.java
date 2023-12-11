@@ -52,7 +52,8 @@ public class VnpayService {
 		billId.orElseThrow(() -> new InvalidRequestParameterException("Vnpay billId", RequestParameterEnum.NOTHING));
 		paymentMethod.orElseThrow(
 				() -> new InvalidRequestParameterException("Vnpay paymentMethod", RequestParameterEnum.NOTHING));
-
+		
+//		String ipSub = ipAddress.substring(0, ipAddress.indexOf(","));
 		String content = paymentUtils.validateBankTransferContent(vnpayPaymentDto.getVnp_OrderInfo());
 
 		Map<String, String> vnp_Params = new HashMap<>();
@@ -114,7 +115,8 @@ public class VnpayService {
 		return VnpayConfig.vnp_ApiUrl + "?" + queryUrl;
 	}
 
-	public String createToken(String ipAdress, VnpayToken vnpayToken) throws InvalidRequestParameterException {
+	public String createToken(String ipAddress, VnpayToken vnpayToken) throws InvalidRequestParameterException {
+//		String ipSub = ipAddress.substring(0, ipAddress.indexOf(","));
 		String content = paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
 
 		Map<String, String> vnp_Params = new HashMap<>();
@@ -130,7 +132,7 @@ public class VnpayService {
 		vnp_Params.put("vnp_curr_code", "VND");
 		vnp_Params.put("vnp_return_url", VnpayConfig.vnp_ReturnUrlAfterCreateToken);
 		vnp_Params.put("vnp_cancel_url", VnpayConfig.vnp_ReturnUrlAfterComplete);
-		vnp_Params.put("vnp_ip_addr", ipAdress);
+		vnp_Params.put("vnp_ip_addr", ipAddress);
 
 		currentPaymentTime(vnp_Params);
 

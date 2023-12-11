@@ -57,7 +57,7 @@ public class VnpayController {
     		@RequestParam Optional<String>  billId,
     		@RequestParam Optional<String>  paymentMethod)
             throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InvalidRequestParameterException {
-        return ResponseEntity.ok(vnpayService.paymentAndCreateToken(ipAddress.orElse(request.getRemoteAddr()), 
+        return ResponseEntity.ok(vnpayService.paymentAndCreateToken(ipAddress.orElse(request.getRemoteAddr()),
         		vnpayToken, billId, paymentMethod));
     }
 

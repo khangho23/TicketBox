@@ -11,7 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class VnpayConfig {
-    private static final String returnUrl = "http://localhost:3000";
+    private static final String returnUrl = "https://zuhot-cinema.vercel.app";
+//    private static final String returnUrl = "http://localhost:8080/api";
 
     public static String secretKey = "MRBWPIEUEHSXCBSJEBIJSNKPTQOBYJDM";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
@@ -22,10 +23,10 @@ public class VnpayConfig {
     public static String vnp_RemoveToken = "https://sandbox.vnpayment.vn/token_ui/remove-token.html";
     public static String vnp_ReturnUrlAfterComplete = returnUrl + "/book/complete";
     public static String vnp_ReturnUrlAfterCreateToken = returnUrl + "/user/bank-integration";
-    public static String vnp_CancelUrl = "http://localhost:3000/book/cancel";
+    public static String vnp_CancelUrl = returnUrl + "/book/cancel";
     public static String vnp_TmnCode = "1AXWHH3Y";
     public static String vnp_Version = "2.1.0";
-    public static String vnp_MerchantGetToken = "http://localhost:3000/returnUrl";
+    public static String vnp_MerchantGetToken = returnUrl + "/returnUrl";
 
     public static String md5(String message) {
         String digest = null;

@@ -4,9 +4,8 @@ LEFT JOIN country ON country.id = movie.countryid
 LEFT JOIN moviedetails ON movie.id = moviedetails.movieid 
 LEFT JOIN typeofmovie ON moviedetails.typeofmovieid = typeofmovie.id 
 LEFT JOIN languageofmovie on languageofmovie.movieid = movie.id
-LEFT JOIN showtime on showtime.languageofmovieid = languageofmovie.id
-LEFT JOIN room ON room.id = showtime.roomid 
-LEFT JOIN branch ON branch.id = room.branchid
+JOIN movieconfig ON movie.id= movieconfig.movieid
+JOIN branch ON branch.id=movieconfig.branchid
 
 WHERE 
 /*%if branchid != null */
@@ -20,5 +19,5 @@ WHERE
     AND 
     typeofmovie.id = /* typeofmovieid */'LP01'
 /*%end*/
-AND movie.status = /* status */'0'
+AND movieconfig.status = /* status */'0'
 GROUP BY movie.id , movie.name, movie.poster, movie.time, movie.yearofmanufacture
