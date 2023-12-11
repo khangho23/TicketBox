@@ -185,13 +185,15 @@ public class CustomerService {
 	}
 
 	public String forgotPassword(String email) throws InvalidRequestParameterException {
-		Customer customer = customerDao.findByEmail(email).orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
-		if(customer.getToken() != null) {
+		Customer customer = customerDao.findByEmail(email)
+				.orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
+		if (customer.getToken() != null) {
 			throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
-		}else{
+		} else {
 			try {
-				customer.setToken(emailService.forgotPassword(new MailInfoModel(email, "Quên mật khẩu tại Zuhot Cinema", customer)));
-				if(customerDao.updateToken(customer) == 1){
+				customer.setToken(emailService
+						.forgotPassword(new MailInfoModel(email, "Quên mật khẩu tại Zuhot Cinema", customer)));
+				if (customerDao.updateToken(customer) == 1) {
 					listenerEvent.checkTokenEvent(customer.getEmail());
 					return RequestStatusEnum.SUCCESS.getResponse();
 				} else {
@@ -204,10 +206,11 @@ public class CustomerService {
 	}
 
 	public String checkToken(ForgotPasswordModel forgotPasswordModel) throws InvalidRequestParameterException {
-		Customer customer = customerDao.findByEmail(forgotPasswordModel.getEmail()).orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
-		if(customer.getToken() == null){
+		Customer customer = customerDao.findByEmail(forgotPasswordModel.getEmail())
+				.orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS));
+		if (customer.getToken() == null) {
 			throw new InvalidRequestParameterException("Token", RequestParameterEnum.NOT_EXISTS);
-		} else if(customer.getToken().equals(forgotPasswordModel.getUserToken())){
+		} else if (customer.getToken().equals(forgotPasswordModel.getUserToken())) {
 			return RequestStatusEnum.SUCCESS.getResponse();
 		} else {
 			throw new InvalidRequestParameterException("Token", RequestParameterEnum.WRONG);
@@ -215,8 +218,24 @@ public class CustomerService {
 	}
 
 	public String changePassword(Customer account) throws InvalidRequestParameterException {
-		Customer customer = customerDao.findById(account.getId()).orElseThrow(() -> new InvalidRequestParameterException("Customer", RequestParameterEnum.NOT_FOUND));
+		Customer customer = customerDao.findById(account.getId())
+				.orElseThrow(() -> new InvalidRequestParameterException("Customer", RequestParameterEnum.NOT_FOUND));
 		customer.setPassword(passwordEncoder.encode(account.getPassword()));
-		return (customerDao.updatePassword(customer) == 1 ? RequestStatusEnum.SUCCESS.getResponse() : RequestStatusEnum.FAILURE.getResponse());
+		return (customerDao.updatePassword(customer) == 1 ? RequestStatusEnum.SUCCESS.getResponse()
+				: RequestStatusEnum.FAILURE.getResponse());
+	}
+
+	public Customer loginWith3P(String email, String name) throws InvalidRequestParameterException {
+		Optional<Customer> customer = customerDao.findByEmail(email);
+		if (customer.isEmpty()) {
+			Customer cus = new Customer();
+			cus.setEmail(email);
+			cus.setName(name);
+			cus.setActive(true);
+			customerDao.insert(cus);
+			Customer newCustomer = customerDao.findByEmail(email).get();
+			return newCustomer;
+		} else
+			return customer.get();
 	}
 }

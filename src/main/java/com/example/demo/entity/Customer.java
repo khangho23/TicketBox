@@ -9,6 +9,7 @@ import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -58,7 +59,8 @@ public class Customer {
 	 * gender of customer
 	 */
 	@Column
-	private boolean gender;
+	@Null
+	private Boolean gender;
 	/*
 	 * keyfacebook of customer
 	 */

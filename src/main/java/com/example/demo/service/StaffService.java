@@ -68,7 +68,8 @@ public class StaffService {
 	public Optional<StaffRespDto> loginE(AccountModel account) throws InvalidRequestParameterException {
 		Optional<StaffRespDto> staff = staffDao.check(account.getEmail());
 		if (!staff.isEmpty()) {
-			if (account.getPassword() != staff.get().getPassword()) {
+			if (account.getPassword() == staff.get().getPassword()) {
+				System.out.println(account.getPassword());
 				if (staff.get().getRole() < 3) {
 					throw new InvalidRequestParameterException("Bạn không có quyền truy cập trang",
 							RequestParameterEnum.WRONG);

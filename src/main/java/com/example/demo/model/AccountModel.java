@@ -20,4 +20,9 @@ public class AccountModel {
 	 *	password of Customer
 	 */
 	String newPassword;
+	/*
+	 *	name of Customer
+	 */
+	String name;
+	
 }
