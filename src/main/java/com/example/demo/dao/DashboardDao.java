@@ -26,10 +26,10 @@ public interface DashboardDao {
 	List<Dashboard> fillYear();
 	
 	@Select
-	List<Dashboard> statisticsTicketPriceByMovieForDay(String movieName, String date, String branchId);
+	List<Dashboard> statisticsTicketPriceByMovieForDay(String movieId, String date, String branchId);
 
 	@Select
-	List<Dashboard> statisticsTicketPriceByMovieFromDate(String movieName, String startDate,String endDate, String branchId);
+	List<Dashboard> statisticsTicketPriceByMovieFromDate(String movieId, String startDate,String endDate, String branchId);
 	
 	@Select
 	List<Dashboard> MovieOfBranch(String branchId);

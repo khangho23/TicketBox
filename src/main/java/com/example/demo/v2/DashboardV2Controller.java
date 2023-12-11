@@ -44,18 +44,18 @@ public class DashboardV2Controller {
 
 	// empl
 	@GetMapping("/statisticsTicketPriceByMovieForDay")
-	public ResponseEntity<?> statisticsTicketPriceByMovieForDay(@RequestParam("movieName") String movieName,
+	public ResponseEntity<?> statisticsTicketPriceByMovieForDay(@RequestParam("movieId") String movieId,
 			@RequestParam("date") String date, @RequestParam("branchId") String branchId)
 			throws InvalidRequestParameterException {
-		return ResponseEntity.ok(dashboardService.statisticsTicketPriceByMovieForDay(movieName, date, branchId));
+		return ResponseEntity.ok(dashboardService.statisticsTicketPriceByMovieForDay(movieId, date, branchId));
 	}
 
 	@GetMapping("/statisticsTicketPriceByMovieFromDate")
-	public ResponseEntity<?> statisticsTicketPriceByMovieFromDate(@RequestParam("movieName") String movieName,
+	public ResponseEntity<?> statisticsTicketPriceByMovieFromDate(@RequestParam("movieId") String movieId,
 			@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
 			@RequestParam("branchId") String branchId) throws InvalidRequestParameterException {
 		return ResponseEntity
-				.ok(dashboardService.statisticsTicketPriceByMovieFromDate(movieName, startDate, endDate, branchId));
+				.ok(dashboardService.statisticsTicketPriceByMovieFromDate(movieId, startDate, endDate, branchId));
 	}
 
 	@GetMapping("/movieOfBranch")

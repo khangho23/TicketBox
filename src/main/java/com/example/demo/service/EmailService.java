@@ -107,6 +107,32 @@ public class EmailService {
 		sender.send(message);
 	}
 
+	/*
+	 * Return token
+	 */
+	public String forgotPassword(MailInfoModel mail) throws MessagingException {
+		// Tạo message
+		MimeMessage message = sender.createMimeMessage();
+		// Sử dụng Helper để thiết lập các thông tin cần thiết cho message
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+		helper.setFrom(mail.getFrom());
+		helper.setTo(mail.getTo());
+		helper.setSubject(mail.getSubject());
+		Map<String, Object> map = new HashMap<>();
+		map.put("email", ((Customer) mail.getBody()).getEmail());
+		map.put("url", Constants.URL);
+		// random token
+		String token = generateRandomToken();
+		map.put("token", token);
+		Context context = new Context();
+		context.setVariables(map);
+		String htmlBody = templateEngine.process(Constants.FORGOT_PASSWORD, context);
+		helper.setText(htmlBody, true);
+		// Gửi message đến SMTP server
+		sender.send(message);
+		return token;
+	}
+
 	public static String generateRandomToken() {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		Random random = new Random();

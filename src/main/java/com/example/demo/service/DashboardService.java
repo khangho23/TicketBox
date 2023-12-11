@@ -46,17 +46,17 @@ public class DashboardService {
 		return dashboardDao.fillYear();
 	}
 
-	public List<Dashboard> statisticsTicketPriceByMovieForDay(String movieName, String date, String branchId) throws InvalidRequestParameterException {
-		List<Dashboard> list = dashboardDao.statisticsTicketPriceByMovieForDay(movieName, date, branchId);
+	public List<Dashboard> statisticsTicketPriceByMovieForDay(String movieId, String date, String branchId) throws InvalidRequestParameterException {
+		List<Dashboard> list = dashboardDao.statisticsTicketPriceByMovieForDay(movieId, date, branchId);
 		if(list.size()<=0) {
 			throw new InvalidRequestParameterException("Thống kê", RequestParameterEnum.NOT_FOUND);
 		}
 		return list;
 	}
 
-	public List<Dashboard> statisticsTicketPriceByMovieFromDate(String movieName, String startDate, String endDate,
+	public List<Dashboard> statisticsTicketPriceByMovieFromDate(String movieId, String startDate, String endDate,
 			String branchId) throws InvalidRequestParameterException {
-		List<Dashboard> list = dashboardDao.statisticsTicketPriceByMovieFromDate(movieName, startDate, endDate, branchId);
+		List<Dashboard> list = dashboardDao.statisticsTicketPriceByMovieFromDate(movieId, startDate, endDate, branchId);
 		if(list.size()<=0) {
 			throw new InvalidRequestParameterException("Thống kê", RequestParameterEnum.NOT_FOUND);
 		}
