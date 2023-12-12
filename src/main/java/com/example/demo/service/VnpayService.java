@@ -288,16 +288,16 @@ public class VnpayService {
 			// Insert DB
 			paymentService.insertPaymentDetails(paymentDetails);
 			// vnp_TxnRef exists in your database
-			boolean checkOrderId = true;
-//                    paymentService.findByTransactionNo(Optional.ofNullable(fields.get("vnp_TransactionNo"))) == null;
+			boolean checkOrderId =
+                    paymentService.findByTransactionNo(Optional.ofNullable(fields.get("vnp_TransactionNo"))) != null;
 
 			/*
 			 * vnp_Amount is valid (Check vnp_Amount VNPAY returns compared to the amount of
 			 * the code (vnp_TxnRef) in the Your database)
 			 */
-			boolean checkAmount = true;
-//                    paymentService.findByTransactionNo(Optional.ofNullable(fields.get("vnp_TransactionNo"))).getAmout()
-//                    == Double.parseDouble(fields.get("vnp_Amount"));
+			boolean checkAmount =
+                    paymentService.findByTransactionNo(Optional.ofNullable(fields.get("vnp_TransactionNo"))).getAmout()
+                    == Double.parseDouble(fields.get("vnp_Amount"));
 
 			if (checkOrderId) {
 				if (checkAmount) {
