@@ -35,7 +35,7 @@ public class BillService {
 
 	@Autowired
 	ToppingService toppingService;
-	
+
 	public Bill findById(Optional<Integer> id) {
 		id.orElseThrow();
 		return billDao.findById(id.get());
@@ -61,24 +61,22 @@ public class BillService {
 
 	public Integer insertBillAndTicket(Optional<BillTicketDto> billTicketDto) throws InvalidRequestParameterException {
 		AtomicReference<Double> totalPrice = new AtomicReference<>(0.0);
-		
+
 		if (billTicketDto.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
-//		billTicketDto.get().setQrCode(generateUniqueUUID());
 
 		if (billTicketDto.get().getCustomerId() == null)
 			throw new InvalidRequestParameterException("Customer ID", RequestParameterEnum.NOTHING);
-		
+
 		billTicketDto.get().setExportStatus(PaymentStatus.PENDING.getValue());
 		billDao.insert(billTicketDto.get());
 		billTicketDto.get().getTickets().stream().forEach(ticket -> {
 			Optional<Ticket> optionalTicket = Optional.of(ticket);
 			double vat = optionalTicket.get().getTotalPrice() * optionalTicket.get().getVat();
-			
+
 			try {
 				optionalTicket.get().setBillId(billTicketDto.get().getId());
-				totalPrice.updateAndGet(
-						price -> price + optionalTicket.get().getTotalPrice() + vat);
+				totalPrice.updateAndGet(price -> price + optionalTicket.get().getTotalPrice() + vat);
 				ticketService.insert(optionalTicket);
 			} catch (InvalidRequestParameterException e) {
 				e.printStackTrace();
@@ -90,93 +88,107 @@ public class BillService {
 
 		return billTicketDto.get().getId();
 	}
-	
-	public Integer insertToppingDetailsInBill(Optional<BillToppingDetailsDto> billToppingDetails) throws InvalidRequestParameterException {
+
+	public Integer insertToppingDetailsInBill(Optional<BillToppingDetailsDto> billToppingDetails)
+			throws InvalidRequestParameterException {
 		Integer billId = billToppingDetails.get().getBillId();
-		
-		if (billId == null) 
+
+		if (billId == null)
 			throw new InvalidRequestParameterException("Bill ID", RequestParameterEnum.NOTHING);
 
 		Double defaultPrice = billDao.findById(billId).getTotalPrice();
 		AtomicReference<Double> totalPrice = new AtomicReference<>(defaultPrice);
-		
+
 		billToppingDetails.get().getToppingDetails().stream().forEach(topping -> {
 			Optional<ToppingDetails> optionalTopping = Optional.of(topping);
-						
+
 			try {
-				ToppingOfBranch toppingOfBranch = toppingService.findToppingOfBranchById(optionalTopping.get().getToppinngOfBranchId());
+				ToppingOfBranch toppingOfBranch = toppingService
+						.findToppingOfBranchById(optionalTopping.get().getToppinngOfBranchId());
 				optionalTopping.get().setBillId(billId);
-				totalPrice.updateAndGet(price -> price + 
-						optionalTopping.get().getPriceWhenBuy() * optionalTopping.get().getQuantity());
+				totalPrice.updateAndGet(
+						price -> price + optionalTopping.get().getPriceWhenBuy() * optionalTopping.get().getQuantity());
 				if (optionalTopping.get().getQuantity() > toppingOfBranch.getQuantity())
 					throw new IllegalFieldValueException("quantity", "" + optionalTopping.get().getQuantity());
-				
+
 				toppingService.orderTopping(optionalTopping);
-				toppingService.updateToppingOfBranchAfterOrdered(
-						optionalTopping.get().getToppinngOfBranchId(),
-						optionalTopping.get().getQuantity()
-				);
+				toppingService.updateToppingOfBranchAfterOrdered(optionalTopping.get().getToppinngOfBranchId(),
+						optionalTopping.get().getQuantity());
 			} catch (InvalidRequestParameterException e) {
 				e.printStackTrace();
 			}
 		});
-		
-		if (totalPrice.get() != defaultPrice) billDao.updateTotalPrice(billId, totalPrice.get());
+
+		if (totalPrice.get() != defaultPrice)
+			billDao.updateTotalPrice(billId, totalPrice.get());
 
 		return billId;
 	}
-	
+
 	public BillDetailsDto findBillDetailsByQrCode(Optional<String> qrCode) throws InvalidRequestParameterException {
 		// qrCode.orElseThrow();
-		// if (qrCode.get().length() != 32) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.WRONG);
-		
+		// if (qrCode.get().length() != 32) throw new
+		// InvalidRequestParameterException("QR code", RequestParameterEnum.WRONG);
+
 		BillDetailsDto billDetailsDto = billDao.findBillDetailsByQrCode(qrCode.get());
-		if (billDetailsDto == null) throw new InvalidRequestParameterException("QR code", RequestParameterEnum.NOT_EXISTS);
-		
+		if (billDetailsDto == null)
+			throw new InvalidRequestParameterException("QR code", RequestParameterEnum.NOT_EXISTS);
+
 		return billDetailsDto;
 	}
-	
-	 private String generateUniqueUUID() {
-	        UUID uuid = null;
-	        boolean isUnique = false;
 
-	        while (!isUnique) {
-	            uuid = UUID.randomUUID();
-	            if (billDao.findBillDetailsByQrCode(uuid.toString()) == null) {
-	                isUnique = true;
-	            }
-	        }
+	private String generateUniqueUUID() {
+		UUID uuid = null;
+		boolean isUnique = false;
 
-	        return uuid.toString();
-	 }
+		while (!isUnique) {
+			uuid = UUID.randomUUID();
+			if (billDao.findBillDetailsByQrCode(uuid.toString()) == null) {
+				isUnique = true;
+			}
+		}
 
-	public int updateRateAndReview(RateAndReviewBillModel model){
+		return uuid.toString();
+	}
+
+	public int updateRateAndReview(RateAndReviewBillModel model) {
 		return billDao.updateRateAndReview(model);
 	}
 
-	public List<Bill> findByMovie(String id){
+	public List<Bill> findByMovie(String id) {
 		return billDao.findByMovie(id);
 	}
 
-	public int updateExportStatus(Optional<Integer> id, Optional<Integer> exportstatus) throws InvalidRequestParameterException {
+	public int updateExportStatus(Optional<Integer> id, Optional<Integer> exportstatus)
+			throws InvalidRequestParameterException {
 		id.orElseThrow(() -> new InvalidRequestParameterException("Bill id", RequestParameterEnum.NOTHING));
-		exportstatus.orElseThrow(() -> new InvalidRequestParameterException("Bill exportstatus", RequestParameterEnum.NOTHING));
+		exportstatus.orElseThrow(
+				() -> new InvalidRequestParameterException("Bill exportstatus", RequestParameterEnum.NOTHING));
 		return billDao.updateExportStatus(id.get(), exportstatus.get());
 	}
 
-	public BillDetailsDto checkout(Optional<Integer> billId, Optional<Integer> customerId) throws InvalidRequestParameterException {
-		customerId.orElseThrow(() -> new InvalidRequestParameterException("Customer Id", RequestParameterEnum.NOT_EXISTS));
-		
+	public BillDetailsDto checkout(Optional<Integer> billId, Optional<Integer> customerId)
+			throws InvalidRequestParameterException {
+		customerId.orElseThrow(
+				() -> new InvalidRequestParameterException("Customer Id", RequestParameterEnum.NOT_EXISTS));
+
 		billId.orElseThrow(() -> new InvalidRequestParameterException("Checkout", RequestParameterEnum.NOT_EXISTS));
 		BillDetailsDto billCheckout = billDao.checkout(billId.get(), customerId.get());
-		
-		if (billCheckout == null) 
+
+		if (billCheckout == null)
 			throw new InvalidRequestParameterException("Checkout", RequestParameterEnum.NOT_FOUND);
-		
+
 		return billCheckout;
 	}
 
 	public ReviewModel getReviewByMovieId(String id, Integer pageSize, Integer page) {
 		return new ReviewModel(billDao.getReviewByMovieId(id, pageSize, page), billDao.getTotalReviewByMovieId(id));
+	}
+
+	public void updateQrCode(Optional<Integer> id, String qrCode) throws InvalidRequestParameterException {
+		id.orElseThrow(
+				() -> new InvalidRequestParameterException("Bill id", RequestParameterEnum.NOT_EXISTS));
+
+		billDao.updateQrCode(id.get(), qrCode);
 	}
 }
