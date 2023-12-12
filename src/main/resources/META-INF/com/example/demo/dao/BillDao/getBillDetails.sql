@@ -1,6 +1,7 @@
-SELECT bill.id,
+SELECT distinct bill.id,
        bill.exportdate,
        bill.exportstatus,
+       bill.qrcode,
        paymentmethod.name paymentmethod,
        starttime,
        showdate,
@@ -23,23 +24,25 @@ SELECT bill.id,
 FROM bill
          LEFT JOIN paymentmethoddetails ON paymentmethoddetails.billid = bill.id
          LEFT JOIN paymentmethod ON paymentmethod.id = paymentmethoddetails.paymethodid
-         JOIN ticket ON ticket.billid = bill.id
+         left JOIN ticket ON ticket.billid = bill.id
          JOIN customer ON customer.id = bill.customerid
          JOIN seatdetails ON ticket.seatdetailsid = seatdetails.id
          JOIN seat ON seat.id = seatdetails.seatid
          JOIN room ON room.id = seatdetails.roomid
          JOIN branch ON room.branchid = branch.id
-         JOIN showtime ON showtime.id = ticket.showtimeid
+         JOIN showtime ON showtime.id = ticket.showtimeid and showtime.roomid = room.id 
          JOIN languageofmovie ON languageofmovie.id = showtime.languageofmovieid
 	 JOIN movie ON movie.id = languageofmovie.movieid
-	 JOIN "language" ON "language".id = languageofmovie.languageid
+	 left JOIN "language" ON "language".id = languageofmovie.languageid
          JOIN country ON movie.countryid = country.id
          LEFT JOIN toppingdetails ON bill.id = toppingdetails.billid
-         LEFT JOIN topping ON toppingdetails.billid = bill.id
-WHERE ticket.billid = /* billId */1 AND customer.id = /* customerId */1
-GROUP BY bill.id,
+         LEFT JOIN toppingofbranch  ON toppingdetails.toppingofbranchid = toppingofbranch.id 
+         left join topping on topping.id = toppingofbranch.toppingid 
+WHERE ticket.billid = /* billId */142 AND customer.id = /* customerId */24
+GROUP BY distinct bill.id,
          bill.exportdate,
          bill.exportstatus,
+        bill.qrcode,
          paymentmethod.name,
          starttime,
          showdate,
