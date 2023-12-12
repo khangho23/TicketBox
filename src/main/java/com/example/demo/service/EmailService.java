@@ -46,7 +46,6 @@ public class EmailService {
 			map.put("email", ((SendOrderModel) mail.getBody()).getInfo().getEmail());
 			map.put("listTicket", ((SendOrderModel) mail.getBody()).getListTicket());
 			map.put("bill", ((SendOrderModel) mail.getBody()).getBill());
-			map.put("QRCode", ((SendOrderModel) mail.getBody()).getQrcode());
 			Context context = new Context();
 			context.setVariables(map);
 			String htmlBody = templateEngine.process(Constants.ORDER, context);

@@ -15,5 +15,4 @@ public class SendOrderModel {
     InfoUserOrderModel info;
     List<ListTicketModel> listTicket;
     Bill bill;
-    String qrcode;
 }
