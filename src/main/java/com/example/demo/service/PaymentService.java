@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.PaymentDetailsDao;
 import com.example.demo.entity.PaymentDetails;
+import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.exception.InvalidRequestParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,10 @@ public class PaymentService {
         paymentDetailsDao.insert(paymentDetails);
     }
 
-    public void updateStatusPaymentDetails(PaymentDetails paymentDetails) throws InvalidRequestParameterException {
-        paymentDetailsDao.updateStatus(paymentDetails);
+    public void updateStatusByBillId(Optional<Integer> billId, Integer status) throws InvalidRequestParameterException {
+        billId.orElseThrow(() -> new InvalidRequestParameterException("Payment billId", RequestParameterEnum.NOT_EXISTS));
+        
+    	paymentDetailsDao.updateStatusByBillId(billId.get(), status);
     }
 
     public PaymentDetails findByTransactionNo(Optional<String> vnp_TransactionNo) throws InvalidRequestParameterException {
