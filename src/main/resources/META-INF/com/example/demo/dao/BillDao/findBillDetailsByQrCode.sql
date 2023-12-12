@@ -19,7 +19,8 @@ SELECT bill.id,
        STRING_AGG(DISTINCT CONCAT(toppingdetails.quantity, topping.name), ', ') AS topping,
        SUM(toppingdetails.pricewhenbuy) AS topping_totalprice,
        SUM(ticket.totalprice) AS ticket_totalprice,
-	   bill.qrcode
+	   bill.qrcode,
+	   movie.id as poster
 FROM bill
          LEFT JOIN paymentmethoddetails ON paymentmethoddetails.billid = bill.id
          LEFT JOIN paymentmethod ON paymentmethod.id = paymentmethoddetails.paymethodid
@@ -54,4 +55,5 @@ GROUP BY bill.id,
          customer.name,
          customer.phone,
          customer.email,
-	bill.qrcode;
+		bill.qrcode,
+		movie.id ;
