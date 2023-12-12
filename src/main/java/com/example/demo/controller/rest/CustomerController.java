@@ -48,7 +48,7 @@ public class CustomerController {
 	public ResponseEntity<?> findById(@PathVariable String id) {
 		return ResponseEntity.ok(customerService.findById(Integer.parseInt(id)).get());
 	}
-	
+
 	@PostMapping("/save")
 	public void save(@RequestBody Customer customer) throws InvalidRequestParameterException {
 		customerService.insert(customer);
@@ -64,7 +64,7 @@ public class CustomerController {
 		Optional<Customer> customer = customerService.findByEmail(user.getEmail());
 		if (customer.isPresent()) {
 			if (customer.get().isActive()) {
-				throw new InvalidRequestParameterException("Email",RequestParameterEnum.EXISTS);
+				throw new InvalidRequestParameterException("Email", RequestParameterEnum.EXISTS);
 			}
 			// If customer exists -> Update new Token
 			customer.get().setToken(customerService.registration(user));
@@ -104,7 +104,7 @@ public class CustomerController {
 			return ResponseEntity.ok(customerService.updateAvatar(customerId, multipartFile));
 		}
 
-		throw new InvalidRequestParameterException("Image",RequestParameterEnum.WRONG);
+		throw new InvalidRequestParameterException("Image", RequestParameterEnum.WRONG);
 	}
 
 	@PutMapping("/update-password")
@@ -113,7 +113,8 @@ public class CustomerController {
 	}
 
 	@PostMapping("/delete-avatar")
-	public ResponseEntity<?> deleteAvatar(@RequestParam Optional<Integer> customerId, @RequestParam Optional<String> avatar) throws InvalidRequestParameterException {
+	public ResponseEntity<?> deleteAvatar(@RequestParam Optional<Integer> customerId,
+			@RequestParam Optional<String> avatar) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.deleteAvatar(customerId, avatar));
 	}
 
@@ -123,17 +124,25 @@ public class CustomerController {
 	}
 
 	@PostMapping("/check-token")
-	public ResponseEntity<?> checkToken(@RequestBody ForgotPasswordModel forgotPasswordModel) throws InvalidRequestParameterException {
+	public ResponseEntity<?> checkToken(@RequestBody ForgotPasswordModel forgotPasswordModel)
+			throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.checkToken(forgotPasswordModel));
 	}
 
 	@GetMapping("/findByEmail")
 	public ResponseEntity<?> findByEmail(@RequestParam String email) throws InvalidRequestParameterException {
-		return ResponseEntity.ok(customerService.findByEmail(email).orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS)));
+		return ResponseEntity.ok(customerService.findByEmail(email)
+				.orElseThrow(() -> new InvalidRequestParameterException("Email", RequestParameterEnum.NOT_EXISTS)));
 	}
-	
+
 	@PostMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestBody Customer customer) throws InvalidRequestParameterException {
 		return ResponseEntity.ok(customerService.changePassword(customer));
-	}	
+	}
+
+	@PostMapping("/loginWith3P")
+	public ResponseEntity<?> loginWith3P(@RequestBody AccountModel account) throws InvalidRequestParameterException {
+		return ResponseEntity
+				.ok(customerService.loginWith3P(account.getEmail(),account.getName()));
+	}
 }
