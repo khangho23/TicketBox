@@ -52,4 +52,7 @@ public interface BillDao {
 
 	@Select
 	Integer getTotalReviewByMovieId(String id);
+	
+	@Update(sqlFile = true)
+	int updateQrCode(int id, String qrCode);
 }

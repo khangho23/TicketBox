@@ -13,8 +13,8 @@ public interface PaymentDetailsDao {
     @Insert
     int insert(PaymentDetails paymentDetails);
 
-    @Update(include = {"id", "status"})
-    int updateStatus(PaymentDetails paymentDetails);
+    @Update(sqlFile = true)
+    int updateStatusByBillId(int billId, int status);
 
     @Select
     PaymentDetails findByTransactionNo(String vnp_TransactionNo);
