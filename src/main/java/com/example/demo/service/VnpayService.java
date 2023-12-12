@@ -303,15 +303,13 @@ public class VnpayService {
 				if (checkAmount) {
 					if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
 						// Here Code update PaymnentStatus = 1 into your Database
-						paymentDetails.setStatus(PaymentStatus.SUCCESS.getValue());
-						paymentService.updateStatusPaymentDetails(paymentDetails);
+						paymentService.updateStatusByBillId(billId, PaymentStatus.SUCCESS.getValue());
 						billService.updateExportStatus(billId, Optional.of(BillExportStatus.SUCCESS.getValue()));
 						billService.updateQrCode(billId, qrCode);
 						return RequestStatusEnum.SUCCESS.getResponse();
 					}
 
-					paymentDetails.setStatus(PaymentStatus.FAILD.getValue());
-					paymentService.updateStatusPaymentDetails(paymentDetails);
+					paymentService.updateStatusByBillId(billId, PaymentStatus.FAILD.getValue());
 					billService.updateExportStatus(billId, Optional.of(BillExportStatus.FAIL.getValue()));
 					throw new InvalidRequestParameterException("Transaction error", RequestParameterEnum.WRONG);
 				} else {
