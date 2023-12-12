@@ -52,7 +52,7 @@ public class VnpayService {
 		billId.orElseThrow(() -> new InvalidRequestParameterException("Vnpay billId", RequestParameterEnum.NOTHING));
 		paymentMethod.orElseThrow(
 				() -> new InvalidRequestParameterException("Vnpay paymentMethod", RequestParameterEnum.NOTHING));
-		
+
 //		String ipSub = ipAddress.substring(0, ipAddress.indexOf(","));
 		String content = paymentUtils.validateBankTransferContent(vnpayPaymentDto.getVnp_OrderInfo());
 
@@ -152,7 +152,7 @@ public class VnpayService {
 		billId.orElseThrow(() -> new InvalidRequestParameterException("Vnpay billId", RequestParameterEnum.NOTHING));
 		paymentMethod.orElseThrow(
 				() -> new InvalidRequestParameterException("Vnpay paymentMethod", RequestParameterEnum.NOTHING));
-
+		
 		String content = paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
 
 		Map<String, String> vnp_Params = new HashMap<>();
@@ -268,6 +268,7 @@ public class VnpayService {
 			Optional<Integer> billId = Optional.of(Integer.parseInt(fields.get("billId")));
 			billId.orElseThrow(
 					() -> new InvalidRequestParameterException("Vnpay billId", RequestParameterEnum.NOTHING));
+			String qrCode = billId.get() + UUID.randomUUID().toString();
 
 //            String vnp_SecureHash = request.getParameter("vnp_SecureHash");
 //			fields.remove("vnp_SecureHashType");
@@ -287,42 +288,44 @@ public class VnpayService {
 			// Insert DB
 			paymentService.insertPaymentDetails(paymentDetails);
 			// vnp_TxnRef exists in your database
-            boolean checkOrderId = true;
+			boolean checkOrderId = true;
 //                    paymentService.findByTransactionNo(Optional.ofNullable(fields.get("vnp_TransactionNo"))) == null;
 
-                /* vnp_Amount is valid (Check vnp_Amount VNPAY returns compared to the
-                amount of the code (vnp_TxnRef) in the Your database) */
-            boolean checkAmount = true;
+			/*
+			 * vnp_Amount is valid (Check vnp_Amount VNPAY returns compared to the amount of
+			 * the code (vnp_TxnRef) in the Your database)
+			 */
+			boolean checkAmount = true;
 //                    paymentService.findByTransactionNo(Optional.ofNullable(fields.get("vnp_TransactionNo"))).getAmout()
 //                    == Double.parseDouble(fields.get("vnp_Amount"));
 
-            if (checkOrderId) {
-                if (checkAmount) {
-                    if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
-                        //Here Code update PaymnentStatus = 1 into your Database
-                        paymentDetails.setStatus(PaymentStatus.SUCCESS.getValue());
-                        paymentService.updateStatusPaymentDetails(paymentDetails);
+			if (checkOrderId) {
+				if (checkAmount) {
+					if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
+						// Here Code update PaymnentStatus = 1 into your Database
+						paymentDetails.setStatus(PaymentStatus.SUCCESS.getValue());
+						paymentService.updateStatusPaymentDetails(paymentDetails);
 						billService.updateExportStatus(billId, Optional.of(BillExportStatus.SUCCESS.getValue()));
+						billService.updateQrCode(billId, qrCode);
+						return RequestStatusEnum.SUCCESS.getResponse();
+					}
 
-                        return RequestStatusEnum.SUCCESS.getResponse();
-                    }
-
-                    paymentDetails.setStatus(PaymentStatus.FAILD.getValue());
-                    paymentService.updateStatusPaymentDetails(paymentDetails);
+					paymentDetails.setStatus(PaymentStatus.FAILD.getValue());
+					paymentService.updateStatusPaymentDetails(paymentDetails);
 					billService.updateExportStatus(billId, Optional.of(BillExportStatus.FAIL.getValue()));
-                    throw new InvalidRequestParameterException("Transaction error", RequestParameterEnum.WRONG);
-                } else {
-                    throw new InvalidRequestParameterException("Order already confirmed", RequestParameterEnum.WRONG);
-                }
-            } else {
-                throw new InvalidRequestParameterException("Invalid Amount", RequestParameterEnum.WRONG);
-            }
+					throw new InvalidRequestParameterException("Transaction error", RequestParameterEnum.WRONG);
+				} else {
+					throw new InvalidRequestParameterException("Order already confirmed", RequestParameterEnum.WRONG);
+				}
+			} else {
+				throw new InvalidRequestParameterException("Invalid Amount", RequestParameterEnum.WRONG);
+			}
 //            } else {
 //                throw new InvalidRequestParameterException("Invalid Checksum", RequestParameterEnum.WRONG);
 //            }
-        } catch (Exception e) {
-            throw new InvalidRequestParameterException("Unknown error", RequestParameterEnum.WRONG);
-        }
+		} catch (Exception e) {
+			throw new InvalidRequestParameterException("Unknown error", RequestParameterEnum.WRONG);
+		}
 	}
 
 	public String saveToken(VnpayToken vnpayToken) throws InvalidRequestParameterException {
@@ -352,12 +355,13 @@ public class VnpayService {
 
 		Optional<Integer> billId = Optional.of(Integer.parseInt(fields.get("billId")));
 		billId.orElseThrow(() -> new InvalidRequestParameterException("Vnpay billId", RequestParameterEnum.NOTHING));
-
+		String qrCode = billId.get() + UUID.randomUUID().toString();
+		
 		// Find by user id
 		Optional<Integer> customerId = Optional.of(Integer.valueOf(fields.get("vnp_app_user_id")));
 		customerId.orElseThrow(
 				() -> new InvalidRequestParameterException("Vnpay vnp_app_user_id", RequestParameterEnum.NOTHING));
-		
+
 		fields.remove("vnp_secure_hash");
 
 		if ("00".equals(fields.get("vnp_response_code"))) {
@@ -380,14 +384,15 @@ public class VnpayService {
 			tokenVnpay.setVnp_create_date("vnp_pay_date");
 			tokenVnpay.setVnp_token(fields.get("vnp_token"));
 
-			
 			billService.updateExportStatus(billId, Optional.of(BillExportStatus.SUCCESS.getValue()));
-			
+
 			try {
 				tokenVnpayService.insert(Optional.of(tokenVnpay));
 			} catch (DuplicateKeyException e) {
 				e.getStackTrace();
 			}
+			
+			billService.updateQrCode(billId, qrCode);
 
 			return RequestStatusEnum.SUCCESS.getResponse();
 		}
@@ -407,7 +412,7 @@ public class VnpayService {
 				() -> new InvalidRequestParameterException("Vnpay vnp_app_user_id", RequestParameterEnum.NOTHING));
 
 		fields.remove("vnp_secure_hash");
-		
+
 		TokenVnpay token = tokenVnpayService.findByCustomerId(customerId);
 
 		if ("00".equals(fields.get("vnp_response_code")) && token.getVnp_token().equals(fields.get("vnp_token"))) {
@@ -421,18 +426,17 @@ public class VnpayService {
 
 			paymentService.insertPaymentDetails(paymentDetails);
 			billService.updateExportStatus(billId, Optional.of(1));
-			
+
 			return RequestStatusEnum.SUCCESS.getResponse();
 		}
 
 		throw new InvalidRequestParameterException("Token is invalid", RequestParameterEnum.WRONG);
 	}
 
-	public String removedToken(Optional<Integer> id)
-			throws InvalidRequestParameterException {
-			TokenVnpay token = tokenVnpayService.findById(id);
-			tokenVnpayService.deleteById(Optional.of(token.getId()));
-			return RequestStatusEnum.SUCCESS.getResponse();
+	public String removedToken(Optional<Integer> id) throws InvalidRequestParameterException {
+		TokenVnpay token = tokenVnpayService.findById(id);
+		tokenVnpayService.deleteById(Optional.of(token.getId()));
+		return RequestStatusEnum.SUCCESS.getResponse();
 	}
 
 	private String[] buildQueryUrl(Map<String, String> vnp_Params) {

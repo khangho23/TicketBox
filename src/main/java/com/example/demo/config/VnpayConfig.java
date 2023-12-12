@@ -12,7 +12,7 @@ import java.util.*;
 
 public class VnpayConfig {
     private static final String returnUrl = "https://zuhot-cinema.vercel.app";
-//    private static final String returnUrl = "http://localhost:8080/api";
+//    private static final String returnUrl = "http://localhost:3000";
 
     public static String secretKey = "MRBWPIEUEHSXCBSJEBIJSNKPTQOBYJDM";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
