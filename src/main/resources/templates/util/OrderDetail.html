@@ -57,6 +57,13 @@
             }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script th:inline="javascript">
+        window.addEventListener("load", () => {
+            var value = /*[[@{bill.qrCode}]]*/ '';
+            var qrc = new QRCode(document.getElementById("qrcode"), value);
+        });
+    </script>
 </head>
 
 <body style="font-family: Verdana, Geneva, Tahoma, sans-serif;font-weight: bold; color: #ccc;">
@@ -117,7 +124,7 @@
                         <tr>
                             <th>QRCode</th>
                             <td style="text-align: center;">
-                                <img th:src="${bill.qrCode}" alt="qrcode" style="width: 150px;">
+                                <div id="qrcode" style="width: 150px;"></div>
                             </td>
                         </tr>
                     </table>
