@@ -15,7 +15,7 @@ import com.example.demo.service.EmailService;
 import jakarta.mail.MessagingException;
 
 @RestController
-@RequestMapping("/api/demo")
+@RequestMapping("/api/send-order")
 @CrossOrigin("*")
 public class SendOrderController {
     @Autowired

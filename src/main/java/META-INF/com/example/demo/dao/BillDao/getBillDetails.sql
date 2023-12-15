@@ -19,8 +19,11 @@ SELECT distinct bill.id,
        customer.email AS customer_email,
        STRING_AGG(DISTINCT CONCAT(seat.rowseat, seat.orderseat), ', ') AS seats,
        STRING_AGG(DISTINCT CONCAT(toppingdetails.quantity, topping.name), ', ') AS topping,
-       SUM(toppingdetails.pricewhenbuy) AS topping_totalprice,
-       SUM(ticket.totalprice) AS ticket_totalprice
+       (SELECT SUM(quantity) FROM toppingdetails WHERE billid = /* billId */162) AS topping_quantity,
+       (SELECT SUM(pricewhenbuy * quantity) FROM toppingdetails WHERE billid = /* billId */162) AS topping_totalprice,
+       (SELECT SUM(ticket.totalprice) FROM ticket WHERE billid = /* billId */162) AS ticket_totalprice,
+       (SELECT SUM(totalprice * vat) FROM ticket WHERE billid = /* billId */162) AS ticket_vat,
+       bill.totalprice AS total_price
 FROM bill
          LEFT JOIN paymentmethoddetails ON paymentmethoddetails.billid = bill.id
          LEFT JOIN paymentmethod ON paymentmethod.id = paymentmethoddetails.paymethodid
@@ -38,7 +41,7 @@ FROM bill
          LEFT JOIN toppingdetails ON bill.id = toppingdetails.billid
          LEFT JOIN toppingofbranch  ON toppingdetails.toppingofbranchid = toppingofbranch.id 
          left join topping on topping.id = toppingofbranch.toppingid 
-WHERE ticket.billid = /* billId */142 AND customer.id = /* customerId */24
+WHERE ticket.billid = /* billId */162 AND customer.id = /* customerId */18
 GROUP BY distinct bill.id,
          bill.exportdate,
          bill.exportstatus,
@@ -57,4 +60,5 @@ GROUP BY distinct bill.id,
          branch.address,
          customer.name,
          customer.phone,
-         customer.email;
+         customer.email,
+         paymentmethoddetails.amout;

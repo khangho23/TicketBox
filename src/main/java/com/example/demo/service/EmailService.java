@@ -1,10 +1,14 @@
 package com.example.demo.service;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,11 @@ import com.example.demo.entity.Customer;
 import com.example.demo.entity.Staff;
 import com.example.demo.model.MailInfoModel;
 import com.example.demo.model.SendOrderModel;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -45,12 +54,17 @@ public class EmailService {
 			map.put("phone", ((SendOrderModel) mail.getBody()).getInfo().getPhone());
 			map.put("email", ((SendOrderModel) mail.getBody()).getInfo().getEmail());
 			map.put("listTicket", ((SendOrderModel) mail.getBody()).getListTicket());
+			map.put("paymentMethod",((SendOrderModel) mail.getBody()).getPaymentMethod());
 			map.put("bill", ((SendOrderModel) mail.getBody()).getBill());
-			map.put("QRCode", ((SendOrderModel) mail.getBody()).getQrcode());
 			Context context = new Context();
 			context.setVariables(map);
 			String htmlBody = templateEngine.process(Constants.ORDER, context);
 			helper.setText(htmlBody, true);
+			// qrCode
+			String qrCode = generateBase64QRCode(((SendOrderModel) mail.getBody()).getBill().getQrCode(), 150, 150);
+			byte[] imageBytes = Base64.getDecoder().decode(qrCode);
+			Resource imageResource = new ByteArrayResource(imageBytes);
+			helper.addAttachment("QRCode.png", imageResource);
 			// Gửi message đến SMTP server
 			sender.send(message);
 		} catch (Exception e) {
@@ -144,5 +158,19 @@ public class EmailService {
 			token += characters.charAt(random.nextInt(characters.length()));
 		}
 		return token;
+	}
+
+	public static String generateBase64QRCode(String data, int width, int height) throws Exception {
+		Map<EncodeHintType, Object> hints = new HashMap<>();
+		hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+
+		MultiFormatWriter writer = new MultiFormatWriter();
+		BitMatrix matrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height, hints);
+
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		MatrixToImageWriter.writeToStream(matrix, "PNG", stream);
+
+		byte[] imageBytes = stream.toByteArray();
+		return Base64.getEncoder().encodeToString(imageBytes);
 	}
 }

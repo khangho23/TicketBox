@@ -7,13 +7,13 @@ SELECT movie.poster,
        branch.name AS branch,
        branch.address AS branch_address,
        customer.name AS customer,
-       bill.totalprice AS totalprice,
+       bill.totalprice AS total_price,
        STRING_AGG(DISTINCT CONCAT(seat.rowseat, seat.orderseat), ', ') AS seats,
        STRING_AGG(DISTINCT CONCAT(toppingdetails.quantity, topping.name), ', ') AS topping,
 	   (SELECT SUM(totalprice) FROM ticket
-       	WHERE billid = /* billId */0) AS ticket_totalprice,
+       	WHERE billid = /* billId */170) AS ticket_totalprice,
        ticket.vat AS ticket_vat,
-	   SUM(toppingdetails.pricewhenbuy) AS topping_totalprice
+        (SELECT SUM(pricewhenbuy * quantity) FROM toppingdetails WHERE billid = /* billId */170) AS topping_totalprice
 FROM bill
 JOIN ticket ON ticket.billid = bill.id
 JOIN customer ON bill.customerid = customer.id
@@ -27,7 +27,7 @@ JOIN movie ON movie.id = languageofmovie.movieid
 LEFT JOIN toppingdetails ON toppingdetails.billid = bill.id 
 LEFT JOIN toppingofbranch ON toppingofbranch.id = toppingdetails.toppingofbranchid
 LEFT JOIN topping ON topping.id = toppingofbranch.toppingid
-WHERE ticket.billid = /* billId */0 AND customer.id = /* customerId */0
+WHERE ticket.billid = /* billId */170 AND customer.id = /* customerId */18
 GROUP BY movie.poster,
          bill.id,
          starttime,
