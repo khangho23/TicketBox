@@ -82,12 +82,4 @@ public class BillController {
 	public ResponseEntity<?> getReviewByMovieId(@PathVariable("id") String id, @RequestParam Integer pageSize, @RequestParam Integer page) {
 		return ResponseEntity.ok(billService.getReviewByMovieId(id, pageSize, page));
 	}
-
-    @PostMapping("/updateQrById")
-    public ResponseEntity<?> updateQrById(@RequestParam Optional<Integer> billId) throws InvalidRequestParameterException {
-        String qrCode = billId.get() + UUID.randomUUID().toString();
-        billService.updateQrCode(billId, qrCode);
-        return ResponseEntity.ok(RequestStatusEnum.SUCCESS.getResponse());
-    }
-    
 }

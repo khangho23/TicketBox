@@ -29,4 +29,8 @@ public class PaymentService {
 
         return paymentDetailsDao.findByTransactionNo(vnp_TransactionNo.get());
     }
+
+    public Optional<PaymentDetails> findByBillId(Integer billId){
+        return paymentDetailsDao.findByBillId(billId);
+    }
 }

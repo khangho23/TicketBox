@@ -1,6 +1,9 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.PaymentDetails;
+
+import java.util.Optional;
+
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
@@ -18,4 +21,7 @@ public interface PaymentDetailsDao {
 
     @Select
     PaymentDetails findByTransactionNo(String vnp_TransactionNo);
+
+    @Select
+    Optional<PaymentDetails> findByBillId(Integer billId);
 }
