@@ -5,6 +5,7 @@ select
 	movieconfig.startdate,
 	movieconfig.enddate,
 	movieconfig.createdate,
-	movieconfig.updatedate
+	movieconfig.updatedate,
+	movieconfig.status
 from movieconfig
 right join branch on branch.id = movieconfig.branchid and movieconfig.movieid  = /* movieId */'MP01'

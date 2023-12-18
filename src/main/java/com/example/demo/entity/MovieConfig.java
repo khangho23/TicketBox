@@ -40,4 +40,7 @@ public class MovieConfig {
 	
 	@Column
 	private Date updateDate;
+	
+	@Column
+	private String status;
 }
