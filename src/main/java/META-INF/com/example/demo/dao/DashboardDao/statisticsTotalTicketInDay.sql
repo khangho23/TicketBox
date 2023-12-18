@@ -8,7 +8,7 @@ LEFT JOIN (
 ) as test ON test.showtimeid = showtime.id
 JOIN languageofmovie ON languageofmovie.id = showtime.languageofmovieid
 JOIN room ON room.id = showtime.roomid
-WHERE showtime.showdate = '2023-12-19'
+WHERE showtime.showdate = CURRENT_DATE
   AND (languageofmovie.movieid = CASE WHEN /* movieId */'MP07' = '0' THEN languageofmovie.movieid ELSE /* movieId */'MP07' END)
   AND (room.branchid = CASE WHEN /* branchId */'cn1' = '0' THEN room.branchid ELSE /* branchId */'cn1' END)
 GROUP BY starttime
