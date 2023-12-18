@@ -31,4 +31,5 @@ GROUP BY bill.id,
          room.name,
          branch.name,
          customer.address
-ORDER BY bill.id DESC;
+ORDER BY bill.id DESC
+LIMIT CAST(/* pageSize */4 AS INT) OFFSET (CAST(/* page */1 AS INT) - 1) * CAST(/* pageSize */4 AS INT);

@@ -19,7 +19,7 @@ WHERE
     AND 
     typeofmovie.id = /* typeofmovieid */'LP01'
 /*%end*/
-/*%if status == "0" */
+/*%if status == "0" && branchid == null*/
 and movie.id not in (select movieconfig.movieid from movieconfig where movieconfig.movieid = movie.id and movieconfig.status = '1') 
 /*%end*/
 AND movieconfig.status = /* status */'0'
