@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.enums.RequestStatusEnum;
 import com.example.demo.entity.ShowTime;
 import com.example.demo.exception.InvalidRequestParameterException;
+
+import jakarta.validation.ConstraintViolationException;
 
 @Service
 public class ShowTimeService{
@@ -62,7 +65,14 @@ public class ShowTimeService{
 		ShowTime showTime = showtimeDao.findById(id)
 				.orElseThrow(() -> new InvalidRequestParameterException(id + "",
 						RequestParameterEnum.NOT_FOUND));
-		return (showtimeDao.delete(showTime) == 1) ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE;
+		
+		try {
+			showtimeDao.delete(showTime);
+		} catch (Exception ex) {
+			throw new InvalidRequestParameterException("Vi phạm ràng buộc khóa ngoại", RequestParameterEnum.EXISTS);
+		}
+		
+		return RequestStatusEnum.SUCCESS;
 	}
 
 	public List<?> findByCurrentDate(String branchid) {
