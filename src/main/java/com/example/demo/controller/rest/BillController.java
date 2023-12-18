@@ -30,8 +30,9 @@ public class BillController {
     @Autowired
     private PusherService pusher;
     @GetMapping(value = {"", "/"})
-    public ResponseEntity<?> getBillHistory(@RequestParam Optional<Integer> customerId) throws InvalidRequestParameterException {
-        return ResponseEntity.ok(billService.getBillHistory(customerId));
+    public ResponseEntity<?> getBillHistory(@RequestParam Optional<Integer> customerId, 
+    		Optional<Integer> pageSize, Optional<Integer> page) throws InvalidRequestParameterException {
+        return ResponseEntity.ok(billService.getBillHistory(customerId, pageSize, page));
     }
 
     @GetMapping("/details/{id}")

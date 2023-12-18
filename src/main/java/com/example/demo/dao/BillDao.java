@@ -21,7 +21,7 @@ public interface BillDao {
 	Bill findById(Integer id);
 	
 	@Select
-	List<BillHistoryDto> getBillHistory(Integer customerId);
+	List<BillHistoryDto> getBillHistory(Integer customerId, Integer pageSize, Integer page);
 
 	@Select
 	BillDetailsDto getBillDetails(Integer billId, Integer customerId);
@@ -55,4 +55,7 @@ public interface BillDao {
 	
 	@Update(sqlFile = true)
 	int updateQrCode(int id, String qrCode);
+	
+	@Select
+	Integer getTotalBillHistory(Integer customerId);
 }

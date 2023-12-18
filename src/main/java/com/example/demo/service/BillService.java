@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.enums.RequestParameterEnum;
 import com.example.demo.dao.BillDao;
 import com.example.demo.dto.BillDetailsDto;
+import com.example.demo.dto.BillHistoriesDto;
 import com.example.demo.dto.BillTicketDto;
 import com.example.demo.dto.BillToppingDetailsDto;
 import com.example.demo.dto.BillHistoryDto;
@@ -41,11 +42,16 @@ public class BillService {
 		return billDao.findById(id.get());
 	}
 
-	public List<BillHistoryDto> getBillHistory(Optional<Integer> customerId) throws InvalidRequestParameterException {
+	public BillHistoriesDto getBillHistory(Optional<Integer> customerId, 
+			Optional<Integer> pageSize, Optional<Integer> page) throws InvalidRequestParameterException {
+		pageSize.orElseThrow(() -> new InvalidRequestParameterException("BillHistory page size", RequestParameterEnum.NOTHING));
+		page.orElseThrow(() -> new InvalidRequestParameterException("BillHistory page", RequestParameterEnum.NOTHING));
+		
 		if (customerId.isEmpty())
 			throw new InvalidRequestParameterException("Bill", RequestParameterEnum.NOTHING);
 
-		return billDao.getBillHistory(customerId.get());
+		return new BillHistoriesDto(billDao.getBillHistory(customerId.get(), pageSize.get(), page.get()), 
+				billDao.getTotalBillHistory(customerId.get()));
 	}
 
 	public BillDetailsDto getBillDetails(Optional<Integer> billId, Optional<Integer> customerId)
@@ -135,20 +141,6 @@ public class BillService {
 			throw new InvalidRequestParameterException("QR code", RequestParameterEnum.NOT_EXISTS);
 
 		return billDetailsDto;
-	}
-
-	private String generateUniqueUUID() {
-		UUID uuid = null;
-		boolean isUnique = false;
-
-		while (!isUnique) {
-			uuid = UUID.randomUUID();
-			if (billDao.findBillDetailsByQrCode(uuid.toString()) == null) {
-				isUnique = true;
-			}
-		}
-
-		return uuid.toString();
 	}
 
 	public int updateRateAndReview(RateAndReviewBillModel model) {

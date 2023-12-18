@@ -18,8 +18,9 @@ SELECT bill.id,
        SUM(ticket.totalprice) * ticket.vat AS ticket_vat,
        STRING_AGG(DISTINCT CONCAT(seat.rowseat, seat.orderseat), ', ') AS seats,
        STRING_AGG(DISTINCT CONCAT(toppingdetails.quantity, topping.name), ', ') AS topping,
-       SUM(toppingdetails.pricewhenbuy) AS topping_totalprice,
+       SUM(toppingdetails.pricewhenbuy * toppingdetails.quantity) AS topping_totalprice,
        SUM(ticket.totalprice) AS ticket_totalprice,
+       bill.totalprice AS total_price,
 	   bill.qrcode,
 	   movie.id as poster
 FROM bill
