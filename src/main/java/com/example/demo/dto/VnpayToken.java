@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
         "vnp_ip_addr",
         "vnp_locale",
         "vnp_message",
-        "vnp_pay_date",
         "vnp_return_url",
         "vnp_secure_hash",
         "vnp_store_token",

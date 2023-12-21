@@ -338,6 +338,7 @@ public class VnpayService {
 			tokenVnpay.setVnp_bank_code(vnpayToken.getVnp_bank_code());
 			tokenVnpay.setVnp_card_type(vnpayToken.getVnp_card_type());
 			tokenVnpay.setVnp_create_date(vnpayToken.getVnp_pay_date());
+			System.err.println(vnpayToken.getVnp_pay_date());
 
 			// Insert DB
 			tokenVnpayService.insert(Optional.of(tokenVnpay));
@@ -403,7 +404,8 @@ public class VnpayService {
 
 		Optional<Integer> billId = Optional.of(Integer.parseInt(fields.get("billId")));
 		billId.orElseThrow(() -> new InvalidRequestParameterException("Vnpay billId", RequestParameterEnum.NOTHING));
-
+		String qrCode = billId.get() + UUID.randomUUID().toString();
+		
 		// Find by user id
 		Optional<Integer> customerId = Optional.of(Integer.valueOf(fields.get("vnp_app_user_id")));
 		customerId.orElseThrow(
@@ -424,6 +426,8 @@ public class VnpayService {
 
 			paymentService.insertPaymentDetails(paymentDetails);
 			billService.updateExportStatus(billId, Optional.of(1));
+
+			billService.updateQrCode(billId, qrCode);
 
 			return RequestStatusEnum.SUCCESS.getResponse();
 		}
