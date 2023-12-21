@@ -30,6 +30,10 @@ public class VnpayService {
 	private final int REMOVE_DECIMAL_DIGITS = 100;
 	private final String BILL_PAYMENT = "250000";
 	private final int TIME_OUT = 15;
+	
+//	private final String GMT_LOCALHOST = "GMT+7";
+	
+	private final String GMT_SERVER_VIRGINIA_AWS = "GMT-7";
 
 	@Autowired
 	PaymentUtils paymentUtils;
@@ -116,7 +120,6 @@ public class VnpayService {
 	}
 
 	public String createToken(String ipAddress, VnpayToken vnpayToken) throws InvalidRequestParameterException {
-//		String ipSub = ipAddress.substring(0, ipAddress.indexOf(","));
 		String content = paymentUtils.validateBankTransferContent(vnpayToken.getVnp_txn_desc());
 
 		Map<String, String> vnp_Params = new HashMap<>();
@@ -472,14 +475,17 @@ public class VnpayService {
 	}
 
 	private void currentPaymentTime(Map<String, String> vnp_Params) {
-		Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+		TimeZone.setDefault(TimeZone.getTimeZone("Etc/" + GMT_SERVER_VIRGINIA_AWS));
+		Calendar cld = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		String vnp_CreateDate = formatter.format(cld.getTime());
+		System.err.print(vnp_CreateDate);
 		vnp_Params.put("vnp_create_date", vnp_CreateDate);
 	}
 
 	private void paymentInterval(Map<String, String> vnp_Params) {
-		Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+		TimeZone.setDefault(TimeZone.getTimeZone("Etc/" + GMT_SERVER_VIRGINIA_AWS));
+		Calendar cld = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		String vnp_CreateDate = formatter.format(cld.getTime());
 		vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
